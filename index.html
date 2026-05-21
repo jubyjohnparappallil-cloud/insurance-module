@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic EMR Desktop</title>
+  <style>
+    :root {
+      --green: #10bf18;
+      --green-dark: #078a0d;
+      --blue: #086ed5;
+      --blue-dark: #034f9f;
+      --chrome: #dbe5ee;
+      --chrome-light: #f7fbff;
+      --line: #aebbc5;
+      --line-dark: #8496a6;
+      --panel: #eef3f7;
+      --paper: #f8fbfd;
+      --field: #eff9bd;
+      --text: #172533;
+      --muted: #60707d;
+      --danger: #bb1022;
+      --selected: #f2db63;
+      --selected-border: #c49815;
+      --shadow: 0 12px 34px rgba(20, 39, 55, 0.22);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-width: 1180px;
+      color: var(--text);
+      background: #cfdde7;
+      overflow: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .desktop {
+      display: grid;
+      grid-template-rows: auto auto auto auto 1fr auto;
+      height: 100vh;
+      background: var(--panel);
+      border: 1px solid #7b94a7;
+      box-shadow: inset 0 1px #fff;
+    }
+
+    .window-strip {
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      align-items: center;
+      height: 31px;
+      background: linear-gradient(#f9fcff, #d7e2ec);
+      border-bottom: 1px solid var(--line-dark);
+      font-size: 13px;
+      font-weight: 700;
+      color: #1d3448;
+    }
+
+    .window-mark {
+      width: 44px;
+      height: 23px;
+      margin-left: 6px;
+      border: 1px solid #075693;
+      background: linear-gradient(#127fca, #044d82);
+      border-radius: 2px;
+      box-shadow: inset 0 1px rgba(255,255,255,0.4);
+    }
+
+    .app-title {
+      text-align: center;
+    }
+
+    .started {
+      padding-right: 24px;
+      white-space: nowrap;
+    }
+
+    .top-tabs {
+      display: flex;
+      align-items: flex-end;
+      height: 42px;
+      padding-left: 74px;
+      background: linear-gradient(#fbfdff, #dfe9f2);
+      border-bottom: 1px solid var(--line-dark);
+      gap: 1px;
+    }
+
+    .top-tab {
+      min-width: 82px;
+      height: 34px;
+      padding: 0 13px;
+      border: 1px solid transparent;
+      border-bottom: 0;
+      background: transparent;
+      color: #22384b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .top-tab.active {
+      background: linear-gradient(#fff, #e9f0f5);
+      border-color: #a5b4c0;
+      border-radius: 5px 5px 0 0;
+      box-shadow: inset 0 1px #fff;
+    }
+
+    .ribbon {
+      display: flex;
+      align-items: stretch;
+      min-height: 111px;
+      padding: 10px 11px 7px;
+      background: linear-gradient(#fbfdff, #d9e6ef);
+      border-bottom: 1px solid var(--line-dark);
+      overflow-x: auto;
+      gap: 9px;
+    }
+
+    .module {
+      display: grid;
+      grid-template-rows: 62px 24px;
+      justify-items: center;
+      align-items: start;
+      width: 91px;
+      min-width: 91px;
+      border: 0;
+      background: transparent;
+      color: #2c3e4f;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .module-icon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 78px;
+      height: 60px;
+      border: 1px solid #8cd28f;
+      background: linear-gradient(#22d22d, #0daf16);
+      box-shadow: inset 0 1px rgba(255,255,255,0.35), 0 1px 3px rgba(32, 57, 75, 0.22);
+    }
+
+    .module:hover .module-icon,
+    .module.active .module-icon {
+      outline: 2px solid rgba(8, 110, 213, 0.24);
+      background: linear-gradient(#31d938, #0d9c13);
+    }
+
+    .module-label {
+      line-height: 1.05;
+      padding-top: 6px;
+      white-space: normal;
+    }
+
+    .glyph {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      color: #e9ffe8;
+    }
+
+    .glyph::before,
+    .glyph::after,
+    .glyph span::before,
+    .glyph span::after {
+      content: "";
+      position: absolute;
+      display: block;
+    }
+
+    .g-patient::before {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      left: 11px;
+      top: 1px;
+      background: currentColor;
+    }
+
+    .g-patient::after {
+      width: 32px;
+      height: 21px;
+      left: 3px;
+      bottom: 1px;
+      border-radius: 15px 15px 2px 2px;
+      background: currentColor;
+      clip-path: polygon(0 100%, 18% 32%, 36% 18%, 50% 42%, 64% 18%, 82% 32%, 100% 100%);
+    }
+
+    .g-calendar {
+      border: 4px solid currentColor;
+      border-radius: 4px;
+    }
+
+    .g-calendar::before {
+      width: 100%;
+      height: 7px;
+      top: 7px;
+      left: 0;
+      background: currentColor;
+    }
+
+    .g-calendar::after {
+      width: 15px;
+      height: 15px;
+      right: -9px;
+      bottom: -7px;
+      border: 4px solid currentColor;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .g-doc {
+      border: 4px solid currentColor;
+      border-radius: 4px;
+    }
+
+    .g-doc::before {
+      width: 15px;
+      height: 4px;
+      left: 7px;
+      top: 8px;
+      background: currentColor;
+      box-shadow: 0 9px currentColor, 0 18px currentColor;
+    }
+
+    .g-bill {
+      border: 4px solid currentColor;
+      border-radius: 2px;
+    }
+
+    .g-bill::before {
+      width: 16px;
+      height: 22px;
+      left: 7px;
+      top: 4px;
+      border: 3px solid currentColor;
+      border-top: 0;
+    }
+
+    .g-bill::after {
+      content: "$";
+      left: 12px;
+      top: 7px;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--green);
+      -webkit-text-stroke: 1px currentColor;
+      text-stroke: 1px currentColor;
+    }
+
+    .g-gift {
+      border: 4px solid currentColor;
+      border-radius: 4px;
+    }
+
+    .g-gift::before {
+      width: 4px;
+      height: 38px;
+      left: 15px;
+      top: -4px;
+      background: currentColor;
+    }
+
+    .g-gift::after {
+      width: 38px;
+      height: 4px;
+      left: -4px;
+      top: 14px;
+      background: currentColor;
+    }
+
+    .g-doctor::before {
+      width: 14px;
+      height: 14px;
+      right: 3px;
+      top: 1px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .g-doctor::after {
+      width: 25px;
+      height: 22px;
+      right: -1px;
+      bottom: 0;
+      border-radius: 12px 12px 3px 3px;
+      background: currentColor;
+    }
+
+    .g-doctor span::before {
+      width: 17px;
+      height: 8px;
+      left: 1px;
+      bottom: 3px;
+      background: currentColor;
+      box-shadow: 0 -8px 0 currentColor, 0 -16px 0 currentColor;
+    }
+
+    .g-receipt {
+      border: 4px solid currentColor;
+      border-radius: 4px;
+    }
+
+    .g-receipt::before {
+      width: 16px;
+      height: 4px;
+      left: 7px;
+      top: 8px;
+      background: currentColor;
+      box-shadow: 0 9px currentColor, 0 18px currentColor;
+    }
+
+    .g-company::before {
+      width: 24px;
+      height: 31px;
+      left: 7px;
+      top: 4px;
+      border: 4px solid currentColor;
+      border-bottom: 0;
+    }
+
+    .g-company::after {
+      width: 4px;
+      height: 4px;
+      left: 15px;
+      top: 12px;
+      background: currentColor;
+      box-shadow: 10px 0 currentColor, 0 9px currentColor, 10px 9px currentColor, 0 18px currentColor, 10px 18px currentColor;
+    }
+
+    .g-inventory::before {
+      width: 30px;
+      height: 25px;
+      left: 4px;
+      top: 8px;
+      border: 4px solid currentColor;
+    }
+
+    .g-inventory::after {
+      width: 21px;
+      height: 21px;
+      left: 8px;
+      top: 4px;
+      border-top: 4px solid currentColor;
+      border-left: 4px solid currentColor;
+      transform: skewX(-20deg);
+    }
+
+    .sub-tabs {
+      display: flex;
+      align-items: flex-end;
+      height: 29px;
+      padding-left: 12px;
+      background: #dce6ef;
+      border-bottom: 1px solid var(--line-dark);
+      gap: 1px;
+    }
+
+    .sub-tab {
+      min-width: 110px;
+      height: 27px;
+      padding: 0 12px;
+      border: 1px solid #adbcc8;
+      border-bottom: 0;
+      border-radius: 4px 12px 0 0;
+      background: linear-gradient(#edf3f8, #d5e0e9);
+      color: #2e4252;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .sub-tab.active {
+      background: linear-gradient(#fff, #edf3f8);
+      color: #142b3c;
+    }
+
+    .content {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      background: #edf3f7;
+    }
+
+    .screen {
+      display: none;
+      grid-template-rows: auto auto 1fr;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .screen.active {
+      display: grid;
+    }
+
+    .screen-title {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      padding: 0 9px;
+      background: linear-gradient(90deg, var(--blue), #0067d3);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      border-bottom: 1px solid #004f9d;
+    }
+
+    .screen-title.green {
+      background: linear-gradient(90deg, var(--green-dark), var(--green));
+      border-bottom-color: #087d0f;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 48px;
+      padding: 7px 9px;
+      background: linear-gradient(#f8fbfd, #e0e9f1);
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .toolbar .spacer {
+      flex: 1 1 auto;
+    }
+
+    .tool-button,
+    .small-button {
+      height: 33px;
+      min-width: 73px;
+      padding: 0 11px;
+      border: 1px solid #9aaab7;
+      border-radius: 2px;
+      background: linear-gradient(#ffffff, #dbe4ec);
+      color: #1e3344;
+      font-weight: 700;
+      box-shadow: inset 0 1px #fff;
+    }
+
+    .small-button {
+      min-width: 32px;
+      height: 28px;
+      padding: 0 8px;
+    }
+
+    .tool-button:hover,
+    .small-button:hover {
+      background: linear-gradient(#fff, #cfdce7);
+    }
+
+    .tool-button.primary {
+      border-color: #078d0f;
+      background: linear-gradient(#20d62a, #0ba713);
+      color: #fff;
+    }
+
+    .tool-button.delete {
+      color: var(--danger);
+    }
+
+    .mini-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 19px;
+      height: 19px;
+      margin-right: 6px;
+      border-radius: 3px;
+      vertical-align: -4px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .i-new {
+      background: var(--green);
+    }
+
+    .i-edit {
+      background: #12738b;
+    }
+
+    .i-delete {
+      background: #bd0d20;
+    }
+
+    .search-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 33px;
+      padding: 0 8px;
+      border: 1px solid #b4c2cc;
+      background: #edf4f9;
+      color: #243747;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      min-height: 28px;
+      border: 1px solid #9caeba;
+      border-radius: 2px;
+      padding: 3px 6px;
+      background: #fff;
+      color: #142a3b;
+      box-shadow: inset 0 1px 2px rgba(40, 66, 84, 0.08);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid rgba(8, 110, 213, 0.18);
+      border-color: #5c8fbd;
+    }
+
+    .check-radio {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 28px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .check-radio input {
+      min-height: auto;
+      width: 14px;
+      height: 14px;
+      padding: 0;
+    }
+
+    .grid-shell {
+      min-height: 0;
+      overflow: auto;
+      background: #f5f8fa;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      height: 29px;
+      border: 1px solid #bdc9d2;
+      background: linear-gradient(#e9f0f6, #d0dce6);
+      color: #203747;
+      text-align: left;
+      padding: 0 7px;
+    }
+
+    td {
+      height: 25px;
+      border: 1px solid #ccd6de;
+      padding: 0 7px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      background: #f8fbfd;
+    }
+
+    tr:nth-child(even) td {
+      background: #eef4f8;
+    }
+
+    tr.selected td {
+      background: #f2df73;
+      border-top-color: var(--selected-border);
+      border-bottom-color: var(--selected-border);
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 4px;
+      justify-content: end;
+      padding-right: 5px;
+    }
+
+    .grid-action {
+      display: inline-grid;
+      place-items: center;
+      width: 19px;
+      height: 19px;
+      border: 1px solid #78bf7b;
+      background: linear-gradient(#28d530, #0cac14);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      border-radius: 3px;
+    }
+
+    .gender {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50% 50% 4px 4px;
+      vertical-align: -4px;
+      margin-right: 5px;
+      background: #0c55bc;
+      position: relative;
+    }
+
+    .gender::before {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: inherit;
+      left: 5px;
+      top: -5px;
+    }
+
+    .gender.female,
+    .gender.Female {
+      background: #d000ad;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 54px;
+      height: 18px;
+      padding: 0 6px;
+      border-radius: 2px;
+      background: #ddf4df;
+      color: #087315;
+      border: 1px solid #91d392;
+      font-size: 11px;
+    }
+
+    .status-pill.waiting {
+      background: #fff4bb;
+      color: #8b6500;
+      border-color: #d5b83b;
+    }
+
+    .status-pill.due {
+      background: #ffe5e8;
+      color: #a70e1d;
+      border-color: #e5919c;
+    }
+
+    .empty-message {
+      display: none;
+      padding: 18px;
+      color: #576d7f;
+      font-weight: 700;
+    }
+
+    .empty-message.show {
+      display: block;
+    }
+
+    .receipt-filter-field {
+      width: 134px;
+    }
+
+    .patient-search-field {
+      width: min(36vw, 520px);
+    }
+
+    .appointment-layout {
+      display: grid;
+      grid-template-columns: 190px 1fr 245px;
+      min-height: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .appointment-side {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      min-height: 0;
+      border-right: 1px solid var(--line);
+      background: #e7eef4;
+    }
+
+    .month-box {
+      padding: 7px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .month-head {
+      display: grid;
+      grid-template-columns: 24px 1fr 24px;
+      align-items: center;
+      gap: 3px;
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .month-grid span {
+      height: 19px;
+      display: grid;
+      place-items: center;
+      border: 1px solid transparent;
+    }
+
+    .month-grid .today {
+      background: #f2df73;
+      border-color: #c99c14;
+      font-weight: 900;
+    }
+
+    .appointment-actions {
+      display: grid;
+      gap: 4px;
+      padding: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .appointment-actions .tool-button {
+      height: 27px;
+      text-align: left;
+    }
+
+    .connected {
+      padding: 9px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .schedule-wrap {
+      min-width: 0;
+      overflow: auto;
+      background: #f8fbfd;
+    }
+
+    .legend-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 28px;
+      padding: 4px;
+      border-bottom: 1px solid #c5d1da;
+      background: #edf4f9;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .legend {
+      padding: 2px 5px;
+      color: #fff;
+      border: 1px solid rgba(0,0,0,0.18);
+    }
+
+    .legend.booked { background: #515b69; }
+    .legend.confirmed { background: #f1e300; color: #111; }
+    .legend.called { background: #c6009f; }
+    .legend.arrived { background: #10a621; }
+    .legend.consulted { background: #0174cf; }
+    .legend.billed { background: #00a3d8; }
+    .legend.cancelled { background: #d00000; }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: 58px repeat(6, minmax(178px, 1fr));
+      min-width: 1120px;
+      font-size: 11px;
+    }
+
+    .time-head,
+    .doctor-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      height: 43px;
+      border: 1px solid #b8c6d0;
+      background: linear-gradient(#f9fbfd, #dbe5ed);
+      font-weight: 900;
+    }
+
+    .time-cell {
+      height: 28px;
+      border: 1px solid #d4dde4;
+      background: #eef4f8;
+      color: #5b6874;
+      padding: 4px;
+      text-align: right;
+    }
+
+    .slot {
+      position: relative;
+      height: 28px;
+      border: 1px solid #d4dde4;
+      background: #fbfdff;
+    }
+
+    .slot:hover {
+      background: #eff8ff;
+    }
+
+    .appointment-card {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: 4px;
+      min-height: 55px;
+      padding: 6px 7px;
+      border-left: 6px solid #0953bc;
+      background: #e3eefc;
+      color: #18344d;
+      box-shadow: 0 1px 2px rgba(21, 38, 54, 0.18);
+      font-size: 11px;
+      line-height: 1.22;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .appointment-card strong {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+
+    .appointment-card.arrived {
+      border-left-color: #0da818;
+      background: #e8f8e8;
+    }
+
+    .appointment-card.consulted {
+      border-left-color: #0067d3;
+      background: #e7f1ff;
+    }
+
+    .appointment-card.cancelled {
+      border-left-color: #d00000;
+      background: #ffe7e8;
+    }
+
+    .notes-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      border-left: 1px solid var(--line);
+      background: #5e14c8;
+      color: #fff;
+      min-height: 0;
+    }
+
+    .notes-panel h3 {
+      margin: 0;
+      padding: 10px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.28);
+    }
+
+    .notes-panel textarea {
+      min-height: 0;
+      margin: 10px;
+      resize: none;
+      background: rgba(255,255,255,0.95);
+      color: #172533;
+    }
+
+    .notes-panel .band-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 9px;
+      border-top: 1px solid rgba(255,255,255,0.28);
+    }
+
+    .band {
+      padding: 3px 6px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #0d9e17;
+      color: #fff;
+    }
+
+    .band.package {
+      background: #0c55bc;
+    }
+
+    .band.treatment {
+      background: #e8e100;
+      color: #111;
+    }
+
+    .modal-layer {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 50;
+      background: rgba(22, 38, 53, 0.18);
+    }
+
+    .modal-layer.open {
+      display: grid;
+    }
+
+    .dialog {
+      width: min(91vw, 1100px);
+      max-height: 91vh;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      background: #edf2f6;
+      border: 1px solid #7a8d9d;
+      box-shadow: var(--shadow);
+    }
+
+    .dialog.narrow {
+      width: min(88vw, 720px);
+    }
+
+    .dialog-title {
+      display: grid;
+      grid-template-columns: 1fr 32px;
+      align-items: center;
+      height: 31px;
+      padding-left: 8px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green));
+      color: #fff;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .close-modal {
+      height: 31px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .dialog-tabs {
+      display: flex;
+      height: 43px;
+      align-items: end;
+      padding-left: 12px;
+      gap: 1px;
+      border-bottom: 1px solid var(--line);
+      background: #e6edf3;
+    }
+
+    .dialog-tab {
+      height: 35px;
+      min-width: 120px;
+      border: 1px solid #a9b8c4;
+      border-bottom: 0;
+      border-radius: 5px 5px 0 0;
+      background: linear-gradient(#f9fbfd, #dce6ee);
+      font-weight: 800;
+    }
+
+    .dialog-tab.active {
+      background: #edf2f6;
+    }
+
+    .dialog-body {
+      min-height: 0;
+      overflow: auto;
+      padding: 12px;
+    }
+
+    .patient-form-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.35fr 250px;
+      gap: 16px;
+    }
+
+    .form-col {
+      display: grid;
+      gap: 9px;
+      align-content: start;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 138px 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-row label,
+    .field-label {
+      font-weight: 800;
+      color: #172b3b;
+    }
+
+    .field-row input.required,
+    .field-row select.required {
+      background: var(--field);
+    }
+
+    .field-row .readonly {
+      background: linear-gradient(90deg, #31e15a, #18d430);
+      font-weight: 900;
+    }
+
+    .combo-row {
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 6px;
+    }
+
+    .inline-fields {
+      display: grid;
+      grid-template-columns: 1fr 72px 1fr 72px 1fr 72px;
+      align-items: center;
+      gap: 6px;
+      font-weight: 800;
+    }
+
+    .inline-fields input {
+      text-align: center;
+      font-weight: 900;
+      background: var(--field);
+    }
+
+    .flags-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 28px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .photo-box {
+      height: 250px;
+      border: 1px solid #7f929f;
+      background: linear-gradient(#f8fafc, #e9eef3);
+    }
+
+    .patient-info-button {
+      display: grid;
+      place-items: center;
+      height: 60px;
+      border: 1px solid #9aaab7;
+      background: linear-gradient(#fff, #dce5ec);
+      font-size: 16px;
+      font-weight: 900;
+      color: #173248;
+    }
+
+    .read-eid {
+      justify-self: start;
+      width: 150px;
+      height: 51px;
+      border-color: #b68e0c;
+      background: linear-gradient(#f6cd32, #d99800);
+      color: #172533;
+    }
+
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+      min-height: 64px;
+      padding: 12px 24px;
+      border-top: 1px solid var(--line);
+      background: #e6edf3;
+    }
+
+    .dialog-actions .tool-button {
+      min-width: 128px;
+      height: 42px;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .small-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(230px, 1fr));
+      gap: 12px 18px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 4px;
+      font-weight: 800;
+    }
+
+    .form-field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 27px;
+      padding: 0 8px;
+      border-top: 1px solid #9cafbd;
+      background: linear-gradient(#f9fcff, #d8e4ee);
+      color: #334a5b;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .status-light {
+      width: 55px;
+      height: 13px;
+      border: 1px solid #78a85c;
+      background: linear-gradient(90deg, #80cc2a, #e7f8db);
+    }
+
+    .red-text {
+      color: #c22424;
+      font-weight: 800;
+    }
+
+    .green-text {
+      color: #169b26;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <main class="desktop" aria-label="Clinic management desktop app">
+    <header class="window-strip">
+      <div class="window-mark" aria-hidden="true"></div>
+      <div class="app-title" id="windowTitle">MasterPage</div>
+      <div class="started">Started <span id="startedStamp">21.05.2026 09:03 AM</span></div>
+    </header>
+
+    <nav class="top-tabs" aria-label="Main menu">
+      <button class="top-tab active" type="button" data-menu="Home">Home</button>
+      <button class="top-tab" type="button" data-menu="Settings">Settings</button>
+      <button class="top-tab" type="button" data-menu="Accounts">Accounts</button>
+      <button class="top-tab" type="button" data-menu="Masters">Masters</button>
+      <button class="top-tab" type="button" data-menu="Reports">Reports</button>
+      <button class="top-tab" type="button" data-menu="EMR Masters">EMR Masters</button>
+      <button class="top-tab" type="button" data-menu="Insurance">Insurance</button>
+      <button class="top-tab" type="button" data-menu="Inventory">Inventory</button>
+      <button class="top-tab" type="button" data-menu="HR">HR</button>
+      <button class="top-tab" type="button" data-menu="Transactions">Transactions</button>
+      <button class="top-tab" type="button" data-menu="User Man...">User Man...</button>
+    </nav>
+
+    <section class="ribbon" id="ribbon" aria-label="Modules"></section>
+    <section class="sub-tabs" id="subTabs" aria-label="Open pages"></section>
+
+    <section class="content">
+      <section class="screen active" id="patientsScreen" aria-label="Patients">
+        <div class="screen-title">Patients</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button" id="patientNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="patientEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="patientDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+          <label class="check-radio"><input type="radio" name="patientSearchBy" value="all" checked>All</label>
+          <label class="check-radio"><input type="radio" name="patientSearchBy" value="mrn">MRN</label>
+          <label class="check-radio"><input type="radio" name="patientSearchBy" value="name">Name</label>
+          <label class="check-radio"><input type="radio" name="patientSearchBy" value="mobile">Mob</label>
+          <label class="check-radio"><input type="radio" name="patientSearchBy" value="eid">EID</label>
+          <span class="search-line">Search <input class="patient-search-field" id="patientSearch" type="search" placeholder="Press enter after search criteria"></span>
+          <button class="tool-button" type="button" id="patientIntake">Intake</button>
+          <button class="tool-button" type="button">Sticker Print</button>
+          <button class="tool-button" type="button" id="patientAppointmentInfo">Appointment Info</button>
+          <button class="tool-button" type="button">Future Appointments</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Patients list">
+            <colgroup>
+              <col style="width: 70px">
+              <col style="width: 105px">
+              <col style="width: 44%">
+              <col style="width: 130px">
+              <col style="width: 110px">
+              <col style="width: 120px">
+              <col style="width: 120px">
+              <col style="width: 155px">
+              <col style="width: 126px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>MR No</th>
+                <th>Reg Date</th>
+                <th>Patient Name</th>
+                <th>Mobile No</th>
+                <th>Referal</th>
+                <th>Nationality</th>
+                <th>DOB</th>
+                <th>Emirates ID No</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="patientRows"></tbody>
+          </table>
+          <div class="empty-message" id="patientEmpty">No patients match this search.</div>
+        </div>
+      </section>
+
+      <section class="screen" id="appointmentsScreen" aria-label="Appointments">
+        <div class="screen-title">Appointments</div>
+        <div class="toolbar">
+          <button class="small-button" type="button" id="prevDay">&lt;</button>
+          <button class="small-button" type="button" id="nextDay">&gt;</button>
+          <input id="appointmentDate" type="text" value="21/May/2026" style="width: 130px">
+          <button class="small-button" type="button">#</button>
+          <input id="appointmentSearch" type="search" placeholder="Search" style="width: 230px">
+          <button class="tool-button primary" type="button" id="newAppointment">New</button>
+          <span class="spacer"></span>
+          <label class="check-radio"><input type="checkbox">Hide Cancelled</label>
+          <label class="check-radio"><input type="checkbox">View Blocked</label>
+          <label class="check-radio">View <input type="radio" name="apptView" checked>All</label>
+          <label class="check-radio"><input type="radio" name="apptView">Rooms</label>
+          <label class="check-radio"><input type="radio" name="apptView">All Faculties</label>
+        </div>
+        <div class="appointment-layout">
+          <aside class="appointment-side">
+            <div class="month-box">
+              <div class="month-head"><button class="small-button" type="button">&lt;</button><span>May 2026</span><button class="small-button" type="button">&gt;</button></div>
+              <div class="month-grid" id="monthGrid"></div>
+            </div>
+            <div class="appointment-actions">
+              <button class="tool-button" type="button">Visit History</button>
+              <button class="tool-button" type="button">UnGroup</button>
+              <button class="tool-button" type="button">Print</button>
+              <button class="tool-button" type="button" id="editVisit">Edit Patient</button>
+              <button class="tool-button" type="button">Edit Visit</button>
+              <button class="tool-button" type="button">Search</button>
+              <button class="tool-button" type="button">Attachment</button>
+            </div>
+            <div class="connected">Connected</div>
+          </aside>
+          <div class="schedule-wrap">
+            <div class="legend-bar">
+              <span>Booked[14]</span><span>FollowUp[0]</span>
+              <span class="legend confirmed">Confirmed[0]</span>
+              <span class="legend called">Called[0]</span>
+              <span class="legend arrived">Arrived[0]</span>
+              <span>NoShow[0]</span>
+              <span>Authorized[0]</span>
+              <span class="legend consulted">Consulted[0]</span>
+              <span class="legend billed">Billed[0]</span>
+              <span>FOC[0]</span>
+              <span>Blocked[0]</span>
+              <span class="legend cancelled">Cancelled[0]</span>
+            </div>
+            <div class="day-grid" id="dayGrid"></div>
+          </div>
+          <aside class="notes-panel">
+            <h3>Notes</h3>
+            <textarea id="appointmentNotes">Notes: Block room 4 after 4:30 PM for maintenance.
+Notes: Faculty meeting at 2:15 PM.</textarea>
+            <div class="band-row">
+              <span class="band">Consultation</span>
+              <span class="band package">Package</span>
+              <span class="band treatment">Treatment</span>
+              <span class="band" style="background:#c7003e">Others</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen" id="receiptsScreen" aria-label="Receipts">
+        <div class="screen-title">Receipts</div>
+        <div class="toolbar">
+          <button class="tool-button" type="button" id="addReceipt">Add</button>
+          <span class="search-line">From Date <input class="receipt-filter-field" id="receiptFrom" type="text" value="21/05/2026"></span>
+          <span class="search-line">To Date <input class="receipt-filter-field" id="receiptTo" type="text" value="21/05/2026"></span>
+          <label class="check-radio"><input type="checkbox" id="receiptByPatient">By Patient</label>
+          <button class="small-button" type="button">?</button>
+          <input id="receiptPatientSearch" type="search" style="width: min(36vw, 520px)">
+          <span class="spacer"></span>
+          <label class="check-radio"><input type="radio" name="receiptType" value="All" checked>ALL</label>
+          <label class="check-radio"><input type="radio" name="receiptType" value="Advance">Advance</label>
+          <label class="check-radio"><input type="radio" name="receiptType" value="Due">Due</label>
+          <button class="tool-button" type="button" id="receiptSearchBtn">Search</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Receipts list">
+            <colgroup>
+              <col style="width: 130px">
+              <col style="width: 150px">
+              <col style="width: 130px">
+              <col style="width: 110px">
+              <col>
+              <col style="width: 120px">
+              <col style="width: 120px">
+              <col style="width: 120px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Receipt Type</th>
+                <th>Receipt No</th>
+                <th>MR No</th>
+                <th>Patient Name</th>
+                <th>Amount</th>
+                <th>Mode</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="receiptRows"></tbody>
+          </table>
+          <div class="empty-message" id="receiptEmpty">No receipts match this filter.</div>
+        </div>
+      </section>
+
+      <section class="screen" id="insuranceScreen" aria-label="Insurance">
+        <div class="screen-title green">Insurance</div>
+        <div class="toolbar">
+          <button class="tool-button" type="button" id="insuranceNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="insuranceEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="insuranceDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+          <span class="spacer"></span>
+          <span class="search-line">Search <input id="insuranceSearch" type="search" placeholder="Code, provider, insurance name, phone" style="width: 340px"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Insurance companies list">
+            <colgroup>
+              <col style="width: 130px">
+              <col style="width: 110px">
+              <col style="width: 150px">
+              <col>
+              <col style="width: 170px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Type</th>
+                <th>Provider Id</th>
+                <th>Insurance Name</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody id="insuranceRows"></tbody>
+          </table>
+          <div class="empty-message" id="insuranceEmpty">No insurance company records match this search.</div>
+        </div>
+      </section>
+
+      <section class="screen" id="inventoryScreen" aria-label="Inventory">
+        <div class="screen-title">Inventory</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button">New</button>
+          <button class="tool-button" type="button">Edit</button>
+          <button class="tool-button delete" type="button">Delete</button>
+          <span class="search-line">Search <input id="inventorySearch" type="search" placeholder="Item, supplier, category" style="width: 340px"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Inventory master">
+            <thead>
+              <tr><th>Item Code</th><th>Item Name</th><th>Category</th><th>Brand</th><th>Store</th><th>Stock</th><th>Reorder</th></tr>
+            </thead>
+            <tbody>
+              <tr class="selected"><td>ITM00001</td><td>Dasamoola Kashayam</td><td>Medicine</td><td>Shanthi</td><td>Main Store</td><td>8</td><td><span class="status-pill due">Low</span></td></tr>
+              <tr><td>ITM00002</td><td>Triphala Choornam</td><td>Medicine</td><td>Shanthi</td><td>Main Store</td><td>44</td><td><span class="status-pill">OK</span></td></tr>
+              <tr><td>ITM00003</td><td>Murivenna Oil</td><td>Oil</td><td>Kerala</td><td>Treatment Store</td><td>11</td><td><span class="status-pill waiting">Check</span></td></tr>
+              <tr><td>ITM00004</td><td>Cotton Roll</td><td>Consumable</td><td>Medline</td><td>Main Store</td><td>120</td><td><span class="status-pill">OK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <footer class="status-bar">
+      <span class="status-light" aria-hidden="true"></span>
+      <span>Developed By <span class="red-text">Kaizen Star Technologies LLC Dubai UAE</span></span>
+      <span>Powered by <span class="red-text">Kaizenstar Technologies India</span></span>
+      <span>Support <span class="green-text">+971 56 508 2227</span></span>
+      <span>Feedback <span class="green-text">+971 50 806 3342</span></span>
+      <span class="green-text">www.kaizendubai.com</span>
+      <span>Working on : shanthiyur_new</span>
+      <span class="status-light" aria-hidden="true"></span>
+      <span>Ver: 1.0.0.12653</span>
+    </footer>
+  </main>
+
+  <div class="modal-layer" id="patientModal" role="dialog" aria-modal="true" aria-labelledby="patientDialogTitle">
+    <form class="dialog" id="patientForm">
+      <div class="dialog-title"><span id="patientDialogTitle">Patient Registration</span><button class="close-modal" type="button" data-close="patientModal">x</button></div>
+      <div class="dialog-tabs">
+        <button class="dialog-tab active" type="button" data-patient-tab="registration">Registration</button>
+        <button class="dialog-tab" type="button" data-patient-tab="packages">Packages</button>
+        <button class="dialog-tab" type="button" data-patient-tab="patientInsurance">Insurance</button>
+        <button class="dialog-tab" type="button" data-patient-tab="moreDetails">More Details</button>
+      </div>
+      <div class="dialog-body">
+        <section class="tab-panel active" id="registrationPanel">
+          <div class="patient-form-grid">
+            <div class="form-col">
+              <div class="field-row"><label for="pMr">MR No.</label><input id="pMr" class="readonly" name="mrNo" readonly></div>
+              <div class="field-row"><label for="pRecord">Record No.</label><input id="pRecord" name="recordNo"></div>
+              <div class="field-row"><label for="pFirst">First Name</label><input id="pFirst" class="required" name="firstName" required></div>
+              <div class="field-row"><label for="pMiddle">Middle Name</label><input id="pMiddle" name="middleName"></div>
+              <div class="field-row"><label for="pLast">Last Name</label><input id="pLast" class="required" name="lastName" required></div>
+              <div class="field-row"><label for="pMobile">Mobile No</label><input id="pMobile" class="required" name="mobile" required></div>
+              <div class="field-row"><label for="pCity">City</label><input id="pCity" name="city"></div>
+              <div class="field-row"><label for="pArea">Area</label><input id="pArea" name="area"></div>
+              <div class="field-row"><label for="pAddress">Address</label><input id="pAddress" name="address"></div>
+              <div class="field-row"><label for="pPoBox">P. O. Box No.</label><input id="pPoBox" name="poBox"></div>
+              <div class="field-row"><label for="pEmirate">Emirate</label><div class="combo-row"><select id="pEmirate" name="emirate"><option>Dubai</option><option>Sharjah</option><option>Abu Dhabi</option><option>Ajman</option></select><select id="pStatus" name="status"><option>Active</option><option>Inactive</option></select></div></div>
+              <div class="field-row"><label for="pEid">Emirates ID No</label><input id="pEid" name="eid" placeholder="___-____-_______-_"></div>
+              <div class="field-row"><label for="pLanguage">Pref. Language</label><select id="pLanguage" name="language"><option>English</option><option>Arabic</option><option>Hindi</option><option>Malayalam</option></select></div>
+              <div class="field-row"><label for="pCategory">Patient Category</label><select id="pCategory" name="category"><option>General</option><option>Insurance</option><option>Package</option><option>Corporate</option></select></div>
+            </div>
+
+            <div class="form-col">
+              <div class="flags-row">
+                <span>Flags</span>
+                <label class="check-radio"><input type="checkbox" name="vip">VIP</label>
+                <label class="check-radio"><input type="checkbox" name="pregnant">Pregnant</label>
+                <label class="check-radio"><input type="checkbox" name="medication">Medication</label>
+              </div>
+              <div class="field-row"><label for="pDob">DOB</label><div class="inline-fields"><input id="pDob" name="dob" value="21/May/2026"><span>Years</span><input id="pYears" name="years" readonly><span>Months</span><input id="pMonths" name="months" readonly><span>Days</span><input id="pDays" name="days" readonly></div></div>
+              <div class="field-row"><label for="pGender">Gender</label><select id="pGender" class="required" name="gender" required><option>Male</option><option>Female</option></select></div>
+              <div class="field-row"><label for="pReligion">Religion</label><select id="pReligion" name="religion"><option>Not Specified</option><option>Hindu</option><option>Muslim</option><option>Christian</option><option>Other</option></select></div>
+              <div class="field-row"><label for="pEmail">E-mail</label><input id="pEmail" name="email" type="email"></div>
+              <div class="field-row"><label for="pPassport">Passport No</label><div class="combo-row"><input id="pPassport" name="passport"><select id="pMarital" name="marital"><option></option><option>Single</option><option>Married</option></select></div></div>
+              <div class="field-row"><label for="pNationality">Nationality</label><select id="pNationality" name="nationality"><option>India</option><option>Pakistan</option><option>Nepal</option><option>Philippines</option><option>Egypt</option><option>Chad</option></select></div>
+              <div class="field-row"><label for="pJob">Job Title</label><input id="pJob" name="job"></div>
+              <div class="field-row"><label for="pCompany">Company</label><input id="pCompany" name="company"></div>
+              <div class="field-row"><label for="pWhatsapp">WhatsApp No</label><input id="pWhatsapp" name="whatsapp"></div>
+              <div class="field-row"><label for="pHomeTel">Home Tel.</label><input id="pHomeTel" name="homeTel"></div>
+              <div class="field-row"><label for="pReferral">Referral</label><div class="combo-row"><button class="small-button" type="button">?</button><input id="pReferral" name="referral"></div></div>
+              <div class="field-row"><label for="pNotes">Notes</label><input id="pNotes" name="notes"></div>
+              <div class="field-row"><label for="pKnow">Know About Us</label><select id="pKnow" name="know" class="required"><option>GOOGLE</option><option>FRIEND</option><option>SIGN BOARD</option><option>INSTAGRAM</option></select></div>
+            </div>
+
+            <div class="form-col">
+              <div class="photo-box" aria-label="Patient photo placeholder"></div>
+              <button class="patient-info-button" type="button">Patient Info</button>
+            </div>
+          </div>
+        </section>
+        <section class="tab-panel" id="packagesPanel">
+          <div class="small-form-grid">
+            <label class="form-field">Package<select name="packageName"><option>None</option><option>Panchakarma 7 Days</option><option>Physiotherapy 10 Sessions</option><option>Wellness Consultation</option></select></label>
+            <label class="form-field">Package Start<input name="packageStart" value="21-05-2026"></label>
+            <label class="form-field">Package Visits<input name="packageVisits" type="number" value="0"></label>
+            <label class="form-field">Balance Sessions<input name="packageBalance" type="number" value="0"></label>
+          </div>
+        </section>
+        <section class="tab-panel" id="patientInsurancePanel">
+          <div class="small-form-grid">
+            <label class="form-field">Insurance Company<select name="patientInsurance"><option>None</option><option>ATENA</option><option>AMITY HEALTH</option><option>ADNIC INSURANCE</option><option>NEXTCARE</option></select></label>
+            <label class="form-field">Card No<input name="insuranceCard"></label>
+            <label class="form-field">Policy No<input name="policyNo"></label>
+            <label class="form-field">Expiry Date<input name="policyExpiry" value="21-05-2027"></label>
+          </div>
+        </section>
+        <section class="tab-panel" id="moreDetailsPanel">
+          <div class="small-form-grid">
+            <label class="form-field">Emergency Contact<input name="emergencyContact"></label>
+            <label class="form-field">Blood Group<select name="bloodGroup"><option></option><option>A+</option><option>B+</option><option>O+</option><option>AB+</option></select></label>
+            <label class="form-field wide">Allergies<textarea name="allergies" rows="4"></textarea></label>
+          </div>
+        </section>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button read-eid" type="button">Read EID</button>
+        <span class="spacer"></span>
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="patientModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="insuranceModal" role="dialog" aria-modal="true" aria-labelledby="insuranceDialogTitle">
+    <form class="dialog narrow" id="insuranceForm">
+      <div class="dialog-title"><span id="insuranceDialogTitle">Insurance Company</span><button class="close-modal" type="button" data-close="insuranceModal">x</button></div>
+      <div class="dialog-body">
+        <div class="small-form-grid">
+          <label class="form-field">Code<input name="code" required></label>
+          <label class="form-field">Type<select name="type"><option>DINS</option><option>TPA</option><option>CASH</option></select></label>
+          <label class="form-field">Provider Id<input name="providerId" required></label>
+          <label class="form-field">Phone<input name="phone"></label>
+          <label class="form-field wide">Insurance Name<input name="name" required></label>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="insuranceModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="receiptModal" role="dialog" aria-modal="true" aria-labelledby="receiptDialogTitle">
+    <form class="dialog narrow" id="receiptForm">
+      <div class="dialog-title"><span id="receiptDialogTitle">Receipt Entry</span><button class="close-modal" type="button" data-close="receiptModal">x</button></div>
+      <div class="dialog-body">
+        <div class="small-form-grid">
+          <label class="form-field">Date<input name="date" value="21/05/2026" required></label>
+          <label class="form-field">Receipt Type<select name="type"><option>Advance</option><option>Due</option><option>Package</option></select></label>
+          <label class="form-field">Patient<select name="mrNo" id="receiptPatientSelect"></select></label>
+          <label class="form-field">Payment Mode<select name="mode"><option>Cash</option><option>Card</option><option>Online</option><option>Insurance</option></select></label>
+          <label class="form-field">Amount<input name="amount" type="number" min="0" step="0.01" value="0" required></label>
+          <label class="form-field">Status<select name="status"><option>Collected</option><option>Pending</option></select></label>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="receiptModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="appointmentModal" role="dialog" aria-modal="true" aria-labelledby="appointmentDialogTitle">
+    <form class="dialog narrow" id="appointmentForm">
+      <div class="dialog-title"><span id="appointmentDialogTitle">Appointment</span><button class="close-modal" type="button" data-close="appointmentModal">x</button></div>
+      <div class="dialog-body">
+        <div class="small-form-grid">
+          <label class="form-field">Patient<select name="mrNo" id="appointmentPatientSelect"></select></label>
+          <label class="form-field">Doctor<select name="doctor"><option>AMARNATH</option><option>ASHISH</option><option>ANEESH</option><option>RESHMI</option><option>LINTU</option><option>NEETHU</option></select></label>
+          <label class="form-field">Time<select name="time" id="appointmentTimeSelect"></select></label>
+          <label class="form-field">Status<select name="status"><option>Booked</option><option>Arrived</option><option>Consulted</option><option>Cancelled</option></select></label>
+          <label class="form-field wide">Notes<input name="notes" value="Created by admin"></label>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="appointmentModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const homeModules = [
+      ["Patients", "g-patient", "patients"],
+      ["Appointments", "g-calendar", "appointments"],
+      ["Consent", "g-doc", "patients"],
+      ["Pending Bills", "g-bill", "receipts"],
+      ["Invoices", "g-bill", "receipts"],
+      ["Gift Voucher", "g-gift", "receipts"],
+      ["Package", "g-gift", "patients"],
+      ["DoctorDesk", "g-doctor", "appointments"],
+      ["Receipts", "g-receipt", "receipts"],
+      ["Duty Roster", "g-calendar", "appointments"]
+    ];
+
+    const insuranceModules = [
+      ["Company", "g-company", "insurance"],
+      ["Mapping", "g-gift", "insurance"],
+      ["Plans", "g-doc", "insurance"],
+      ["Riayati", "g-inventory", "insurance"],
+      ["Dhpo", "g-inventory", "insurance"],
+      ["Claim", "g-gift", "insurance"]
+    ];
+
+    const inventoryModules = [
+      ["Item", "g-inventory", "inventory"],
+      ["Supplier", "g-company", "inventory"],
+      ["Category", "g-gift", "inventory"],
+      ["Group", "g-gift", "inventory"],
+      ["Brand", "g-bill", "inventory"],
+      ["Store", "g-inventory", "inventory"],
+      ["Unit", "g-calendar", "inventory"],
+      ["Unit Family", "g-calendar", "inventory"],
+      ["Manufacture", "g-doc", "inventory"]
+    ];
+
+    const doctors = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "LINTU", "NEETHU"];
+    const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM"];
+
+    let activeView = "patients";
+    let activeMenu = "Home";
+    let selectedPatientMr = "4746";
+    let selectedInsuranceCode = "INS000001";
+    let patientMode = "new";
+    let insuranceMode = "new";
+
+    let patients = [
+      { mrNo: "4746", regDate: "20-05-2026", firstName: "AMAN", middleName: "FAISAL KHAN", lastName: "FAISAL YUSUF KHAN", gender: "Male", mobile: "971507412478", referral: "", nationality: "India", dob: "14-02-2018", eid: "784-2018-1688520-2", city: "Dubai", area: "", address: "", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4745", regDate: "20-05-2026", firstName: "HAMZA", middleName: "JAMSHED", lastName: "JAMSHED KHAN", gender: "Male", mobile: "971552840028", referral: "", nationality: "Pakistan", dob: "23-11-1999", eid: "784-1999-2919184-1", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4744", regDate: "20-05-2026", firstName: "RINEESH", middleName: "KANNOTH", lastName: "PADINJARAYIL", gender: "Male", mobile: "971502684168", referral: "", nationality: "India", dob: "23-04-1987", eid: "784-1987-7462860-0", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Insurance", know: "FRIEND" },
+      { mrNo: "4743", regDate: "19-05-2026", firstName: "THAKUR", middleName: "", lastName: "SANWANT", gender: "Male", mobile: "971543023456", referral: "", nationality: "Nepal", dob: "25-12-1981", eid: "784-1981-9262950-3", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4742", regDate: "19-05-2026", firstName: "ASWATHY", middleName: "", lastName: "MENON", gender: "Female", mobile: "971525741238", referral: "", nationality: "India", dob: "19-05-2026", eid: "000-0000-0000000-0", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Package", know: "INSTAGRAM" },
+      { mrNo: "4741", regDate: "19-05-2026", firstName: "JUBY", middleName: "JOHN", lastName: "YOHANNAN PARAPPALLILVADAKETHIL", gender: "Female", mobile: "971522743676", referral: "", nationality: "India", dob: "10-04-1995", eid: "784-1995-1824662-6", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4740", regDate: "19-05-2026", firstName: "DILEEP", middleName: "KUMAR", lastName: "KOCHUTUNDIL", gender: "Male", mobile: "971569109722", referral: "", nationality: "India", dob: "30-05-1983", eid: "784-1983-1690715-7", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Insurance", know: "GOOGLE" },
+      { mrNo: "4739", regDate: "19-05-2026", firstName: "ANDREI", middleName: "MIGUEL", lastName: "", gender: "Male", mobile: "971568132724", referral: "", nationality: "Philippines", dob: "08-03-1996", eid: "784-1996-7613914-2", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "FRIEND" },
+      { mrNo: "4738", regDate: "19-05-2026", firstName: "PRADEEP", middleName: "KUMAR SINGH", lastName: "RANDHIR SINGH", gender: "Male", mobile: "971505940352", referral: "", nationality: "India", dob: "16-03-1975", eid: "784-1975-6437963-0", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4737", regDate: "19-05-2026", firstName: "JAISHNAVI", middleName: "", lastName: "AHER", gender: "Female", mobile: "971568824720", referral: "", nationality: "India", dob: "14-08-2019", eid: "784-2019-6513107-7", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4736", regDate: "19-05-2026", firstName: "ACHU", middleName: "ASHOK", lastName: "VELLAPPAN ASOKAN", gender: "Male", mobile: "971523451639", referral: "", nationality: "India", dob: "20-05-1988", eid: "784-1988-5796490-6", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Package", know: "SIGN BOARD" },
+      { mrNo: "4735", regDate: "19-05-2026", firstName: "JACKSON", middleName: "BANAYOS", lastName: "BATARA", gender: "Male", mobile: "971524479647", referral: "", nationality: "Philippines", dob: "08-08-1993", eid: "784-1993-8391307-8", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Insurance", know: "GOOGLE" },
+      { mrNo: "4734", regDate: "19-05-2026", firstName: "JENNEL", middleName: "BAAYA", lastName: "AGREGADO", gender: "Female", mobile: "971552083538", referral: "", nationality: "Philippines", dob: "01-02-1987", eid: "784-1987-4807253-9", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
+      { mrNo: "4733", regDate: "18-05-2026", firstName: "HAASHINI", middleName: "BASKARAN", lastName: "BASKARAN THAMIL SELVAN", gender: "Female", mobile: "971557555637", referral: "", nationality: "India", dob: "01-08-2008", eid: "784-2008-1905075-6", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "FRIEND" },
+      { mrNo: "4732", regDate: "18-05-2026", firstName: "SARFARAZ", middleName: "AHMED", lastName: "MOHAMMED", gender: "Male", mobile: "971582766119", referral: "", nationality: "India", dob: "23-08-1990", eid: "784-1990-5154057-5", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" }
+    ];
+
+    let insuranceRecords = [
+      { code: "INS000001", type: "DINS", providerId: "TPA005", name: "ATENA", phone: "" },
+      { code: "INS000002", type: "DINS", providerId: "TPA006", name: "AMITY HEALTH", phone: "" },
+      { code: "INS000003", type: "DINS", providerId: "INS027", name: "ADNIC INSURANCE", phone: "" },
+      { code: "INS000004", type: "DINS", providerId: "TPA003", name: "ALMADALLAH", phone: "" },
+      { code: "INS000005", type: "DINS", providerId: "TPA001", name: "NEURON", phone: "" },
+      { code: "INS000006", type: "DINS", providerId: "TPA002", name: "NEXTCARE", phone: "" },
+      { code: "INS000007", type: "DINS", providerId: "INS038", name: "NGI", phone: "" },
+      { code: "INS000008", type: "DINS", providerId: "INS012", name: "OMAN BUPA", phone: "" },
+      { code: "INS000009", type: "DINS", providerId: "INS015", name: "SAICO", phone: "" },
+      { code: "INS000010", type: "DINS", providerId: "INS129", name: "SAADA", phone: "" },
+      { code: "INS000108", type: "DINS", providerId: "INS028", name: "AETNA-AL AIN AHLIA", phone: "" },
+      { code: "INS000109", type: "DINS", providerId: "INS002", name: "ENAYA", phone: "" },
+      { code: "INS000112", type: "DINS", providerId: "INS139", name: "ORIENT UNB TAKAFUL PJSC", phone: "" }
+    ];
+
+    let receipts = [
+      { date: "21/05/2026", type: "Advance", receiptNo: "REC000451", mrNo: "4746", patientName: "AMAN FAISAL KHAN FAISAL YUSUF KHAN", amount: "250.00", mode: "Cash", status: "Collected" },
+      { date: "21/05/2026", type: "Due", receiptNo: "REC000452", mrNo: "4742", patientName: "ASWATHY MENON", amount: "75.00", mode: "Card", status: "Pending" },
+      { date: "20/05/2026", type: "Package", receiptNo: "REC000449", mrNo: "4745", patientName: "HAMZA JAMSHED JAMSHED KHAN", amount: "1200.00", mode: "Online", status: "Collected" }
+    ];
+
+    let appointments = [
+      { mrNo: "4734", patient: "JENNEL BAAYA AGREGADO", mobile: "971552083538", doctor: "NEETHU", time: "9:00 AM", status: "Booked", room: "ROOM NUMBER 4", notes: "Created by admin" },
+      { mrNo: "4746", patient: "AMAN FAISAL KHAN", mobile: "971507412478", doctor: "NEETHU", time: "12:00 PM", status: "Arrived", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
+      { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "RESHMI", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 2", notes: "Package review" }
+    ];
+
+    const byId = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    const fullName = (p) => [p.firstName, p.middleName, p.lastName].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+
+    function renderRibbon(modules, activeLabel) {
+      byId("ribbon").innerHTML = modules.map(([label, glyph, view]) => `
+        <button class="module ${label === activeLabel ? "active" : ""}" type="button" data-view="${view}" data-label="${escapeHtml(label)}">
+          <span class="module-icon"><span class="glyph ${glyph}"><span></span></span></span>
+          <span class="module-label">${escapeHtml(label)}</span>
+        </button>
+      `).join("");
+    }
+
+    function renderSubTabs(labels) {
+      byId("subTabs").innerHTML = labels.map((label, index) => `<button class="sub-tab ${index === 0 ? "active" : ""}" type="button">${escapeHtml(label)}</button>`).join("");
+    }
+
+    function modulesForMenu(menu) {
+      if (menu === "Insurance") return insuranceModules;
+      if (menu === "Inventory") return inventoryModules;
+      return homeModules;
+    }
+
+    function subTabsForView(view) {
+      if (view === "patients") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
+      if (view === "appointments") return ["Appointments", "Main Page"];
+      if (view === "receipts") return ["Receipts", "Defined Packages", "Doctor Desk", "Invoice List", "To be Billed List", "Consent Forms Received", "Appointments", "Insurance Company's", "Main Page"];
+      if (view === "insurance") return ["Insurance Company's", "Main Page"];
+      if (view === "inventory") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
+      return ["Main Page"];
+    }
+
+    function setActiveMenu(menu) {
+      activeMenu = menu;
+      document.querySelectorAll(".top-tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.menu === menu));
+      if (menu === "Insurance") activeView = "insurance";
+      if (menu === "Inventory") activeView = "inventory";
+      if (menu === "Home" && !["patients", "appointments", "receipts"].includes(activeView)) activeView = "patients";
+      renderChrome();
+    }
+
+    function activateView(view) {
+      activeView = view;
+      document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
+      const target = byId(`${view}Screen`);
+      if (target) target.classList.add("active");
+      renderChrome();
+    }
+
+    function activeRibbonLabel() {
+      if (activeView === "patients") return "Patients";
+      if (activeView === "appointments") return "Appointments";
+      if (activeView === "receipts") return "Receipts";
+      if (activeView === "insurance") return "Company";
+      if (activeView === "inventory") return "Item";
+      return "";
+    }
+
+    function renderChrome() {
+      document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
+      const target = byId(`${activeView}Screen`);
+      if (target) target.classList.add("active");
+      renderRibbon(modulesForMenu(activeMenu), activeRibbonLabel());
+      renderSubTabs(subTabsForView(activeView));
+      byId("windowTitle").textContent = activeMenu === "Home" ? "MasterPage" : activeMenu;
+    }
+
+    function renderPatients() {
+      const query = byId("patientSearch").value.trim().toLowerCase();
+      const searchBy = document.querySelector("input[name='patientSearchBy']:checked").value;
+      const filtered = patients.filter((patient) => {
+        if (!query) return true;
+        const values = {
+          all: [patient.mrNo, fullName(patient), patient.mobile, patient.eid, patient.nationality].join(" "),
+          mrn: patient.mrNo,
+          name: fullName(patient),
+          mobile: patient.mobile,
+          eid: patient.eid
+        };
+        return values[searchBy].toLowerCase().includes(query);
+      });
+      byId("patientRows").innerHTML = filtered.map((patient) => `
+        <tr class="${patient.mrNo === selectedPatientMr ? "selected" : ""}" data-mr="${escapeHtml(patient.mrNo)}" tabindex="0">
+          <td>${escapeHtml(patient.mrNo)}</td>
+          <td>${escapeHtml(patient.regDate)}</td>
+          <td><span class="gender ${escapeHtml(patient.gender)}"></span>${escapeHtml(fullName(patient))}</td>
+          <td>${escapeHtml(patient.mobile)}</td>
+          <td>${escapeHtml(patient.referral || "")}</td>
+          <td>${escapeHtml(patient.nationality)}</td>
+          <td>${escapeHtml(patient.dob)}</td>
+          <td>${escapeHtml(patient.eid)}</td>
+          <td><span class="row-actions"><span class="grid-action">i</span><span class="grid-action">p</span><span class="grid-action">r</span><span class="grid-action">e</span><span class="grid-action">v</span></span></td>
+        </tr>
+      `).join("");
+      byId("patientEmpty").classList.toggle("show", filtered.length === 0);
+    }
+
+    function renderInsurance() {
+      const query = byId("insuranceSearch").value.trim().toLowerCase();
+      const filtered = insuranceRecords.filter((record) => [record.code, record.type, record.providerId, record.name, record.phone].join(" ").toLowerCase().includes(query));
+      byId("insuranceRows").innerHTML = filtered.map((record) => `
+        <tr class="${record.code === selectedInsuranceCode ? "selected" : ""}" data-code="${escapeHtml(record.code)}" tabindex="0">
+          <td>${escapeHtml(record.code)}</td>
+          <td>${escapeHtml(record.type)}</td>
+          <td>${escapeHtml(record.providerId)}</td>
+          <td>${escapeHtml(record.name)}</td>
+          <td>${escapeHtml(record.phone)}</td>
+        </tr>
+      `).join("");
+      byId("insuranceEmpty").classList.toggle("show", filtered.length === 0);
+    }
+
+    function renderReceipts() {
+      const type = document.querySelector("input[name='receiptType']:checked").value;
+      const query = byId("receiptPatientSearch").value.trim().toLowerCase();
+      const byPatient = byId("receiptByPatient").checked;
+      const filtered = receipts.filter((receipt) => {
+        const typeOk = type === "All" || receipt.type === type;
+        const patientOk = !byPatient || !query || [receipt.patientName, receipt.mrNo].join(" ").toLowerCase().includes(query);
+        return typeOk && patientOk;
+      });
+      byId("receiptRows").innerHTML = filtered.map((receipt, index) => `
+        <tr class="${index === 0 ? "selected" : ""}">
+          <td>${escapeHtml(receipt.date)}</td>
+          <td>${escapeHtml(receipt.type)}</td>
+          <td>${escapeHtml(receipt.receiptNo)}</td>
+          <td>${escapeHtml(receipt.mrNo)}</td>
+          <td>${escapeHtml(receipt.patientName)}</td>
+          <td>AED ${escapeHtml(receipt.amount)}</td>
+          <td>${escapeHtml(receipt.mode)}</td>
+          <td><span class="status-pill ${receipt.status === "Pending" ? "due" : ""}">${escapeHtml(receipt.status)}</span></td>
+        </tr>
+      `).join("");
+      byId("receiptEmpty").classList.toggle("show", filtered.length === 0);
+    }
+
+    function renderMonth() {
+      const labels = ["S", "M", "T", "W", "T", "F", "S"];
+      const blanks = Array(5).fill("");
+      const days = Array.from({ length: 31 }, (_, index) => String(index + 1));
+      byId("monthGrid").innerHTML = labels.concat(blanks, days).map((day) => `<span class="${day === "21" ? "today" : ""}">${day}</span>`).join("");
+    }
+
+    function renderSchedule() {
+      const query = byId("appointmentSearch").value.trim().toLowerCase();
+      let html = `<div class="time-head">Local</div>${doctors.map((doctor) => `<div class="doctor-head">${doctor}<br><span style="font-weight:600;color:#6a7883">21 Thursday</span></div>`).join("")}`;
+      timeSlots.forEach((time) => {
+        html += `<div class="time-cell">${time}</div>`;
+        doctors.forEach((doctor) => {
+          const appt = appointments.find((item) => item.doctor === doctor && item.time === time && (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query)));
+          html += `<div class="slot" data-doctor="${doctor}" data-time="${time}">`;
+          if (appt) {
+            html += `<div class="appointment-card ${appt.status.toLowerCase()}"><strong>${escapeHtml(appt.mrNo)} ${escapeHtml(appt.patient)}</strong>${escapeHtml(appt.mobile)}<br>Room:${escapeHtml(appt.room)}<br>Therapist: ${escapeHtml(appt.doctor)}<br>${escapeHtml(appt.time)} - ${escapeHtml(appt.status)}</div>`;
+          }
+          html += `</div>`;
+        });
+      });
+      byId("dayGrid").innerHTML = html;
+    }
+
+    function nextPatientMr() {
+      return String(Math.max(...patients.map((patient) => Number(patient.mrNo))) + 1);
+    }
+
+    function nextInsuranceCode() {
+      const next = Math.max(...insuranceRecords.map((record) => Number(record.code.replace(/\D/g, "")))) + 1;
+      return `INS${String(next).padStart(6, "0")}`;
+    }
+
+    function selectedPatient() {
+      return patients.find((patient) => patient.mrNo === selectedPatientMr) || patients[0];
+    }
+
+    function selectedInsurance() {
+      return insuranceRecords.find((record) => record.code === selectedInsuranceCode) || insuranceRecords[0];
+    }
+
+    function openModal(id) {
+      byId(id).classList.add("open");
+    }
+
+    function closeModal(id) {
+      byId(id).classList.remove("open");
+    }
+
+    function setPatientForm(patient) {
+      const form = byId("patientForm");
+      const defaults = {
+        mrNo: nextPatientMr(),
+        recordNo: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        mobile: "",
+        city: "",
+        area: "",
+        address: "",
+        poBox: "",
+        emirate: "Dubai",
+        status: "Active",
+        eid: "",
+        language: "English",
+        category: "General",
+        dob: "21/May/2026",
+        gender: "Male",
+        religion: "Not Specified",
+        email: "",
+        passport: "",
+        marital: "",
+        nationality: "India",
+        job: "",
+        company: "",
+        whatsapp: "",
+        homeTel: "",
+        referral: "",
+        notes: "",
+        know: "GOOGLE"
+      };
+      const data = { ...defaults, ...(patient || {}) };
+      Object.entries(data).forEach(([name, value]) => {
+        const field = form.elements[name];
+        if (field && field.type !== "checkbox") field.value = value ?? "";
+      });
+      form.elements.vip.checked = Boolean(data.vip);
+      form.elements.pregnant.checked = Boolean(data.pregnant);
+      form.elements.medication.checked = Boolean(data.medication);
+      updateAgeFields();
+    }
+
+    function readPatientForm() {
+      const form = byId("patientForm");
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.vip = form.elements.vip.checked;
+      data.pregnant = form.elements.pregnant.checked;
+      data.medication = form.elements.medication.checked;
+      data.regDate = selectedPatient()?.regDate || "21-05-2026";
+      data.dob = data.dob || "21/May/2026";
+      data.nationality = data.nationality || "India";
+      data.status = data.status || "Active";
+      return data;
+    }
+
+    function openPatientDialog(mode) {
+      patientMode = mode;
+      byId("patientDialogTitle").textContent = mode === "edit" ? "Patient Registration" : "Patient Registration";
+      setPatientForm(mode === "edit" ? selectedPatient() : null);
+      document.querySelectorAll("[data-patient-tab]").forEach((tab, index) => tab.classList.toggle("active", index === 0));
+      document.querySelectorAll(".tab-panel").forEach((panel, index) => panel.classList.toggle("active", index === 0));
+      openModal("patientModal");
+      byId("pFirst").focus();
+    }
+
+    function parseAnyDate(value) {
+      if (!value) return null;
+      const normalized = value.replace(/-/g, "/");
+      const monthMap = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+      const parts = normalized.split("/");
+      if (parts.length !== 3) return null;
+      const day = Number(parts[0]);
+      const month = Number.isNaN(Number(parts[1])) ? monthMap[parts[1].slice(0, 3)] : Number(parts[1]) - 1;
+      const year = Number(parts[2]);
+      if (!day || month == null || !year) return null;
+      return new Date(year, month, day);
+    }
+
+    function updateAgeFields() {
+      const dob = parseAnyDate(byId("pDob").value);
+      const now = new Date(2026, 4, 21);
+      let years = 0;
+      let months = 0;
+      let days = 0;
+      if (dob && dob <= now) {
+        years = now.getFullYear() - dob.getFullYear();
+        months = now.getMonth() - dob.getMonth();
+        days = now.getDate() - dob.getDate();
+        if (days < 0) {
+          months -= 1;
+          days += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        }
+        if (months < 0) {
+          years -= 1;
+          months += 12;
+        }
+      }
+      byId("pYears").value = years;
+      byId("pMonths").value = months;
+      byId("pDays").value = days;
+    }
+
+    function savePatient(event) {
+      event.preventDefault();
+      const data = readPatientForm();
+      if (patientMode === "edit") {
+        patients = patients.map((patient) => patient.mrNo === data.mrNo ? { ...patient, ...data } : patient);
+        selectedPatientMr = data.mrNo;
+      } else {
+        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: "21-05-2026" };
+        patients = [patient, ...patients];
+        selectedPatientMr = patient.mrNo;
+      }
+      closeModal("patientModal");
+      renderPatients();
+      refreshPatientSelects();
+    }
+
+    function deletePatient() {
+      const patient = selectedPatient();
+      if (!patient) return;
+      if (!window.confirm(`Delete patient ${fullName(patient)}?`)) return;
+      patients = patients.filter((item) => item.mrNo !== patient.mrNo);
+      selectedPatientMr = patients[0]?.mrNo || "";
+      renderPatients();
+      refreshPatientSelects();
+    }
+
+    function setInsuranceForm(record) {
+      const form = byId("insuranceForm");
+      const data = record || { code: nextInsuranceCode(), type: "DINS", providerId: "", name: "", phone: "" };
+      Object.entries(data).forEach(([name, value]) => {
+        if (form.elements[name]) form.elements[name].value = value ?? "";
+      });
+    }
+
+    function openInsuranceDialog(mode) {
+      insuranceMode = mode;
+      byId("insuranceDialogTitle").textContent = mode === "edit" ? "Edit Insurance Company" : "New Insurance Company";
+      setInsuranceForm(mode === "edit" ? selectedInsurance() : null);
+      openModal("insuranceModal");
+      byId("insuranceForm").elements.name.focus();
+    }
+
+    function saveInsurance(event) {
+      event.preventDefault();
+      const form = byId("insuranceForm");
+      const record = Object.fromEntries(new FormData(form).entries());
+      if (insuranceMode === "edit") {
+        insuranceRecords = insuranceRecords.map((item) => item.code === selectedInsuranceCode ? record : item);
+      } else {
+        insuranceRecords = [record, ...insuranceRecords];
+      }
+      selectedInsuranceCode = record.code;
+      closeModal("insuranceModal");
+      renderInsurance();
+    }
+
+    function deleteInsurance() {
+      const record = selectedInsurance();
+      if (!record) return;
+      if (!window.confirm(`Delete ${record.name}?`)) return;
+      insuranceRecords = insuranceRecords.filter((item) => item.code !== record.code);
+      selectedInsuranceCode = insuranceRecords[0]?.code || "";
+      renderInsurance();
+    }
+
+    function refreshPatientSelects() {
+      const options = patients.map((patient) => `<option value="${escapeHtml(patient.mrNo)}">${escapeHtml(patient.mrNo)} - ${escapeHtml(fullName(patient))}</option>`).join("");
+      byId("receiptPatientSelect").innerHTML = options;
+      byId("appointmentPatientSelect").innerHTML = options;
+    }
+
+    function saveReceipt(event) {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(byId("receiptForm")).entries());
+      const patient = patients.find((item) => item.mrNo === data.mrNo);
+      const number = receipts.length ? Math.max(...receipts.map((item) => Number(item.receiptNo.replace(/\D/g, "")))) + 1 : 1;
+      receipts = [{
+        date: data.date,
+        type: data.type,
+        receiptNo: `REC${String(number).padStart(6, "0")}`,
+        mrNo: data.mrNo,
+        patientName: patient ? fullName(patient) : "",
+        amount: Number(data.amount || 0).toFixed(2),
+        mode: data.mode,
+        status: data.status
+      }, ...receipts];
+      closeModal("receiptModal");
+      renderReceipts();
+    }
+
+    function saveAppointment(event) {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(byId("appointmentForm")).entries());
+      const patient = patients.find((item) => item.mrNo === data.mrNo);
+      appointments = appointments.filter((item) => !(item.doctor === data.doctor && item.time === data.time));
+      appointments.push({
+        mrNo: data.mrNo,
+        patient: patient ? fullName(patient) : "",
+        mobile: patient?.mobile || "",
+        doctor: data.doctor,
+        time: data.time,
+        status: data.status,
+        room: "ROOM NUMBER 4",
+        notes: data.notes
+      });
+      closeModal("appointmentModal");
+      renderSchedule();
+    }
+
+    function seedTimeOptions() {
+      byId("appointmentTimeSelect").innerHTML = timeSlots.map((slot) => `<option>${slot}</option>`).join("");
+    }
+
+    function wireEvents() {
+      document.querySelector(".top-tabs").addEventListener("click", (event) => {
+        const tab = event.target.closest("[data-menu]");
+        if (!tab) return;
+        setActiveMenu(tab.dataset.menu);
+      });
+      byId("ribbon").addEventListener("click", (event) => {
+        const module = event.target.closest("[data-view]");
+        if (!module) return;
+        activateView(module.dataset.view);
+      });
+      byId("subTabs").addEventListener("click", (event) => {
+        const tab = event.target.closest(".sub-tab");
+        if (!tab) return;
+        [...byId("subTabs").children].forEach((item) => item.classList.toggle("active", item === tab));
+      });
+      byId("patientRows").addEventListener("click", (event) => {
+        const row = event.target.closest("[data-mr]");
+        if (!row) return;
+        selectedPatientMr = row.dataset.mr;
+        renderPatients();
+      });
+      byId("patientRows").addEventListener("dblclick", () => openPatientDialog("edit"));
+      byId("insuranceRows").addEventListener("click", (event) => {
+        const row = event.target.closest("[data-code]");
+        if (!row) return;
+        selectedInsuranceCode = row.dataset.code;
+        renderInsurance();
+      });
+      byId("insuranceRows").addEventListener("dblclick", () => openInsuranceDialog("edit"));
+      byId("patientSearch").addEventListener("input", renderPatients);
+      document.querySelectorAll("input[name='patientSearchBy']").forEach((radio) => radio.addEventListener("change", renderPatients));
+      byId("insuranceSearch").addEventListener("input", renderInsurance);
+      byId("receiptPatientSearch").addEventListener("input", renderReceipts);
+      byId("receiptByPatient").addEventListener("change", renderReceipts);
+      document.querySelectorAll("input[name='receiptType']").forEach((radio) => radio.addEventListener("change", renderReceipts));
+      byId("appointmentSearch").addEventListener("input", renderSchedule);
+      byId("patientNew").addEventListener("click", () => openPatientDialog("new"));
+      byId("patientEdit").addEventListener("click", () => openPatientDialog("edit"));
+      byId("patientDelete").addEventListener("click", deletePatient);
+      byId("editVisit").addEventListener("click", () => openPatientDialog("edit"));
+      byId("patientAppointmentInfo").addEventListener("click", () => activateView("appointments"));
+      byId("patientIntake").addEventListener("click", () => openPatientDialog("edit"));
+      byId("insuranceNew").addEventListener("click", () => openInsuranceDialog("new"));
+      byId("insuranceEdit").addEventListener("click", () => openInsuranceDialog("edit"));
+      byId("insuranceDelete").addEventListener("click", deleteInsurance);
+      byId("addReceipt").addEventListener("click", () => {
+        byId("receiptForm").reset();
+        byId("receiptForm").elements.date.value = "21/05/2026";
+        openModal("receiptModal");
+      });
+      byId("newAppointment").addEventListener("click", () => {
+        byId("appointmentForm").reset();
+        byId("appointmentForm").elements.time.value = "9:00 AM";
+        openModal("appointmentModal");
+      });
+      byId("dayGrid").addEventListener("dblclick", (event) => {
+        const slot = event.target.closest(".slot");
+        if (!slot) return;
+        byId("appointmentForm").reset();
+        byId("appointmentForm").elements.doctor.value = slot.dataset.doctor;
+        byId("appointmentForm").elements.time.value = slot.dataset.time;
+        openModal("appointmentModal");
+      });
+      document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
+      document.querySelectorAll(".modal-layer").forEach((layer) => {
+        layer.addEventListener("click", (event) => {
+          if (event.target === layer) closeModal(layer.id);
+        });
+      });
+      document.querySelectorAll("[data-patient-tab]").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const name = tab.dataset.patientTab;
+          document.querySelectorAll("[data-patient-tab]").forEach((item) => item.classList.toggle("active", item === tab));
+          document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("active"));
+          byId(`${name}Panel`).classList.add("active");
+        });
+      });
+      byId("pDob").addEventListener("input", updateAgeFields);
+      byId("patientForm").addEventListener("submit", savePatient);
+      byId("insuranceForm").addEventListener("submit", saveInsurance);
+      byId("receiptForm").addEventListener("submit", saveReceipt);
+      byId("appointmentForm").addEventListener("submit", saveAppointment);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") document.querySelectorAll(".modal-layer.open").forEach((layer) => layer.classList.remove("open"));
+        if (event.key === "F2" && activeView === "patients") openPatientDialog("new");
+      });
+    }
+
+    function boot() {
+      renderChrome();
+      renderPatients();
+      renderInsurance();
+      renderReceipts();
+      renderMonth();
+      seedTimeOptions();
+      refreshPatientSelects();
+      renderSchedule();
+      wireEvents();
+    }
+
+    boot();
+  </script>
+</body>
+</html>
