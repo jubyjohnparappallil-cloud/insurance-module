@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insurance Only</title>
+  <style>
+    :root {
+      --green: #10bf18;
+      --green-dark: #078a0d;
+      --blue: #086ed5;
+      --blue-dark: #034f9f;
+      --chrome: #dbe5ee;
+      --chrome-light: #f7fbff;
+      --line: #aebbc5;
+      --line-dark: #8496a6;
+      --panel: #eef3f7;
+      --paper: #f8fbfd;
+      --field: #eff9bd;
+      --text: #172533;
+      --muted: #60707d;
+      --danger: #bb1022;
+      --selected: #f2db63;
+      --selected-border: #c49815;
+      --shadow: 0 12px 34px rgba(20, 39, 55, 0.22);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { background: #cfdde7; color: var(--text); }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .desktop { display: grid; grid-template-rows: auto auto 1fr auto; min-height: 100vh; background: var(--panel); }
+    .window-strip { display: grid; grid-template-columns: 1fr auto; align-items: center; height: 44px; padding: 0 12px; background: linear-gradient(#f9fcff, #d7e2ec); border-bottom: 1px solid var(--line-dark); }
+    .window-title { font-size: 16px; font-weight: 800; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 12px; background: linear-gradient(#f8fbfd, #e0e9f1); border-bottom: 1px solid var(--line); }
+    .tool-button, .small-button { height: 34px; min-width: 86px; padding: 0 11px; border: 1px solid #9aaab7; border-radius: 3px; background: linear-gradient(#ffffff, #dbe4ec); color: #1e3344; font-weight: 700; }
+    .tool-button.primary { border-color: #078d0f; background: linear-gradient(#20d62a, #0ba713); color: #fff; }
+    .tool-button.delete { color: var(--danger); }
+    .search-line { display: inline-flex; align-items: center; gap: 6px; height: 33px; padding: 0 8px; border: 1px solid #b4c2cc; background: #edf4f9; color: #243747; font-size: 13px; font-weight: 700; }
+    .search-line input { min-height: 28px; border: 1px solid #9caeba; border-radius: 2px; padding: 3px 6px; background: #fff; }
+    .grid-shell { min-height: 0; overflow: auto; background: #f5f8fa; padding: 12px; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 13px; font-weight: 700; }
+    th, td { border: 1px solid #ccd6de; padding: 8px 10px; text-align: left; vertical-align: middle; }
+    th { background: linear-gradient(#e9f0f6, #d0dce6); color: #203747; position: sticky; top: 0; z-index: 1; }
+    tr:hover td { background: #eef8ff; }
+    tr.selected td { background: #f2df73; border-color: var(--selected-border); }
+    .empty-message { display: none; padding: 18px; color: #576d7f; font-weight: 700; }
+    .empty-message.show { display: block; }
+    .status-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; height: 28px; padding: 0 12px; border-top: 1px solid #9cafbd; background: linear-gradient(#f9fcff, #d8e4ee); color: #334a5b; font-size: 12px; font-weight: 650; }
+    .modal-layer { position: fixed; inset: 0; display: none; place-items: center; background: rgba(22, 38, 53, 0.18); z-index: 50; }
+    .modal-layer.open { display: grid; }
+    .dialog { width: min(92vw, 640px); max-height: 90vh; display: grid; grid-template-rows: auto 1fr auto; background: #edf2f6; border: 1px solid #7a8d9d; box-shadow: var(--shadow); }
+    .dialog-title { display: grid; grid-template-columns: 1fr 32px; align-items: center; height: 40px; padding: 0 12px; background: linear-gradient(90deg, var(--green-dark), var(--green)); color: #fff; font-size: 17px; font-weight: 900; }
+    .close-modal { border: 0; background: transparent; color: #fff; font-size: 20px; font-weight: 800; }
+    .dialog-body { overflow: auto; padding: 18px; }
+    .small-form-grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+    .form-field { display: grid; gap: 4px; font-weight: 800; }
+    .form-field.wide { grid-column: 1 / -1; }
+    .form-field input, .form-field select { min-height: 34px; border: 1px solid #9caeba; border-radius: 3px; padding: 6px 8px; background: #fff; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 12px; padding: 12px 18px; background: #e6edf3; }
+  </style>
+</head>
+<body>
+  <main class="desktop" aria-label="Insurance only application">
+    <header class="window-strip">
+      <div class="window-title">Insurance Only</div>
+      <div>Insurance module only</div>
+    </header>
+    <section class="toolbar" aria-label="Insurance actions">
+      <button class="tool-button primary" type="button" id="insuranceNew">New</button>
+      <button class="tool-button" type="button" id="insuranceEdit">Edit</button>
+      <button class="tool-button delete" type="button" id="insuranceDelete">Delete</button>
+      <span class="spacer"></span>
+      <span class="search-line">Search <input id="insuranceSearch" type="search" placeholder="Code, provider, name, phone"></span>
+    </section>
+    <section class="grid-shell">
+      <table aria-label="Insurance companies list">
+        <colgroup>
+          <col style="width: 130px">
+          <col style="width: 110px">
+          <col style="width: 150px">
+          <col>
+          <col style="width: 170px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Type</th>
+            <th>Provider Id</th>
+            <th>Name</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody id="insuranceRows"></tbody>
+      </table>
+      <div class="empty-message" id="insuranceEmpty">No insurance company records match this search.</div>
+    </section>
+    <footer class="status-bar">
+      <span>Use this app for insurance data only.</span>
+      <span class="spacer"></span>
+      <span>Insurance record count: <strong id="recordCount">0</strong></span>
+    </footer>
+  </main>
+
+  <div class="modal-layer" id="insuranceModal" role="dialog" aria-modal="true" aria-labelledby="insuranceDialogTitle">
+    <form class="dialog" id="insuranceForm">
+      <div class="dialog-title"><span id="insuranceDialogTitle">Insurance Company</span><button class="close-modal" type="button" data-close="insuranceModal">x</button></div>
+      <div class="dialog-body">
+        <div class="small-form-grid">
+          <label class="form-field">Code<input name="code" required></label>
+          <label class="form-field">Type<select name="type"><option>DINS</option><option>TPA</option><option>CASH</option></select></label>
+          <label class="form-field">Provider Id<input name="providerId" required></label>
+          <label class="form-field">Phone<input name="phone"></label>
+          <label class="form-field wide">Insurance Name<input name="name" required></label>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="insuranceModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let insuranceRecords = [
+      { code: "INS000001", type: "DINS", providerId: "TPA005", name: "ATENA", phone: "" },
+      { code: "INS000002", type: "DINS", providerId: "TPA006", name: "AMITY HEALTH", phone: "" },
+      { code: "INS000003", type: "DINS", providerId: "INS027", name: "ADNIC INSURANCE", phone: "" },
+      { code: "INS000004", type: "DINS", providerId: "TPA003", name: "ALMADALLAH", phone: "" },
+      { code: "INS000005", type: "DINS", providerId: "TPA001", name: "NEURON", phone: "" }
+    ];
+    let selectedInsuranceCode = insuranceRecords[0]?.code || "";
+    let insuranceMode = "new";
+
+    const byId = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
+
+    function renderInsurance() {
+      const query = byId("insuranceSearch").value.trim().toLowerCase();
+      const filtered = insuranceRecords.filter((record) => [record.code, record.type, record.providerId, record.name, record.phone].join(" ").toLowerCase().includes(query));
+      byId("insuranceRows").innerHTML = filtered.map((record) => `
+        <tr class="${record.code === selectedInsuranceCode ? "selected" : ""}" data-code="${escapeHtml(record.code)}" tabindex="0">
+          <td>${escapeHtml(record.code)}</td>
+          <td>${escapeHtml(record.type)}</td>
+          <td>${escapeHtml(record.providerId)}</td>
+          <td>${escapeHtml(record.name)}</td>
+          <td>${escapeHtml(record.phone)}</td>
+        </tr>
+      `).join("");
+      byId("insuranceEmpty").classList.toggle("show", filtered.length === 0);
+      byId("recordCount").textContent = filtered.length;
+    }
+
+    function nextInsuranceCode() {
+      const next = Math.max(...insuranceRecords.map((record) => Number(record.code.replace(/\D/g, ""))), 0) + 1;
+      return `INS${String(next).padStart(6, "0")}`;
+    }
+
+    function selectedInsurance() {
+      return insuranceRecords.find((record) => record.code === selectedInsuranceCode) || insuranceRecords[0] || null;
+    }
+
+    function setInsuranceForm(record) {
+      const form = byId("insuranceForm");
+      const data = record || { code: nextInsuranceCode(), type: "DINS", providerId: "", name: "", phone: "" };
+      Object.entries(data).forEach(([name, value]) => {
+        if (form.elements[name]) form.elements[name].value = value ?? "";
+      });
+    }
+
+    function openInsuranceDialog(mode) {
+      insuranceMode = mode;
+      byId("insuranceDialogTitle").textContent = mode === "edit" ? "Edit Insurance Company" : "New Insurance Company";
+      setInsuranceForm(mode === "edit" ? selectedInsurance() : null);
+      byId("insuranceModal").classList.add("open");
+      byId("insuranceForm").elements.name.focus();
+    }
+
+    function closeModal(id) {
+      byId(id).classList.remove("open");
+    }
+
+    function saveInsurance(event) {
+      event.preventDefault();
+      const form = byId("insuranceForm");
+      const record = Object.fromEntries(new FormData(form).entries());
+      if (insuranceMode === "edit") {
+        insuranceRecords = insuranceRecords.map((item) => item.code === selectedInsuranceCode ? record : item);
+      } else {
+        insuranceRecords = [record, ...insuranceRecords];
+      }
+      selectedInsuranceCode = record.code;
+      closeModal("insuranceModal");
+      renderInsurance();
+    }
+
+    function deleteInsurance() {
+      const record = selectedInsurance();
+      if (!record) return;
+      if (!window.confirm(`Delete ${record.name}?`)) return;
+      insuranceRecords = insuranceRecords.filter((item) => item.code !== record.code);
+      selectedInsuranceCode = insuranceRecords[0]?.code || "";
+      renderInsurance();
+    }
+
+    function wireEvents() {
+      byId("insuranceSearch").addEventListener("input", renderInsurance);
+      byId("insuranceNew").addEventListener("click", () => openInsuranceDialog("new"));
+      byId("insuranceEdit").addEventListener("click", () => openInsuranceDialog("edit"));
+      byId("insuranceDelete").addEventListener("click", deleteInsurance);
+      byId("insuranceRows").addEventListener("click", (event) => {
+        const row = event.target.closest("[data-code]");
+        if (!row) return;
+        selectedInsuranceCode = row.dataset.code;
+        renderInsurance();
+      });
+      byId("insuranceRows").addEventListener("dblclick", () => openInsuranceDialog("edit"));
+      byId("insuranceForm").addEventListener("submit", saveInsurance);
+      document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") document.querySelectorAll(".modal-layer.open").forEach((layer) => layer.classList.remove("open"));
+      });
+    }
+
+    function boot() {
+      renderInsurance();
+      wireEvents();
+    }
+
+    boot();
+  </script>
+</body>
+</html>

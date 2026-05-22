@@ -693,7 +693,7 @@
 
     .appointment-layout {
       display: grid;
-      grid-template-columns: 190px 1fr 245px;
+      grid-template-columns: 190px 1fr;
       min-height: 0;
       height: 100%;
       overflow: hidden;
@@ -782,6 +782,74 @@
       white-space: nowrap;
     }
 
+    .legend-bar .legend-spacer {
+      flex: 1 1 auto;
+    }
+
+    .connect-devices {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      height: 43px;
+      min-width: 166px;
+      padding: 0 13px;
+      border: 1px solid #b6c2cc;
+      border-radius: 2px;
+      background: linear-gradient(#f9fbfd, #dfe8ef);
+      color: #182d3f;
+      font-weight: 800;
+      box-shadow: inset 0 1px #fff;
+    }
+
+    .android-mark {
+      position: relative;
+      width: 26px;
+      height: 19px;
+      border-radius: 5px 5px 3px 3px;
+      background: #71c928;
+    }
+
+    .android-mark::before,
+    .android-mark::after {
+      content: "";
+      position: absolute;
+      background: #71c928;
+    }
+
+    .android-mark::before {
+      width: 4px;
+      height: 13px;
+      left: -6px;
+      top: 4px;
+      border-radius: 4px;
+      box-shadow: 34px 0 #71c928;
+    }
+
+    .android-mark::after {
+      width: 4px;
+      height: 7px;
+      left: 6px;
+      top: -6px;
+      border-radius: 3px;
+      transform: rotate(-30deg);
+      box-shadow: 13px 8px #71c928;
+    }
+
+    .schedule-close {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 34px;
+      border: 1px solid #b8c3cd;
+      border-radius: 2px;
+      background: linear-gradient(#ffffff, #e0e8ef);
+      color: #c31722;
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      box-shadow: inset 0 1px #fff;
+    }
+
     .legend {
       padding: 2px 5px;
       color: #fff;
@@ -841,16 +909,18 @@
       left: 8px;
       right: 8px;
       top: 4px;
-      min-height: 55px;
-      padding: 6px 7px;
-      border-left: 6px solid #0953bc;
-      background: #e3eefc;
+      min-height: 86px;
+      padding: 16px 8px 6px;
+      border-right: 6px solid #0953bc;
+      background: #b9d9f3;
       color: #18344d;
       box-shadow: 0 1px 2px rgba(21, 38, 54, 0.18);
       font-size: 11px;
-      line-height: 1.22;
+      line-height: 1.28;
       overflow: hidden;
       z-index: 1;
+      text-align: center;
+      cursor: context-menu;
     }
 
     .appointment-card strong {
@@ -859,20 +929,104 @@
       margin-bottom: 2px;
     }
 
+    .appointment-card .appt-phone {
+      display: block;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
     .appointment-card.arrived {
-      border-left-color: #0da818;
-      background: #e8f8e8;
+      border-right-color: #0da818;
+      background: #c8e6c9;
     }
 
     .appointment-card.consulted {
-      border-left-color: #0067d3;
-      background: #e7f1ff;
+      border-right-color: #0067d3;
+      background: #b9d9f3;
     }
 
     .appointment-card.cancelled {
-      border-left-color: #d00000;
+      border-right-color: #d00000;
       background: #ffe7e8;
     }
+
+    .appointment-card.confirmed {
+      border-right-color: #e0ca00;
+      background: #fff7ac;
+    }
+
+    .appointment-card.noshow {
+      border-right-color: #777;
+      background: #eeeeee;
+    }
+
+    .appointment-menu {
+      position: fixed;
+      z-index: 80;
+      display: none;
+      width: 314px;
+      padding: 8px 0;
+      border: 1px solid #9faeb9;
+      background: #eef5f8;
+      box-shadow: 0 3px 9px rgba(20, 37, 52, 0.25);
+      color: #1b2f41;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .appointment-menu.open {
+      display: block;
+    }
+
+    .appointment-menu button {
+      display: grid;
+      grid-template-columns: 29px 1fr;
+      align-items: center;
+      width: 100%;
+      min-height: 34px;
+      padding: 0 13px;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      text-align: left;
+      font-weight: 800;
+    }
+
+    .appointment-menu button:hover {
+      background: #dcecf6;
+    }
+
+    .appointment-menu .menu-text-only {
+      grid-template-columns: 1fr;
+      padding-left: 42px;
+    }
+
+    .appointment-menu .menu-green {
+      color: #168027;
+    }
+
+    .appointment-menu .menu-danger {
+      color: #d40c27;
+    }
+
+    .appointment-menu .menu-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .appointment-menu .sms { background: #ffd228; color: #724d00; }
+    .appointment-menu .info,
+    .appointment-menu .call,
+    .appointment-menu .reminder,
+    .appointment-menu .thanks { background: #05d0a8; }
+    .appointment-menu .trash { background: #e01b36; }
 
     .notes-panel {
       display: grid;
@@ -1168,7 +1322,7 @@
     <header class="window-strip">
       <div class="window-mark" aria-hidden="true"></div>
       <div class="app-title" id="windowTitle">MasterPage</div>
-      <div class="started">Started <span id="startedStamp">21.05.2026 09:03 AM</span></div>
+      <div class="started">Started <span id="startedStamp">22.05.2026 09:11 AM</span></div>
     </header>
 
     <nav class="top-tabs" aria-label="Main menu">
@@ -1243,7 +1397,7 @@
         <div class="toolbar">
           <button class="small-button" type="button" id="prevDay">&lt;</button>
           <button class="small-button" type="button" id="nextDay">&gt;</button>
-          <input id="appointmentDate" type="text" value="21/May/2026" style="width: 130px">
+          <input id="appointmentDate" type="text" value="22/May/2026" style="width: 130px">
           <button class="small-button" type="button">#</button>
           <input id="appointmentSearch" type="search" placeholder="Search" style="width: 230px">
           <button class="tool-button primary" type="button" id="newAppointment">New</button>
@@ -1284,20 +1438,54 @@
               <span>FOC[0]</span>
               <span>Blocked[0]</span>
               <span class="legend cancelled">Cancelled[0]</span>
+              <span class="legend-spacer"></span>
+              <button class="connect-devices" type="button"><span class="android-mark" aria-hidden="true"></span>Connect Devices</button>
+              <button class="schedule-close" type="button" aria-label="Close appointment view">x</button>
             </div>
             <div class="day-grid" id="dayGrid"></div>
-          </div>
-          <aside class="notes-panel">
-            <h3>Notes</h3>
-            <textarea id="appointmentNotes">Notes: Block room 4 after 4:30 PM for maintenance.
-Notes: Faculty meeting at 2:15 PM.</textarea>
-            <div class="band-row">
-              <span class="band">Consultation</span>
-              <span class="band package">Package</span>
-              <span class="band treatment">Treatment</span>
-              <span class="band" style="background:#c7003e">Others</span>
+            <div class="appointment-menu" id="appointmentMenu" role="menu" aria-label="Appointment actions">
+              <button class="menu-text-only" type="button" data-appt-action="edit">Edit Appointment</button>
+              <button class="menu-text-only" type="button" data-appt-action="Arrived">Arrived</button>
+              <button class="menu-text-only" type="button" data-appt-action="NoShow">No Show</button>
+              <button class="menu-text-only" type="button" data-appt-action="Confirmed">Confirmed</button>
+              <button class="menu-text-only menu-green" type="button" data-appt-action="Confirmed By Call">Confirmed By Call</button>
+              <button class="menu-text-only" type="button" data-appt-action="Cancelled">Cancelled</button>
+              <button type="button" data-appt-action="sms"><span class="menu-icon sms">S</span>Send SMS</button>
+              <button type="button" data-appt-action="info"><span class="menu-icon info">i</span>Patient Info</button>
+              <button type="button" data-appt-action="call"><span class="menu-icon call">C</span>Call Patient</button>
+              <button type="button" data-appt-action="reminder"><span class="menu-icon reminder">R</span>Send Reminder</button>
+              <button type="button" data-appt-action="thanks"><span class="menu-icon thanks">T</span>Send Thank you</button>
+              <button class="menu-danger" type="button" data-appt-action="delete"><span class="menu-icon trash">x</span>Delete Appointment</button>
+              <button class="menu-text-only" type="button" data-appt-action="therapist">Change Therapist NEETHU</button>
+              <button class="menu-text-only" type="button" data-appt-action="room">Change Room ROOM NUMBER 4</button>
             </div>
-          </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="packagesScreen" aria-label="Defined Packages">
+        <div class="screen-title green">Defind Packages</div>
+        <div class="toolbar">
+          <button class="tool-button" type="button" id="packageNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="packageEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="packageDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+          <span class="search-line">Search <input id="packageSearch" type="search" style="width: min(34vw, 520px)"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Defined packages list">
+            <colgroup>
+              <col style="width: 165px">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Package name</th>
+              </tr>
+            </thead>
+            <tbody id="packageRows"></tbody>
+          </table>
+          <div class="empty-message" id="packageEmpty">No packages match this search.</div>
         </div>
       </section>
 
@@ -1305,8 +1493,8 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
         <div class="screen-title">Receipts</div>
         <div class="toolbar">
           <button class="tool-button" type="button" id="addReceipt">Add</button>
-          <span class="search-line">From Date <input class="receipt-filter-field" id="receiptFrom" type="text" value="21/05/2026"></span>
-          <span class="search-line">To Date <input class="receipt-filter-field" id="receiptTo" type="text" value="21/05/2026"></span>
+          <span class="search-line">From Date <input class="receipt-filter-field" id="receiptFrom" type="text" value="22-05-2026"></span>
+          <span class="search-line">To Date <input class="receipt-filter-field" id="receiptTo" type="text" value="22-05-2026"></span>
           <label class="check-radio"><input type="checkbox" id="receiptByPatient">By Patient</label>
           <button class="small-button" type="button">?</button>
           <input id="receiptPatientSearch" type="search" style="width: min(36vw, 520px)">
@@ -1452,7 +1640,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
                 <label class="check-radio"><input type="checkbox" name="pregnant">Pregnant</label>
                 <label class="check-radio"><input type="checkbox" name="medication">Medication</label>
               </div>
-              <div class="field-row"><label for="pDob">DOB</label><div class="inline-fields"><input id="pDob" name="dob" value="21/May/2026"><span>Years</span><input id="pYears" name="years" readonly><span>Months</span><input id="pMonths" name="months" readonly><span>Days</span><input id="pDays" name="days" readonly></div></div>
+              <div class="field-row"><label for="pDob">DOB</label><div class="inline-fields"><input id="pDob" name="dob" value="22/May/2026"><span>Years</span><input id="pYears" name="years" readonly><span>Months</span><input id="pMonths" name="months" readonly><span>Days</span><input id="pDays" name="days" readonly></div></div>
               <div class="field-row"><label for="pGender">Gender</label><select id="pGender" class="required" name="gender" required><option>Male</option><option>Female</option></select></div>
               <div class="field-row"><label for="pReligion">Religion</label><select id="pReligion" name="religion"><option>Not Specified</option><option>Hindu</option><option>Muslim</option><option>Christian</option><option>Other</option></select></div>
               <div class="field-row"><label for="pEmail">E-mail</label><input id="pEmail" name="email" type="email"></div>
@@ -1476,7 +1664,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
         <section class="tab-panel" id="packagesPanel">
           <div class="small-form-grid">
             <label class="form-field">Package<select name="packageName"><option>None</option><option>Panchakarma 7 Days</option><option>Physiotherapy 10 Sessions</option><option>Wellness Consultation</option></select></label>
-            <label class="form-field">Package Start<input name="packageStart" value="21-05-2026"></label>
+            <label class="form-field">Package Start<input name="packageStart" value="22-05-2026"></label>
             <label class="form-field">Package Visits<input name="packageVisits" type="number" value="0"></label>
             <label class="form-field">Balance Sessions<input name="packageBalance" type="number" value="0"></label>
           </div>
@@ -1530,7 +1718,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       <div class="dialog-title"><span id="receiptDialogTitle">Receipt Entry</span><button class="close-modal" type="button" data-close="receiptModal">x</button></div>
       <div class="dialog-body">
         <div class="small-form-grid">
-          <label class="form-field">Date<input name="date" value="21/05/2026" required></label>
+          <label class="form-field">Date<input name="date" value="22/05/2026" required></label>
           <label class="form-field">Receipt Type<select name="type"><option>Advance</option><option>Due</option><option>Package</option></select></label>
           <label class="form-field">Patient<select name="mrNo" id="receiptPatientSelect"></select></label>
           <label class="form-field">Payment Mode<select name="mode"><option>Cash</option><option>Card</option><option>Online</option><option>Insurance</option></select></label>
@@ -1551,9 +1739,9 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       <div class="dialog-body">
         <div class="small-form-grid">
           <label class="form-field">Patient<select name="mrNo" id="appointmentPatientSelect"></select></label>
-          <label class="form-field">Doctor<select name="doctor"><option>AMARNATH</option><option>ASHISH</option><option>ANEESH</option><option>RESHMI</option><option>LINTU</option><option>NEETHU</option></select></label>
+          <label class="form-field">Doctor<select name="doctor"><option>LINTU</option><option>NEETHU</option><option>anjana</option><option>RESHMI</option><option>NOORA HOSBETUM</option><option>ANJNA MADAKKAVIL</option></select></label>
           <label class="form-field">Time<select name="time" id="appointmentTimeSelect"></select></label>
-          <label class="form-field">Status<select name="status"><option>Booked</option><option>Arrived</option><option>Consulted</option><option>Cancelled</option></select></label>
+          <label class="form-field">Status<select name="status"><option>Booked</option><option>Arrived</option><option>NoShow</option><option>Confirmed</option><option>Consulted</option><option>Cancelled</option></select></label>
           <label class="form-field wide">Notes<input name="notes" value="Created by admin"></label>
         </div>
       </div>
@@ -1578,6 +1766,21 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       ["Duty Roster", "g-calendar", "appointments"]
     ];
 
+    const settingsModules = [
+      ["Source", "g-company", "packages"],
+      ["Documents", "g-doc", "packages"],
+      ["SMS Settings", "g-receipt", "packages"],
+      ["App. Settings", "g-company", "packages"],
+      ["FTP", "g-inventory", "packages"],
+      ["SMS Schedule", "g-doc", "packages"],
+      ["Backup", "g-gift", "packages"],
+      ["Discounts", "g-bill", "packages"],
+      ["Consent Con...", "g-company", "packages"],
+      ["Rooms", "g-doc", "packages"],
+      ["Appointment...", "g-calendar", "appointments"],
+      ["SMS Template", "g-doc", "packages"]
+    ];
+
     const insuranceModules = [
       ["Company", "g-company", "insurance"],
       ["Mapping", "g-gift", "insurance"],
@@ -1599,15 +1802,17 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       ["Manufacture", "g-doc", "inventory"]
     ];
 
-    const doctors = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "LINTU", "NEETHU"];
+    const doctors = ["LINTU", "NEETHU", "anjana", "RESHMI", "NOORA HOSBETUM", "ANJNA MADAKKAVIL"];
     const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM"];
 
     let activeView = "patients";
     let activeMenu = "Home";
     let selectedPatientMr = "4746";
     let selectedInsuranceCode = "INS000001";
+    let selectedPackageCode = "AY000051";
     let patientMode = "new";
     let insuranceMode = "new";
+    let selectedAppointmentIndex = null;
 
     let patients = [
       { mrNo: "4746", regDate: "20-05-2026", firstName: "AMAN", middleName: "FAISAL KHAN", lastName: "FAISAL YUSUF KHAN", gender: "Male", mobile: "971507412478", referral: "", nationality: "India", dob: "14-02-2018", eid: "784-2018-1688520-2", city: "Dubai", area: "", address: "", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
@@ -1644,15 +1849,38 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
     ];
 
     let receipts = [
-      { date: "21/05/2026", type: "Advance", receiptNo: "REC000451", mrNo: "4746", patientName: "AMAN FAISAL KHAN FAISAL YUSUF KHAN", amount: "250.00", mode: "Cash", status: "Collected" },
-      { date: "21/05/2026", type: "Due", receiptNo: "REC000452", mrNo: "4742", patientName: "ASWATHY MENON", amount: "75.00", mode: "Card", status: "Pending" },
+      { date: "22/05/2026", type: "Advance", receiptNo: "REC000451", mrNo: "4746", patientName: "AMAN FAISAL KHAN FAISAL YUSUF KHAN", amount: "250.00", mode: "Cash", status: "Collected" },
+      { date: "22/05/2026", type: "Due", receiptNo: "REC000452", mrNo: "4742", patientName: "ASWATHY MENON", amount: "75.00", mode: "Card", status: "Pending" },
       { date: "20/05/2026", type: "Package", receiptNo: "REC000449", mrNo: "4745", patientName: "HAMZA JAMSHED JAMSHED KHAN", amount: "1200.00", mode: "Online", status: "Collected" }
     ];
 
+    let packageRecords = [
+      { code: "AY000051", name: "20 SESSIONS WITH STEAM" },
+      { code: "AY000052", name: "5 SESSION WITHOUT STEAM" },
+      { code: "AY000053", name: "5 SESSION WITH STEAM" },
+      { code: "AY000054", name: "10 SESSION WITHOUT STEAM" },
+      { code: "AY000055", name: "20 SESSIONS WITHOUT STEAM+SHIRODHARA" },
+      { code: "AY000056", name: "20 SESSIONS WITH STEAM" },
+      { code: "AY000057", name: "30 SESSION WITHOUT STEAM" },
+      { code: "AY000058", name: "30 SESSION WITH 10 STEAM" },
+      { code: "AY000059", name: "30 SESSION WITH STEAM" },
+      { code: "AY000060", name: "40 SESSION WITHOUT STEAM" },
+      { code: "AY000061", name: "40 SESSION WITH STEAM" },
+      { code: "AY000062", name: "40 SESSIONS WITH 10 STEAM" },
+      { code: "AY000063", name: "40 SESSIONS WITH 20 STEAM" },
+      { code: "AY000064", name: "7 SESSION PACKAGE" },
+      { code: "AY000065", name: "15 SESSION PACKAGE" },
+      { code: "AY000066", name: "25 SESSION FBM WITH STEAM" },
+      { code: "AY000067", name: "44 SESSIONS OF FBM +STEAM" },
+      { code: "AY000068", name: "10 SESSIONS WITHOUT STEAM" },
+      { code: "AY000069", name: "12 SESSION WITHOUT STEAM" },
+      { code: "AY000073", name: "15 session with steam" }
+    ];
+
     let appointments = [
-      { mrNo: "4734", patient: "JENNEL BAAYA AGREGADO", mobile: "971552083538", doctor: "NEETHU", time: "9:00 AM", status: "Booked", room: "ROOM NUMBER 4", notes: "Created by admin" },
-      { mrNo: "4746", patient: "AMAN FAISAL KHAN", mobile: "971507412478", doctor: "NEETHU", time: "12:00 PM", status: "Arrived", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
-      { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "RESHMI", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 2", notes: "Package review" }
+      { mrNo: "2919", patient: "ELLIS RONTA JUDEROSHAN", mobile: "971556238838", doctor: "NEETHU", time: "9:00 AM", status: "Consulted", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
+      { mrNo: "4748", patient: "MURSHIDA SIRAJ", mobile: "971509142600", doctor: "anjana", time: "9:00 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Therapist: anjana" },
+      { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "anjana", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Package review" }
     ];
 
     const byId = (id) => document.getElementById(id);
@@ -1673,6 +1901,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
     }
 
     function modulesForMenu(menu) {
+      if (menu === "Settings") return settingsModules;
       if (menu === "Insurance") return insuranceModules;
       if (menu === "Inventory") return inventoryModules;
       return homeModules;
@@ -1681,6 +1910,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
     function subTabsForView(view) {
       if (view === "patients") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
       if (view === "appointments") return ["Appointments", "Main Page"];
+      if (view === "packages") return ["Defined Packages", "Receipts", "Invoice List", "Appointments", "Doctor Desk", "Patients", "Consent Forms Received", "Main Page"];
       if (view === "receipts") return ["Receipts", "Defined Packages", "Doctor Desk", "Invoice List", "To be Billed List", "Consent Forms Received", "Appointments", "Insurance Company's", "Main Page"];
       if (view === "insurance") return ["Insurance Company's", "Main Page"];
       if (view === "inventory") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
@@ -1690,9 +1920,10 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
     function setActiveMenu(menu) {
       activeMenu = menu;
       document.querySelectorAll(".top-tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.menu === menu));
+      if (menu === "Settings") activeView = "packages";
       if (menu === "Insurance") activeView = "insurance";
       if (menu === "Inventory") activeView = "inventory";
-      if (menu === "Home" && !["patients", "appointments", "receipts"].includes(activeView)) activeView = "patients";
+      if (menu === "Home" && !["patients", "appointments", "receipts", "packages"].includes(activeView)) activeView = "patients";
       renderChrome();
     }
 
@@ -1707,6 +1938,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
     function activeRibbonLabel() {
       if (activeView === "patients") return "Patients";
       if (activeView === "appointments") return "Appointments";
+      if (activeView === "packages") return "Source";
       if (activeView === "receipts") return "Receipts";
       if (activeView === "insurance") return "Company";
       if (activeView === "inventory") return "Item";
@@ -1791,28 +2023,114 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       byId("receiptEmpty").classList.toggle("show", filtered.length === 0);
     }
 
+    function renderPackages() {
+      const query = byId("packageSearch").value.trim().toLowerCase();
+      const filtered = packageRecords.filter((record) => [record.code, record.name].join(" ").toLowerCase().includes(query));
+      byId("packageRows").innerHTML = filtered.map((record) => `
+        <tr class="${record.code === selectedPackageCode ? "selected" : ""}" data-package-code="${escapeHtml(record.code)}" tabindex="0">
+          <td>${escapeHtml(record.code)}</td>
+          <td>${escapeHtml(record.name)}</td>
+        </tr>
+      `).join("");
+      byId("packageEmpty").classList.toggle("show", filtered.length === 0);
+    }
+
+    function nextPackageCode() {
+      const next = Math.max(...packageRecords.map((record) => Number(record.code.replace(/\D/g, "")))) + 1;
+      return `AY${String(next).padStart(6, "0")}`;
+    }
+
+    function addPackage() {
+      const code = nextPackageCode();
+      packageRecords = [{ code, name: "NEW PACKAGE" }, ...packageRecords];
+      selectedPackageCode = code;
+      renderPackages();
+    }
+
+    function editPackage() {
+      const record = packageRecords.find((item) => item.code === selectedPackageCode);
+      if (!record) return;
+      const nextName = window.prompt("Package name", record.name);
+      if (!nextName) return;
+      record.name = nextName;
+      renderPackages();
+    }
+
+    function deletePackage() {
+      if (!selectedPackageCode) return;
+      packageRecords = packageRecords.filter((record) => record.code !== selectedPackageCode);
+      selectedPackageCode = packageRecords[0]?.code || "";
+      renderPackages();
+    }
+
     function renderMonth() {
       const labels = ["S", "M", "T", "W", "T", "F", "S"];
       const blanks = Array(5).fill("");
       const days = Array.from({ length: 31 }, (_, index) => String(index + 1));
-      byId("monthGrid").innerHTML = labels.concat(blanks, days).map((day) => `<span class="${day === "21" ? "today" : ""}">${day}</span>`).join("");
+      byId("monthGrid").innerHTML = labels.concat(blanks, days).map((day) => `<span class="${day === "22" ? "today" : ""}">${day}</span>`).join("");
     }
 
     function renderSchedule() {
       const query = byId("appointmentSearch").value.trim().toLowerCase();
-      let html = `<div class="time-head">Local</div>${doctors.map((doctor) => `<div class="doctor-head">${doctor}<br><span style="font-weight:600;color:#6a7883">21 Thursday</span></div>`).join("")}`;
+      let html = `<div class="time-head">Local</div>${doctors.map((doctor) => `<div class="doctor-head">${doctor}<br><span style="font-weight:600;color:#6a7883">22 Friday</span></div>`).join("")}`;
       timeSlots.forEach((time) => {
         html += `<div class="time-cell">${time}</div>`;
         doctors.forEach((doctor) => {
-          const appt = appointments.find((item) => item.doctor === doctor && item.time === time && (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query)));
+          const apptIndex = appointments.findIndex((item) => item.doctor === doctor && item.time === time && (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query)));
+          const appt = appointments[apptIndex];
           html += `<div class="slot" data-doctor="${doctor}" data-time="${time}">`;
           if (appt) {
-            html += `<div class="appointment-card ${appt.status.toLowerCase()}"><strong>${escapeHtml(appt.mrNo)} ${escapeHtml(appt.patient)}</strong>${escapeHtml(appt.mobile)}<br>Room:${escapeHtml(appt.room)}<br>Therapist: ${escapeHtml(appt.doctor)}<br>${escapeHtml(appt.time)} - ${escapeHtml(appt.status)}</div>`;
+            html += `<div class="appointment-card ${statusClass(appt.status)}" data-appt-index="${apptIndex}"><strong>${escapeHtml(appt.mrNo)} ${escapeHtml(appt.patient)}</strong><span class="appt-phone">${escapeHtml(appt.mobile)}</span>Room:${escapeHtml(appt.room)}<br>Therapist: ${escapeHtml(appt.doctor)}<br><span style="font-weight:600;color:#5f6d79">admin</span><br>${escapeHtml(appt.time)}</div>`;
           }
           html += `</div>`;
         });
       });
       byId("dayGrid").innerHTML = html;
+    }
+
+    function statusClass(status) {
+      return String(status || "booked").toLowerCase().replace(/\s+/g, "");
+    }
+
+    function hideAppointmentMenu() {
+      byId("appointmentMenu").classList.remove("open");
+      selectedAppointmentIndex = null;
+    }
+
+    function showAppointmentMenu(event, card) {
+      event.preventDefault();
+      selectedAppointmentIndex = Number(card.dataset.apptIndex);
+      const menu = byId("appointmentMenu");
+      const width = 314;
+      const height = 472;
+      const x = Math.min(event.clientX + 8, window.innerWidth - width - 12);
+      const y = Math.min(event.clientY + 8, window.innerHeight - height - 12);
+      menu.style.left = `${Math.max(12, x)}px`;
+      menu.style.top = `${Math.max(12, y)}px`;
+      menu.classList.add("open");
+    }
+
+    function handleAppointmentAction(action) {
+      if (selectedAppointmentIndex == null || !appointments[selectedAppointmentIndex]) return;
+      if (["Arrived", "NoShow", "Confirmed", "Confirmed By Call", "Cancelled"].includes(action)) {
+        appointments[selectedAppointmentIndex].status = action === "Confirmed By Call" ? "Confirmed" : action;
+        renderSchedule();
+      }
+      if (action === "delete") {
+        appointments.splice(selectedAppointmentIndex, 1);
+        renderSchedule();
+      }
+      if (action === "edit") {
+        const appt = appointments[selectedAppointmentIndex];
+        byId("appointmentForm").reset();
+        byId("appointmentForm").elements.mrNo.value = appt.mrNo;
+        byId("appointmentForm").elements.doctor.value = appt.doctor;
+        byId("appointmentForm").elements.time.value = appt.time;
+        byId("appointmentForm").elements.status.value = appt.status;
+        byId("appointmentForm").elements.notes.value = appt.notes || "";
+        openModal("appointmentModal");
+      }
+      hideAppointmentMenu();
     }
 
     function nextPatientMr() {
@@ -1858,7 +2176,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
         eid: "",
         language: "English",
         category: "General",
-        dob: "21/May/2026",
+        dob: "22/May/2026",
         gender: "Male",
         religion: "Not Specified",
         email: "",
@@ -1890,8 +2208,8 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       data.vip = form.elements.vip.checked;
       data.pregnant = form.elements.pregnant.checked;
       data.medication = form.elements.medication.checked;
-      data.regDate = selectedPatient()?.regDate || "21-05-2026";
-      data.dob = data.dob || "21/May/2026";
+      data.regDate = selectedPatient()?.regDate || "22-05-2026";
+      data.dob = data.dob || "22/May/2026";
       data.nationality = data.nationality || "India";
       data.status = data.status || "Active";
       return data;
@@ -1922,7 +2240,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
 
     function updateAgeFields() {
       const dob = parseAnyDate(byId("pDob").value);
-      const now = new Date(2026, 4, 21);
+      const now = new Date(2026, 4, 22);
       let years = 0;
       let months = 0;
       let days = 0;
@@ -1951,7 +2269,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
         patients = patients.map((patient) => patient.mrNo === data.mrNo ? { ...patient, ...data } : patient);
         selectedPatientMr = data.mrNo;
       } else {
-        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: "21-05-2026" };
+        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: "22-05-2026" };
         patients = [patient, ...patients];
         selectedPatientMr = patient.mrNo;
       }
@@ -2072,6 +2390,12 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
         const tab = event.target.closest(".sub-tab");
         if (!tab) return;
         [...byId("subTabs").children].forEach((item) => item.classList.toggle("active", item === tab));
+        if (tab.textContent.trim() === "Defined Packages") {
+          activeMenu = "Settings";
+          document.querySelectorAll(".top-tab").forEach((item) => item.classList.toggle("active", item.dataset.menu === "Settings"));
+          activateView("packages");
+        }
+        if (tab.textContent.trim() === "Receipts") activateView("receipts");
       });
       byId("patientRows").addEventListener("click", (event) => {
         const row = event.target.closest("[data-mr]");
@@ -2090,6 +2414,14 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       byId("patientSearch").addEventListener("input", renderPatients);
       document.querySelectorAll("input[name='patientSearchBy']").forEach((radio) => radio.addEventListener("change", renderPatients));
       byId("insuranceSearch").addEventListener("input", renderInsurance);
+      byId("packageSearch").addEventListener("input", renderPackages);
+      byId("packageRows").addEventListener("click", (event) => {
+        const row = event.target.closest("[data-package-code]");
+        if (!row) return;
+        selectedPackageCode = row.dataset.packageCode;
+        renderPackages();
+      });
+      byId("packageRows").addEventListener("dblclick", editPackage);
       byId("receiptPatientSearch").addEventListener("input", renderReceipts);
       byId("receiptByPatient").addEventListener("change", renderReceipts);
       document.querySelectorAll("input[name='receiptType']").forEach((radio) => radio.addEventListener("change", renderReceipts));
@@ -2103,9 +2435,12 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       byId("insuranceNew").addEventListener("click", () => openInsuranceDialog("new"));
       byId("insuranceEdit").addEventListener("click", () => openInsuranceDialog("edit"));
       byId("insuranceDelete").addEventListener("click", deleteInsurance);
+      byId("packageNew").addEventListener("click", addPackage);
+      byId("packageEdit").addEventListener("click", editPackage);
+      byId("packageDelete").addEventListener("click", deletePackage);
       byId("addReceipt").addEventListener("click", () => {
         byId("receiptForm").reset();
-        byId("receiptForm").elements.date.value = "21/05/2026";
+        byId("receiptForm").elements.date.value = "22/05/2026";
         openModal("receiptModal");
       });
       byId("newAppointment").addEventListener("click", () => {
@@ -2114,12 +2449,36 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
         openModal("appointmentModal");
       });
       byId("dayGrid").addEventListener("dblclick", (event) => {
+        if (event.target.closest(".appointment-card")) return;
         const slot = event.target.closest(".slot");
         if (!slot) return;
         byId("appointmentForm").reset();
         byId("appointmentForm").elements.doctor.value = slot.dataset.doctor;
         byId("appointmentForm").elements.time.value = slot.dataset.time;
         openModal("appointmentModal");
+      });
+      byId("dayGrid").addEventListener("contextmenu", (event) => {
+        const card = event.target.closest(".appointment-card");
+        if (!card) return;
+        showAppointmentMenu(event, card);
+      });
+      byId("dayGrid").addEventListener("click", (event) => {
+        const card = event.target.closest(".appointment-card");
+        if (!card) return;
+        showAppointmentMenu(event, card);
+      });
+      byId("appointmentMenu").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-appt-action]");
+        if (!button) return;
+        handleAppointmentAction(button.dataset.apptAction);
+      });
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".appointment-menu") && !event.target.closest(".appointment-card")) hideAppointmentMenu();
+      });
+      byId("appointmentsScreen").addEventListener("scroll", hideAppointmentMenu, true);
+      document.querySelector(".schedule-close").addEventListener("click", () => activateView("patients"));
+      document.querySelector(".connect-devices").addEventListener("click", () => {
+        document.querySelector(".connected").textContent = "Phone Connected";
       });
       document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
       document.querySelectorAll(".modal-layer").forEach((layer) => {
@@ -2150,6 +2509,7 @@ Notes: Faculty meeting at 2:15 PM.</textarea>
       renderChrome();
       renderPatients();
       renderInsurance();
+      renderPackages();
       renderReceipts();
       renderMonth();
       seedTimeOptions();
