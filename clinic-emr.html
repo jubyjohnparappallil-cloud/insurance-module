@@ -31,6 +31,17 @@
     }
 
     html,
+    body,
+    main,
+    header,
+    nav,
+    section,
+    footer {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
     body {
       height: 100%;
     }
@@ -54,30 +65,53 @@
       cursor: pointer;
     }
 
+    input,
+    select,
+    textarea {
+      border: 1px solid #adc0cc;
+      border-radius: 2px;
+      padding: 4px 6px;
+      background: #fafbfc;
+      color: #172533;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--blue);
+      outline-offset: -1px;
+      background: #ffffff;
+    }
+
     .desktop {
       display: grid;
       grid-template-rows: auto auto auto auto 1fr auto;
+      row-gap: 0;
+      column-gap: 0;
       height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
       background: var(--panel);
       border: 1px solid #7b94a7;
       box-shadow: inset 0 1px #fff;
+      box-sizing: border-box;
     }
 
     .window-strip {
       display: grid;
       grid-template-columns: 54px 1fr auto;
       align-items: center;
-      height: 31px;
+      height: 28px;
       background: linear-gradient(#f9fcff, #d7e2ec);
       border-bottom: 1px solid var(--line-dark);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #1d3448;
     }
 
     .window-mark {
-      width: 44px;
-      height: 23px;
+      width: 40px;
+      height: 20px;
       margin-left: 6px;
       border: 1px solid #075693;
       background: linear-gradient(#127fca, #044d82);
@@ -96,23 +130,24 @@
 
     .top-tabs {
       display: flex;
-      align-items: flex-end;
-      height: 42px;
-      padding-left: 74px;
+      align-items: center;
+      height: 28px;
+      padding-left: 10px;
+      margin: 0;
       background: linear-gradient(#fbfdff, #dfe9f2);
       border-bottom: 1px solid var(--line-dark);
       gap: 1px;
     }
 
     .top-tab {
-      min-width: 82px;
-      height: 34px;
-      padding: 0 13px;
+      min-width: 70px;
+      height: 24px;
+      padding: 0 7px;
       border: 1px solid transparent;
       border-bottom: 0;
       background: transparent;
       color: #22384b;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
     }
 
@@ -125,27 +160,39 @@
 
     .ribbon {
       display: flex;
-      align-items: stretch;
-      min-height: 111px;
-      padding: 10px 11px 7px;
+      align-items: flex-start;
+      min-height: 0;
+      max-height: 50px;
+      margin: 0;
+      padding: 0 8px 0;
       background: linear-gradient(#fbfdff, #d9e6ef);
       border-bottom: 1px solid var(--line-dark);
       overflow-x: auto;
-      gap: 9px;
+      gap: 6px;
+    }
+
+    .ribbon:empty {
+      display: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sub-tabs:empty {
+      display: none;
     }
 
     .module {
       display: grid;
-      grid-template-rows: 62px 24px;
+      grid-template-rows: 34px 14px;
       justify-items: center;
       align-items: start;
-      width: 91px;
-      min-width: 91px;
+      width: 58px;
+      min-width: 58px;
       border: 0;
       background: transparent;
       color: #2c3e4f;
       text-align: center;
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 700;
     }
 
@@ -153,8 +200,8 @@
       position: relative;
       display: grid;
       place-items: center;
-      width: 78px;
-      height: 60px;
+      width: 38px;
+      height: 30px;
       border: 1px solid #8cd28f;
       background: linear-gradient(#22d22d, #0daf16);
       box-shadow: inset 0 1px rgba(255,255,255,0.35), 0 1px 3px rgba(32, 57, 75, 0.22);
@@ -167,9 +214,10 @@
     }
 
     .module-label {
-      line-height: 1.05;
-      padding-top: 6px;
+      line-height: 1.1;
+      padding-top: 2px;
       white-space: normal;
+      font-size: 9px;
     }
 
     .glyph {
@@ -370,23 +418,24 @@
     .sub-tabs {
       display: flex;
       align-items: flex-end;
-      height: 29px;
-      padding-left: 12px;
+      height: 20px;
+      padding: 0 8px;
+      margin: 0;
       background: #dce6ef;
       border-bottom: 1px solid var(--line-dark);
       gap: 1px;
     }
 
     .sub-tab {
-      min-width: 110px;
-      height: 27px;
-      padding: 0 12px;
+      min-width: 86px;
+      height: 20px;
+      padding: 0 7px;
       border: 1px solid #adbcc8;
       border-bottom: 0;
-      border-radius: 4px 12px 0 0;
+      border-radius: 4px 10px 0 0;
       background: linear-gradient(#edf3f8, #d5e0e9);
       color: #2e4252;
-      font-size: 12px;
+      font-size: 10px;
       font-weight: 650;
     }
 
@@ -397,30 +446,40 @@
 
     .content {
       position: relative;
-      min-height: 0;
       overflow: hidden;
       background: #edf3f7;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      align-self: stretch;
     }
 
     .screen {
       display: none;
-      grid-template-rows: auto auto 1fr;
-      height: 100%;
-      min-height: 0;
     }
 
     .screen.active {
       display: grid;
+      grid-template-rows: auto auto 1fr;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 0;
     }
 
     .screen-title {
-      height: 36px;
+      height: 26px;
       display: flex;
       align-items: center;
-      padding: 0 9px;
+      padding: 0 8px;
+      margin: 0;
       background: linear-gradient(90deg, var(--blue), #0067d3);
       color: #fff;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 800;
       border-bottom: 1px solid #004f9d;
     }
@@ -434,8 +493,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      min-height: 48px;
-      padding: 7px 9px;
+      min-height: 34px;
+      padding: 3px 8px;
+      margin: 0;
       background: linear-gradient(#f8fbfd, #e0e9f1);
       border-bottom: 1px solid var(--line);
       overflow-x: auto;
@@ -448,9 +508,9 @@
 
     .tool-button,
     .small-button {
-      height: 33px;
-      min-width: 73px;
-      padding: 0 11px;
+      height: 30px;
+      min-width: 70px;
+      padding: 0 10px;
       border: 1px solid #9aaab7;
       border-radius: 2px;
       background: linear-gradient(#ffffff, #dbe4ec);
@@ -460,9 +520,9 @@
     }
 
     .small-button {
-      min-width: 32px;
-      height: 28px;
-      padding: 0 8px;
+      min-width: 30px;
+      height: 26px;
+      padding: 0 6px;
     }
 
     .tool-button:hover,
@@ -555,6 +615,7 @@
 
     .grid-shell {
       min-height: 0;
+      height: 100%;
       overflow: auto;
       background: #f5f8fa;
     }
@@ -1091,8 +1152,8 @@
     }
 
     .dialog {
-      width: min(91vw, 1100px);
-      max-height: 91vh;
+      width: min(95vw, 1200px);
+      max-height: 92vh;
       display: grid;
       grid-template-rows: auto auto 1fr auto;
       background: #edf2f6;
@@ -1157,21 +1218,27 @@
 
     .patient-form-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1.35fr 250px;
-      gap: 16px;
+      grid-template-columns: minmax(280px, 1fr) minmax(380px, 1.3fr) 260px;
+      gap: 18px;
+      align-items: start;
     }
 
     .form-col {
       display: grid;
-      gap: 9px;
+      gap: 10px;
       align-content: start;
+    }
+
+    .form-col:last-child {
+      grid-row: 1 / span 1;
     }
 
     .field-row {
       display: grid;
-      grid-template-columns: 138px 1fr;
+      grid-template-columns: 120px 1fr;
       align-items: center;
       gap: 8px;
+      font-size: 13px;
     }
 
     .field-row label,
@@ -1180,9 +1247,15 @@
       color: #172b3b;
     }
 
+    .field-row input,
+    .field-row select,
+    .field-row textarea {
+      min-height: 26px;
+    }
+
     .field-row input.required,
     .field-row select.required {
-      background: var(--field);
+      background: var(--field) !important;
     }
 
     .field-row .readonly {
@@ -1192,22 +1265,31 @@
 
     .combo-row {
       display: grid;
-      grid-template-columns: 1fr 80px;
+      grid-template-columns: 1fr 70px;
       gap: 6px;
+      align-items: center;
     }
 
     .inline-fields {
       display: grid;
-      grid-template-columns: 1fr 72px 1fr 72px 1fr 72px;
+      grid-template-columns: 1fr 55px 1fr 55px 1fr 40px;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       font-weight: 800;
+      font-size: 12px;
     }
 
     .inline-fields input {
       text-align: center;
       font-weight: 900;
       background: var(--field);
+      font-size: 13px;
+      padding: 3px 4px;
+    }
+
+    .inline-fields span {
+      font-size: 11px;
+      text-align: center;
     }
 
     .flags-row {
@@ -1220,20 +1302,22 @@
     }
 
     .photo-box {
-      height: 250px;
-      border: 1px solid #7f929f;
+      height: 200px;
+      border: 2px solid #7f929f;
       background: linear-gradient(#f8fafc, #e9eef3);
+      margin-bottom: 10px;
     }
 
     .patient-info-button {
       display: grid;
       place-items: center;
-      height: 60px;
+      height: 50px;
       border: 1px solid #9aaab7;
       background: linear-gradient(#fff, #dce5ec);
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 900;
       color: #173248;
+      padding: 0 10px;
     }
 
     .read-eid {
@@ -1642,6 +1726,7 @@
               </div>
               <div class="field-row"><label for="pDob">DOB</label><div class="inline-fields"><input id="pDob" name="dob" value="22/May/2026"><span>Years</span><input id="pYears" name="years" readonly><span>Months</span><input id="pMonths" name="months" readonly><span>Days</span><input id="pDays" name="days" readonly></div></div>
               <div class="field-row"><label for="pGender">Gender</label><select id="pGender" class="required" name="gender" required><option>Male</option><option>Female</option></select></div>
+              <div class="field-row"><label for="pRegDate">Reg Date</label><input id="pRegDate" name="regDate" value="22-05-2026"></div>
               <div class="field-row"><label for="pReligion">Religion</label><select id="pReligion" name="religion"><option>Not Specified</option><option>Hindu</option><option>Muslim</option><option>Christian</option><option>Other</option></select></div>
               <div class="field-row"><label for="pEmail">E-mail</label><input id="pEmail" name="email" type="email"></div>
               <div class="field-row"><label for="pPassport">Passport No</label><div class="combo-row"><input id="pPassport" name="passport"><select id="pMarital" name="marital"><option></option><option>Single</option><option>Married</option></select></div></div>

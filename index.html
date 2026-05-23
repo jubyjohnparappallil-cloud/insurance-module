@@ -54,10 +54,31 @@
       cursor: pointer;
     }
 
+    input,
+    select,
+    textarea {
+      border: 1px solid #adc0cc;
+      border-radius: 2px;
+      padding: 4px 6px;
+      background: #fafbfc;
+      color: #172533;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--blue);
+      outline-offset: -1px;
+      background: #ffffff;
+    }
+
     .desktop {
       display: grid;
-      grid-template-rows: auto auto auto auto 1fr auto;
+      grid-template-rows: auto auto auto auto auto 1fr auto;
       height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
       background: var(--panel);
       border: 1px solid #7b94a7;
       box-shadow: inset 0 1px #fff;
@@ -409,20 +430,293 @@
 
     .content {
       position: relative;
-      min-height: 0;
       overflow: hidden;
       background: #edf3f7;
+      height: 100%;
     }
 
     .screen {
       display: none;
-      grid-template-rows: auto auto 1fr;
-      height: 100%;
-      min-height: 0;
     }
 
     .screen.active {
       display: grid;
+      grid-template-rows: auto auto 1fr;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    #appointmentsScreen.active {
+      grid-template-rows: 1fr;
+    }
+
+    .appt-toolbar-row1 {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 34px;
+      padding: 3px 8px;
+      background: linear-gradient(#f8fbfd, #e0e9f1);
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+      white-space: nowrap;
+      flex-wrap: nowrap;
+    }
+
+    .appt-toolbar-spacer {
+      flex: 1 1 auto;
+    }
+
+    .appt-legend-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      min-height: 24px;
+      padding: 2px 8px;
+      background: #edf4f9;
+      border-bottom: 1px solid #c5d1da;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+
+    .appt-legend-spacer {
+      flex: 1 1 auto;
+    }
+
+    .appt-filter-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 28px;
+      padding: 2px 8px;
+      background: linear-gradient(#f8fbfd, #e8eff5);
+      border-bottom: 1px solid #c5d1da;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+
+    .appt-filter-spacer {
+      flex: 1 1 auto;
+    }
+
+    .appt-count {
+      padding: 1px 4px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #1b2f41;
+    }
+
+    .view-tab {
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      border: 1px solid #b0bec8;
+      border-radius: 2px;
+      background: linear-gradient(#fff, #e8eff5);
+      color: #1b2f41;
+      cursor: pointer;
+    }
+
+    .view-tab.active {
+      background: linear-gradient(#20d62a, #0ba713);
+      border-color: #078d0f;
+      color: #fff;
+    }
+
+    .band-pill {
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      border-radius: 2px;
+    }
+
+    .band-pill.consultation { background: #0c8a1a; }
+    .band-pill.package      { background: #0c55bc; }
+    .band-pill.treatment    { background: #c8a800; }
+    .band-pill.others       { background: #8b1a8b; }
+
+    .legend.checkout { background: #00897b; }
+    .legend.triage   { background: #e65100; }
+    .legend.blocked  { background: #2c3e50; }
+
+    /* ── Appointment dialog ─────────────────────────────────────────── */
+    .appt-dialog {
+      width: min(92vw, 560px);
+      max-height: 92vh;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .appt-dialog-title {
+      background: linear-gradient(90deg, #1a5cbf, #2266d2);
+    }
+
+    .appt-dialog-body {
+      padding: 10px 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .appt-form-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 26px;
+    }
+
+    .appt-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1b2f41;
+      white-space: nowrap;
+      min-width: 82px;
+    }
+
+    .appt-duration-btn {
+      height: 24px;
+      padding: 0 8px;
+      border: 1px solid #0a5fa0;
+      background: linear-gradient(#1a7ad4, #0a5fa0);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 2px;
+      white-space: nowrap;
+      margin-left: 6px;
+    }
+
+    .appt-dur-pills {
+      display: flex;
+      gap: 2px;
+      margin-left: 4px;
+    }
+
+    .appt-dur-pill {
+      height: 22px;
+      min-width: 26px;
+      padding: 0 4px;
+      border: 1px solid #9aaab7;
+      background: linear-gradient(#fff, #dbe4ec);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 2px;
+    }
+
+    .appt-dur-pill:hover {
+      background: linear-gradient(#e0f0ff, #b8d4ee);
+    }
+
+    .appt-body-grid {
+      display: grid;
+      grid-template-columns: 1fr 130px;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .appt-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .appt-del-btn {
+      height: 24px;
+      width: 24px;
+      padding: 0;
+      border: 1px solid #c00;
+      background: #e01b36;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .appt-new-btn {
+      background: linear-gradient(#20d62a, #0ba713);
+      border-color: #078d0f;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .appt-purpose {
+      border: 1px solid #b4c2cc;
+      background: #f4f8fb;
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .appt-purpose-title {
+      font-size: 12px;
+      font-weight: 900;
+      color: #1b2f41;
+      margin-bottom: 2px;
+    }
+
+    .appt-purpose-item {
+      font-size: 12px;
+    }
+
+    .appt-tabs-bar {
+      display: flex;
+      gap: 1px;
+      border-bottom: 1px solid #b4c2cc;
+      margin-top: 4px;
+    }
+
+    .appt-tab {
+      height: 26px;
+      padding: 0 14px;
+      border: 1px solid #b4c2cc;
+      border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+      background: linear-gradient(#edf3f8, #d5e0e9);
+      font-size: 12px;
+      font-weight: 700;
+      color: #2e4252;
+    }
+
+    .appt-tab.active {
+      background: #fff;
+      color: #0a3d6b;
+    }
+
+    .appt-tab-body {
+      border: 1px solid #b4c2cc;
+      border-top: 0;
+      min-height: 50px;
+      background: #fafcfd;
+    }
+
+    .appt-tab-panel {
+      display: none;
+      padding: 6px;
+    }
+
+    .appt-tab-panel.active {
+      display: block;
+    }
+
+    .appt-item-row {
+      display: flex;
+      align-items: center;
+    }
+
+    .appt-add-btn {
+      background: linear-gradient(#20d62a, #0ba713);
+      border-color: #078d0f;
+      color: #fff;
+      font-weight: 800;
     }
 
     .screen-title {
@@ -567,6 +861,7 @@
 
     .grid-shell {
       min-height: 0;
+      height: 100%;
       overflow: auto;
       background: #f5f8fa;
     }
@@ -705,49 +1000,67 @@
 
     .appointment-layout {
       display: grid;
-      grid-template-columns: 190px 1fr;
+      grid-template-columns: 160px 1fr;
       min-height: 0;
       height: 100%;
       overflow: hidden;
     }
 
-    .appointment-side {
-      display: grid;
-      grid-template-rows: auto auto 1fr;
-      min-height: 0;
-      border-right: 1px solid var(--line);
-      background: #e7eef4;
-    }
-
     .month-box {
-      padding: 7px;
+      padding: 4px 3px;
       border-bottom: 1px solid var(--line);
     }
 
     .month-head {
-      display: grid;
-      grid-template-columns: 24px 1fr 24px;
+      display: flex;
       align-items: center;
-      gap: 3px;
-      margin-bottom: 5px;
-      font-size: 12px;
+      justify-content: center;
+      gap: 1px;
+      margin-bottom: 3px;
+      font-size: 10px;
       font-weight: 800;
       text-align: center;
+    }
+
+    .month-head span {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .month-head .small-button {
+      min-width: 16px;
+      height: 16px;
+      padding: 0 2px;
+      font-size: 9px;
     }
 
     .month-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      font-size: 11px;
+      gap: 0;
+      font-size: 10px;
       text-align: center;
     }
 
     .month-grid span {
-      height: 19px;
+      height: 16px;
       display: grid;
       place-items: center;
       border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    .month-grid span:hover:not(.cal-label) {
+      background: #d0e8f5;
+    }
+
+    .month-grid .cal-label {
+      font-weight: 900;
+      color: #4a6070;
+      cursor: default;
+      font-size: 9px;
     }
 
     .month-grid .today {
@@ -756,16 +1069,39 @@
       font-weight: 900;
     }
 
+    .month-grid .cal-selected {
+      background: #0c7ad4;
+      color: #fff;
+      font-weight: 900;
+      border-color: #0a5fa0;
+    }
+
+    .appointment-side {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      min-height: 0;
+      border-right: 1px solid var(--line);
+      background: #e7eef4;
+      overflow-y: auto;
+    }
+
     .appointment-actions {
       display: grid;
-      gap: 4px;
-      padding: 8px;
+      gap: 1px;
+      padding: 3px 4px;
       border-bottom: 1px solid var(--line);
     }
 
     .appointment-actions .tool-button {
-      height: 27px;
+      height: 20px;
       text-align: left;
+      font-size: 10px;
+      padding: 0 4px;
+      min-width: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      font-weight: 700;
     }
 
     .connected {
@@ -878,9 +1214,11 @@
 
     .day-grid {
       display: grid;
-      grid-template-columns: 58px repeat(6, minmax(178px, 1fr));
-      min-width: 1120px;
-      font-size: 11px;
+      grid-template-columns: 55px repeat(11, 1fr);
+      min-width: 1400px;
+      font-size: 9px;
+      border-top: 1px solid #90a0ac;
+      border-left: 1px solid #90a0ac;
     }
 
     .time-head,
@@ -888,87 +1226,148 @@
       position: sticky;
       top: 0;
       z-index: 2;
-      display: grid;
-      place-items: center;
-      height: 43px;
-      border: 1px solid #b8c6d0;
-      background: linear-gradient(#f9fbfd, #dbe5ed);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      border-right: 1px solid #90a0ac;
+      border-bottom: 2px solid #708090;
+      background: linear-gradient(#e8eef4, #d0dce8);
       font-weight: 900;
+      font-size: 10px;
+      text-align: center;
+      line-height: 1.1;
+      color: #1a3040;
     }
 
     .time-cell {
-      height: 28px;
-      border: 1px solid #d4dde4;
-      background: #eef4f8;
-      color: #5b6874;
-      padding: 4px;
+      height: 25px;
+      border-right: 1px solid #90a0ac;
+      border-bottom: none;
+      background: #f0f4f8;
+      color: #2a4050;
+      padding: 0 4px;
       text-align: right;
+      font-size: 9px;
+      white-space: nowrap;
+      font-weight: 700;
+      line-height: 25px;
+    }
+
+    .time-cell.hour-mark {
+      border-bottom: 1px solid #90a0ac;
+      font-weight: 900;
+      font-size: 10px;
     }
 
     .slot {
       position: relative;
-      height: 28px;
-      border: 1px solid #d4dde4;
-      background: #fbfdff;
+      min-height: 25px;
+      border-right: 1px solid #90a0ac;
+      border-bottom: none;
+      background: #ffffff;
+    }
+
+    .slot.hour-mark {
+      border-bottom: 1px solid #90a0ac;
     }
 
     .slot:hover {
-      background: #eff8ff;
+      background: #eef5fc;
+    }
+
+    .next-appt-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 500px;
+      background: transparent;
+      border-left: 1px solid #333;
+      border-right: 1px solid #333;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      overflow: visible;
+      box-sizing: border-box;
+      padding: 4px 2px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .next-appt-placeholder::after {
+      content: "Next Appointment";
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-size: 9px;
+      font-weight: 800;
+      color: #222;
+      letter-spacing: 0.3px;
+    }
+
+    .slot-col-empty {
+      position: relative;
+      border-right: 1px solid #90a0ac;
+      padding: 3px;
+      background: #ffffff;
     }
 
     .appointment-card {
-      position: absolute;
-      left: 8px;
-      right: 8px;
-      top: 4px;
-      min-height: 86px;
-      padding: 16px 8px 6px;
-      border-right: 6px solid #0953bc;
-      background: #b9d9f3;
-      color: #18344d;
-      box-shadow: 0 1px 2px rgba(21, 38, 54, 0.18);
-      font-size: 11px;
-      line-height: 1.28;
+      position: relative;
+      left: 0;
+      right: 0;
+      min-height: 25px;
+      padding: 2px 3px;
+      border-left: 4px solid #0953bc;
+      background: #cce5f8;
+      color: #0a2540;
+      font-size: 8px;
+      line-height: 1.2;
       overflow: hidden;
-      z-index: 1;
-      text-align: center;
+      z-index: 2;
       cursor: context-menu;
     }
 
     .appointment-card strong {
       display: block;
-      font-size: 11px;
-      margin-bottom: 2px;
+      font-size: 9px;
+      font-weight: 900;
+      margin-bottom: 0;
+      color: #c00;
     }
 
     .appointment-card .appt-phone {
       display: block;
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 1px;
+      font-size: 8px;
+      color: #0a2540;
     }
 
     .appointment-card.arrived {
-      border-right-color: #0da818;
+      border-left-color: #0da818;
       background: #c8e6c9;
     }
 
     .appointment-card.consulted {
-      border-right-color: #0067d3;
-      background: #b9d9f3;
+      border-left-color: #0067d3;
+      background: #d6eaf8;
     }
 
     .appointment-card.cancelled {
-      border-right-color: #d00000;
+      border-left-color: #d00000;
       background: #ffe7e8;
     }
 
     .appointment-card.confirmed {
-      border-right-color: #e0ca00;
-      background: #fff7ac;
+      border-left-color: #e0ca00;
+      background: #fff9c4;
     }
 
     .appointment-card.noshow {
-      border-right-color: #777;
+      border-left-color: #777;
       background: #eeeeee;
     }
 
@@ -1103,8 +1502,8 @@
     }
 
     .dialog {
-      width: min(91vw, 1100px);
-      max-height: 91vh;
+      width: min(95vw, 1200px);
+      max-height: 92vh;
       display: grid;
       grid-template-rows: auto auto 1fr auto;
       background: #edf2f6;
@@ -1183,103 +1582,81 @@
 
     .patient-form-grid {
       display: grid;
-      /* make columns fixed to ensure alignment and avoid overflow */
-      grid-template-columns: 420px 420px 220px;
-      gap: 14px;
+      grid-template-columns: 1fr 1fr 160px;
+      gap: 4px 16px;
       align-items: start;
-      column-gap: 18px;
     }
 
     #patientModal .dialog {
-      /* widen dialog to match screenshot while preventing overflow */
-      width: min(98vw, 1160px);
+      width: min(98vw, 1000px);
       max-height: 94vh;
     }
 
     .patient-form-grid .form-col:last-child {
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 8px;
+      grid-template-rows: auto auto;
+      gap: 6px;
       justify-items: center;
     }
 
     .photo-box {
-      width: 190px;
-      height: 200px;
+      width: 150px;
+      height: 120px;
       border: 1px solid #7f929f;
       background: linear-gradient(#f8fafc, #e9eef3);
-      border-radius: 4px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      border-radius: 2px;
     }
 
     .patient-info-button {
-      width: 190px;
-      height: 52px;
-      align-self: center;
+      width: 150px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #9aaab7;
+      background: linear-gradient(#fff, #dce5ec);
+      font-size: 12px;
+      font-weight: 900;
+      color: #173248;
     }
 
     #patientModal .dialog-body {
       background: #f7fff7;
+      padding: 10px 14px;
     }
 
     .form-col {
       display: grid;
-      gap: 10px;
+      gap: 3px;
       align-content: start;
     }
 
     .field-row {
       display: grid;
-      /* slightly wider label column for consistent alignment */
-      grid-template-columns: 170px 1fr;
+      grid-template-columns: 95px 1fr;
       align-items: center;
-      gap: 10px;
-      min-height: 36px;
-    }
-
-    .field-row.passport-marital {
-      grid-template-columns: 170px 175px 120px minmax(150px, 1fr);
-      align-items: center;
-      gap: 10px;
-    }
-
-    .field-row.passport-marital .field-label {
-      justify-self: start;
-      padding-left: 8px;
-      padding-right: 0;
-      font-size: 13px;
-      color: #172b3b;
-    }
-
-    .field-row.passport-marital input,
-    .field-row.passport-marital select {
-      width: 100%;
-    }
-
-    .field-row.dob-row {
-      grid-template-columns: 170px 190px 48px 60px 48px 60px 48px 60px;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .field-row.dob-row .small-label {
-      color: #172b3b;
-      font-weight: 800;
+      gap: 4px;
       font-size: 12px;
-      justify-self: start;
-      padding-left: 6px;
-      white-space: nowrap;
+      min-height: 24px;
     }
 
-    .field-row.dob-row input {
-      width: 100%;
-      height: 30px;
-      min-width: 0;
-    }
-
+    .field-row.passport-marital,
+    .field-row.dob-row,
     .field-row.gender-reg {
-      grid-template-columns: 170px 190px 110px minmax(140px, 1fr);
+      grid-template-columns: 95px 1fr;
       align-items: center;
+      gap: 4px;
+      min-height: 24px;
+    }
+
+    .field-row input.required,
+    .field-row select.required {
+      background: var(--field) !important;
+    }
+
+    .field-row .readonly {
+      background: linear-gradient(90deg, #31e15a, #18d430);
+      font-weight: 900;
+    }
       gap: 10px;
     }
 
@@ -1294,14 +1671,54 @@
       font-weight: 800;
       color: #172b3b;
       text-align: right;
-      padding-right: 8px;
+      padding-right: 4px;
       white-space: nowrap;
       line-height: 1;
+      font-size: 11px;
+    }
+
+    .field-row input,
+    .field-row select,
+    .field-row textarea {
+      min-height: 22px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 3px 5px;
+      height: 24px;
+      border: none;
+      border-bottom: 1px solid #888;
+      border-radius: 0;
+      background: #fff;
+      font-weight: 700;
+      color: #142a3b;
+      font-size: 11px;
+      box-shadow: none;
+    }
+
+    .field-row input:focus,
+    .field-row select:focus,
+    .field-row textarea:focus {
+      border-bottom-color: #0066cc;
+      outline: none;
+      background: #fff;
     }
 
     .field-row input.required,
     .field-row select.required {
-      background: var(--field);
+      background: linear-gradient(90deg, #e8f5a0, #d4e88a) !important;
+      border-bottom: 1px solid #888;
+    }
+
+    .field-row .readonly {
+      background: linear-gradient(90deg, #31e15a, #18d430) !important;
+      color: #fff;
+      font-weight: 900;
+      border-bottom: 1px solid #0a7b15;
+    }
+
+    .field-row input.required,
+    .field-row select.required {
+      background: var(--field) !important;
     }
 
     .field-row .readonly {
@@ -1311,8 +1728,9 @@
 
     .combo-row {
       display: grid;
-      grid-template-columns: 1fr 80px;
+      grid-template-columns: 1fr 70px;
       gap: 6px;
+      align-items: center;
     }
 
     .field-row input,
@@ -1391,27 +1809,29 @@
 
     .inline-fields {
       display: grid;
-      grid-template-columns: 1fr 48px 1fr 48px 1fr 48px;
+      grid-template-columns: 1fr 55px 1fr 55px 1fr 40px;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       font-weight: 800;
+      font-size: 12px;
     }
 
     .inline-fields input {
       text-align: center;
       font-weight: 900;
       background: var(--field);
-      height: 26px;
-      padding: 4px 6px;
+      height: 24px;
+      padding: 3px 4px;
       border-radius: 3px;
+      font-size: 13px;
     }
 
     .inline-fields span {
       display: block;
-      text-align: left;
+      text-align: center;
       font-weight: 800;
-      padding-left: 6px;
-      font-size: 12px;
+      font-size: 11px;
+      white-space: nowrap;
     }
 
     .flags-row {
@@ -1609,56 +2029,95 @@
       </section>
 
       <section class="screen" id="appointmentsScreen" aria-label="Appointments">
-        <div class="screen-title">Appointments</div>
-        <div class="toolbar">
-          <button class="small-button" type="button" id="prevDay">&lt;</button>
-          <button class="small-button" type="button" id="nextDay">&gt;</button>
-          <input id="appointmentDate" type="text" value="22/May/2026" style="width: 130px">
-          <button class="small-button" type="button">#</button>
-          <input id="appointmentSearch" type="search" placeholder="Search" style="width: 230px">
-          <button class="tool-button primary" type="button" id="newAppointment">New</button>
-          <span class="spacer"></span>
-          <label class="check-radio"><input type="checkbox">Hide Cancelled</label>
-          <label class="check-radio"><input type="checkbox">View Blocked</label>
-          <label class="check-radio">View <input type="radio" name="apptView" checked>All</label>
-          <label class="check-radio"><input type="radio" name="apptView">Rooms</label>
-          <label class="check-radio"><input type="radio" name="apptView">All Faculties</label>
-        </div>
+        <!-- Main Content: Calendar sidebar + (toolbar + legend + filter + grid) -->
         <div class="appointment-layout">
           <aside class="appointment-side">
             <div class="month-box">
-              <div class="month-head"><button class="small-button" type="button">&lt;</button><span>May 2026</span><button class="small-button" type="button">&gt;</button></div>
+              <div class="month-head">
+                <button class="small-button" type="button">&#9664;&#9664;</button>
+                <button class="small-button" type="button">&#9664;</button>
+                <span>May 2026</span>
+                <button class="small-button" type="button">&#9654;</button>
+                <button class="small-button" type="button">&#9654;&#9654;</button>
+              </div>
               <div class="month-grid" id="monthGrid"></div>
             </div>
+            <div style="display:flex;align-items:center;gap:4px;padding:4px 6px;border-bottom:1px solid var(--line);font-size:11px;font-weight:800;">
+              <span>22/May</span>
+              <button class="small-button" type="button">Clear</button>
+              <button class="small-button" type="button">Today</button>
+            </div>
             <div class="appointment-actions">
-              <button class="tool-button" type="button">Visit History</button>
-              <button class="tool-button" type="button">UnGroup</button>
-              <button class="tool-button" type="button">Print</button>
-              <button class="tool-button" type="button" id="editVisit">Edit Patient</button>
-              <button class="tool-button" type="button">Edit Visit</button>
-              <button class="tool-button" type="button">Search</button>
-              <button class="tool-button" type="button">Attachment</button>
+              <button class="tool-button" type="button">&#9654; Visit History</button>
+              <button class="tool-button" type="button">&#9654; UnGroup</button>
+              <button class="tool-button" type="button">&#9654; Print</button>
+              <button class="tool-button" type="button" id="editVisit">&#9654; Edit Patient</button>
+              <button class="tool-button" type="button">&#9654; Edit Visit</button>
+              <button class="tool-button" type="button">&#9654; Appointment Search</button>
+              <button class="tool-button" type="button">&#9654; Attachment</button>
+              <button class="tool-button" type="button" style="color:#d00000">&#9654; Error</button>
             </div>
             <div class="connected">Connected</div>
           </aside>
           <div class="schedule-wrap">
-            <div class="legend-bar">
-              <span>Booked[14]</span><span>FollowUp[0]</span>
+            <div class="appt-toolbar-row1">
+              <button class="view-tab active" type="button">Day View</button>
+              <button class="view-tab" type="button">Week View</button>
+              <button class="view-tab" type="button">Month View</button>
+              <button class="view-tab" type="button">Timeline View</button>
+              <button class="view-tab" type="button">Agenda View</button>
+              <button class="small-button" type="button" id="prevDay">&#9664;</button>
+              <button class="small-button" type="button" id="nextDay">&#9654;</button>
+              <input id="appointmentDate" type="text" value="22/May/2026" style="width:110px">
+              <button class="small-button" type="button">&#128197;</button>
+              <input id="appointmentSearch" type="search" placeholder="Search" style="width:140px;margin-left:4px">
+              <button class="tool-button primary" type="button" id="newAppointment" style="height:24px;min-width:50px;font-size:11px">New</button>
+              <span class="appt-toolbar-spacer"></span>
+              <span style="font-weight:800;font-size:10px;margin-right:3px">Band Indicator</span>
+              <span class="band-pill consultation">Consultation</span>
+              <span class="band-pill package">Package</span>
+              <span class="band-pill treatment">Treatment</span>
+              <span class="band-pill others">Others</span>
+            </div>
+            <div class="appt-legend-row">
+              <span class="appt-count">Booked[2]</span>
+              <span class="appt-count">Follow Up[0]</span>
               <span class="legend confirmed">Confirmed[0]</span>
-              <span class="legend called">Called[0]</span>
+              <span class="legend cancelled">Cancelled[0]</span>
               <span class="legend arrived">Arrived[0]</span>
-              <span>NoShow[0]</span>
-              <span>Authorized[0]</span>
+              <span class="appt-count">NoShow[0]</span>
+              <span class="appt-count">Authorized[0]</span>
               <span class="legend consulted">Consulted[0]</span>
               <span class="legend billed">Billed[0]</span>
-              <span>FOC[0]</span>
-              <span>Blocked[0]</span>
-              <span class="legend cancelled">Cancelled[0]</span>
-              <span class="legend-spacer"></span>
-              <button class="connect-devices" type="button"><span class="android-mark" aria-hidden="true"></span>Connect Devices</button>
-              <button class="schedule-close" type="button" aria-label="Close appointment view">x</button>
+              <span class="appt-count">FOC[0]</span>
+              <span class="legend blocked">Blocked[0]</span>
+              <span class="legend checkout">CheckOut[0]</span>
+              <span class="legend triage">Triage[0]</span>
+            </div>
+            <div class="appt-filter-row">
+              <label class="check-radio"><input type="checkbox" id="hideCancelled">Hide Cancelled</label>
+              <label class="check-radio"><input type="checkbox" id="viewBlocked">View Blocked</label>
+              <span style="font-weight:700;font-size:11px">View</span>
+              <label class="check-radio"><input type="radio" name="apptView" value="all" checked>All</label>
+              <label class="check-radio"><input type="radio" name="apptView" value="rooms">Rooms</label>
+              <label class="check-radio"><input type="radio" name="apptView" value="faculties">All Faculties</label>
+              <label class="check-radio"><input type="radio" name="apptView" value="therapist">Therapist</label>
+              <label class="check-radio"><input type="radio" name="apptView" value="doctors">Doctors</label>
+              <label class="check-radio"><input type="radio" name="apptView" value="width">Width</label>
+              <span class="appt-filter-spacer"></span>
+              <span style="font-weight:700;font-size:11px;margin-left:6px">View By Doctor</span>
+              <select id="viewByDoctor" style="width:120px;height:22px;font-size:11px">
+                <option>LINTU RAJAN</option><option>NEETHU DEEPAK</option><option>HISNA UVAISI</option>
+                <option>KEERTHI PURUSHOT</option><option>AMARNATH</option><option>PADMESH</option>
+                <option>ANEESH</option><option>RESHMI</option><option>LINTU</option><option>NEETHU</option><option>NOORA</option>
+              </select>
             </div>
             <div class="day-grid" id="dayGrid"></div>
+            <!-- Context menu for empty slots -->
+            <div class="appointment-menu" id="slotMenu" role="menu" aria-label="Slot actions">
+              <button class="menu-text-only menu-green" type="button" data-slot-action="new">New Appointment</button>
+            </div>
+            <!-- Context menu for existing appointments -->
             <div class="appointment-menu" id="appointmentMenu" role="menu" aria-label="Appointment actions">
               <button class="menu-text-only" type="button" data-appt-action="edit">Edit Appointment</button>
               <button class="menu-text-only" type="button" data-appt-action="Arrived">Arrived</button>
@@ -1910,10 +2369,18 @@
           </div>
         </section>
         <section class="tab-panel" id="moreDetailsPanel">
-          <div class="small-form-grid">
-            <label class="form-field">Emergency Contact<input name="emergencyContact"></label>
-            <label class="form-field">Blood Group<select name="bloodGroup"><option></option><option>A+</option><option>B+</option><option>O+</option><option>AB+</option></select></label>
-            <label class="form-field wide">Allergies<textarea name="allergies" rows="4"></textarea></label>
+          <div style="display:grid;grid-template-columns:1fr 200px;gap:16px;align-items:start">
+            <div class="form-col">
+              <div class="field-row"><label>Emergency Name</label><input name="emergencyName"></div>
+              <div class="field-row"><label>Emergency Phone</label><input name="emergencyPhone"></div>
+              <div class="field-row"><label>Relationship</label><input name="relationship"></div>
+              <div class="field-row"><label>No.of Children</label><input name="noOfChildren" type="number" value="0" style="width:60px"></div>
+              <div class="field-row"><label>EmiratesIdExpiry Date</label><div style="display:flex;gap:4px"><input name="eidExpiry" style="width:100px"><select style="width:30px;padding:0"><option></option></select></div></div>
+            </div>
+            <div style="display:grid;gap:8px;align-content:start;padding-top:4px">
+              <button class="tool-button" type="button" style="height:30px;font-size:11px">Attach Emirates Id front</button>
+              <button class="tool-button" type="button" style="height:30px;font-size:11px">Attach Emirates Id</button>
+            </div>
           </div>
         </section>
       </div>
@@ -1966,18 +2433,152 @@
   </div>
 
   <div class="modal-layer" id="appointmentModal" role="dialog" aria-modal="true" aria-labelledby="appointmentDialogTitle">
-    <form class="dialog narrow" id="appointmentForm">
-      <div class="dialog-title"><span id="appointmentDialogTitle">Appointment</span><button class="close-modal" type="button" data-close="appointmentModal">x</button></div>
-      <div class="dialog-body">
-        <div class="small-form-grid">
-          <label class="form-field">Patient<select name="mrNo" id="appointmentPatientSelect"></select></label>
-          <label class="form-field">Doctor<select name="doctor"><option>LINTU</option><option>NEETHU</option><option>anjana</option><option>RESHMI</option><option>NOORA HOSBETUM</option><option>ANJNA MADAKKAVIL</option></select></label>
-          <label class="form-field">Time<select name="time" id="appointmentTimeSelect"></select></label>
-          <label class="form-field">Status<select name="status"><option>Booked</option><option>Arrived</option><option>NoShow</option><option>Confirmed</option><option>Consulted</option><option>Cancelled</option></select></label>
-          <label class="form-field wide">Notes<input name="notes" value="Created by admin"></label>
-        </div>
+    <form class="dialog appt-dialog" id="appointmentForm">
+      <div class="dialog-title appt-dialog-title">
+        <span id="appointmentDialogTitle">Edit Appointment</span>
+        <button class="close-modal" type="button" data-close="appointmentModal">&#x2715;</button>
       </div>
-      <div class="dialog-actions">
+      <div class="dialog-body appt-dialog-body">
+
+        <!-- Row 1: Date / To Date / Recurring -->
+        <div class="appt-form-row">
+          <label class="appt-label">Date</label>
+          <input name="date" id="apptDate" value="22/05/2026" style="width:110px">
+          <select name="dateDropdown" style="width:22px;padding:0 2px;min-height:24px"></select>
+          <label class="appt-label" style="margin-left:12px">To Date</label>
+          <input name="toDate" id="apptToDate" value="22/05/2026" style="width:110px">
+          <select name="toDateDropdown" style="width:22px;padding:0 2px;min-height:24px"></select>
+          <label class="check-radio" style="margin-left:16px"><input type="checkbox" name="recurring"> Recurring</label>
+        </div>
+
+        <!-- Row 2: Start time / End time / Duration -->
+        <div class="appt-form-row">
+          <label class="appt-label">Start time</label>
+          <select name="startTime" id="apptStartTime" style="width:110px"></select>
+          <label class="appt-label" style="margin-left:8px">End time</label>
+          <select name="endTime" id="apptEndTime" style="width:110px"></select>
+          <button class="appt-duration-btn" type="button" id="apptSelectDuration">Select Duration</button>
+          <span class="appt-dur-pills" id="apptDurPills">
+            <button type="button" class="appt-dur-pill" data-min="15">15</button>
+            <button type="button" class="appt-dur-pill" data-min="30">30</button>
+            <button type="button" class="appt-dur-pill" data-min="45">45</button>
+            <button type="button" class="appt-dur-pill" data-min="60">60</button>
+            <button type="button" class="appt-dur-pill" data-min="75">75</button>
+            <button type="button" class="appt-dur-pill" data-min="90">90</button>
+            <button type="button" class="appt-dur-pill" data-min="105">105</button>
+            <button type="button" class="appt-dur-pill" data-min="120">120</button>
+          </span>
+        </div>
+
+        <!-- Main body: left fields + right purpose -->
+        <div class="appt-body-grid">
+          <div class="appt-fields">
+
+            <!-- Patient -->
+            <div class="appt-form-row">
+              <label class="appt-label">Patient</label>
+              <select name="mrNo" id="appointmentPatientSelect" style="flex:1"></select>
+              <button class="small-button" type="button" style="margin-left:4px">&#128269;</button>
+              <button class="small-button appt-new-btn" type="button" style="margin-left:4px">New</button>
+            </div>
+
+            <!-- Mobile No -->
+            <div class="appt-form-row">
+              <label class="appt-label">Mobile No <span style="color:#c00">*</span></label>
+              <input name="mobile" id="apptMobile" style="flex:1" readonly>
+            </div>
+
+            <!-- Doctor -->
+            <div class="appt-form-row">
+              <label class="appt-label">Doctor</label>
+              <select name="doctor" id="apptDoctor" style="flex:1">
+                <option>AMARNATH</option><option>ASHISH</option><option>ANEESH</option>
+                <option>RESHMI</option><option>LINTU RAJAN</option><option>LINTU</option><option>NEETHU</option>
+              </select>
+              <button class="appt-del-btn" type="button">&#128465;</button>
+            </div>
+
+            <!-- Room -->
+            <div class="appt-form-row">
+              <label class="appt-label">Room</label>
+              <select name="room" style="flex:1">
+                <option>ROOM NUMBER 1</option><option>ROOM NUMBER 2</option>
+                <option>ROOM NUMBER 3</option><option selected>ROOM NUMBER 4</option>
+              </select>
+              <button class="appt-del-btn" type="button">&#128465;</button>
+            </div>
+
+            <!-- Therapist 1 -->
+            <div class="appt-form-row">
+              <label class="appt-label">Therapist 1</label>
+              <select name="therapist1" style="flex:1">
+                <option>LINTU</option><option>NEETHU</option><option>anjana</option><option>RESHMI</option>
+              </select>
+              <button class="appt-del-btn" type="button">&#128465;</button>
+            </div>
+
+            <!-- Therapist 2 -->
+            <div class="appt-form-row">
+              <label class="appt-label">Therapist 2</label>
+              <select name="therapist2" style="flex:1">
+                <option value=""></option><option>LINTU</option><option>NEETHU</option><option>anjana</option>
+              </select>
+              <button class="appt-del-btn" type="button">&#128465;</button>
+            </div>
+
+            <!-- Remarks -->
+            <div class="appt-form-row">
+              <label class="appt-label">Remarks</label>
+              <input name="remarks" style="flex:1">
+            </div>
+
+            <!-- Notes -->
+            <div class="appt-form-row">
+              <label class="appt-label">Notes</label>
+              <input name="notes" id="apptNotes" style="flex:1" value="Created by admin">
+            </div>
+
+          </div>
+
+          <!-- Purpose checkboxes -->
+          <div class="appt-purpose">
+            <div class="appt-purpose-title">Purpose</div>
+            <label class="check-radio appt-purpose-item"><input type="checkbox" name="purposeConsultation"> Consultation</label>
+            <label class="check-radio appt-purpose-item"><input type="checkbox" name="purposePackage"> Package</label>
+            <label class="check-radio appt-purpose-item"><input type="checkbox" name="purposeTreatment"> Treatment</label>
+            <label class="check-radio appt-purpose-item"><input type="checkbox" name="purposeOthers"> Others</label>
+          </div>
+        </div>
+
+        <!-- Treatments / Packages tabs -->
+        <div class="appt-tabs-bar">
+          <button class="appt-tab active" type="button" data-appt-tab="treatments">Treatments</button>
+          <button class="appt-tab" type="button" data-appt-tab="packages">Packages</button>
+        </div>
+        <div class="appt-tab-body">
+          <div class="appt-tab-panel active" id="apptTreatmentsPanel">
+            <div class="appt-item-row">
+              <input placeholder="Code" style="width:100px">
+              <input placeholder="Name" style="flex:1;margin:0 6px">
+              <button class="small-button appt-add-btn" type="button">ADD</button>
+            </div>
+          </div>
+          <div class="appt-tab-panel" id="apptPackagesPanel">
+            <div class="appt-item-row">
+              <input placeholder="Code" style="width:100px">
+              <input placeholder="Name" style="flex:1;margin:0 6px">
+              <button class="small-button appt-add-btn" type="button">ADD</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SMS Notification -->
+        <div style="padding:6px 0 2px">
+          <label class="check-radio"><input type="checkbox" name="smsNotification"> SMS Notification</label>
+        </div>
+
+      </div>
+      <div class="dialog-actions" style="min-height:48px;padding:8px 16px">
         <button class="tool-button primary" type="submit">Save</button>
         <button class="tool-button" type="button" data-close="appointmentModal">Cancel</button>
       </div>
@@ -2035,8 +2636,8 @@
       ["Manufacture", "g-doc", "inventory"]
     ];
 
-    const doctors = ["LINTU", "NEETHU", "anjana", "RESHMI", "NOORA HOSBETUM", "ANJNA MADAKKAVIL"];
-    const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM"];
+    const doctors = ["LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "AMARNATH", "PADMESH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "NOORA"];
+    const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM"];
 
     let activeView = "patients";
     let activeMenu = "Home";
@@ -2111,9 +2712,10 @@
     ];
 
     let appointments = [
-      { mrNo: "2919", patient: "ELLIS RONTA JUDEROSHAN", mobile: "971556238838", doctor: "NEETHU", time: "9:00 AM", status: "Consulted", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
-      { mrNo: "4748", patient: "MURSHIDA SIRAJ", mobile: "971509142600", doctor: "anjana", time: "9:00 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Therapist: anjana" },
-      { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "anjana", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Package review" }
+      { mrNo: "2919", patient: "ELLIS RONITA JUDEROSHAN", mobile: "971556238838", doctor: "NEETHU", time: "9:00 AM", status: "Consulted", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
+      { mrNo: "4007", patient: "BETTY NIRU VELLICKARA VARGHESE BABY", mobile: "971502947720", doctor: "NEETHU", time: "12:00 PM", status: "Booked", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
+      { mrNo: "4748", patient: "MURSHIDA SIRAJ", mobile: "971509142600", doctor: "ANEESH", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Therapist: ANEESH" },
+      { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "ANEESH", time: "11:00 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Package review" }
     ];
 
     const byId = (id) => document.getElementById(id);
@@ -2297,29 +2899,114 @@
       renderPackages();
     }
 
+    // ── Calendar / date state ──────────────────────────────────────────────
+    const DAY_NAMES  = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const DAY_SHORT  = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const MON_NAMES  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const MON_SHORT  = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    // Current selected date (start: 21 May 2026)
+    let selectedDate = new Date(2026, 4, 22);   // month is 0-indexed
+    // Calendar display month (same as selected date's month initially)
+    let calYear  = selectedDate.getFullYear();
+    let calMonth = selectedDate.getMonth();
+
+    function fmtDateInput(d) {
+      return `${String(d.getDate()).padStart(2,"0")}/${MON_SHORT[d.getMonth()]}/${d.getFullYear()}`;
+    }
+
+    function fmtDayLabel(d) {
+      return `${d.getDate()} ${DAY_SHORT[d.getDay()]}`;
+    }
+
     function renderMonth() {
-      const labels = ["S", "M", "T", "W", "T", "F", "S"];
-      const blanks = Array(5).fill("");
-      const days = Array.from({ length: 31 }, (_, index) => String(index + 1));
-      byId("monthGrid").innerHTML = labels.concat(blanks, days).map((day) => `<span class="${day === "22" ? "today" : ""}">${day}</span>`).join("");
+      const labels = ["S","M","T","W","T","F","S"];
+      const firstDay = new Date(calYear, calMonth, 1).getDay();   // 0=Sun
+      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+      // Update month heading text
+      const heading = document.querySelector(".month-head span");
+      if (heading) heading.textContent = `${MON_NAMES[calMonth]} ${calYear}`;
+
+      let cells = labels.map(l => `<span class="cal-label">${l}</span>`);
+      // blank cells before first day
+      for (let i = 0; i < firstDay; i++) cells.push(`<span></span>`);
+      // day cells
+      for (let d = 1; d <= daysInMonth; d++) {
+        const isSelected = (d === selectedDate.getDate() && calMonth === selectedDate.getMonth() && calYear === selectedDate.getFullYear());
+        const isToday    = (d === 22 && calMonth === 4 && calYear === 2026); // today = 22 May 2026
+        cells.push(`<span class="${isSelected ? "cal-selected" : isToday ? "today" : ""}" data-day="${d}">${d}</span>`);
+      }
+      byId("monthGrid").innerHTML = cells.join("");
+    }
+
+    function setSelectedDate(d) {
+      selectedDate = d;
+      calYear  = d.getFullYear();
+      calMonth = d.getMonth();
+      byId("appointmentDate").value = fmtDateInput(d);
+      renderMonth();
+      renderSchedule();
     }
 
     function renderSchedule() {
       const query = byId("appointmentSearch").value.trim().toLowerCase();
-      let html = `<div class="time-head">Local</div>${doctors.map((doctor) => `<div class="doctor-head">${doctor}<br><span style="font-weight:600;color:#6a7883">22 Friday</span></div>`).join("")}`;
-      timeSlots.forEach((time) => {
-        html += `<div class="time-cell">${time}</div>`;
+      const cols = doctors.length;
+      const grid = byId("dayGrid");
+      grid.style.gridTemplateColumns = '55px repeat(' + cols + ', 1fr)';
+
+      const dayLabel = fmtDayLabel(selectedDate);
+      const totalRows = timeSlots.length + 1; // +1 for header
+
+      // Header row
+      let html = `<div class="time-head">Time</div>`;
+      html += doctors.map(doc =>
+        `<div class="doctor-head">${escapeHtml(doc)}<br><span style="font-weight:500;color:#6a7883;font-size:10px">${dayLabel}</span></div>`
+      ).join("");
+
+      // Track which doctor columns have appointments
+      const doctorHasAppt = {};
+      doctors.forEach(d => { doctorHasAppt[d] = false; });
+      appointments.forEach(a => { if (doctors.includes(a.doctor)) doctorHasAppt[a.doctor] = true; });
+
+      // Build column index map
+      const doctorColIndex = {};
+      doctors.forEach((d, i) => { doctorColIndex[d] = i + 2; }); // col 1 = time, col 2+ = doctors
+
+      // Render time column + all slots
+      timeSlots.forEach((time, timeIdx) => {
+        const isHourEnd = time.endsWith(":45 AM") || time.endsWith(":45 PM");
+        const hourClass = isHourEnd ? " hour-mark" : "";
+        html += `<div class="time-cell${hourClass}">${time}</div>`;
+
         doctors.forEach((doctor) => {
-          const apptIndex = appointments.findIndex((item) => item.doctor === doctor && item.time === time && (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query)));
-          const appt = appointments[apptIndex];
-          html += `<div class="slot" data-doctor="${doctor}" data-time="${time}">`;
+          const apptIndex = appointments.findIndex(item =>
+            item.doctor === doctor && item.time === time &&
+            (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query))
+          );
+          const appt = apptIndex >= 0 ? appointments[apptIndex] : null;
+
+          html += `<div class="slot${hourClass}" data-doctor="${escapeHtml(doctor)}" data-time="${escapeHtml(time)}">`;
+
           if (appt) {
-            html += `<div class="appointment-card ${statusClass(appt.status)}" data-appt-index="${apptIndex}"><strong>${escapeHtml(appt.mrNo)} ${escapeHtml(appt.patient)}</strong><span class="appt-phone">${escapeHtml(appt.mobile)}</span>Room:${escapeHtml(appt.room)}<br>Therapist: ${escapeHtml(appt.doctor)}<br><span style="font-weight:600;color:#5f6d79">admin</span><br>${escapeHtml(appt.time)}</div>`;
+            html += `<div class="appointment-card ${statusClass(appt.status)}" data-appt-index="${apptIndex}">` +
+              `<strong>${escapeHtml(appt.mrNo)} ${escapeHtml(appt.patient)}</strong>` +
+              `<span class="appt-phone">${escapeHtml(appt.mobile)}</span>` +
+              `Room: ${escapeHtml(appt.room)}<br>` +
+              `Therapist: ${escapeHtml(appt.doctor)}<br>` +
+              `<span style="font-weight:600;color:#5f6d79">Created by: admin</span><br>` +
+              `${escapeHtml(appt.time)}` +
+              `</div>`;
+          } else if (!doctorHasAppt[doctor] && timeIdx === 0) {
+            // Show "Next Appointment" overlay on first slot of empty columns
+            html += `<div class="next-appt-placeholder"></div>`;
           }
+
           html += `</div>`;
         });
       });
-      byId("dayGrid").innerHTML = html;
+
+      grid.innerHTML = html;
     }
 
     function statusClass(status) {
@@ -2329,6 +3016,43 @@
     function hideAppointmentMenu() {
       byId("appointmentMenu").classList.remove("open");
       selectedAppointmentIndex = null;
+    }
+
+    function hideSlotMenu() {
+      byId("slotMenu").classList.remove("open");
+    }
+
+    function hideAllMenus() {
+      hideAppointmentMenu();
+      hideSlotMenu();
+    }
+
+    let pendingSlotDoctor = "";
+    let pendingSlotTime = "";
+
+    function showSlotMenu(event, slot) {
+      pendingSlotDoctor = slot.dataset.doctor;
+      pendingSlotTime   = slot.dataset.time;
+      const menu = byId("slotMenu");
+      const x = Math.min(event.clientX + 4, window.innerWidth - 200);
+      const y = Math.min(event.clientY + 4, window.innerHeight - 60);
+      menu.style.left = `${Math.max(4, x)}px`;
+      menu.style.top  = `${Math.max(4, y)}px`;
+      menu.classList.add("open");
+    }
+
+    function openNewAppointmentForSlot(doctor, time) {
+      byId("appointmentForm").reset();
+      byId("apptDate").value = fmtDateInput(selectedDate);
+      byId("apptToDate").value = fmtDateInput(selectedDate);
+      if (byId("apptStartTime")) byId("apptStartTime").value = time || "9:00 AM";
+      if (byId("apptEndTime")) {
+        const startMins = apptTimeToMinutes(time || "9:00 AM");
+        byId("apptEndTime").value = minutesToApptTime(startMins + 15);
+      }
+      if (byId("apptDoctor") && doctor) byId("apptDoctor").value = doctor;
+      byId("appointmentDialogTitle").textContent = "New Appointment";
+      openModal("appointmentModal");
     }
 
     function showAppointmentMenu(event, card) {
@@ -2357,11 +3081,16 @@
       if (action === "edit") {
         const appt = appointments[selectedAppointmentIndex];
         byId("appointmentForm").reset();
-        byId("appointmentForm").elements.mrNo.value = appt.mrNo;
-        byId("appointmentForm").elements.doctor.value = appt.doctor;
-        byId("appointmentForm").elements.time.value = appt.time;
-        byId("appointmentForm").elements.status.value = appt.status;
-        byId("appointmentForm").elements.notes.value = appt.notes || "";
+        byId("appointmentDialogTitle").textContent = "Edit Appointment";
+        byId("apptDate").value = fmtDateInput(selectedDate);
+        byId("apptToDate").value = fmtDateInput(selectedDate);
+        if (byId("apptStartTime")) byId("apptStartTime").value = appt.time;
+        if (byId("apptDoctor")) byId("apptDoctor").value = appt.doctor;
+        if (byId("appointmentPatientSelect")) byId("appointmentPatientSelect").value = appt.mrNo;
+        if (byId("apptMobile")) byId("apptMobile").value = appt.mobile || "";
+        if (byId("apptNotes")) byId("apptNotes").value = appt.notes || "";
+        const roomSel = byId("appointmentForm").elements.room;
+        if (roomSel) roomSel.value = appt.room || "ROOM NUMBER 4";
         openModal("appointmentModal");
       }
       hideAppointmentMenu();
@@ -2638,23 +3367,49 @@
       event.preventDefault();
       const data = Object.fromEntries(new FormData(byId("appointmentForm")).entries());
       const patient = patients.find((item) => item.mrNo === data.mrNo);
-      appointments = appointments.filter((item) => !(item.doctor === data.doctor && item.time === data.time));
+      const time = byId("apptStartTime") ? byId("apptStartTime").value : (data.time || "9:00 AM");
+      const doctor = byId("apptDoctor") ? byId("apptDoctor").value : data.doctor;
+      const room = data.room || "ROOM NUMBER 4";
+      appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time));
       appointments.push({
         mrNo: data.mrNo,
         patient: patient ? fullName(patient) : "",
         mobile: patient?.mobile || "",
-        doctor: data.doctor,
-        time: data.time,
-        status: data.status,
-        room: "ROOM NUMBER 4",
-        notes: data.notes
+        doctor: doctor,
+        time: time,
+        status: "Booked",
+        room: room,
+        notes: data.notes || ""
       });
       closeModal("appointmentModal");
       renderSchedule();
     }
 
     function seedTimeOptions() {
-      byId("appointmentTimeSelect").innerHTML = timeSlots.map((slot) => `<option>${slot}</option>`).join("");
+      const opts = timeSlots.map(t => `<option>${t}</option>`).join("");
+      const s = byId("apptStartTime");
+      const e = byId("apptEndTime");
+      if (s) s.innerHTML = opts;
+      if (e) e.innerHTML = opts;
+      // legacy select kept for compatibility
+      const legacy = byId("appointmentTimeSelect");
+      if (legacy) legacy.innerHTML = opts;
+    }
+
+    function apptTimeToMinutes(t) {
+      const [time, period] = t.split(" ");
+      let [h, m] = time.split(":").map(Number);
+      if (period === "PM" && h !== 12) h += 12;
+      if (period === "AM" && h === 12) h = 0;
+      return h * 60 + m;
+    }
+
+    function minutesToApptTime(mins) {
+      const h24 = Math.floor(mins / 60) % 24;
+      const m   = mins % 60;
+      const period = h24 >= 12 ? "PM" : "AM";
+      const h12 = h24 % 12 || 12;
+      return `${h12}:${String(m).padStart(2,"0")} ${period}`;
     }
 
     function wireEvents() {
@@ -2708,6 +3463,55 @@
       byId("receiptByPatient").addEventListener("change", renderReceipts);
       document.querySelectorAll("input[name='receiptType']").forEach((radio) => radio.addEventListener("change", renderReceipts));
       byId("appointmentSearch").addEventListener("input", renderSchedule);
+
+      // ── Calendar navigation ──────────────────────────────────────────────
+      // Click a day in the mini calendar
+      byId("monthGrid").addEventListener("click", (event) => {
+        const span = event.target.closest("[data-day]");
+        if (!span) return;
+        const day = Number(span.dataset.day);
+        setSelectedDate(new Date(calYear, calMonth, day));
+      });
+
+      // Prev / Next day buttons (◄ ►)
+      byId("prevDay").addEventListener("click", () => {
+        const d = new Date(selectedDate);
+        d.setDate(d.getDate() - 1);
+        setSelectedDate(d);
+      });
+      byId("nextDay").addEventListener("click", () => {
+        const d = new Date(selectedDate);
+        d.setDate(d.getDate() + 1);
+        setSelectedDate(d);
+      });
+
+      // Month navigation buttons (◄◄ ◄ ► ►►)
+      const monthBtns = document.querySelectorAll(".month-head button");
+      if (monthBtns[0]) monthBtns[0].addEventListener("click", () => { calYear--;  renderMonth(); }); // ◄◄ prev year
+      if (monthBtns[1]) monthBtns[1].addEventListener("click", () => {             // ◄ prev month
+        calMonth--;
+        if (calMonth < 0) { calMonth = 11; calYear--; }
+        renderMonth();
+      });
+      if (monthBtns[2]) monthBtns[2].addEventListener("click", () => {             // ► next month
+        calMonth++;
+        if (calMonth > 11) { calMonth = 0; calYear++; }
+        renderMonth();
+      });
+      if (monthBtns[3]) monthBtns[3].addEventListener("click", () => { calYear++;  renderMonth(); }); // ►► next year
+
+      // Date input field — parse and jump to date
+      byId("appointmentDate").addEventListener("change", () => {
+        const val = byId("appointmentDate").value.trim();
+        const parts = val.split("/");
+        if (parts.length === 3) {
+          const monthIdx = MON_SHORT.indexOf(parts[1]);
+          if (monthIdx >= 0) {
+            const d = new Date(Number(parts[2]), monthIdx, Number(parts[0]));
+            if (!isNaN(d)) setSelectedDate(d);
+          }
+        }
+      });
       byId("patientNew").addEventListener("click", () => openPatientDialog("new"));
       byId("patientEdit").addEventListener("click", () => openPatientDialog("edit"));
       byId("patientDelete").addEventListener("click", deletePatient);
@@ -2726,41 +3530,103 @@
         openModal("receiptModal");
       });
       byId("newAppointment").addEventListener("click", () => {
-        byId("appointmentForm").reset();
-        byId("appointmentForm").elements.time.value = "9:00 AM";
-        openModal("appointmentModal");
+        openNewAppointmentForSlot("", "9:00 AM");
+      });
+
+      // Duration pills
+      document.querySelectorAll(".appt-dur-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const mins = Number(btn.dataset.min);
+          const startSel = byId("apptStartTime");
+          if (!startSel) return;
+          const startMins = apptTimeToMinutes(startSel.value);
+          const endTime = minutesToApptTime(startMins + mins);
+          const endSel = byId("apptEndTime");
+          if (endSel) {
+            // find closest option
+            const opt = Array.from(endSel.options).find(o => o.value === endTime);
+            if (opt) endSel.value = endTime;
+          }
+        });
+      });
+
+      // Patient select → auto-fill mobile
+      byId("appointmentPatientSelect").addEventListener("change", () => {
+        const mrNo = byId("appointmentPatientSelect").value;
+        const patient = patients.find(p => p.mrNo === mrNo);
+        const mob = byId("apptMobile");
+        if (mob) mob.value = patient ? patient.mobile : "";
+      });
+
+      // Appointment dialog tabs
+      document.querySelectorAll(".appt-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".appt-tab").forEach(t => t.classList.remove("active"));
+          document.querySelectorAll(".appt-tab-panel").forEach(p => p.classList.remove("active"));
+          tab.classList.add("active");
+          const panelId = "appt" + tab.dataset.apptTab.charAt(0).toUpperCase() + tab.dataset.apptTab.slice(1) + "Panel";
+          const panel = byId(panelId);
+          if (panel) panel.classList.add("active");
+        });
       });
       byId("dayGrid").addEventListener("dblclick", (event) => {
         if (event.target.closest(".appointment-card")) return;
         const slot = event.target.closest(".slot");
         if (!slot) return;
-        byId("appointmentForm").reset();
-        byId("appointmentForm").elements.doctor.value = slot.dataset.doctor;
-        byId("appointmentForm").elements.time.value = slot.dataset.time;
-        openModal("appointmentModal");
+        openNewAppointmentForSlot(slot.dataset.doctor, slot.dataset.time);
       });
+
+      // Right-click on empty slot → show "New Appointment" menu
       byId("dayGrid").addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        hideAllMenus();
+
         const card = event.target.closest(".appointment-card");
-        if (!card) return;
-        showAppointmentMenu(event, card);
+        if (card) {
+          // Right-click on existing appointment → show edit menu
+          showAppointmentMenu(event, card);
+          return;
+        }
+
+        const slot = event.target.closest(".slot");
+        if (slot) {
+          // Right-click on empty slot → show new appointment menu
+          showSlotMenu(event, slot);
+        }
       });
+
+      // Left-click on appointment card → show edit menu
       byId("dayGrid").addEventListener("click", (event) => {
         const card = event.target.closest(".appointment-card");
         if (!card) return;
         showAppointmentMenu(event, card);
       });
+
+      // Slot menu actions
+      byId("slotMenu").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-slot-action]");
+        if (!button) return;
+        if (button.dataset.slotAction === "new") {
+          openNewAppointmentForSlot(pendingSlotDoctor, pendingSlotTime);
+        }
+        hideAllMenus();
+      });
+
       byId("appointmentMenu").addEventListener("click", (event) => {
         const button = event.target.closest("[data-appt-action]");
         if (!button) return;
         handleAppointmentAction(button.dataset.apptAction);
       });
       document.addEventListener("click", (event) => {
-        if (!event.target.closest(".appointment-menu") && !event.target.closest(".appointment-card")) hideAppointmentMenu();
+        if (!event.target.closest(".appointment-menu") && !event.target.closest(".appointment-card") && !event.target.closest(".slot")) {
+          hideAllMenus();
+        }
       });
-      byId("appointmentsScreen").addEventListener("scroll", hideAppointmentMenu, true);
-      document.querySelector(".schedule-close").addEventListener("click", () => activateView("patients"));
-      document.querySelector(".connect-devices").addEventListener("click", () => {
-        document.querySelector(".connected").textContent = "Phone Connected";
+      byId("appointmentsScreen").addEventListener("scroll", hideAllMenus, true);
+      document.querySelector(".schedule-close")?.addEventListener("click", () => activateView("patients"));
+      document.querySelector(".connect-devices")?.addEventListener("click", () => {
+        const el = document.querySelector(".connected");
+        if (el) el.textContent = "Phone Connected";
       });
       document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
       document.querySelectorAll(".modal-layer").forEach((layer) => {
@@ -2796,10 +3662,12 @@
       renderInsurance();
       renderPackages();
       renderReceipts();
+      // initialise calendar + schedule with the selected date
+      byId("appointmentDate").value = fmtDateInput(selectedDate);
       renderMonth();
+      renderSchedule();
       seedTimeOptions();
       refreshPatientSelects();
-      renderSchedule();
       wireEvents();
     }
 
