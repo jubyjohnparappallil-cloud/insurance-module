@@ -1439,6 +1439,66 @@
     .appointment-menu .thanks { background: #05d0a8; }
     .appointment-menu .trash { background: #e01b36; }
 
+    /* Arrived menu styles */
+    .arrived-menu {
+      width: 360px !important;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 6px 0 !important;
+      background: #f5f8fa !important;
+      border-radius: 6px;
+      box-shadow: 0 6px 24px rgba(20, 37, 52, 0.32) !important;
+    }
+
+    .arrived-menu button {
+      min-height: 38px !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      padding: 0 14px !important;
+    }
+
+    .arrived-menu button:hover {
+      background: linear-gradient(90deg, #fff9c4, #fff176) !important;
+    }
+
+    .arrived-menu .menu-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 13px;
+    }
+
+    .arr-green-dark {
+      background: #2e7d32;
+      color: #fff;
+    }
+
+    .arr-green-olive {
+      background: #689f38;
+      color: #fff;
+    }
+
+    .arr-green {
+      background: #43a047;
+      color: #fff;
+    }
+
+    .arr-purple {
+      background: #8e24aa;
+      color: #fff;
+    }
+
+    .arr-orange {
+      background: #f57c00;
+      color: #fff;
+    }
+
+    .arr-red {
+      background: #d32f2f;
+      color: #fff;
+      border-radius: 4px !important;
+    }
+
     .notes-panel {
       display: grid;
       grid-template-rows: auto 1fr auto;
@@ -1952,6 +2012,534 @@
       box-shadow: 0 0 0 3px rgba(208,16,22,0.06);
       background: #fff6f6 !important;
     }
+
+    /* ── Doctors Consultation Screen ─────────────────────────────── */
+    #consultationScreen.active {
+      display: block;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: #f0f0f0;
+    }
+
+    .consult-layout {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .consult-title-bar {
+      background: linear-gradient(90deg, #1a6b1a, #2e8e2e);
+      color: #fff;
+      padding: 4px 14px;
+      font-size: 15px;
+      font-weight: 900;
+      border-bottom: 2px solid #0d5e0d;
+      height: 28px;
+      display: flex;
+      align-items: center;
+    }
+
+    .consult-date-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: #e0e0e0;
+      border-bottom: 2px solid #4caf50;
+      height: 28px;
+    }
+
+    .consult-date-bar input {
+      height: 22px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid #999;
+      padding: 0 6px;
+      width: 90px;
+      min-height: 22px;
+    }
+
+    .consult-date-bar .small-button {
+      height: 22px;
+      min-width: 22px;
+      padding: 0 4px;
+      font-size: 11px;
+    }
+
+    .consult-body {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .consult-sidebar {
+      display: flex;
+      flex-direction: column;
+      border-right: 3px solid #4caf50;
+      background: #f8f8f8;
+      overflow-y: auto;
+      font-size: 12px;
+    }
+
+    .consult-patient-card {
+      padding: 8px 8px;
+      border-bottom: 2px solid #4caf50;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background: #fff;
+    }
+
+    .consult-patient-photo {
+      width: 120px;
+      height: 110px;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      border: 2px solid #4caf50;
+      margin-bottom: 6px;
+    }
+
+    .consult-patient-name {
+      font-weight: 900;
+      font-size: 12px;
+      color: #1b5e20;
+      word-break: break-word;
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+
+    .consult-patient-detail {
+      font-size: 11px;
+      font-weight: 700;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.5;
+    }
+
+    .consult-patient-detail strong {
+      color: #1b5e20;
+      font-size: 11px;
+    }
+
+    .consult-mr-badge {
+      background: #4caf50;
+      color: #fff;
+      padding: 1px 6px;
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .consult-gender-badge {
+      background: #66bb6a;
+      color: #fff;
+      padding: 1px 5px;
+      font-size: 11px;
+    }
+
+    .consult-dob-badge {
+      background: #ffeb3b;
+      color: #333;
+      padding: 1px 5px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .consult-sidebar-date {
+      padding: 5px 8px;
+      background: #4caf50;
+      font-weight: 900;
+      font-size: 12px;
+      color: #fff;
+      border-bottom: 1px solid #388e3c;
+    }
+
+    .consult-sidebar-links {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .consult-sidebar-links button {
+      text-align: left;
+      padding: 5px 8px;
+      border: none;
+      border-bottom: 1px solid #c8e6c9;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1b5e20;
+      cursor: pointer;
+      min-height: 0;
+      height: auto;
+      line-height: 1.6;
+    }
+
+    .consult-sidebar-links button:hover,
+    .consult-sidebar-links button.active {
+      background: #c8e6c9;
+      font-weight: 900;
+    }
+
+    /* Main content area - full width */
+    .consult-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow-y: auto;
+      background: #f5f5f5;
+    }
+
+    /* Vitals + Allergies/Habits/Tabs in one row */
+    .consult-vitals {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      background: #fff;
+      border-bottom: 3px solid #4caf50;
+    }
+
+    .consult-vitals-left {
+      display: grid;
+      grid-template-rows: repeat(4, 32px);
+      border-right: 3px solid #4caf50;
+    }
+
+    .vital-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #c8e6c9;
+    }
+
+    .vital-row label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1b5e20;
+      white-space: nowrap;
+      width: 70px;
+      min-width: 70px;
+      padding: 0 5px;
+      border-right: 1px solid #c8e6c9;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .vital-row input {
+      height: 31px;
+      width: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      padding: 0 2px;
+      border: none;
+      border-right: 1px solid #c8e6c9;
+      border-radius: 0;
+      min-height: 0;
+      box-shadow: none;
+      background: #fff;
+    }
+
+    .vital-row input:focus {
+      outline: none;
+      background: #e8f5e9;
+    }
+
+    /* Right side: Allergies + Habits + Tabs */
+    .consult-vitals-right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .consult-allergy-habits {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      flex: 1;
+    }
+
+    .consult-allergy-box {
+      border-right: 2px solid #4caf50;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .consult-box-title {
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 22px;
+      min-height: 22px;
+    }
+
+    .allergy-title { background: #e53935; }
+    .habits-title { background: #fb8c00; }
+
+    .consult-box-content {
+      flex: 1;
+      padding: 3px 5px;
+      font-size: 11px;
+      background: #fff;
+    }
+
+    .consult-extra-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-width: 220px;
+    }
+
+    .consult-extra-tabs-row {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .consult-extra-tabs-row button {
+      padding: 3px 10px;
+      border: 1px solid #999;
+      border-bottom: none;
+      background: #f5f5f5;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      min-height: 0;
+      height: 26px;
+      color: #333;
+    }
+
+    .consult-extra-tabs-row button:hover {
+      background: #e8f5e9;
+    }
+
+    .consult-extra-tabs-green {
+      display: flex;
+      gap: 0;
+    }
+
+    .consult-extra-tabs-green button {
+      flex: 1;
+      padding: 3px 8px;
+      border: none;
+      background: #4caf50;
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      min-height: 0;
+      height: 24px;
+      color: #fff;
+      border-right: 1px solid #388e3c;
+    }
+
+    .consult-extra-tabs-green button:last-child {
+      border-right: none;
+    }
+
+    .consult-extra-tabs-green button:hover {
+      background: #388e3c;
+    }
+
+    .consult-extra-tabs-content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: #fff;
+    }
+
+    .consult-extra-tabs-content div {
+      border-right: 1px solid #ddd;
+      min-height: 40px;
+    }
+
+    .consult-extra-tabs-content div:last-child {
+      border-right: none;
+    }
+
+    /* Clinical notes - 6 columns in one row */
+    .consult-clinical-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border-bottom: 3px solid #4caf50;
+      flex: 1;
+      min-height: 120px;
+    }
+
+    .clinical-box {
+      border-right: 2px solid #4caf50;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .clinical-box:last-child {
+      border-right: none;
+    }
+
+    .clinical-box-title {
+      padding: 3px 6px;
+      font-size: 10px;
+      font-weight: 900;
+      background: #fff9c4;
+      color: #333;
+      border-bottom: 2px solid #4caf50;
+      min-height: 22px;
+      display: flex;
+      align-items: center;
+    }
+
+    .clinical-box textarea {
+      width: 100%;
+      flex: 1;
+      min-height: 100px;
+      border: none;
+      padding: 4px 5px;
+      font-size: 11px;
+      font-weight: 600;
+      resize: none;
+      box-sizing: border-box;
+      line-height: 1.35;
+      color: #222;
+    }
+
+    .clinical-box textarea:focus {
+      outline: none;
+      background: #f1f8e9;
+    }
+
+    /* Diagnosis + Procedure side by side */
+    .consult-diag-proc {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 0;
+      border-bottom: 3px solid #4caf50;
+    }
+
+    .consult-diagnosis {
+      border-right: 3px solid #4caf50;
+      background: #fff;
+    }
+
+    .consult-procedure {
+      background: #fff;
+    }
+
+    .consult-section-title {
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 24px;
+    }
+
+    .diag-title { background: #43a047; }
+    .proc-title { background: #ef6c00; }
+    .presc-title { background: #43a047; }
+
+    .consult-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .consult-table th {
+      height: 22px;
+      background: #e8f5e9;
+      border: 1px solid #4caf50;
+      padding: 2px 5px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #1b5e20;
+      position: static;
+      text-align: left;
+    }
+
+    .consult-table td {
+      height: 22px;
+      border: 1px solid #c8e6c9;
+      padding: 2px 5px;
+      font-size: 11px;
+      background: #fff;
+    }
+
+    .consult-table tr:nth-child(even) td {
+      background: #f1f8e9;
+    }
+
+    /* Prescription */
+    .consult-prescription {
+      background: #fff;
+      border-bottom: 3px solid #4caf50;
+    }
+
+    .consult-table td[contenteditable="true"] {
+      cursor: text;
+    }
+
+    .consult-table td[contenteditable="true"]:focus {
+      outline: none;
+      background: #e8f5e9;
+    }
+
+    [contenteditable="true"]:focus {
+      outline: 1px solid #4caf50;
+      background: #f1f8e9;
+    }
+
+    .consult-total {
+      text-align: right;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #1b5e20;
+      border-top: 1px solid #c8e6c9;
+      background: #f1f8e9;
+    }
+
+    /* Footer with Save/Cancel */
+    .consult-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0;
+      padding: 0;
+      height: 34px;
+      background: #e0e0e0;
+    }
+
+    .consult-footer .tool-button {
+      min-width: 90px;
+      height: 34px;
+      border-radius: 0;
+      border: none;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: none;
+    }
+
+    .consult-footer .tool-button.primary {
+      background: #4caf50;
+      color: #fff;
+    }
+
+    .consult-footer .consult-cancel-btn {
+      background: #00838f;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -2116,6 +2704,7 @@
             <!-- Context menu for empty slots -->
             <div class="appointment-menu" id="slotMenu" role="menu" aria-label="Slot actions">
               <button class="menu-text-only menu-green" type="button" data-slot-action="new">New Appointment</button>
+              <button class="menu-text-only" type="button" data-slot-action="edit">Edit Appointment</button>
             </div>
             <!-- Context menu for existing appointments -->
             <div class="appointment-menu" id="appointmentMenu" role="menu" aria-label="Appointment actions">
@@ -2133,6 +2722,28 @@
               <button class="menu-danger" type="button" data-appt-action="delete"><span class="menu-icon trash">x</span>Delete Appointment</button>
               <button class="menu-text-only" type="button" data-appt-action="therapist">Change Therapist NEETHU</button>
               <button class="menu-text-only" type="button" data-appt-action="room">Change Room ROOM NUMBER 4</button>
+            </div>
+            <!-- Context menu for arrived appointments -->
+            <div class="appointment-menu arrived-menu" id="arrivedMenu" role="menu" aria-label="Arrived appointment actions">
+              <button class="menu-text-only" type="button" data-arrived-action="new">New Appointment</button>
+              <button class="menu-text-only" type="button" data-arrived-action="invoice">CreateInvoice</button>
+              <button class="menu-text-only" type="button" data-arrived-action="checkout">CheckOut</button>
+              <button type="button" data-arrived-action="visitNotes"><span class="menu-icon arr-green-dark">&#9998;</span>Visit Notes</button>
+              <button type="button" data-arrived-action="attachment"><span class="menu-icon arr-green-olive">&#128206;</span>Attachment</button>
+              <button type="button" data-arrived-action="doctorsConsultation"><span class="menu-icon arr-green">&#9679;</span>Doctors Consultation</button>
+              <button type="button" data-arrived-action="nutritionConsultation"><span class="menu-icon arr-green">&#9679;</span>Nutrition Consultation</button>
+              <button type="button" data-arrived-action="generateConsent"><span class="menu-icon arr-green">&#9679;</span>Generate Patient Consent</button>
+              <button type="button" data-arrived-action="createReceipt"><span class="menu-icon arr-green">&#9679;</span>Create Receipt</button>
+              <button type="button" data-arrived-action="paymentHistory"><span class="menu-icon arr-green">&#9679;</span>Payment history</button>
+              <button type="button" data-arrived-action="patientInfo"><span class="menu-icon arr-purple">&#9432;</span>Patient Info</button>
+              <button type="button" data-arrived-action="sendSms"><span class="menu-icon arr-orange">&#9993;</span>Send SMS</button>
+              <button type="button" data-arrived-action="clinicalSummary"><span class="menu-icon arr-green">&#9679;</span>Clinical Summary</button>
+              <button type="button" data-arrived-action="consumptionMemo"><span class="menu-icon arr-green">&#9679;</span>Patient Consumption Memo</button>
+              <button type="button" data-arrived-action="treatmentReport"><span class="menu-icon arr-green">&#9679;</span>Appointment Treatment Report</button>
+              <button type="button" data-arrived-action="managePackages"><span class="menu-icon arr-green">&#9679;</span>Manage Patient Packages</button>
+              <button type="button" data-arrived-action="callPatient"><span class="menu-icon arr-green">&#9679;</span>Call Patient</button>
+              <button type="button" data-arrived-action="deleteVisits"><span class="menu-icon arr-green">&#9679;</span>Delete Visits</button>
+              <button class="menu-danger" type="button" data-arrived-action="delete"><span class="menu-icon arr-red">&#9632;</span>Delete Appointment</button>
             </div>
           </div>
         </div>
@@ -2264,6 +2875,275 @@
           </table>
         </div>
       </section>
+
+      <section class="screen" id="employeesScreen" aria-label="Employees">
+        <div class="screen-title green">Employees</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button"><span class="mini-icon i-delete">x</span>Delete</button>
+          <span class="spacer"></span>
+          <span class="search-line">Search <input id="employeeSearch" type="search" placeholder="Search employees" style="width: 200px"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Employees list">
+            <colgroup>
+              <col style="width: 120px">
+              <col style="width: 35%">
+              <col style="width: 20%">
+              <col style="width: 15%">
+              <col style="width: 15%">
+              <col style="width: 10%">
+            </colgroup>
+            <thead>
+              <tr><th>Emp. Code</th><th>Employee Name</th><th>Description</th><th>DHA Code</th><th>DHA UserName</th><th>Licen...</th></tr>
+            </thead>
+            <tbody>
+              <tr class="selected"><td style="color:#4caf50;font-weight:900">EM0057</td><td><strong>LINTU RAJAN</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0058</td><td><strong>NEETHU DEEPAK</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0059</td><td><strong>MISNA UVATSE</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0060</td><td><strong>KEERTHI PURUSHOTHAMAN</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0061</td><td><strong>AMARNATH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0062</td><td><strong>ASHISH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0063</td><td><strong>ANEESH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0064</td><td><strong>RESHMI</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0065</td><td><strong>LINTU</strong></td><td>RECEPTIONIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0066</td><td><strong>NEETHU</strong></td><td>ADMIN</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0067</td><td><strong>SHILPA</strong></td><td>Physiotherapist</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0068</td><td><strong>RENJU</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0069</td><td><strong>NOORA HOSBET UMMER</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0071</td><td><strong>ANJNA NADAKKAVIL CHANDRAN</strong></td><td>therapist</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#4caf50;font-weight:900">EM0073</td><td><strong>anjana</strong></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen" id="privilegesScreen" aria-label="Privileges">
+        <div class="screen-title green">Privileges</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button">New</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Privileges list">
+            <colgroup>
+              <col style="width: 45%">
+              <col style="width: 55%">
+            </colgroup>
+            <thead>
+              <tr><th>Name</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">Patients</td></tr>
+              <tr><td style="padding-left:16px">Disable Patient</td><td>Disabling Patient</td></tr>
+              <tr><td style="padding-left:16px">Edit Patient</td><td>Patient Editing</td></tr>
+              <tr><td style="padding-left:16px">Delete Patient</td><td>Deleting Patients</td></tr>
+              <tr><td style="padding-left:16px">Access to Patients</td><td>Access on Patient Details/Lists</td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">&#9662; Reception</td></tr>
+              <tr><td style="padding-left:24px">Doctor Desk Access</td><td>Allow Access to Doctor Consultation</td></tr>
+              <tr><td style="padding-left:24px">Enable Pending Bills</td><td>Access to Pending Bills</td></tr>
+              <tr><td style="padding-left:24px">Invoice Access</td><td>Access to All Invoice List</td></tr>
+              <tr><td style="padding-left:24px">Package Access</td><td>Access to Home Packages</td></tr>
+              <tr><td style="padding-left:24px">Allow Receipts</td><td>Access to the Receipts List in Home</td></tr>
+              <tr><td style="padding-left:24px">Pay.Voucher Access</td><td></td></tr>
+              <tr><td style="padding-left:24px">Access to Package Subscription</td><td>Allow Access to Patient Package Subscription</td></tr>
+              <tr><td style="padding-left:24px">Access to Consent</td><td>Access to Consents in Home</td></tr>
+              <tr><td style="padding-left:24px">Access to Credit Note</td><td>Accessing Credit Notes</td></tr>
+              <tr><td style="padding-left:24px">Access to Duty Roster</td><td></td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">&#9662; Reports</td></tr>
+              <tr><td style="padding-left:24px">Appointment</td><td></td></tr>
+              <tr><td style="padding-left:24px">Patients</td><td></td></tr>
+              <tr><td style="padding-left:24px">Financial</td><td></td></tr>
+              <tr><td style="padding-left:24px">Statistics</td><td></td></tr>
+              <tr><td style="padding-left:24px">Doctors</td><td></td></tr>
+              <tr><td style="padding-left:24px">Treatment</td><td></td></tr>
+              <tr><td style="padding-left:24px">HR</td><td></td></tr>
+              <tr><td style="padding-left:24px">MIS</td><td></td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">&#9662; Settings</td></tr>
+              <tr><td style="padding-left:24px">Allow Source Document</td><td></td></tr>
+              <tr><td style="padding-left:24px">Allow Set Document</td><td></td></tr>
+              <tr><td style="padding-left:24px">Allow SMS Settings</td><td></td></tr>
+              <tr><td style="padding-left:24px">Allow Company Settings</td><td></td></tr>
+              <tr><td style="padding-left:24px">Allow FTP</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen" id="consultationScreen" aria-label="Doctors Consultation">
+        <div class="consult-layout">
+          <!-- Top title bar -->
+          <div class="consult-title-bar">Doctors Consultation</div>
+          <!-- Date nav -->
+          <div class="consult-date-bar">
+            <button class="small-button" type="button" id="consultPrevDate">&lt;</button>
+            <input type="text" id="consultDate" value="12-05-2026">
+          </div>
+          <!-- Main content -->
+          <div class="consult-body">
+            <!-- Left sidebar -->
+            <div class="consult-sidebar">
+              <div class="consult-patient-card">
+                <div class="consult-patient-photo"></div>
+                <div class="consult-patient-name" id="consultPatientName">RONITA BAAYA AGREGADO</div>
+                <div class="consult-patient-detail"><strong>MR NO</strong> <span id="consultMrNo" class="consult-mr-badge">2919</span></div>
+                <div class="consult-patient-detail"><strong>GENDER</strong> <span id="consultGender" class="consult-gender-badge">Male</span></div>
+                <div class="consult-patient-detail"><strong>DOB</strong> <span id="consultDob" class="consult-dob-badge">01-02-1987</span></div>
+                <div class="consult-patient-detail"><strong>AGE</strong> <span id="consultAge">38 Years</span></div>
+                <div class="consult-patient-detail"><strong>Emirates Id No</strong></div>
+                <div class="consult-patient-detail" id="consultEid">784-1987-0073045-8</div>
+                <div class="consult-patient-detail"><strong>Nationality</strong></div>
+                <div class="consult-patient-detail" id="consultNationality" style="background:#e8f5e9;padding:1px 4px">Philippines</div>
+              </div>
+              <div class="consult-sidebar-date" id="consultSidebarDate">12-05-2026</div>
+              <div class="consult-sidebar-links">
+                <button type="button">Medical Report</button>
+                <button type="button">Refferal Letter</button>
+                <button type="button">Attendance Certificate</button>
+                <button type="button">Inherit Previous Visits</button>
+                <button type="button" class="active">Treatment Notes</button>
+                <button type="button">Patient Doc</button>
+                <button type="button">Doctor Notes</button>
+                <button type="button">Family History</button>
+                <button type="button">Case Sheet By Visit</button>
+                <button type="button">Consolidated Report</button>
+              </div>
+            </div>
+            <!-- Right main area -->
+            <div class="consult-main">
+              <!-- Vitals section with Allergies/Habits/Tabs on right -->
+              <div class="consult-vitals">
+                <div class="consult-vitals-left">
+                  <div class="vital-row">
+                    <label>Height(cm)</label><input type="text" value="170">
+                    <label>Weight(kg)</label><input type="text" value="76">
+                    <label>BMI</label><input type="text" value="26.30" readonly>
+                  </div>
+                  <div class="vital-row">
+                    <label>BPS</label><input type="text" value="130">
+                    <label>BPD</label><input type="text" value="80">
+                    <label>Temp</label><input type="text" value="36.5">
+                  </div>
+                  <div class="vital-row">
+                    <label>P/S</label><input type="text">
+                    <label>RR</label><input type="text" value="16">
+                    <label>PR</label><input type="text" value="72">
+                  </div>
+                  <div class="vital-row">
+                    <label>O2</label><input type="text">
+                    <label>BS</label><input type="text">
+                    <label>HC</label><input type="text">
+                  </div>
+                </div>
+                <div class="consult-vitals-right">
+                  <div class="consult-allergy-habits">
+                    <div class="consult-allergy-box">
+                      <div class="consult-box-title allergy-title">Allergies &#128269;</div>
+                      <div class="consult-box-content" id="consultAllergies" contenteditable="true"></div>
+                    </div>
+                    <div class="consult-allergy-box">
+                      <div class="consult-box-title habits-title">Habits &#128269;</div>
+                      <div class="consult-box-content" id="consultHabits" contenteditable="true"></div>
+                    </div>
+                    <div class="consult-extra-tabs">
+                      <div class="consult-extra-tabs-row">
+                        <button type="button">TP Instruction</button>
+                        <button type="button">Diet Chart</button>
+                        <button type="button">Package</button>
+                      </div>
+                      <div class="consult-extra-tabs-green">
+                        <button type="button">Medicine History</button>
+                        <button type="button">Menstrual Info</button>
+                      </div>
+                      <div class="consult-extra-tabs-content">
+                        <div contenteditable="true"></div>
+                        <div contenteditable="true"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Clinical notes - 6 columns -->
+              <div class="consult-clinical-grid">
+                <div class="clinical-box">
+                  <div class="clinical-box-title">Chief Complaints &#128269;</div>
+                  <textarea id="consultChiefComplaints">pain and stiffness in upper back associated with tenderness from past 2 weeks.</textarea>
+                </div>
+                <div class="clinical-box">
+                  <div class="clinical-box-title">Past History</div>
+                  <textarea id="consultPastHistory">No history suggestive of acute trauma, infection, or inflammatory joint disease. No H/O Allergies. No recent fever. Nothing specific (Not under any medication for DM, HTN And hyperlipidemia)</textarea>
+                </div>
+                <div class="clinical-box">
+                  <div class="clinical-box-title">History of present illness</div>
+                  <textarea id="consultPresentIllness">Poor posture, Physical strain, Lack of rest. There is No H/O of trauma or fall.</textarea>
+                </div>
+                <div class="clinical-box">
+                  <div class="clinical-box-title">On Examination/Investigation</div>
+                  <textarea id="consultExamination">signs: tenderness on upper back ++
+swelling and stiffness on upper back ++
+redness: (no redness)
+ROM: Painful but not restricted.
+
+Investigation
+Not done, not necessary, physical examination is enough or diagnosis</textarea>
+                </div>
+                <div class="clinical-box">
+                  <div class="clinical-box-title">Treatment Plan</div>
+                  <textarea id="consultTreatmentPlan">Advised 5 days treatments
+podi kizhi + lepanam x 5 days.</textarea>
+                </div>
+                <div class="clinical-box">
+                  <div class="clinical-box-title">Clinical Disposition</div>
+                  <textarea id="consultDisposition">Advised posture correction and activity modification and internal medicines 2 weeks. Follow up as needed</textarea>
+                </div>
+              </div>
+              <!-- Diagnosis and Procedure side by side -->
+              <div class="consult-diag-proc">
+                <div class="consult-diagnosis">
+                  <div class="consult-section-title diag-title">Diagnosis &#128269;</div>
+                  <table class="consult-table">
+                    <thead><tr><th>ICD Code</th><th>Description</th><th>Dig. Type</th><th>Primary</th><th>Type</th></tr></thead>
+                    <tbody>
+                      <tr><td contenteditable="true">M54.2</td><td contenteditable="true">Cervicalgia</td><td contenteditable="true">Primary</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                      <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="consult-procedure">
+                  <div class="consult-section-title proc-title">Procedure</div>
+                  <table class="consult-table">
+                    <thead><tr><th>Med.Code</th><th>Descripti...</th><th>Price</th><th>Sessions</th><th>Amount</th><th>Disc Amt</th><th>discper</th><th>VAT Amt</th><th>Net Amt.</th><th>p. Share</th></tr></thead>
+                    <tbody>
+                      <tr><td contenteditable="true">9</td><td contenteditable="true">CONSUL...</td><td contenteditable="true">100.00</td><td contenteditable="true">1.00</td><td contenteditable="true">100.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">100.00</td><td contenteditable="true">100.00</td></tr>
+                      <tr><td contenteditable="true">1001</td><td contenteditable="true">PODIK...</td><td contenteditable="true">280.00</td><td contenteditable="true">5.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">1,400.00</td></tr>
+                      <tr><td contenteditable="true">1037</td><td contenteditable="true">LEPAN...</td><td contenteditable="true">150.00</td><td contenteditable="true">5.00</td><td contenteditable="true">750.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">750.00</td><td contenteditable="true">750.00</td></tr>
+                      <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- Prescription -->
+              <div class="consult-prescription">
+                <div class="consult-section-title presc-title">Prescription</div>
+                <table class="consult-table">
+                  <thead><tr><th style="width:25%">Medicines</th><th style="width:30%">Instructions</th><th style="width:25%">Frequency</th><th style="width:20%">Duration</th></tr></thead>
+                  <tbody>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                  </tbody>
+                </table>
+                <div class="consult-total">Total Amount: <strong>2,250</strong></div>
+              </div>
+            </div>
+          </div>
+          <!-- Footer buttons -->
+          <div class="consult-footer">
+            <button class="tool-button primary" type="button" id="consultSave">Save</button>
+            <button class="tool-button consult-cancel-btn" type="button" id="consultCancel">Cancel</button>
+          </div>
+        </div>
+      </section>
     </section>
 
     <footer class="status-bar">
@@ -2361,11 +3241,28 @@
           </div>
         </section>
         <section class="tab-panel" id="patientInsurancePanel">
-          <div class="small-form-grid">
-            <label class="form-field">Insurance Company<select name="patientInsurance"><option>None</option><option>ATENA</option><option>AMITY HEALTH</option><option>ADNIC INSURANCE</option><option>NEXTCARE</option></select></label>
-            <label class="form-field">Card No<input name="insuranceCard"></label>
-            <label class="form-field">Policy No<input name="policyNo"></label>
-            <label class="form-field">Expiry Date<input name="policyExpiry" value="21-05-2027"></label>
+          <div style="display:flex;flex-direction:column;gap:10px;padding:8px 0">
+            <div class="field-row" style="grid-template-columns:95px 1fr">
+              <label>Policy Name</label>
+              <input name="policyName" style="width:100%">
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <div class="field-row" style="grid-template-columns:95px 120px;min-width:0">
+                <label>Expiry Date</label>
+                <div style="display:flex;gap:2px"><input name="policyExpiry" value="21-05-2027" style="width:90px"><select style="width:22px;padding:0;min-height:24px"><option></option></select></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <label style="font-size:11px;font-weight:800">Limit</label>
+                <input name="insuranceLimit" type="number" value="0" style="width:60px">
+              </div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <label style="font-size:11px;font-weight:800">Co-Pay</label>
+                <input name="insuranceCoPay" type="number" value="0" style="width:60px">
+              </div>
+              <label class="check-radio"><input type="checkbox" name="insConsultation"> Consultation</label>
+              <label class="check-radio"><input type="checkbox" name="insTreatment"> Treatment</label>
+              <label class="check-radio"><input type="checkbox" name="insMedicine"> Medicine</label>
+            </div>
           </div>
         </section>
         <section class="tab-panel" id="moreDetailsPanel">
@@ -2636,6 +3533,22 @@
       ["Manufacture", "g-doc", "inventory"]
     ];
 
+    const userManModules = [
+      ["User Roles", "g-patient", "privileges"],
+      ["Privileges", "g-doc", "privileges"]
+    ];
+
+    const mastersModules = [
+      ["General Mast...", "g-doc", "employees"],
+      ["Contacts", "g-patient", "employees"],
+      ["Countries", "g-company", "employees"],
+      ["Departments", "g-company", "employees"],
+      ["Employees", "g-patient", "employees"],
+      ["Email Settings", "g-doc", "employees"],
+      ["Ins. Config", "g-gift", "employees"],
+      ["Ecosystem", "g-inventory", "employees"]
+    ];
+
     const doctors = ["LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "AMARNATH", "PADMESH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "NOORA"];
     const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM"];
 
@@ -2712,7 +3625,7 @@
     ];
 
     let appointments = [
-      { mrNo: "2919", patient: "ELLIS RONITA JUDEROSHAN", mobile: "971556238838", doctor: "NEETHU", time: "9:00 AM", status: "Consulted", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
+      { mrNo: "2919", patient: "ELLIS RONITA JUDEROSHAN", mobile: "971556238838", doctor: "NEETHU", time: "9:00 AM", status: "Arrived", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
       { mrNo: "4007", patient: "BETTY NIRU VELLICKARA VARGHESE BABY", mobile: "971502947720", doctor: "NEETHU", time: "12:00 PM", status: "Booked", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
       { mrNo: "4748", patient: "MURSHIDA SIRAJ", mobile: "971509142600", doctor: "ANEESH", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Therapist: ANEESH" },
       { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "ANEESH", time: "11:00 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Package review" }
@@ -2739,6 +3652,8 @@
       if (menu === "Settings") return settingsModules;
       if (menu === "Insurance") return insuranceModules;
       if (menu === "Inventory" || menu === "Inventory Transaction") return inventoryModules;
+      if (menu === "User Man...") return userManModules;
+      if (menu === "Masters") return mastersModules;
       return homeModules;
     }
 
@@ -2749,6 +3664,8 @@
       if (view === "receipts") return ["Receipts", "Defined Packages", "Doctor Desk", "Invoice List", "To be Billed List", "Consent Forms Received", "Appointments", "Insurance Company's", "Main Page"];
       if (view === "insurance") return ["Insurance Company's", "Main Page"];
       if (view === "inventory") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
+      if (view === "privileges") return ["Privileges", "User Roles", "Item group master", "Brand Master", "Store Management", "Sales Return", "Item Consumption", "Item Analysis Report", "DoctorTherapist ConsumptionReport", "Stock Report", "Stock Adjustment", "Sales Invoice", "Sales Order", "Local Pu..."];
+      if (view === "employees") return ["Employees", "Defined Packages", "Receipts", "Invoice List", "Appointments", "Doctor Desk", "Patients", "Consent Forms Received", "Main Page"];
       return ["Main Page"];
     }
 
@@ -2773,10 +3690,13 @@
     function activeRibbonLabel() {
       if (activeView === "patients") return "Patients";
       if (activeView === "appointments") return "Appointments";
+      if (activeView === "consultation") return "Doctors Consultation";
       if (activeView === "packages") return "Source";
       if (activeView === "receipts") return "Receipts";
       if (activeView === "insurance") return "Company";
       if (activeView === "inventory") return "Item";
+      if (activeView === "privileges") return "Privileges";
+      if (activeView === "employees") return "Employees";
       return "";
     }
 
@@ -3022,17 +3942,25 @@
       byId("slotMenu").classList.remove("open");
     }
 
+    function hideArrivedMenu() {
+      byId("arrivedMenu").classList.remove("open");
+    }
+
     function hideAllMenus() {
       hideAppointmentMenu();
       hideSlotMenu();
+      hideArrivedMenu();
     }
 
     let pendingSlotDoctor = "";
     let pendingSlotTime = "";
 
-    function showSlotMenu(event, slot) {
-      pendingSlotDoctor = slot.dataset.doctor;
-      pendingSlotTime   = slot.dataset.time;
+    function showSlotMenu(event, element) {
+      const slot = element.closest(".slot");
+      if (slot) {
+        pendingSlotDoctor = slot.dataset.doctor || "";
+        pendingSlotTime   = slot.dataset.time || "";
+      }
       const menu = byId("slotMenu");
       const x = Math.min(event.clientX + 4, window.innerWidth - 200);
       const y = Math.min(event.clientY + 4, window.innerHeight - 60);
@@ -3055,6 +3983,29 @@
       openModal("appointmentModal");
     }
 
+    function openConsultation(appt) {
+      // Fill patient info in consultation screen
+      const patient = patients.find(p => p.mrNo === appt.mrNo);
+      if (patient) {
+        byId("consultPatientName").textContent = fullName(patient);
+        byId("consultMrNo").textContent = patient.mrNo;
+        byId("consultGender").textContent = patient.gender || "Male";
+        byId("consultDob").textContent = patient.dob || "";
+        byId("consultEid").textContent = patient.eid || "";
+        byId("consultNationality").textContent = patient.nationality || "";
+        // Calculate age
+        const dob = parseAnyDate(patient.dob);
+        if (dob) {
+          const ageDiff = new Date().getFullYear() - dob.getFullYear();
+          byId("consultAge").textContent = ageDiff + " Years";
+        }
+      } else {
+        byId("consultPatientName").textContent = appt.patient || "";
+        byId("consultMrNo").textContent = appt.mrNo || "";
+      }
+      activateView("consultation");
+    }
+
     function showAppointmentMenu(event, card) {
       event.preventDefault();
       selectedAppointmentIndex = Number(card.dataset.apptIndex);
@@ -3065,6 +4016,25 @@
       const y = Math.min(event.clientY + 8, window.innerHeight - height - 12);
       menu.style.left = `${Math.max(12, x)}px`;
       menu.style.top = `${Math.max(12, y)}px`;
+      menu.classList.add("open");
+    }
+
+    function showArrivedMenu(event, card) {
+      event.preventDefault();
+      selectedAppointmentIndex = Number(card.dataset.apptIndex);
+      const menu = byId("arrivedMenu");
+      menu.style.maxHeight = "";
+      const width = 360;
+      const menuHeight = 780; // approximate full height of all items
+      let x = Math.min(event.clientX + 8, window.innerWidth - width - 12);
+      let y = event.clientY + 4;
+      // If menu would overflow bottom, position it from top
+      if (y + menuHeight > window.innerHeight) {
+        y = Math.max(8, window.innerHeight - menuHeight - 10);
+      }
+      menu.style.left = `${Math.max(8, x)}px`;
+      menu.style.top = `${y}px`;
+      menu.style.maxHeight = `${window.innerHeight - y - 8}px`;
       menu.classList.add("open");
     }
 
@@ -3583,23 +4553,31 @@
 
         const card = event.target.closest(".appointment-card");
         if (card) {
-          // Right-click on existing appointment → show edit menu
-          showAppointmentMenu(event, card);
+          // Right-click on existing appointment → show dropdown with New & Edit options
+          selectedAppointmentIndex = Number(card.dataset.apptIndex);
+          showSlotMenu(event, card);
           return;
         }
 
         const slot = event.target.closest(".slot");
         if (slot) {
-          // Right-click on empty slot → show new appointment menu
+          // Right-click on empty slot → show dropdown with New & Edit options
           showSlotMenu(event, slot);
         }
       });
 
-      // Left-click on appointment card → show edit menu
+      // Left-click on appointment card → show menu (arrived menu for arrived cards, regular menu for others)
       byId("dayGrid").addEventListener("click", (event) => {
         const card = event.target.closest(".appointment-card");
         if (!card) return;
-        showAppointmentMenu(event, card);
+        hideAllMenus();
+        const apptIdx = Number(card.dataset.apptIndex);
+        const appt = appointments[apptIdx];
+        if (appt && appt.status === "Arrived") {
+          showArrivedMenu(event, card);
+        } else {
+          showAppointmentMenu(event, card);
+        }
       });
 
       // Slot menu actions
@@ -3607,7 +4585,20 @@
         const button = event.target.closest("[data-slot-action]");
         if (!button) return;
         if (button.dataset.slotAction === "new") {
-          openNewAppointmentForSlot(pendingSlotDoctor, pendingSlotTime);
+          if (pendingSlotDoctor && pendingSlotTime) {
+            openNewAppointmentForSlot(pendingSlotDoctor, pendingSlotTime);
+          } else {
+            openModal("appointmentModal");
+            byId("appointmentDialogTitle").textContent = "New Appointment";
+          }
+        }
+        if (button.dataset.slotAction === "edit") {
+          if (selectedAppointmentIndex != null && appointments[selectedAppointmentIndex]) {
+            handleAppointmentAction("edit");
+          } else {
+            openModal("appointmentModal");
+            byId("appointmentDialogTitle").textContent = "Edit Appointment";
+          }
         }
         hideAllMenus();
       });
@@ -3617,16 +4608,67 @@
         if (!button) return;
         handleAppointmentAction(button.dataset.apptAction);
       });
+
+      byId("arrivedMenu").addEventListener("click", (event) => {
+        event.stopPropagation();
+        const button = event.target.closest("[data-arrived-action]");
+        if (!button) return;
+        const action = button.dataset.arrivedAction;
+        if (action === "new") {
+          openNewAppointmentForSlot("", "");
+        } else if (action === "delete") {
+          if (selectedAppointmentIndex != null) {
+            appointments.splice(selectedAppointmentIndex, 1);
+            renderSchedule();
+          }
+        } else if (action === "invoice") {
+          alert("CreateInvoice - Feature coming soon");
+        } else if (action === "checkout") {
+          if (selectedAppointmentIndex != null) {
+            appointments[selectedAppointmentIndex].status = "CheckOut";
+            renderSchedule();
+          }
+        } else if (action === "doctorsConsultation") {
+          if (selectedAppointmentIndex != null) {
+            const appt = appointments[selectedAppointmentIndex];
+            openConsultation(appt);
+          }
+        } else if (action === "patientInfo") {
+          if (selectedAppointmentIndex != null) {
+            const appt = appointments[selectedAppointmentIndex];
+            selectedPatientMr = appt.mrNo;
+            patientMode = "edit";
+            openPatientDialog("edit");
+          }
+        } else if (action === "createReceipt") {
+          openModal("receiptModal");
+        } else {
+          alert(button.textContent.trim() + " - Feature coming soon");
+        }
+        hideAllMenus();
+      });
+
       document.addEventListener("click", (event) => {
         if (!event.target.closest(".appointment-menu") && !event.target.closest(".appointment-card") && !event.target.closest(".slot")) {
           hideAllMenus();
         }
       });
-      byId("appointmentsScreen").addEventListener("scroll", hideAllMenus, true);
+      byId("appointmentsScreen").addEventListener("scroll", (event) => {
+        // Don't hide menus when scrolling inside the arrived menu
+        if (event.target.closest && event.target.closest(".arrived-menu")) return;
+        if (event.target.classList && event.target.classList.contains("arrived-menu")) return;
+        hideAllMenus();
+      }, true);
       document.querySelector(".schedule-close")?.addEventListener("click", () => activateView("patients"));
       document.querySelector(".connect-devices")?.addEventListener("click", () => {
         const el = document.querySelector(".connected");
         if (el) el.textContent = "Phone Connected";
+      });
+      // Consultation screen buttons
+      byId("consultCancel")?.addEventListener("click", () => activateView("appointments"));
+      byId("consultSave")?.addEventListener("click", () => {
+        alert("Consultation saved successfully");
+        activateView("appointments");
       });
       document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
       document.querySelectorAll(".modal-layer").forEach((layer) => {
