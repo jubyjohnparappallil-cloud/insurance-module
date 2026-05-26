@@ -1244,7 +1244,7 @@
     .time-cell {
       height: 25px;
       border-right: 1px solid #90a0ac;
-      border-bottom: none;
+      border-bottom: 1px solid #d0dae2;
       background: #f0f4f8;
       color: #2a4050;
       padding: 0 4px;
@@ -1256,7 +1256,7 @@
     }
 
     .time-cell.hour-mark {
-      border-bottom: 1px solid #90a0ac;
+      border-bottom: 2px solid #90a0ac;
       font-weight: 900;
       font-size: 10px;
     }
@@ -1265,12 +1265,12 @@
       position: relative;
       min-height: 25px;
       border-right: 1px solid #90a0ac;
-      border-bottom: none;
+      border-bottom: 1px solid #d0dae2;
       background: #ffffff;
     }
 
     .slot.hour-mark {
-      border-bottom: 1px solid #90a0ac;
+      border-bottom: 2px solid #90a0ac;
     }
 
     .slot:hover {
@@ -2553,13 +2553,14 @@
     <nav class="top-tabs" aria-label="Main menu">
       <button class="top-tab active" type="button" data-menu="Home">Home</button>
       <button class="top-tab" type="button" data-menu="Settings">Settings</button>
+      <button class="top-tab" type="button" data-menu="Accounts">Accounts</button>
       <button class="top-tab" type="button" data-menu="Masters">Masters</button>
       <button class="top-tab" type="button" data-menu="Reports">Reports</button>
       <button class="top-tab" type="button" data-menu="EMR Masters">EMR Masters</button>
       <button class="top-tab" type="button" data-menu="Inventory">Inventory</button>
-      <button class="top-tab" type="button" data-menu="Inventory Transaction">Inventory Transaction</button>
+      <button class="top-tab" type="button" data-menu="Insurance">Insurance</button>
       <button class="top-tab" type="button" data-menu="Transactions">Transactions</button>
-      <button class="top-tab" type="button" data-menu="User Man...">User Man...</button>
+      <button class="top-tab" type="button" data-menu="HR">HR</button>
     </nav>
 
     <div class="page-heading" id="pageHeading">Patients</div>
@@ -2641,9 +2642,8 @@
               <button class="tool-button" type="button">&#9654; Print</button>
               <button class="tool-button" type="button" id="editVisit">&#9654; Edit Patient</button>
               <button class="tool-button" type="button">&#9654; Edit Visit</button>
-              <button class="tool-button" type="button">&#9654; Appointment Search</button>
+              <button class="tool-button" type="button">&#9654; Search</button>
               <button class="tool-button" type="button">&#9654; Attachment</button>
-              <button class="tool-button" type="button" style="color:#d00000">&#9654; Error</button>
             </div>
             <div class="connected">Connected</div>
           </aside>
@@ -2696,7 +2696,7 @@
               <span style="font-weight:700;font-size:11px;margin-left:6px">View By Doctor</span>
               <select id="viewByDoctor" style="width:120px;height:22px;font-size:11px">
                 <option>LINTU RAJAN</option><option>NEETHU DEEPAK</option><option>HISNA UVAISI</option>
-                <option>KEERTHI PURUSHOT</option><option>AMARNATH</option><option>PADMESH</option>
+                <option>KEERTHI PURUSHOT</option><option>AMARNATH</option><option>ASHISH</option>
                 <option>ANEESH</option><option>RESHMI</option><option>LINTU</option><option>NEETHU</option><option>NOORA</option>
               </select>
             </div>
@@ -2853,6 +2853,43 @@
         </div>
       </section>
 
+      <section class="screen" id="claimsListScreen" aria-label="Claims List">
+        <div class="screen-title green">Claims List</div>
+        <div class="toolbar">
+          <label class="check-radio"><input type="checkbox"> Patient</label>
+          <input type="search" placeholder="" style="width:140px">
+          <button class="small-button" type="button">&#128269;</button>
+          <span class="spacer"></span>
+          <span class="search-line">From Date <input type="text" value="18-05-2026" style="width:100px"></span>
+          <span class="search-line">To Date <input type="text" value="25-05-2026" style="width:100px"></span>
+          <button class="tool-button" type="button">&#128269; Search</button>
+          <button class="tool-button primary" type="button" id="claimsAdd">Add</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Claims list">
+            <colgroup>
+              <col style="width:90px">
+              <col style="width:110px">
+              <col style="width:110px">
+              <col style="width:70px">
+              <col>
+              <col style="width:100px">
+              <col style="width:100px">
+            </colgroup>
+            <thead>
+              <tr><th>Claim ID</th><th>From Date</th><th>To Date</th><th>MRNO</th><th>Patient Name</th><th>Amount</th><th>Received Am...</th></tr>
+            </thead>
+            <tbody>
+              <tr class="selected"><td style="color:#4caf50;font-weight:900">S-0913</td><td>18-05-2026</td><td>24-05-2026</td><td>4760</td><td>VINU MADHAVAN MADHAVAN PAZHANMALA</td><td>2,530.00</td><td>0.00</td></tr>
+              <tr><td>S-0914</td><td>21-05-2026</td><td>24-05-2026</td><td>4407</td><td>IRFAN ISMAIL PATEL PATEL ISMAIL HAROON</td><td>1,240.00</td><td>0.00</td></tr>
+              <tr><td>S-0915</td><td>18-05-2026</td><td>22-05-2026</td><td>4234</td><td>ADYAAN KARIM TALHA KARIM</td><td>1,300.00</td><td>0.00</td></tr>
+              <tr><td>S-0916</td><td>18-05-2026</td><td>25-05-2026</td><td>4770</td><td>RUSAILA MANGALATT ASIF</td><td>2,050.00</td><td>0.00</td></tr>
+              <tr><td>S-0917</td><td>21-05-2026</td><td>25-05-2026</td><td>4771</td><td>AMRUTHA THALAPPAN KAVILEVEEDU</td><td>800.00</td><td>0.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="screen" id="inventoryScreen" aria-label="Inventory">
         <div class="screen-title">Inventory</div>
         <div class="toolbar">
@@ -2871,6 +2908,81 @@
               <tr><td>ITM00002</td><td>Triphala Choornam</td><td>Medicine</td><td>Shanthi</td><td>Main Store</td><td>44</td><td><span class="status-pill">OK</span></td></tr>
               <tr><td>ITM00003</td><td>Murivenna Oil</td><td>Oil</td><td>Kerala</td><td>Treatment Store</td><td>11</td><td><span class="status-pill waiting">Check</span></td></tr>
               <tr><td>ITM00004</td><td>Cotton Roll</td><td>Consumable</td><td>Medline</td><td>Main Store</td><td>120</td><td><span class="status-pill">OK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen" id="receiptVoucherScreen" aria-label="Receipt Voucher">
+        <div class="screen-title green">Receipt Voucher</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button" id="rvNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="rvEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="rvDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+          <span class="spacer"></span>
+          <span class="search-line">Search <input id="rvSearch" type="search" placeholder="Search vouchers" style="width: 200px"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Receipt voucher list">
+            <colgroup>
+              <col style="width: 140px">
+              <col style="width: 50%">
+            </colgroup>
+            <thead>
+              <tr><th>DATE</th><th>DESCRIPTION</th></tr>
+            </thead>
+            <tbody id="rvRows">
+              <tr class="selected"><td>22-05-2026</td><td>Cash Receipt</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen" id="diagnosisListScreen" aria-label="Diagnosis List">
+        <div class="screen-title" style="background:linear-gradient(90deg,#0d47a1,#1565c0)">Diagnosis List</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button"><span class="mini-icon i-delete">x</span>Delete</button>
+          <span class="search-line">Search <input id="diagSearch" type="search" style="width:200px"></span>
+          <span class="spacer"></span>
+          <button class="tool-button" type="button">Search</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Diagnosis list">
+            <colgroup><col style="width:140px"><col></colgroup>
+            <thead><tr><th>ICD Code</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr class="selected"><td style="color:#c00;font-weight:900">V86.51XS</td><td>Driver of amblnc/fire eng injured nontraf, sequela</td></tr>
+              <tr><td>V86.52XA</td><td>Driver of snowmobile injured in nontraffic accident, init</td></tr>
+              <tr><td>V86.52XD</td><td>Driver of snowmobile injured in nontraffic accident, subs</td></tr>
+              <tr><td>V86.53XA</td><td>Driver of dune buggy injured in nontraffic accident, init</td></tr>
+              <tr><td>V86.53XD</td><td>Driver of dune buggy injured in nontraffic accident, subs</td></tr>
+              <tr><td>V86.54XA</td><td>Driver of military vehicle injured nontraf, init</td></tr>
+              <tr><td>V86.55XA</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, init</td></tr>
+              <tr><td>W21.89XS</td><td>Striking against or struck by oth sports equipment, sequela</td></tr>
+              <tr><td>M54.2</td><td>Cervicalgia</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="screen" id="tariffMasterScreen" aria-label="Tariff Master">
+        <div class="screen-title green">Tariff Master</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button"><span class="mini-icon i-delete">x</span>Delete</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Tariff Master list">
+            <colgroup><col style="width:120px"><col><col></colgroup>
+            <thead><tr><th>Code</th><th>Name</th><th></th></tr></thead>
+            <tbody>
+              <tr class="selected"><td style="color:#d00;font-weight:900">0039</td><td><strong>PHYSIOTHERAPY PRICE LIST</strong></td><td>PHYSIOTHERAPY PRICE LIST</td></tr>
+              <tr><td>0040</td><td><strong>HOMEOPATHY PRICE LIST</strong></td><td>HOMEOPATHY PRICE LIST</td></tr>
+              <tr><td>0041</td><td><strong>AYURVEDHA PRICE LIST</strong></td><td>AYURVEDHA PRICE LIST</td></tr>
+              <tr><td>0042</td><td><strong>LEPANAM</strong></td><td>70 MINUTES</td></tr>
             </tbody>
           </table>
         </div>
@@ -3482,6 +3594,302 @@ podi kizhi + lepanam x 5 days.</textarea>
     </form>
   </div>
 
+  <div class="modal-layer" id="rvModal" role="dialog" aria-modal="true" aria-labelledby="rvDialogTitle">
+    <form class="dialog" id="rvForm" style="width:min(95vw,750px)">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#034f9f,#086ed5)"><span id="rvDialogTitle">Receipt Voucher</span><button class="close-modal" type="button" data-close="rvModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:14px 18px">
+        <div style="display:grid;grid-template-columns:100px 1fr 100px 1fr;gap:8px 12px;align-items:center;font-size:12px;font-weight:700">
+          <label>Voucher No</label><input name="voucherNo" style="height:28px">
+          <label>Date</label><input name="rvDate" value="22-05-2026" style="height:28px;width:120px">
+          <label>Reference No.</label><input name="referenceNo" style="height:28px">
+          <label>TR.No.</label><input name="trNo" style="height:28px">
+          <label>Description</label><input name="rvDescription" style="height:28px;grid-column:2/5">
+          <label>Account</label>
+          <div style="display:flex;gap:4px;grid-column:2/5"><input name="accountCode" style="height:28px;width:60px"><button class="small-button" type="button">&#128269;</button><input name="accountName" style="height:28px;flex:1"><span style="white-space:nowrap;padding:0 6px">Amount</span><input name="rvAmount" type="number" value="0.00" step="0.01" style="height:28px;width:80px"><span style="padding:0 6px">Credit</span></div>
+          <label>Cheque No</label><input name="chequeNo" style="height:28px">
+          <label>Cheque Date</label>
+          <div style="display:flex;gap:6px;align-items:center"><input name="chequeDate" value="11/05/2016" style="height:28px;width:110px"><span>Bank</span><input name="bank" style="height:28px;flex:1"></div>
+        </div>
+        <div style="margin-top:12px;border:1px solid #ccc;min-height:280px;overflow-y:auto">
+          <table class="consult-table" style="font-size:11px" id="rvTable">
+            <thead><tr><th style="width:50px">Sl.No.</th><th style="width:100px">Account No</th><th style="width:150px">Account Name</th><th>Description</th><th style="width:90px">AmountCr</th><th style="width:90px">AmountDr</th></tr></thead>
+            <tbody id="rvTableBody">
+              <tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+            </tbody>
+          </table>
+          <button type="button" class="small-button" id="rvAddRow" style="margin:6px;font-size:11px;font-weight:800;color:#1b5e20">+ Add Row</button>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr 120px 1fr;gap:8px 12px;align-items:center;font-size:12px;font-weight:700;margin-top:12px">
+          <label>Received By</label><input name="receivedBy" style="height:28px">
+          <label>Received By Contact</label><input name="receivedByContact" style="height:28px">
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:8px;font-size:12px;font-weight:800">
+          <span>0.00</span><span>0.00</span>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="rvModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="invoiceModal" role="dialog" aria-modal="true" aria-labelledby="invoiceDialogTitle">
+    <form class="dialog" id="invoiceForm" style="width:min(98vw,960px);max-height:96vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="invoiceDialogTitle">INVOICE</span><button class="close-modal" type="button" data-close="invoiceModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:10px 14px;overflow-y:auto">
+        <!-- Top section: Invoice info + Patient info -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+          <div style="border:1px solid #ccc;padding:8px;background:#fff">
+            <div style="text-align:center;font-weight:900;color:#1b5e20;font-size:13px;margin-bottom:6px">INVOICE</div>
+            <div style="display:grid;grid-template-columns:90px 1fr 50px 1fr;gap:4px 8px;font-size:11px;font-weight:700;align-items:center">
+              <label>Invoice No</label><input name="invoiceNo" id="invNo" value="12065" style="height:24px;font-size:11px">
+              <label>Date</label><input name="invoiceDate" value="12-05-2026" style="height:24px;font-size:11px;width:100px">
+              <label>Doctor Name</label><select name="invoiceDoctor" style="height:24px;font-size:11px;grid-column:2/5"><option>ANJNA NADAKKAVIL CHANDRAN</option><option>LINTU RAJAN</option><option>NEETHU DEEPAK</option><option>AMARNATH</option><option>ANEESH</option></select>
+              <label>Remarks</label><input name="invoiceRemarks" style="height:24px;font-size:11px;grid-column:2/5">
+            </div>
+          </div>
+          <div style="border:1px solid #ccc;padding:8px;background:#fff">
+            <div style="display:grid;grid-template-columns:1fr 60px;gap:8px">
+              <div style="display:grid;grid-template-columns:90px 1fr 60px 1fr;gap:3px 8px;font-size:11px;font-weight:700;align-items:center">
+                <span style="grid-column:1/5;font-weight:900;font-size:12px;color:#1b5e20" id="invPatientName">JENNEL BAAYA AGREGADO</span>
+                <label>MR NO</label><span id="invMrNo" style="font-weight:900">4734</span>
+                <label>Gender</label><span id="invGender">Male</span>
+                <label>Date Of Birth</label><span id="invDob">01-02-1987</span>
+                <label>Age</label><span id="invAge">39 Years</span>
+                <label>Insurance</label><span id="invInsurance"></span>
+                <label>Plan</label><span id="invPlan"></span>
+              </div>
+              <div style="width:55px;height:55px;border:1px solid #4caf50;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Inherit from EMR -->
+        <div style="margin-bottom:8px"><button class="small-button" type="button" style="font-weight:800;color:#1b5e20">+ Inherit From EMR</button></div>
+        <!-- Items table -->
+        <div style="border:1px solid #ccc;min-height:120px;margin-bottom:10px;overflow-x:auto">
+          <table class="consult-table" style="font-size:10px" id="invTable">
+            <thead><tr><th style="width:30px">Sl.</th><th style="width:70px">Med Code</th><th style="width:50px">Type</th><th>Description</th><th style="width:60px">Price</th><th style="width:40px">Qty</th><th style="width:50px">Disc %</th><th style="width:60px">Disc Amt</th><th style="width:65px">Sub Total</th><th style="width:45px">VAT</th><th style="width:60px">Total</th><th style="width:65px">Ins Share</th><th style="width:65px">Pat Share</th><th style="width:28px"></th></tr></thead>
+            <tbody id="invTableBody">
+              <tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button type="button" class="inv-del-row" style="width:20px;height:20px;border:1px solid #c00;background:#e01b36;color:#fff;font-size:10px;padding:0;cursor:pointer">&#128465;</button></td></tr>
+            </tbody>
+          </table>
+          <button type="button" class="small-button" id="invAddRow" style="margin:4px;font-size:10px;font-weight:800;color:#1b5e20">+ Add New</button>
+        </div>
+        <!-- Bottom section: Previous Dues + Tendered + Total -->
+        <div style="display:grid;grid-template-columns:140px 1fr 200px;gap:10px;font-size:10px;font-weight:700">
+          <!-- Previous Dues -->
+          <div style="border:1px solid #ccc;padding:6px;background:#fff">
+            <div style="font-weight:900;font-size:11px;border-bottom:1px solid #ddd;padding-bottom:2px;margin-bottom:4px">Previous Dues (Dr)</div>
+            <div style="text-align:center;color:#c00;font-size:13px;font-weight:900">0.00</div>
+            <div style="font-weight:900;font-size:11px;border-bottom:1px solid #ddd;padding:4px 0 2px;margin-bottom:4px">Advance Bal. (Cr)</div>
+            <div style="text-align:center;font-size:13px;font-weight:900">0.00</div>
+            <div style="font-weight:900;font-size:11px;border-bottom:1px solid #ddd;padding:4px 0 2px;margin-bottom:4px">Current Dues</div>
+            <div style="text-align:center;font-size:13px;font-weight:900">0.00</div>
+            <div style="font-weight:900;font-size:11px;border-bottom:1px solid #ddd;padding:4px 0 2px;margin-bottom:4px">Current Balance</div>
+            <div style="text-align:center;font-size:13px;font-weight:900;color:#1b5e20">0.00</div>
+            <button class="small-button" type="button" style="margin-top:6px;width:100%;font-size:10px;background:#7b1fa2;color:#fff;border-color:#6a1b9a">Due Pay</button>
+          </div>
+          <!-- Tendered -->
+          <div style="border:1px solid #ccc;padding:6px;background:#fff">
+            <div style="text-align:center;font-weight:900;font-size:11px;color:#1b5e20;margin-bottom:6px">TENDERED</div>
+            <div style="display:grid;grid-template-columns:auto 1fr auto 1fr auto 1fr;gap:3px 6px;align-items:center;font-size:10px">
+              <label>Cash</label><input value="0.00" style="height:22px;width:55px;font-size:10px">
+              <label>Card</label><input value="0.00" style="height:22px;width:55px;font-size:10px">
+              <label>Cheque</label><input value="0.00" style="height:22px;width:55px;font-size:10px">
+              <label>Online</label><input value="0.00" style="height:22px;width:55px;font-size:10px">
+            </div>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:3px 6px;align-items:center;font-size:10px;margin-top:4px">
+              <label>Credit Balance (Advance)</label><input value="0.00" style="height:22px;width:70px;font-size:10px">
+              <label>Redeem Amount</label><input value="0.00" style="height:22px;width:70px;font-size:10px;color:#c00">
+            </div>
+            <div style="display:flex;gap:6px;margin-top:6px">
+              <button class="small-button" type="button" style="font-size:10px">Issue Voucher</button>
+              <button class="small-button" type="button" style="font-size:10px">Redeem Voucher</button>
+            </div>
+            <div style="display:grid;grid-template-columns:auto 1fr auto 1fr;gap:3px 6px;align-items:center;font-size:10px;margin-top:6px">
+              <label>Card Type</label><select style="height:22px;font-size:10px"><option>MasterCard</option><option>Visa</option><option>Amex</option></select>
+              <label>Cheque No</label><input style="height:22px;font-size:10px">
+              <label>Card No</label><input style="height:22px;font-size:10px">
+              <label>Date</label><input style="height:22px;font-size:10px">
+            </div>
+          </div>
+          <!-- Total -->
+          <div style="border:1px solid #ccc;padding:6px;background:#fff">
+            <div style="text-align:center;font-weight:900;font-size:11px;color:#c00;margin-bottom:6px">TOTAL</div>
+            <div style="display:grid;grid-template-columns:auto 1fr auto 1fr;gap:3px 6px;align-items:center;font-size:10px">
+              <label>Total Price</label><input value="0.00" style="height:22px;width:60px;font-size:10px" readonly>
+              <label>Discount</label><input value="0.00" style="height:22px;width:60px;font-size:10px" readonly>
+              <label>Subtotal</label><input value="0.00" style="height:22px;width:60px;font-size:10px" readonly>
+              <label>VAT Amount</label><input value="0.00" style="height:22px;width:60px;font-size:10px" readonly>
+              <label style="grid-column:1/3;font-size:12px">Grand Total</label><input value="0.00" style="height:24px;width:60px;font-size:12px;font-weight:900;grid-column:3/5" readonly>
+              <label>Ins Share</label><input value="0.00" style="height:22px;width:60px;font-size:10px" readonly>
+              <label>Patient Share</label><input value="0.00" style="height:22px;width:60px;font-size:10px" readonly>
+              <label style="grid-column:1/3">Discount Patient Share</label><input value="0.00" style="height:22px;width:60px;font-size:10px;grid-column:3/5" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" onclick="alert('Print invoice')">Print</button>
+        <button class="tool-button" type="button" data-close="invoiceModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="claimsModal" role="dialog" aria-modal="true" aria-labelledby="claimsDialogTitle">
+    <form class="dialog" id="claimsForm" style="width:min(98vw,900px);max-height:96vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="claimsDialogTitle">&#9733; Claims</span><button class="close-modal" type="button" data-close="claimsModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:12px 16px;overflow-y:auto">
+        <!-- Top fields -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
+          <div style="display:grid;grid-template-columns:90px 1fr;gap:6px 8px;font-size:11px;font-weight:700;align-items:center">
+            <label>Report Date</label><input name="claimReportDate" value="25-05-2026" style="height:26px;width:120px;font-size:11px">
+            <label>Patient</label><div style="display:flex;gap:4px"><button class="small-button" type="button">&#128269;</button><input name="claimPatient" style="height:26px;flex:1;font-size:11px"></div>
+            <label>Bill From</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input name="claimBillFrom" value="25-05-2026" style="height:26px;width:100px;font-size:11px">
+              <span>To</span>
+              <input name="claimBillTo" value="25-05-2026" style="height:26px;width:100px;font-size:11px">
+              <button class="tool-button" type="button" style="height:26px;min-width:80px;font-size:11px">Load Bills</button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:80px 1fr auto auto;gap:6px 8px;font-size:11px;font-weight:700;align-items:center">
+            <label>First Visit</label><input name="claimFirstVisit" style="height:26px;font-size:11px">
+            <button class="tool-button" type="button" style="height:26px;min-width:60px;font-size:11px">Select</button>
+            <button class="tool-button" type="button" style="height:26px;min-width:90px;font-size:11px">Consultation</button>
+            <div style="grid-column:1/5;border:1px solid #ccc;min-height:60px;background:#fff;margin-top:4px"></div>
+          </div>
+        </div>
+        <!-- Claims items table -->
+        <div style="border:1px solid #ccc;min-height:200px;overflow:auto;margin-bottom:12px">
+          <table class="consult-table" style="font-size:10px;min-width:800px" id="claimsTable">
+            <thead><tr><th style="width:80px">Date</th><th>Description</th><th style="width:70px">Progress</th><th style="width:65px">In Time</th><th style="width:65px">Out Time</th><th style="width:60px">Rate</th><th style="width:55px">Quantity</th><th style="width:60px">Gross</th><th style="width:50px">Disc</th><th style="width:50px">VAT%</th></tr></thead>
+            <tbody id="claimsTableBody">
+              <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Totals -->
+        <div style="display:flex;justify-content:flex-end">
+          <div style="display:grid;grid-template-columns:150px 80px;gap:4px 10px;font-size:11px;font-weight:700;align-items:center;text-align:right">
+            <label>Amount</label><input value="0.00" style="height:24px;font-size:11px;text-align:right" readonly>
+            <label>Total Discount</label><input value="0.00" style="height:24px;font-size:11px;text-align:right" readonly>
+            <label>Net Claim Amount</label><input value="0.00" style="height:24px;font-size:11px;text-align:right" readonly>
+            <label style="margin-top:6px">Total Received Amount</label><input value="0.00" style="height:24px;font-size:11px;text-align:right;margin-top:6px" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="claimsModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="tariffDetailModal" role="dialog" aria-modal="true" aria-labelledby="tariffDetailTitle">
+    <form class="dialog" id="tariffDetailForm" style="width:min(98vw,1050px);max-height:96vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="tariffDetailTitle">Tariff Master</span><button class="close-modal" type="button" data-close="tariffDetailModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:10px 14px;overflow-y:auto">
+        <!-- Top fields -->
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:5px 10px;font-size:12px;font-weight:700;align-items:center;margin-bottom:8px">
+          <label>Code</label><input id="tariffCode" value="0041" style="height:26px;width:120px;font-size:12px" readonly>
+          <label>Name</label><input id="tariffName" value="AYURVEDHA PRICE LIST" style="height:26px;width:300px;font-size:12px;background:#0d47a1;color:#fff;font-weight:900">
+          <label>Description</label><input id="tariffDesc" value="AYURVEDHA PRICE LIST" style="height:26px;font-size:12px">
+          <label>Type</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select style="height:26px;font-size:11px;width:80px"><option>CSH</option><option>INS</option></select>
+            <button class="small-button" type="button">&#128269;</button>
+            <span style="font-weight:700">Name</span>
+            <input value="Cash" style="height:26px;width:100px;font-size:11px">
+          </div>
+        </div>
+        <!-- Action buttons row -->
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+          <button class="tool-button" type="button" style="height:28px;font-size:11px">Delete All</button>
+          <span style="flex:1"></span>
+          <button class="tool-button" type="button" style="height:28px;font-size:11px">Upload Format</button>
+          <button class="tool-button" type="button" style="height:28px;font-size:11px;background:#1b5e20;color:#fff;border-color:#1b5e20">&#128462; Import</button>
+          <button class="tool-button primary" type="submit" style="height:28px;font-size:11px">Save</button>
+          <button class="tool-button" type="button" data-close="tariffDetailModal" style="height:28px;font-size:11px">Cancel</button>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">
+          <button class="tool-button primary" type="button" id="tariffItemNew" style="height:26px;font-size:10px;min-width:50px"><span class="mini-icon i-new" style="margin-right:2px">+</span>New</button>
+          <button class="tool-button" type="button" style="height:26px;font-size:10px;min-width:50px"><span class="mini-icon i-edit" style="margin-right:2px">/</span>Edit</button>
+          <button class="tool-button delete" type="button" style="height:26px;font-size:10px;min-width:55px"><span class="mini-icon i-delete" style="margin-right:2px">x</span>Delete</button>
+          <button class="tool-button" type="button" style="height:26px;font-size:10px;background:#1b5e20;color:#fff;border-color:#1b5e20">&#128462; Export</button>
+          <span style="flex:1"></span>
+          <input type="search" placeholder="Search" style="height:26px;width:180px;font-size:11px">
+        </div>
+        <!-- Items table -->
+        <div style="border:1px solid #ccc;max-height:320px;overflow:auto">
+          <table class="consult-table" style="font-size:10px;min-width:900px">
+            <thead><tr><th style="width:80px">IntCodeValue</th><th style="width:70px">IntCode</th><th>Description</th><th style="width:80px">ActivityCode</th><th style="width:80px">ServiceCode</th><th style="width:70px">CostPrice</th><th style="width:75px">GroupCode</th><th style="width:50px">Disc%</th><th style="width:60px">DiscAmt</th><th style="width:50px">Vat%</th><th style="width:60px">VatAmt</th></tr></thead>
+            <tbody>
+              <tr class="selected"><td style="color:#4caf50;font-weight:900">1001</td><td>CLINIC</td><td>PODIKIZHI(CPS) - 1 HR</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1002</td><td>CLINIC</td><td>ELAKIZHI(PPS) - FULL B...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1003</td><td>CLINIC</td><td>KADI KIZHI - FULL BODY...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1004</td><td>CLINIC</td><td>NARANGAKIZHI (JPS) - F...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1005</td><td>CLINIC</td><td>NJAVARAKIZHI (SPS) - F...</td><td>NA</td><td></td><td>300.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1006</td><td>CLINIC</td><td>PICHU - FULL BODY 1 HR</td><td>NA</td><td></td><td>150.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1007</td><td>CLINIC</td><td>LEPANAM - FULL BODY 1...</td><td>NA</td><td></td><td>100.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1008</td><td>CLINIC</td><td>PIZHICHIL - FULL BODY...</td><td>NA</td><td></td><td>400.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1009</td><td>CLINIC</td><td>AAVIKIZHI - FULL BODY...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1010</td><td>CLINIC</td><td>GREEVAVASTHI - FULL B...</td><td>NA</td><td></td><td>150.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1011</td><td>CLINIC</td><td>KATIVASTHI - FULL BOD...</td><td>NA</td><td></td><td>150.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1012</td><td>CLINIC</td><td>JANUVASTHI - FULL BOD...</td><td>NA</td><td></td><td>200.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1013</td><td>CLINIC</td><td>MATHRAVASTHI - FULL B...</td><td>NA</td><td></td><td>150.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1014</td><td>CLINIC</td><td>SNEHAVASTHI - FULL BO...</td><td>NA</td><td></td><td>150.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1015</td><td>CLINIC</td><td>KASHAYAVASTHI - FULL...</td><td>NA</td><td></td><td>250.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr><td>1016</td><td>CLINIC</td><td>SHIRODHARA - FULL BO...</td><td>NA</td><td></td><td>300.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="tariffItemModal" role="dialog" aria-modal="true" aria-labelledby="tariffItemTitle" style="z-index:60">
+    <form class="dialog narrow" id="tariffItemForm">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#0d47a1,#1565c0)"><span id="tariffItemTitle">Tariff Details</span><button class="close-modal" type="button" data-close="tariffItemModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:14px 18px">
+        <!-- Navigation arrows -->
+        <div style="display:flex;gap:4px;margin-bottom:10px">
+          <button type="button" class="small-button" id="tariffItemPrev" style="width:30px;height:28px;font-size:14px;background:#4caf50;color:#fff;border-color:#388e3c">&#9664;</button>
+          <button type="button" class="small-button" id="tariffItemNext" style="width:30px;height:28px;font-size:14px;background:#4caf50;color:#fff;border-color:#388e3c">&#9654;</button>
+        </div>
+        <div style="display:grid;grid-template-columns:95px 1fr 80px 1fr;gap:8px 12px;font-size:12px;font-weight:700;align-items:center">
+          <label>Code</label><input name="tiCode" value="2682" style="height:28px;font-size:12px">
+          <label>Int.Code</label><input name="tiIntCode" value="AYR" style="height:28px;font-size:12px">
+          <label style="grid-column:1/2">Description</label><textarea name="tiDescription" style="grid-column:2/5;height:50px;font-size:12px;resize:vertical">SUDARSHANAM TABLET</textarea>
+          <label>Int.Code</label>
+          <div style="display:flex;gap:4px;align-items:center"><input name="tiIntCode2" value="CLINIC" style="height:28px;width:80px;font-size:11px"><button class="small-button" type="button">&#128269;</button><span>Name</span><input name="tiIntCodeName" value="Clinic Service" style="height:28px;flex:1;font-size:11px"></div>
+          <span></span><span></span>
+          <label>Activity</label>
+          <div style="display:flex;gap:4px;align-items:center"><input name="tiActivity" value="5" style="height:28px;width:80px;font-size:11px"><button class="small-button" type="button">&#128269;</button><span>Name</span><input name="tiActivityName" value="Drug" style="height:28px;flex:1;font-size:11px"></div>
+          <span></span><span></span>
+          <label>Group</label>
+          <div style="display:flex;gap:4px;align-items:center"><input name="tiGroup" value="NA" style="height:28px;width:80px;font-size:11px"><button class="small-button" type="button">&#128269;</button><span>Name</span><input name="tiGroupName" value="Not Applicable for this service" style="height:28px;flex:1;font-size:11px"></div>
+          <span></span><span></span>
+          <label>Service</label>
+          <div style="display:flex;gap:4px;align-items:center"><input name="tiService" style="height:28px;width:80px;font-size:11px"><button class="small-button" type="button">&#128269;</button><span>Name</span><input name="tiServiceName" style="height:28px;flex:1;font-size:11px"></div>
+          <span></span><span></span>
+          <label>Cost</label><input name="tiCost" value="30.00" style="height:28px;font-size:12px">
+          <label>Discount Amount</label><input name="tiDiscAmt" value="0.00" style="height:28px;font-size:12px">
+          <label>Disc.Percent</label><input name="tiDiscPercent" style="height:28px;font-size:12px">
+          <label>VatAmount</label><input name="tiVatAmt" value="0.00" style="height:28px;font-size:12px">
+          <label>VatPercent</label><input name="tiVatPercent" value="5" style="height:28px;font-size:12px">
+          <span></span><span></span>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="tariffItemModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
   <script>
     const homeModules = [
       ["Patients", "g-patient", "patients"],
@@ -3518,7 +3926,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Plans", "g-doc", "insurance"],
       ["Riayati", "g-inventory", "insurance"],
       ["Dhpo", "g-inventory", "insurance"],
-      ["Claim", "g-gift", "insurance"]
+      ["Claim", "g-gift", "claimsList"]
     ];
 
     const inventoryModules = [
@@ -3549,8 +3957,22 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Ecosystem", "g-inventory", "employees"]
     ];
 
-    const doctors = ["LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "AMARNATH", "PADMESH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "NOORA"];
-    const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM"];
+    const accountsModules = [
+      ["Groups", "g-doc", "receiptVoucher"],
+      ["Ledgers", "g-bill", "receiptVoucher"],
+      ["Receipt", "g-receipt", "receiptVoucher"]
+    ];
+
+    const emrMastersModules = [
+      ["Diagnosis", "g-doc", "diagnosisList"],
+      ["Drug", "g-gift", "tariffMaster"],
+      ["Tariff Master", "g-bill", "tariffMaster"],
+      ["Complaints", "g-receipt", "tariffMaster"],
+      ["Radiology", "g-inventory", "tariffMaster"]
+    ];
+
+    const doctors = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "NOORA"];
+    const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM","5:15 PM","5:30 PM","5:45 PM","6:00 PM","6:15 PM","6:30 PM","6:45 PM","7:00 PM","7:15 PM","7:30 PM","7:45 PM","8:00 PM","8:15 PM","8:30 PM","8:45 PM","9:00 PM","9:15 PM","9:30 PM","9:45 PM"];
 
     let activeView = "patients";
     let activeMenu = "Home";
@@ -3650,9 +4072,11 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     function modulesForMenu(menu) {
       if (menu === "Settings") return settingsModules;
+      if (menu === "Accounts") return accountsModules;
+      if (menu === "EMR Masters") return emrMastersModules;
       if (menu === "Insurance") return insuranceModules;
-      if (menu === "Inventory" || menu === "Inventory Transaction") return inventoryModules;
-      if (menu === "User Man...") return userManModules;
+      if (menu === "Inventory") return inventoryModules;
+      if (menu === "HR") return userManModules;
       if (menu === "Masters") return mastersModules;
       return homeModules;
     }
@@ -3666,6 +4090,10 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "inventory") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
       if (view === "privileges") return ["Privileges", "User Roles", "Item group master", "Brand Master", "Store Management", "Sales Return", "Item Consumption", "Item Analysis Report", "DoctorTherapist ConsumptionReport", "Stock Report", "Stock Adjustment", "Sales Invoice", "Sales Order", "Local Pu..."];
       if (view === "employees") return ["Employees", "Defined Packages", "Receipts", "Invoice List", "Appointments", "Doctor Desk", "Patients", "Consent Forms Received", "Main Page"];
+      if (view === "receiptVoucher") return ["Receipt Voucher", "Item Master", "Unit Master", "Unit Family", "Supplier Master", "InsurancePlan", "Insurance Mapping", "Insurance Company's", "Purchase Invoices", "Invoice List", "Consent Forms Received", "Sales Invoice", "Complaints Details"];
+      if (view === "tariffMaster") return ["Tariff Master", "Main Page"];
+      if (view === "diagnosisList") return ["Diagnosis Master", "Appointments", "Tariff Master", "Main Page"];
+      if (view === "claimsList") return ["Complaints Details", "Drug Master", "Diagnosis Master", "Patients", "Insurance Claims", "Appointments", "Main Page"];
       return ["Main Page"];
     }
 
@@ -3673,8 +4101,10 @@ podi kizhi + lepanam x 5 days.</textarea>
       activeMenu = menu;
       document.querySelectorAll(".top-tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.menu === menu));
       if (menu === "Settings") activeView = "packages";
+      if (menu === "Accounts") activeView = "receiptVoucher";
+      if (menu === "EMR Masters") activeView = "tariffMaster";
       if (menu === "Insurance") activeView = "insurance";
-      if (menu === "Inventory" || menu === "Inventory Transaction") activeView = "inventory";
+      if (menu === "Inventory") activeView = "inventory";
       if (menu === "Home" && !["patients", "appointments", "receipts", "packages"].includes(activeView)) activeView = "patients";
       renderChrome();
     }
@@ -3697,6 +4127,10 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (activeView === "inventory") return "Item";
       if (activeView === "privileges") return "Privileges";
       if (activeView === "employees") return "Employees";
+      if (activeView === "receiptVoucher") return "Receipt Voucher";
+      if (activeView === "tariffMaster") return "Tariff Master";
+      if (activeView === "diagnosisList") return "Diagnosis List";
+      if (activeView === "claimsList") return "Claims List";
       return "";
     }
 
@@ -4622,7 +5056,22 @@ podi kizhi + lepanam x 5 days.</textarea>
             renderSchedule();
           }
         } else if (action === "invoice") {
-          alert("CreateInvoice - Feature coming soon");
+          if (selectedAppointmentIndex != null) {
+            const appt = appointments[selectedAppointmentIndex];
+            const patient = patients.find(p => p.mrNo === appt.mrNo);
+            if (patient) {
+              byId("invPatientName").textContent = fullName(patient);
+              byId("invMrNo").textContent = patient.mrNo;
+              byId("invGender").textContent = patient.gender || "";
+              byId("invDob").textContent = patient.dob || "";
+              const dob = parseAnyDate(patient.dob);
+              if (dob) byId("invAge").textContent = (new Date().getFullYear() - dob.getFullYear()) + " Years";
+            } else {
+              byId("invPatientName").textContent = appt.patient || "";
+              byId("invMrNo").textContent = appt.mrNo || "";
+            }
+            openModal("invoiceModal");
+          }
         } else if (action === "checkout") {
           if (selectedAppointmentIndex != null) {
             appointments[selectedAppointmentIndex].status = "CheckOut";
@@ -4669,6 +5118,87 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("consultSave")?.addEventListener("click", () => {
         alert("Consultation saved successfully");
         activateView("appointments");
+      });
+      // Receipt Voucher buttons
+      byId("rvNew")?.addEventListener("click", () => {
+        byId("rvForm")?.reset();
+        byId("rvDialogTitle").textContent = "Receipt Voucher";
+        byId("rvTableBody").innerHTML = '<tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>';
+        openModal("rvModal");
+      });
+      byId("rvEdit")?.addEventListener("click", () => {
+        byId("rvDialogTitle").textContent = "Edit Receipt Voucher";
+        openModal("rvModal");
+      });
+      byId("rvAddRow")?.addEventListener("click", () => {
+        const tbody = byId("rvTableBody");
+        const rowCount = tbody.rows.length + 1;
+        const row = document.createElement("tr");
+        row.innerHTML = `<td contenteditable="true">${rowCount}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>`;
+        tbody.appendChild(row);
+      });
+      byId("invAddRow")?.addEventListener("click", () => {
+        const tbody = byId("invTableBody");
+        const rowCount = tbody.rows.length + 1;
+        const row = document.createElement("tr");
+        row.innerHTML = `<td contenteditable="true">${rowCount}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button type="button" class="inv-del-row" style="width:20px;height:20px;border:1px solid #c00;background:#e01b36;color:#fff;font-size:10px;padding:0;cursor:pointer">&#128465;</button></td>`;
+        tbody.appendChild(row);
+      });
+      // Delete row in invoice table
+      byId("invTable")?.addEventListener("click", (event) => {
+        const btn = event.target.closest(".inv-del-row");
+        if (!btn) return;
+        const row = btn.closest("tr");
+        if (row) row.remove();
+        // Re-number rows
+        const tbody = byId("invTableBody");
+        Array.from(tbody.rows).forEach((r, i) => { r.cells[0].textContent = i + 1; });
+      });
+      byId("rvForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Receipt Voucher saved");
+        closeModal("rvModal");
+      });
+      byId("invoiceForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Invoice saved successfully");
+        closeModal("invoiceModal");
+      });
+      // Claims Add button
+      byId("claimsAdd")?.addEventListener("click", () => {
+        byId("claimsForm")?.reset();
+        byId("claimsDialogTitle").textContent = "★ Claims";
+        openModal("claimsModal");
+      });
+      byId("claimsForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Claim saved successfully");
+        closeModal("claimsModal");
+      });
+      // Tariff Master detail - open on row click
+      const tariffScreen = byId("tariffMasterScreen");
+      if (tariffScreen) {
+        tariffScreen.querySelector(".grid-shell")?.addEventListener("dblclick", (event) => {
+          const row = event.target.closest("tr");
+          if (!row || row.closest("thead")) return;
+          const code = row.cells[0]?.textContent?.trim();
+          const name = row.cells[1]?.textContent?.trim();
+          if (byId("tariffCode")) byId("tariffCode").value = code || "";
+          if (byId("tariffName")) byId("tariffName").value = name || "";
+          if (byId("tariffDesc")) byId("tariffDesc").value = name || "";
+          openModal("tariffDetailModal");
+        });
+      }
+      // Tariff item New button
+      byId("tariffItemNew")?.addEventListener("click", () => {
+        byId("tariffItemForm")?.reset();
+        byId("tariffItemTitle").textContent = "Tariff Details";
+        openModal("tariffItemModal");
+      });
+      byId("tariffItemForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Tariff item saved");
+        closeModal("tariffItemModal");
       });
       document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
       document.querySelectorAll(".modal-layer").forEach((layer) => {
