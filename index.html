@@ -926,6 +926,75 @@
       border-radius: 3px;
     }
 
+    .claims-actions {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .claims-act-btn {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 20px;
+      border: 1px solid #78bf7b;
+      background: linear-gradient(#28d530, #0cac14);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .claims-act-btn:hover {
+      background: linear-gradient(#35e03d, #0db916);
+    }
+
+    .claims-act-btn.medical { background: linear-gradient(#2196f3, #1565c0); border-color: #1565c0; }
+    .claims-act-btn.treatment { background: linear-gradient(#4caf50, #2e7d32); border-color: #2e7d32; }
+    .claims-act-btn.medicine { background: linear-gradient(#ff9800, #e65100); border-color: #e65100; }
+    .claims-act-btn.logsheet { background: linear-gradient(#9c27b0, #6a1b9a); border-color: #6a1b9a; }
+    .claims-act-btn.edit { background: linear-gradient(#00bcd4, #00838f); border-color: #00838f; }
+    .claims-act-btn.delete { background: linear-gradient(#f44336, #c62828); border-color: #c62828; }
+
+    .claims-act-btn.medical:hover { background: linear-gradient(#42a5f5, #1976d2); }
+    .claims-act-btn.treatment:hover { background: linear-gradient(#66bb6a, #388e3c); }
+    .claims-act-btn.medicine:hover { background: linear-gradient(#ffa726, #ef6c00); }
+    .claims-act-btn.logsheet:hover { background: linear-gradient(#ab47bc, #7b1fa2); }
+    .claims-act-btn.edit:hover { background: linear-gradient(#26c6da, #0097a7); }
+    .claims-act-btn.delete:hover { background: linear-gradient(#ef5350, #d32f2f); }
+
+    .proc-del-btn {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid #c62828;
+      background: #e53935;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .proc-del-btn:hover { background: #c62828; }
+
+    .db-table-item {
+      padding: 6px 12px;
+      color: #c8d6e0;
+      cursor: pointer;
+      border-bottom: 1px solid #2d3f52;
+      font-weight: 600;
+    }
+    .db-table-item:hover { background: #2d3f52; color: #fff; }
+    .db-table-item.active { background: #1565c0; color: #fff; font-weight: 800; }
+
+    #dbDataTable th { position:sticky;top:0;background:#e0e9f1;border:1px solid #bdc9d2;padding:4px 6px;font-size:11px;font-weight:800;white-space:nowrap; }
+    #dbDataTable td { border:1px solid #dde4ea;padding:3px 6px;font-size:11px;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis; }
+    #dbDataTable tr:nth-child(even) td { background:#eef4f8; }
+    #dbDataTable tr:hover td { background:#d6eaf8; }
+
     .gender {
       display: inline-block;
       width: 18px;
@@ -2584,6 +2653,7 @@
           <button class="tool-button" type="button">Sticker Print</button>
           <button class="tool-button" type="button" id="patientAppointmentInfo">Appointment Info</button>
           <button class="tool-button" type="button">Future Appointments</button>
+          <button class="tool-button" type="button" id="patientExport" style="background:linear-gradient(#f5d020,#f5a623);border-color:#d4940c;color:#3d2600;font-weight:800">&#128229; Export</button>
         </div>
         <div class="grid-shell">
           <table aria-label="Patients list">
@@ -2821,7 +2891,6 @@
       </section>
 
       <section class="screen" id="insuranceScreen" aria-label="Insurance">
-        <div class="screen-title green">Insurance</div>
         <div class="toolbar">
           <button class="tool-button" type="button" id="insuranceNew"><span class="mini-icon i-new">+</span>New</button>
           <button class="tool-button" type="button" id="insuranceEdit"><span class="mini-icon i-edit">/</span>Edit</button>
@@ -2836,7 +2905,8 @@
               <col style="width: 110px">
               <col style="width: 150px">
               <col>
-              <col style="width: 170px">
+              <col style="width: 140px">
+              <col style="width: 180px">
             </colgroup>
             <thead>
               <tr>
@@ -2845,11 +2915,41 @@
                 <th>Provider Id</th>
                 <th>Insurance Name</th>
                 <th>Phone</th>
+                <th>Address</th>
               </tr>
             </thead>
             <tbody id="insuranceRows"></tbody>
           </table>
           <div class="empty-message" id="insuranceEmpty">No insurance company records match this search.</div>
+        </div>
+      </section>
+
+      <section class="screen" id="insuranceMappingScreen" aria-label="Insurance Mapping">
+        <div class="screen-title green">Insurance Mapping</div>
+        <div class="toolbar">
+          <button class="tool-button" type="button" id="mappingNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="mappingEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="mappingDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+          <span class="spacer"></span>
+          <span class="search-line">Search <input id="mappingSearch" type="search" placeholder="Type, receiver, payer name" style="width: 340px"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Insurance mapping list">
+            <colgroup>
+              <col style="width: 80px">
+              <col style="width: 200px">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Receiver Name</th>
+                <th>Payer Name</th>
+              </tr>
+            </thead>
+            <tbody id="mappingRows"></tbody>
+          </table>
+          <div class="empty-message" id="mappingEmpty">No insurance mapping records match this search.</div>
         </div>
       </section>
 
@@ -2869,22 +2969,23 @@
           <table aria-label="Claims list">
             <colgroup>
               <col style="width:90px">
-              <col style="width:110px">
-              <col style="width:110px">
-              <col style="width:70px">
+              <col style="width:100px">
+              <col style="width:100px">
+              <col style="width:60px">
               <col>
-              <col style="width:100px">
-              <col style="width:100px">
+              <col style="width:90px">
+              <col style="width:90px">
+              <col style="width:200px">
             </colgroup>
             <thead>
-              <tr><th>Claim ID</th><th>From Date</th><th>To Date</th><th>MRNO</th><th>Patient Name</th><th>Amount</th><th>Received Am...</th></tr>
+              <tr><th>Claim ID</th><th>From Date</th><th>To Date</th><th>MRNO</th><th>Patient Name</th><th>Amount</th><th>Received Amount</th><th>Actions</th></tr>
             </thead>
             <tbody>
-              <tr class="selected"><td style="color:#4caf50;font-weight:900">S-0913</td><td>18-05-2026</td><td>24-05-2026</td><td>4760</td><td>VINU MADHAVAN MADHAVAN PAZHANMALA</td><td>2,530.00</td><td>0.00</td></tr>
-              <tr><td>S-0914</td><td>21-05-2026</td><td>24-05-2026</td><td>4407</td><td>IRFAN ISMAIL PATEL PATEL ISMAIL HAROON</td><td>1,240.00</td><td>0.00</td></tr>
-              <tr><td>S-0915</td><td>18-05-2026</td><td>22-05-2026</td><td>4234</td><td>ADYAAN KARIM TALHA KARIM</td><td>1,300.00</td><td>0.00</td></tr>
-              <tr><td>S-0916</td><td>18-05-2026</td><td>25-05-2026</td><td>4770</td><td>RUSAILA MANGALATT ASIF</td><td>2,050.00</td><td>0.00</td></tr>
-              <tr><td>S-0917</td><td>21-05-2026</td><td>25-05-2026</td><td>4771</td><td>AMRUTHA THALAPPAN KAVILEVEEDU</td><td>800.00</td><td>0.00</td></tr>
+              <tr class="selected"><td style="color:#4caf50;font-weight:900">S-0913</td><td>18-05-2026</td><td>24-05-2026</td><td>4760</td><td>VINU MADHAVAN MADHAVAN PAZHANMALA</td><td>2,530.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
+              <tr><td>S-0914</td><td>21-05-2026</td><td>24-05-2026</td><td>4407</td><td>IRFAN ISMAIL PATEL PATEL ISMAIL HAROON</td><td>1,240.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
+              <tr><td>S-0915</td><td>18-05-2026</td><td>22-05-2026</td><td>4234</td><td>ADYAAN KARIM TALHA KARIM</td><td>1,300.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
+              <tr><td>S-0916</td><td>18-05-2026</td><td>25-05-2026</td><td>4770</td><td>RUSAILA MANGALATT ASIF</td><td>2,050.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
+              <tr><td>S-0917</td><td>21-05-2026</td><td>25-05-2026</td><td>4771</td><td>AMRUTHA THALAPPAN KAVILEVEEDU</td><td>800.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -2941,8 +3042,8 @@
       <section class="screen" id="diagnosisListScreen" aria-label="Diagnosis List">
         <div class="screen-title" style="background:linear-gradient(90deg,#0d47a1,#1565c0)">Diagnosis List</div>
         <div class="toolbar">
-          <button class="tool-button primary" type="button"><span class="mini-icon i-new">+</span>New</button>
-          <button class="tool-button" type="button"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button primary" type="button" id="diagNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="diagEdit"><span class="mini-icon i-edit">/</span>Edit</button>
           <button class="tool-button delete" type="button"><span class="mini-icon i-delete">x</span>Delete</button>
           <span class="search-line">Search <input id="diagSearch" type="search" style="width:200px"></span>
           <span class="spacer"></span>
@@ -2950,18 +3051,40 @@
         </div>
         <div class="grid-shell">
           <table aria-label="Diagnosis list">
-            <colgroup><col style="width:140px"><col></colgroup>
-            <thead><tr><th>ICD Code</th><th>Description</th></tr></thead>
+            <colgroup><col style="width:120px"><col><col style="width:80px"></colgroup>
+            <thead><tr><th>ICD Code</th><th>Description</th><th>&#9661;</th></tr></thead>
             <tbody>
-              <tr class="selected"><td style="color:#c00;font-weight:900">V86.51XS</td><td>Driver of amblnc/fire eng injured nontraf, sequela</td></tr>
-              <tr><td>V86.52XA</td><td>Driver of snowmobile injured in nontraffic accident, init</td></tr>
-              <tr><td>V86.52XD</td><td>Driver of snowmobile injured in nontraffic accident, subs</td></tr>
-              <tr><td>V86.53XA</td><td>Driver of dune buggy injured in nontraffic accident, init</td></tr>
-              <tr><td>V86.53XD</td><td>Driver of dune buggy injured in nontraffic accident, subs</td></tr>
-              <tr><td>V86.54XA</td><td>Driver of military vehicle injured nontraf, init</td></tr>
-              <tr><td>V86.55XA</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, init</td></tr>
-              <tr><td>W21.89XS</td><td>Striking against or struck by oth sports equipment, sequela</td></tr>
-              <tr><td>M54.2</td><td>Cervicalgia</td></tr>
+              <tr><td colspan="3" style="font-size:11px;padding:3px 8px"><strong>Contains:</strong> <span style="font-weight:400">&#9661; Contains:</span></td></tr>
+              <tr class="selected"><td style="color:#c00;font-weight:900">V86.51XS</td><td>Driver of amblnc/fire eng injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.52XA</td><td>Driver of snowmobile injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.52XD</td><td>Driver of snowmobile injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.52XS</td><td>Driver of snowmobile injured in nontraffic accident, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.53XA</td><td>Driver of dune buggy injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.53XD</td><td>Driver of dune buggy injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.53XS</td><td>Driver of dune buggy injured in nontraffic accident, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.54XA</td><td>Driver of military vehicle injured nontraf, init</td><td>ICD10</td></tr>
+              <tr><td>V86.54XD</td><td>Driver of military vehicle injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.54XS</td><td>Driver of military vehicle injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.55XA</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, init</td><td>ICD10</td></tr>
+              <tr><td>V86.55XD</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.55XS</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>W21.89XS</td><td>Striking against or struck by oth sports equipment, sequela</td><td>ICD10</td></tr>
+              <tr><td>W21.9XXA</td><td>Striking against or struck by unsp sports equipment, init</td><td>ICD10</td></tr>
+              <tr><td>V86.56XD</td><td>Driver of dirt bike or motor/cross bike inj nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.56XS</td><td>Driver of dirt bike or motor/cross bike inj nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.59XA</td><td>Driver of sp off-rd mv injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.59XD</td><td>Driver of sp off-rd mv injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.59XS</td><td>Driver of sp off rd mv nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.61XA</td><td>Passenger of amblnc/fire eng injured nontraf, init</td><td>ICD10</td></tr>
+              <tr><td>V86.61XD</td><td>Passenger of amblnc/fire eng injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.61XS</td><td>Passenger of amblnc/fire eng injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.62XA</td><td>Passenger of snowmobile injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.62XD</td><td>Passenger of snowmobile injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.62XS</td><td>Passenger of snowmobile injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.63XA</td><td>Passenger of dune buggy injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.63XD</td><td>Passenger of dune buggy injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.63XS</td><td>Passenger of dune buggy injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>M54.2</td><td>Cervicalgia</td><td>ICD10</td></tr>
             </tbody>
           </table>
         </div>
@@ -3118,7 +3241,7 @@
                 <button type="button">Doctor Notes</button>
                 <button type="button">Family History</button>
                 <button type="button">Case Sheet By Visit</button>
-                <button type="button">Consolidated Report</button>
+                <button type="button" id="consolidatedReportBtn">Consolidated Report</button>
               </div>
             </div>
             <!-- Right main area -->
@@ -3212,37 +3335,48 @@ podi kizhi + lepanam x 5 days.</textarea>
               <!-- Diagnosis and Procedure side by side -->
               <div class="consult-diag-proc">
                 <div class="consult-diagnosis">
-                  <div class="consult-section-title diag-title">Diagnosis &#128269;</div>
+                  <div class="consult-section-title diag-title">Diagnosis <span id="icdLoadBtn" style="cursor:pointer" title="Click to load ICD codes">&#128269;</span></div>
+                  <div style="position:relative">
+                    <input type="text" id="icdSearchInput" placeholder="Search ICD code or description..." style="width:100%;height:28px;font-size:12px;margin-bottom:2px;padding:4px 8px;display:none">
+                    <div id="icdDropdown" style="display:none;position:absolute;top:28px;left:0;right:0;z-index:50;max-height:200px;overflow-y:auto;background:#fff;border:1px solid #aaa;box-shadow:0 3px 8px rgba(0,0,0,0.2);font-size:11px"></div>
+                  </div>
                   <table class="consult-table">
                     <thead><tr><th>ICD Code</th><th>Description</th><th>Dig. Type</th><th>Primary</th><th>Type</th></tr></thead>
-                    <tbody>
+                    <tbody id="diagnosisTableBody">
                       <tr><td contenteditable="true">M54.2</td><td contenteditable="true">Cervicalgia</td><td contenteditable="true">Primary</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
                       <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
                     </tbody>
                   </table>
                 </div>
                 <div class="consult-procedure">
-                  <div class="consult-section-title proc-title">Procedure</div>
+                  <div class="consult-section-title proc-title">Procedure <span id="procLoadBtn" style="cursor:pointer" title="Click to load procedures">&#128269;</span></div>
+                  <div style="position:relative">
+                    <input type="text" id="procSearchInput" placeholder="Search procedure code or name..." style="width:100%;height:28px;font-size:12px;margin-bottom:2px;padding:4px 8px;display:none">
+                    <div id="procDropdown" style="display:none;position:absolute;top:28px;left:0;right:0;z-index:50;max-height:200px;overflow-y:auto;background:#fff;border:1px solid #aaa;box-shadow:0 3px 8px rgba(0,0,0,0.2);font-size:11px"></div>
+                  </div>
                   <table class="consult-table">
-                    <thead><tr><th>Med.Code</th><th>Descripti...</th><th>Price</th><th>Sessions</th><th>Amount</th><th>Disc Amt</th><th>discper</th><th>VAT Amt</th><th>Net Amt.</th><th>p. Share</th></tr></thead>
-                    <tbody>
-                      <tr><td contenteditable="true">9</td><td contenteditable="true">CONSUL...</td><td contenteditable="true">100.00</td><td contenteditable="true">1.00</td><td contenteditable="true">100.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">100.00</td><td contenteditable="true">100.00</td></tr>
-                      <tr><td contenteditable="true">1001</td><td contenteditable="true">PODIK...</td><td contenteditable="true">280.00</td><td contenteditable="true">5.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">1,400.00</td></tr>
-                      <tr><td contenteditable="true">1037</td><td contenteditable="true">LEPAN...</td><td contenteditable="true">150.00</td><td contenteditable="true">5.00</td><td contenteditable="true">750.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">750.00</td><td contenteditable="true">750.00</td></tr>
-                      <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                    <thead><tr><th>Med.Code</th><th>Descripti...</th><th>Price</th><th>Sessions</th><th>Amount</th><th>Disc Amt</th><th>discper</th><th>VAT Amt</th><th>Net Amt.</th><th>p. Share</th><th style="width:30px"></th></tr></thead>
+                    <tbody id="procedureTableBody">
+                      <tr><td contenteditable="true">9</td><td contenteditable="true">CONSUL...</td><td contenteditable="true">100.00</td><td contenteditable="true">1.00</td><td contenteditable="true">100.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">100.00</td><td contenteditable="true">100.00</td><td><button class="proc-del-btn" type="button" title="Delete">&#10005;</button></td></tr>
+                      <tr><td contenteditable="true">1001</td><td contenteditable="true">PODIK...</td><td contenteditable="true">280.00</td><td contenteditable="true">5.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">1,400.00</td><td><button class="proc-del-btn" type="button" title="Delete">&#10005;</button></td></tr>
+                      <tr><td contenteditable="true">1037</td><td contenteditable="true">LEPAN...</td><td contenteditable="true">150.00</td><td contenteditable="true">5.00</td><td contenteditable="true">750.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">750.00</td><td contenteditable="true">750.00</td><td><button class="proc-del-btn" type="button" title="Delete">&#10005;</button></td></tr>
+                      <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
                     </tbody>
                   </table>
                 </div>
               </div>
               <!-- Prescription -->
               <div class="consult-prescription">
-                <div class="consult-section-title presc-title">Prescription</div>
+                <div class="consult-section-title presc-title">Prescription <button type="button" id="prescEditBtn" style="margin-left:10px;padding:2px 10px;font-size:11px;font-weight:700;background:linear-gradient(#fff,#e0e9f1);border:1px solid #9aaab7;border-radius:2px;cursor:pointer">Edit</button></div>
                 <table class="consult-table">
-                  <thead><tr><th style="width:25%">Medicines</th><th style="width:30%">Instructions</th><th style="width:25%">Frequency</th><th style="width:20%">Duration</th></tr></thead>
-                  <tbody>
-                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                  <thead><tr><th style="width:30%">Medicines</th><th style="width:30%">Instructions</th><th style="width:20%">Frequency</th><th style="width:15%">Duration</th><th style="width:30px"></th></tr></thead>
+                  <tbody id="prescriptionTableBody">
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button class="proc-del-btn" type="button">&#10005;</button></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button class="proc-del-btn" type="button">&#10005;</button></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button class="proc-del-btn" type="button">&#10005;</button></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button class="proc-del-btn" type="button">&#10005;</button></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button class="proc-del-btn" type="button">&#10005;</button></td></tr>
+                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td></td></tr>
                   </tbody>
                 </table>
                 <div class="consult-total">Total Amount: <strong>2,250</strong></div>
@@ -3256,6 +3390,58 @@ podi kizhi + lepanam x 5 days.</textarea>
           </div>
         </div>
       </section>
+
+      <!-- Database Admin Screen -->
+      <section class="screen" id="databaseScreen" aria-label="Database">
+        <div class="screen-title" style="background:linear-gradient(90deg,#1a237e,#3949ab)">Database Manager</div>
+        <div style="display:grid;grid-template-columns:220px 1fr;height:100%;min-height:0;overflow:hidden">
+          <!-- Left: Tables list -->
+          <div style="border-right:1px solid #aebbc5;background:#1e2a3a;overflow-y:auto;padding:0">
+            <div style="padding:8px 10px;font-size:11px;font-weight:900;color:#8ab4f8;text-transform:uppercase;border-bottom:1px solid #2d3f52">clinic_emr</div>
+            <div id="dbTablesList" style="font-size:12px">
+              <div class="db-table-item active" data-table="patients">&#128194; patients</div>
+              <div class="db-table-item" data-table="consultations">&#128194; consultations</div>
+              <div class="db-table-item" data-table="consultation_procedures">&#128194; consultation_procedures</div>
+              <div class="db-table-item" data-table="consultation_prescriptions">&#128194; consultation_prescriptions</div>
+              <div class="db-table-item" data-table="claims">&#128194; claims</div>
+              <div class="db-table-item" data-table="logsheet_entries">&#128194; logsheet_entries</div>
+              <div class="db-table-item" data-table="appointments">&#128194; appointments</div>
+              <div class="db-table-item" data-table="receipts">&#128194; receipts</div>
+              <div class="db-table-item" data-table="packages">&#128194; packages</div>
+              <div class="db-table-item" data-table="insurance_companies">&#128194; insurance_companies</div>
+              <div class="db-table-item" data-table="insurance_mappings">&#128194; insurance_mappings</div>
+              <div class="db-table-item" data-table="doctors">&#128194; doctors</div>
+              <div class="db-table-item" data-table="tariff_master">&#128194; tariff_master</div>
+            </div>
+          </div>
+          <!-- Right: Table data/structure -->
+          <div style="display:grid;grid-template-rows:auto auto 1fr;overflow:hidden;background:#f5f8fa">
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 10px;background:linear-gradient(#f8fbfd,#e0e9f1);border-bottom:1px solid #aebbc5">
+              <span style="font-size:13px;font-weight:800" id="dbCurrentTable">patients</span>
+              <button class="small-button" type="button" id="dbViewData" style="background:linear-gradient(#20d62a,#0ba713);color:#fff;border-color:#078d0f">Data</button>
+              <button class="small-button" type="button" id="dbViewStructure">Structure</button>
+              <span style="flex:1"></span>
+              <span style="font-size:11px;color:#60707d" id="dbRowCount">0 rows</span>
+            </div>
+            <!-- Structure view -->
+            <div id="dbStructureView" style="display:none;overflow:auto;padding:10px">
+              <table style="width:100%;border-collapse:collapse;font-size:11px" id="dbStructureTable">
+                <thead><tr style="background:#e0e9f1"><th style="border:1px solid #bdc9d2;padding:5px">Column</th><th style="border:1px solid #bdc9d2;padding:5px">Type</th><th style="border:1px solid #bdc9d2;padding:5px">Key</th><th style="border:1px solid #bdc9d2;padding:5px">Default</th></tr></thead>
+                <tbody id="dbStructureBody"></tbody>
+              </table>
+            </div>
+            <!-- Data view -->
+            <div id="dbDataView" style="overflow:auto">
+              <table style="width:100%;border-collapse:collapse;font-size:11px;table-layout:auto" id="dbDataTable">
+                <thead id="dbDataHead"></thead>
+                <tbody id="dbDataBody"></tbody>
+              </table>
+              <div style="padding:12px;color:#60707d;font-size:12px;font-weight:700" id="dbEmptyMsg">Select a table to view data</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </section>
 
     <footer class="status-bar">
@@ -3403,20 +3589,42 @@ podi kizhi + lepanam x 5 days.</textarea>
   </div>
 
   <div class="modal-layer" id="insuranceModal" role="dialog" aria-modal="true" aria-labelledby="insuranceDialogTitle">
-    <form class="dialog narrow" id="insuranceForm">
-      <div class="dialog-title"><span id="insuranceDialogTitle">Insurance Company</span><button class="close-modal" type="button" data-close="insuranceModal">x</button></div>
-      <div class="dialog-body">
-        <div class="small-form-grid">
-          <label class="form-field">Code<input name="code" required></label>
-          <label class="form-field">Type<select name="type"><option>DINS</option><option>TPA</option><option>CASH</option></select></label>
-          <label class="form-field">Provider Id<input name="providerId" required></label>
-          <label class="form-field">Phone<input name="phone"></label>
-          <label class="form-field wide">Insurance Name<input name="name" required></label>
+    <form class="dialog" id="insuranceForm" style="width:min(92vw,540px)">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a9e22,#10bf18)"><span id="insuranceDialogTitle" style="color:#fff;font-weight:900;font-size:16px">Insurance</span><button class="close-modal" type="button" data-close="insuranceModal" style="color:#d00;font-size:22px;font-weight:900;background:none;border:none;cursor:pointer">&#x2716;</button></div>
+      <div class="dialog-body" style="padding:18px 24px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right">Code</label>
+          <input name="code" style="width:150px;height:28px;font-size:13px" required>
         </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right">Provider Id</label>
+          <input name="providerId" style="width:200px;height:28px;font-size:13px">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right">Insurance Name</label>
+          <input name="name" style="flex:1;height:28px;font-size:13px" required>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right;padding-top:5px">Address</label>
+          <textarea name="address" rows="3" style="flex:1;font-size:13px"></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right">Phone</label>
+          <input name="phone" style="flex:1;height:28px;font-size:13px">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right">Contact Person</label>
+          <input name="contactPerson" style="flex:1;height:28px;font-size:13px">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="min-width:130px;font-size:13px;font-weight:800;text-align:right">Receiver Code</label>
+          <input name="receiverCode" style="flex:1;height:28px;font-size:13px">
+        </div>
+        <input type="hidden" name="type" value="DINS">
       </div>
-      <div class="dialog-actions">
-        <button class="tool-button primary" type="submit">Save</button>
-        <button class="tool-button" type="button" data-close="insuranceModal">Cancel</button>
+      <div class="dialog-actions" style="padding:12px 24px;display:flex;justify-content:flex-end;gap:10px">
+        <button class="tool-button" type="submit" style="min-width:80px;height:30px;font-size:13px;font-weight:700">Save</button>
+        <button class="tool-button" type="button" data-close="insuranceModal" style="min-width:80px;height:30px;font-size:13px;font-weight:700">Cancel</button>
       </div>
     </form>
   </div>
@@ -3788,6 +3996,293 @@ podi kizhi + lepanam x 5 days.</textarea>
     </form>
   </div>
 
+  <!-- Medical Report Modal -->
+  <div class="modal-layer" id="medicalReportModal" role="dialog" aria-modal="true" aria-labelledby="medicalReportTitle">
+    <div class="dialog" style="width:min(92vw,700px);max-height:90vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1565c0,#2196f3)"><span id="medicalReportTitle">Medical Report</span><button class="close-modal" type="button" data-close="medicalReportModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px;overflow-y:auto">
+        <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:13px;font-weight:700;margin-bottom:14px">
+          <span style="font-weight:800">Claim ID:</span><span id="mrClaimId"></span>
+          <span style="font-weight:800">Patient:</span><span id="mrPatientName"></span>
+          <span style="font-weight:800">MRNO:</span><span id="mrMrno"></span>
+          <span style="font-weight:800">Period:</span><span id="mrPeriod"></span>
+        </div>
+        <hr style="border:none;border-top:1px solid #ccd6de;margin:10px 0">
+        <div style="font-size:13px;font-weight:700;margin-bottom:8px">Diagnosis / Medical Summary:</div>
+        <textarea id="mrDiagnosis" rows="4" style="width:100%;font-size:13px" placeholder="Enter diagnosis details..."></textarea>
+        <div style="font-size:13px;font-weight:700;margin:10px 0 8px">Doctor's Notes:</div>
+        <textarea id="mrNotes" rows="4" style="width:100%;font-size:13px" placeholder="Enter doctor's notes..."></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="button" onclick="alert('Medical Report saved');closeModal('medicalReportModal')">Save</button>
+        <button class="tool-button" type="button" onclick="window.print()">Print</button>
+        <button class="tool-button" type="button" data-close="medicalReportModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Treatment Report Modal -->
+  <div class="modal-layer" id="treatmentReportModal" role="dialog" aria-modal="true" aria-labelledby="treatmentReportTitle">
+    <div class="dialog" style="width:min(92vw,700px);max-height:90vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#2e7d32,#4caf50)"><span id="treatmentReportTitle">Treatment Report</span><button class="close-modal" type="button" data-close="treatmentReportModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px;overflow-y:auto">
+        <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:13px;font-weight:700;margin-bottom:14px">
+          <span style="font-weight:800">Claim ID:</span><span id="trClaimId"></span>
+          <span style="font-weight:800">Patient:</span><span id="trPatientName"></span>
+          <span style="font-weight:800">MRNO:</span><span id="trMrno"></span>
+          <span style="font-weight:800">Period:</span><span id="trPeriod"></span>
+        </div>
+        <hr style="border:none;border-top:1px solid #ccd6de;margin:10px 0">
+        <div style="font-size:13px;font-weight:700;margin-bottom:8px">Treatment Details:</div>
+        <textarea id="trDetails" rows="4" style="width:100%;font-size:13px" placeholder="Enter treatment details..."></textarea>
+        <div style="font-size:13px;font-weight:700;margin:10px 0 8px">Therapist / Procedure:</div>
+        <textarea id="trProcedure" rows="4" style="width:100%;font-size:13px" placeholder="Enter procedure details..."></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="button" onclick="alert('Treatment Report saved');closeModal('treatmentReportModal')">Save</button>
+        <button class="tool-button" type="button" onclick="window.print()">Print</button>
+        <button class="tool-button" type="button" data-close="treatmentReportModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medicine Report Modal -->
+  <div class="modal-layer" id="medicineReportModal" role="dialog" aria-modal="true" aria-labelledby="medicineReportTitle">
+    <div class="dialog" style="width:min(92vw,700px);max-height:90vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#e65100,#ff9800)"><span id="medicineReportTitle">Medicine Report</span><button class="close-modal" type="button" data-close="medicineReportModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px;overflow-y:auto">
+        <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:13px;font-weight:700;margin-bottom:14px">
+          <span style="font-weight:800">Claim ID:</span><span id="rxClaimId"></span>
+          <span style="font-weight:800">Patient:</span><span id="rxPatientName"></span>
+          <span style="font-weight:800">MRNO:</span><span id="rxMrno"></span>
+          <span style="font-weight:800">Period:</span><span id="rxPeriod"></span>
+        </div>
+        <hr style="border:none;border-top:1px solid #ccd6de;margin:10px 0">
+        <div style="font-size:13px;font-weight:700;margin-bottom:8px">Prescribed Medicines:</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px">
+          <thead><tr style="background:#f5f5f5"><th style="border:1px solid #ccc;padding:5px;text-align:left">Medicine</th><th style="border:1px solid #ccc;padding:5px;text-align:left">Dosage</th><th style="border:1px solid #ccc;padding:5px;text-align:left">Duration</th><th style="border:1px solid #ccc;padding:5px;text-align:left">Remarks</th></tr></thead>
+          <tbody id="rxMedicineList">
+            <tr><td style="border:1px solid #ccc;padding:5px">Dasamoola Kashayam</td><td style="border:1px solid #ccc;padding:5px">15ml x 2</td><td style="border:1px solid #ccc;padding:5px">7 days</td><td style="border:1px solid #ccc;padding:5px">Before food</td></tr>
+            <tr><td style="border:1px solid #ccc;padding:5px">Triphala Choornam</td><td style="border:1px solid #ccc;padding:5px">5g x 1</td><td style="border:1px solid #ccc;padding:5px">14 days</td><td style="border:1px solid #ccc;padding:5px">At bedtime</td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:13px;font-weight:700;margin:10px 0 8px">Additional Notes:</div>
+        <textarea id="rxNotes" rows="3" style="width:100%;font-size:13px" placeholder="Enter additional notes..."></textarea>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="button" onclick="alert('Medicine Report saved');closeModal('medicineReportModal')">Save</button>
+        <button class="tool-button" type="button" onclick="window.print()">Print</button>
+        <button class="tool-button" type="button" data-close="medicineReportModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logsheet Modal -->
+  <div class="modal-layer" id="logsheetModal" role="dialog" aria-modal="true" aria-labelledby="logsheetTitle">
+    <div class="dialog" style="width:min(95vw,850px);max-height:92vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#6a1b9a,#9c27b0)"><span id="logsheetTitle">LOG SHEET</span><button class="close-modal" type="button" data-close="logsheetModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px;overflow-y:auto">
+        <!-- Patient & Claim Info -->
+        <div style="display:grid;grid-template-columns:100px 1fr 100px 1fr;gap:6px 10px;font-size:12px;font-weight:700;margin-bottom:12px">
+          <span style="font-weight:800">Claim ID:</span><span id="lsClaimId"></span>
+          <span style="font-weight:800">MRNO:</span><span id="lsMrno"></span>
+          <span style="font-weight:800">Patient:</span><span id="lsPatientName"></span>
+          <span style="font-weight:800">Period:</span><span id="lsPeriod"></span>
+        </div>
+
+        <!-- Procedures/Services -->
+        <div style="border:1px solid #999;padding:8px 10px;margin-bottom:12px;background:#fafafa">
+          <div style="font-size:12px;font-weight:900;text-decoration:underline;margin-bottom:6px">Procedures/Services</div>
+          <div id="lsServices" style="font-size:12px;font-weight:700;line-height:1.6">
+            CONSULTATION FEE &nbsp; 1 Session<br>
+            LEPANAM - HALF HOUR &nbsp; 3 Session<br>
+            PICHU - HALF HOUR &nbsp; 3 Session<br>
+            PODIKIZHI(CPS) - 1 HR &nbsp; 6 Session
+          </div>
+        </div>
+
+        <!-- Medicine -->
+        <div style="border:1px solid #999;padding:8px 10px;margin-bottom:14px;background:#fafafa">
+          <div style="font-size:12px;font-weight:900;text-decoration:underline;margin-bottom:6px">Medicine</div>
+          <div id="lsMedicine" style="font-size:12px;font-weight:700;line-height:1.6">
+            Prasarinyadi ks ks tablet (2-0-2) B/F X 2 Weeks<br>
+            Yoga raja guggulu tablet (2-0-2) B/F X 2 Weeks
+          </div>
+        </div>
+
+        <!-- Log Sheet Table -->
+        <div style="font-size:14px;font-weight:900;text-align:center;margin-bottom:10px;text-decoration:underline">LOG SHEET</div>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;font-weight:700">
+          <thead>
+            <tr style="background:#e0e0e0">
+              <th style="border:1px solid #888;padding:5px 4px;width:35px;text-align:center">Sl No</th>
+              <th style="border:1px solid #888;padding:5px 4px;width:85px;text-align:center">DATE</th>
+              <th style="border:1px solid #888;padding:5px 4px;text-align:center">TREATMENT DONE</th>
+              <th style="border:1px solid #888;padding:5px 4px;width:70px;text-align:center">IN TIME</th>
+              <th style="border:1px solid #888;padding:5px 4px;width:70px;text-align:center">OUT TIME</th>
+              <th style="border:1px solid #888;padding:5px 4px;text-align:center">PROGRESS</th>
+            </tr>
+          </thead>
+          <tbody id="lsEntries">
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">1</td><td style="border:1px solid #aaa;padding:4px;text-align:center">01.05.2026</td><td style="border:1px solid #aaa;padding:4px">CONSULTATION FEE</td><td style="border:1px solid #aaa;padding:4px;text-align:center">10:30 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px">Signs: Tenderness over right shoulder region ++, Stiffness and swelling ++, Redness - No redness, ROM: Painful but not restricted.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">2</td><td style="border:1px solid #aaa;padding:4px;text-align:center">08.05.2026</td><td style="border:1px solid #aaa;padding:4px">PODIKIZHI(CPS) - 1 HR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">10:00 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px">feels mild relief</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">3</td><td style="border:1px solid #aaa;padding:4px;text-align:center">09.05.2026</td><td style="border:1px solid #aaa;padding:4px">PODIKIZHI(CPS) - 1 HR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">03:00 PM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">04:00 PM</td><td style="border:1px solid #aaa;padding:4px">stiffness better than before</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">4</td><td style="border:1px solid #aaa;padding:4px;text-align:center">10.05.2026</td><td style="border:1px solid #aaa;padding:4px">PODIKIZHI(CPS) - 1 HR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">10:00 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px">pain is felt better than before.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">5</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11.05.2026</td><td style="border:1px solid #aaa;padding:4px">PODIKIZHI(CPS) - 1 HR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">10:00 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px">stiffness reduced.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">6</td><td style="border:1px solid #aaa;padding:4px;text-align:center">12.05.2026</td><td style="border:1px solid #aaa;padding:4px">PODIKIZHI(CPS) - 1 HR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">03:00 PM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">04:00 PM</td><td style="border:1px solid #aaa;padding:4px">feels 70-80% relief in symptoms.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">7</td><td style="border:1px solid #aaa;padding:4px;text-align:center">13.05.2026</td><td style="border:1px solid #aaa;padding:4px">PODIKIZHI(CPS) - 1 HR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">07:30 PM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">08:30 PM</td><td style="border:1px solid #aaa;padding:4px">good relief in symptoms</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">8</td><td style="border:1px solid #aaa;padding:4px;text-align:center">08.05.2026</td><td style="border:1px solid #aaa;padding:4px">LEPANAM - HALF HOUR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:30 AM</td><td style="border:1px solid #aaa;padding:4px">feels mild relief</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">9</td><td style="border:1px solid #aaa;padding:4px;text-align:center">09.05.2026</td><td style="border:1px solid #aaa;padding:4px">LEPANAM - HALF HOUR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">04:00 PM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">04:30 PM</td><td style="border:1px solid #aaa;padding:4px">stiffness better than before</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">10</td><td style="border:1px solid #aaa;padding:4px;text-align:center">10.05.2026</td><td style="border:1px solid #aaa;padding:4px">LEPANAM - HALF HOUR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:30 AM</td><td style="border:1px solid #aaa;padding:4px">pain is felt better than before.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">11</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11.05.2026</td><td style="border:1px solid #aaa;padding:4px">PICHU - HALF HOUR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:00 AM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">11:30 AM</td><td style="border:1px solid #aaa;padding:4px">stiffness reduced.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">12</td><td style="border:1px solid #aaa;padding:4px;text-align:center">12.05.2026</td><td style="border:1px solid #aaa;padding:4px">PICHU - HALF HOUR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">04:00 PM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">04:30 PM</td><td style="border:1px solid #aaa;padding:4px">feels 70-80% relief in symptoms.</td></tr>
+            <tr><td style="border:1px solid #aaa;padding:4px;text-align:center">13</td><td style="border:1px solid #aaa;padding:4px;text-align:center">13.05.2026</td><td style="border:1px solid #aaa;padding:4px">PICHU - HALF HOUR</td><td style="border:1px solid #aaa;padding:4px;text-align:center">08:30 PM</td><td style="border:1px solid #aaa;padding:4px;text-align:center">09:00 PM</td><td style="border:1px solid #aaa;padding:4px">good relief in symptoms</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="button" onclick="alert('Logsheet saved');closeModal('logsheetModal')">Save</button>
+        <button class="tool-button" type="button" onclick="window.print()">Print</button>
+        <button class="tool-button" type="button" data-close="logsheetModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prescription Edit Modal -->
+  <div class="modal-layer" id="prescriptionModal" role="dialog" aria-modal="true" aria-labelledby="prescriptionModalTitle">
+    <div class="dialog" style="width:min(95vw,750px);max-height:90vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="prescriptionModalTitle">Prescriptions</span><button class="close-modal" type="button" data-close="prescriptionModal">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:12px 16px;overflow-y:auto">
+        <!-- Search Drugs -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <strong style="font-size:12px;min-width:100px">Search Drugs</strong>
+          <input type="text" id="medSearchInput" placeholder="" style="width:350px;height:26px;font-size:12px;padding:4px 8px">
+        </div>
+        <!-- Medicine list -->
+        <div style="border:1px solid #aaa;height:160px;overflow-y:auto;background:#fff;margin-bottom:10px">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead><tr style="background:#e0e0e0;position:sticky;top:0"><th style="padding:4px 8px;text-align:center;border-bottom:1px solid #999">Medicine</th></tr></thead>
+            <tbody id="medListBody"></tbody>
+          </table>
+        </div>
+        <!-- Medicine + Instructions + Frequency + Duration + Add -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:4px">
+            <strong style="font-size:11px;min-width:80px">Medicines</strong>
+            <input type="text" id="medNameField" style="flex:1;height:26px;font-size:11px;background:#fffff0">
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <strong style="font-size:11px;min-width:80px">Instructions</strong>
+            <input type="text" id="medInstructionsField" style="flex:1;height:26px;font-size:11px" placeholder="B/F, A/F...">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:4px">
+            <strong style="font-size:11px;min-width:80px">Frequency</strong>
+            <select id="medFrequencyField" style="flex:1;height:26px;font-size:11px"><option>1-0-1</option><option>2-0-2</option><option>1-1-1</option><option>0-0-1</option><option>1-0-0</option><option>0-1-0</option><option>2-2-2</option><option>SOS</option></select>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <strong style="font-size:11px;min-width:80px">Duration</strong>
+            <select id="medDurationField" style="flex:1;height:26px;font-size:11px"><option>1 Week</option><option>2 Weeks</option><option>3 Weeks</option><option>1 Month</option><option>2 Months</option><option>3 Months</option><option>5 Days</option><option>7 Days</option><option>10 Days</option><option>14 Days</option><option>30 Days</option></select>
+          </div>
+          <button type="button" id="medAddBtn" style="height:26px;padding:0 16px;background:linear-gradient(#20d62a,#0ba713);border:1px solid #078d0f;color:#fff;font-size:12px;font-weight:800;border-radius:2px;cursor:pointer">Add</button>
+        </div>
+        <!-- Added medicines table -->
+        <table style="width:100%;border-collapse:collapse;font-size:12px;border:1px solid #aaa">
+          <thead><tr style="background:#e0e0e0"><th style="padding:4px 8px;border:1px solid #aaa;text-align:left">Medicine</th><th style="padding:4px 8px;border:1px solid #aaa;text-align:left">Instructions</th><th style="padding:4px 8px;border:1px solid #aaa;text-align:left">Frequency</th><th style="padding:4px 8px;border:1px solid #aaa;text-align:left">Durations</th><th style="width:30px;border:1px solid #aaa"></th></tr></thead>
+          <tbody id="medModalTableBody"></tbody>
+        </table>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="button" id="prescSaveBtn">Save</button>
+        <button class="tool-button" type="button" data-close="prescriptionModal">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Consolidated Report Modal -->
+  <div class="modal-layer" id="consolidatedReportModal" role="dialog" aria-modal="true" aria-labelledby="consolidatedReportTitle">
+    <div class="dialog" style="width:min(95vw,800px);max-height:94vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#333,#555)"><span id="consolidatedReportTitle">Patient Clinical Summary Consolidated</span><button class="close-modal" type="button" data-close="consolidatedReportModal">&#x2715;</button></div>
+      <div style="padding:6px 12px;background:#f0f0f0;border-bottom:1px solid #ccc;display:flex;gap:6px">
+        <button class="tool-button" type="button" id="crPrint" style="font-size:11px">&#128424; Print</button>
+        <button class="tool-button" type="button" id="crPDF" style="font-size:11px;background:linear-gradient(#e53935,#c62828);color:#fff;border-color:#b71c1c">PDF</button>
+        <button class="tool-button" type="button" id="crExcel" style="font-size:11px;background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#1b5e20">Excel</button>
+        <button class="tool-button" type="button" id="crWord" style="font-size:11px;background:linear-gradient(#1e88e5,#1565c0);color:#fff;border-color:#0d47a1">Word</button>
+      </div>
+      <div class="dialog-body" style="padding:0;overflow-y:auto;background:#fff" id="consolidatedReportBody">
+        <div id="crContent" style="padding:30px 40px;font-family:'Times New Roman',serif;font-size:13px;line-height:1.6">
+          <!-- Header -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;padding-bottom:10px">
+            <div style="font-size:11px;line-height:1.5">
+              <strong style="font-size:12px">SHANTHI WELLNESS AYURVEDIC<br>MEDICAL CENTRE LLC</strong><br>
+              SUITE M19 ROYAL HOUSE<br>AL WUHEIDA STREET<br>
+              Tel:+97142255133<br>
+              Email:info@ayurvedauae.com
+            </div>
+            <div style="text-align:right">
+              <img src="logo.png" style="height:60px;max-width:200px;object-fit:contain" alt="Shanthi Wellness">
+            </div>
+          </div>
+          <!-- Title with dark shade -->
+          <div style="text-align:center;background:linear-gradient(to right,#e0e0e0,#bdbdbd,#e0e0e0);padding:6px 0;margin:8px 0 14px;border-radius:2px;font-size:13px;font-weight:700;color:#222;letter-spacing:0.5px">Patient Clinical Summary Consolidated</div>
+          <!-- Patient Info -->
+          <table style="width:100%;font-size:12px;margin-bottom:12px;border-collapse:collapse">
+            <tr><td style="width:80px"><strong>Reg.No</strong></td><td style="width:10px">:</td><td id="crRegNo"></td><td style="width:100px"><strong>Emirates ID</strong></td><td style="width:10px">:</td><td id="crEid"></td></tr>
+            <tr><td><strong>Name</strong></td><td>:</td><td colspan="4" id="crName"></td></tr>
+            <tr><td><strong>Nationality</strong></td><td>:</td><td id="crNationality"></td><td><strong>DOB/Age</strong></td><td>:</td><td id="crDobAge"></td></tr>
+            <tr><td><strong>Mobile</strong></td><td>:</td><td id="crMobile"></td><td><strong>Gender</strong></td><td>:</td><td id="crGender"></td></tr>
+          </table>
+          <hr style="border:none;border-top:1px solid #aaa;margin:10px 0">
+          <!-- Visit Info -->
+          <table style="width:100%;font-size:12px;margin-bottom:12px;border-collapse:collapse">
+            <tr><td style="width:80px"><strong>Visit Date</strong></td><td style="width:10px">:</td><td id="crVisitDate"></td><td style="width:80px"><strong>Clinician</strong></td><td style="width:10px">:</td><td id="crClinician"></td></tr>
+          </table>
+          <!-- Vitals -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">Vitals</div>
+            <span id="crVitals"></span>
+          </div>
+          <!-- Chief Complaints -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">Chief Complaints</div>
+            <span id="crChiefComplaints"></span>
+          </div>
+          <!-- History of Present Illness -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">History of Present Illness</div>
+            <span id="crPresentIllness"></span>
+          </div>
+          <!-- Past History -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">Past History</div>
+            <span id="crPastHistory"></span>
+          </div>
+          <!-- Medicine History -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">Medicine History</div>
+            <span id="crMedicineHistory"></span>
+          </div>
+          <!-- On Examination -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">On Examination</div>
+            <span id="crExamination" style="white-space:pre-line"></span>
+          </div>
+          <!-- Diagnosis -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">Diagnosis</div>
+            <span id="crDiagnosis"></span>
+          </div>
+          <!-- Treatment Plan -->
+          <div style="margin-bottom:12px">
+            <div style="background:#d0d0d0;padding:3px 8px;font-weight:700;margin-bottom:4px">Treatment Plan</div>
+            <span id="crTreatmentPlan"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-layer" id="tariffDetailModal" role="dialog" aria-modal="true" aria-labelledby="tariffDetailTitle">
     <form class="dialog" id="tariffDetailForm" style="width:min(98vw,1050px);max-height:96vh">
       <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="tariffDetailTitle">Tariff Master</span><button class="close-modal" type="button" data-close="tariffDetailModal">&#x2715;</button></div>
@@ -3846,6 +4341,30 @@ podi kizhi + lepanam x 5 days.</textarea>
             </tbody>
           </table>
         </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="diagnosisModal" role="dialog" aria-modal="true" aria-labelledby="diagnosisDialogTitle">
+    <form class="dialog narrow" id="diagnosisForm">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="diagnosisDialogTitle">Diagnosis</span><button class="close-modal" type="button" data-close="diagnosisModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px">
+        <div style="display:grid;grid-template-columns:90px 1fr;gap:10px 12px;font-size:12px;font-weight:700;align-items:center">
+          <label>Code</label><input name="diagCode" style="height:28px;width:100px;font-size:12px">
+          <label>ICD Code</label><input name="diagIcdCode" style="height:28px;font-size:12px">
+          <label>Type</label>
+          <div style="display:flex;gap:4px;align-items:center">
+            <input name="diagType" style="height:28px;width:60px;font-size:11px">
+            <button class="small-button" type="button">&#128269;</button>
+            <span style="font-weight:700">Name</span>
+            <input name="diagTypeName" style="height:28px;flex:1;font-size:11px">
+          </div>
+          <label>Description</label><textarea name="diagDescription" style="height:60px;font-size:12px;resize:vertical"></textarea>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="diagnosisModal">Cancel</button>
       </div>
     </form>
   </div>
@@ -3922,7 +4441,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     const insuranceModules = [
       ["Company", "g-company", "insurance"],
-      ["Mapping", "g-gift", "insurance"],
+      ["Mapping", "g-gift", "insuranceMapping"],
       ["Plans", "g-doc", "insurance"],
       ["Riayati", "g-inventory", "insurance"],
       ["Dhpo", "g-inventory", "insurance"],
@@ -4002,20 +4521,40 @@ podi kizhi + lepanam x 5 days.</textarea>
     ];
 
     let insuranceRecords = [
-      { code: "INS000001", type: "DINS", providerId: "TPA005", name: "ATENA", phone: "" },
-      { code: "INS000002", type: "DINS", providerId: "TPA006", name: "AMITY HEALTH", phone: "" },
-      { code: "INS000003", type: "DINS", providerId: "INS027", name: "ADNIC INSURANCE", phone: "" },
-      { code: "INS000004", type: "DINS", providerId: "TPA003", name: "ALMADALLAH", phone: "" },
-      { code: "INS000005", type: "DINS", providerId: "TPA001", name: "NEURON", phone: "" },
-      { code: "INS000006", type: "DINS", providerId: "TPA002", name: "NEXTCARE", phone: "" },
-      { code: "INS000007", type: "DINS", providerId: "INS038", name: "NGI", phone: "" },
-      { code: "INS000008", type: "DINS", providerId: "INS012", name: "OMAN BUPA", phone: "" },
-      { code: "INS000009", type: "DINS", providerId: "INS015", name: "SAICO", phone: "" },
-      { code: "INS000010", type: "DINS", providerId: "INS129", name: "SAADA", phone: "" },
-      { code: "INS000108", type: "DINS", providerId: "INS028", name: "AETNA-AL AIN AHLIA", phone: "" },
-      { code: "INS000109", type: "DINS", providerId: "INS002", name: "ENAYA", phone: "" },
-      { code: "INS000112", type: "DINS", providerId: "INS139", name: "ORIENT UNB TAKAFUL PJSC", phone: "" }
+      { code: "INS000001", type: "DINS", providerId: "TPA005", name: "ATENA", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000002", type: "DINS", providerId: "TPA006", name: "AMITY HEALTH", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000003", type: "DINS", providerId: "INS027", name: "ADNIC INSURANCE", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000004", type: "DINS", providerId: "TPA003", name: "ALMADALLAH", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000005", type: "DINS", providerId: "TPA001", name: "NEURON", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000006", type: "DINS", providerId: "TPA002", name: "NEXTCARE", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000007", type: "DINS", providerId: "INS038", name: "NGI", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000008", type: "DINS", providerId: "INS012", name: "OMAN BUPA", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000009", type: "DINS", providerId: "INS015", name: "SAICO", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000010", type: "DINS", providerId: "INS129", name: "SAADA", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000108", type: "DINS", providerId: "INS028", name: "AETNA-AL AIN AHLIA", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000109", type: "DINS", providerId: "INS002", name: "ENAYA", phone: "", address: "", contactPerson: "", receiverCode: "" },
+      { code: "INS000112", type: "DINS", providerId: "INS139", name: "ORIENT UNB TAKAFUL PJSC", phone: "", address: "", contactPerson: "", receiverCode: "" }
     ];
+
+    let insuranceMappings = [
+      { type: "IMAP", receiverName: "NEURON", payerName: "SAADA" },
+      { type: "IMAP", receiverName: "NEURON", payerName: "DEWA" },
+      { type: "IMAP", receiverName: "NEURON", payerName: "RTA" },
+      { type: "IMAP", receiverName: "NEURON", payerName: "DUBAI GOVERNMENT - PROGRAM 1 (ENAYA)" },
+      { type: "IMAP", receiverName: "NEXTCARE", payerName: "ORIENT INSURANCE P.J.S.C" },
+      { type: "IMAP", receiverName: "NEXTCARE", payerName: "ARABIA INSURANCE COMPANY" },
+      { type: "IMAP", receiverName: "ADNIC INSURANCE", payerName: "ADNIC INSURANCE" },
+      { type: "IMAP", receiverName: "ALMADALLAH", payerName: "ALMADALLAH" },
+      { type: "IMAP", receiverName: "NEXTCARE", payerName: "DP WORLD" },
+      { type: "IMAP", receiverName: "NEURON", payerName: "AETNA-AL AIN AHLIA" },
+      { type: "IMAP", receiverName: "ALMADALLAH", payerName: "ENAYA" },
+      { type: "IMAP", receiverName: "NGI", payerName: "NGI" },
+      { type: "IMAP", receiverName: "NGI", payerName: "CIGNA INSURANCE MIDDLE EAST (S.A.L) - DUBAI B..." },
+      { type: "IMAP", receiverName: "NEURON", payerName: "OMAN BUPA" },
+      { type: "IMAP", receiverName: "NEXTCARE", payerName: "MEDGULF" }
+    ];
+
+    let selectedMappingIndex = 0;
 
     let receipts = [
       { date: "22/05/2026", type: "Advance", receiptNo: "REC000451", mrNo: "4746", patientName: "AMAN FAISAL KHAN FAISAL YUSUF KHAN", amount: "250.00", mode: "Cash", status: "Collected" },
@@ -4087,6 +4626,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "packages") return ["Defined Packages", "Receipts", "Invoice List", "Appointments", "Doctor Desk", "Patients", "Consent Forms Received", "Main Page"];
       if (view === "receipts") return ["Receipts", "Defined Packages", "Doctor Desk", "Invoice List", "To be Billed List", "Consent Forms Received", "Appointments", "Insurance Company's", "Main Page"];
       if (view === "insurance") return ["Insurance Company's", "Main Page"];
+      if (view === "insuranceMapping") return ["Insurance Mapping", "InsurancePlan", "Insurance Claims", "Receipt Voucher", "Insurance Company's", "Main Page"];
       if (view === "inventory") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
       if (view === "privileges") return ["Privileges", "User Roles", "Item group master", "Brand Master", "Store Management", "Sales Return", "Item Consumption", "Item Analysis Report", "DoctorTherapist ConsumptionReport", "Stock Report", "Stock Adjustment", "Sales Invoice", "Sales Order", "Local Pu..."];
       if (view === "employees") return ["Employees", "Defined Packages", "Receipts", "Invoice List", "Appointments", "Doctor Desk", "Patients", "Consent Forms Received", "Main Page"];
@@ -4094,6 +4634,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "tariffMaster") return ["Tariff Master", "Main Page"];
       if (view === "diagnosisList") return ["Diagnosis Master", "Appointments", "Tariff Master", "Main Page"];
       if (view === "claimsList") return ["Complaints Details", "Drug Master", "Diagnosis Master", "Patients", "Insurance Claims", "Appointments", "Main Page"];
+      if (view === "database") return ["Database Manager", "Main Page"];
       return ["Main Page"];
     }
 
@@ -4105,6 +4646,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (menu === "EMR Masters") activeView = "tariffMaster";
       if (menu === "Insurance") activeView = "insurance";
       if (menu === "Inventory") activeView = "inventory";
+      if (menu === "Database") activeView = "database";
       if (menu === "Home" && !["patients", "appointments", "receipts", "packages"].includes(activeView)) activeView = "patients";
       renderChrome();
     }
@@ -4114,6 +4656,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
       const target = byId(`${view}Screen`);
       if (target) target.classList.add("active");
+      if (view === "database") renderDbTable("patients");
       renderChrome();
     }
 
@@ -4124,6 +4667,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (activeView === "packages") return "Source";
       if (activeView === "receipts") return "Receipts";
       if (activeView === "insurance") return "Company";
+      if (activeView === "insuranceMapping") return "Mapping";
       if (activeView === "inventory") return "Item";
       if (activeView === "privileges") return "Privileges";
       if (activeView === "employees") return "Employees";
@@ -4131,6 +4675,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (activeView === "tariffMaster") return "Tariff Master";
       if (activeView === "diagnosisList") return "Diagnosis List";
       if (activeView === "claimsList") return "Claims List";
+      if (activeView === "database") return "Database";
       return "";
     }
 
@@ -4183,10 +4728,24 @@ podi kizhi + lepanam x 5 days.</textarea>
           <td>${escapeHtml(record.type)}</td>
           <td>${escapeHtml(record.providerId)}</td>
           <td>${escapeHtml(record.name)}</td>
-          <td>${escapeHtml(record.phone)}</td>
+          <td>${escapeHtml(record.phone || "")}</td>
+          <td>${escapeHtml(record.address || "")}</td>
         </tr>
       `).join("");
       byId("insuranceEmpty").classList.toggle("show", filtered.length === 0);
+    }
+
+    function renderMapping() {
+      const query = byId("mappingSearch").value.trim().toLowerCase();
+      const filtered = insuranceMappings.filter((m) => [m.type, m.receiverName, m.payerName].join(" ").toLowerCase().includes(query));
+      byId("mappingRows").innerHTML = filtered.map((m, index) => `
+        <tr class="${index === selectedMappingIndex ? "selected" : ""}" data-mapping-index="${index}" tabindex="0">
+          <td>${escapeHtml(m.type)}</td>
+          <td>${escapeHtml(m.receiverName)}</td>
+          <td>${escapeHtml(m.payerName)}</td>
+        </tr>
+      `).join("");
+      byId("mappingEmpty").classList.toggle("show", filtered.length === 0);
     }
 
     function renderReceipts() {
@@ -4684,13 +5243,36 @@ podi kizhi + lepanam x 5 days.</textarea>
         patients = patients.map((patient) => patient.mrNo === data.mrNo ? { ...patient, ...data } : patient);
         selectedPatientMr = data.mrNo;
       } else {
-        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: "22-05-2026" };
+        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: formatTodayDate() };
         patients = [patient, ...patients];
         selectedPatientMr = patient.mrNo;
       }
+
+      const patientToSave = patients.find(p => p.mrNo === selectedPatientMr);
+
+      // Save to MySQL database
+      if (window.clinicAPI && window.clinicAPI.savePatient) {
+        window.clinicAPI.savePatient(patientToSave).then(function(result) {
+          if (result && result.success) {
+            alert("Patient saved successfully!\n\nMR No: " + selectedPatientMr + "\nName: " + fullName(patientToSave) + "\n\nInserted into MySQL → clinic_emr.patients");
+          } else {
+            alert("MySQL Error:\n" + (result ? result.error : "No response from backend"));
+          }
+        }).catch(function(err) {
+          alert("Connection Error:\n" + err.message);
+        });
+      } else {
+        alert("Patient saved (local only)\n\nMySQL not connected.\nwindow.clinicAPI = " + (typeof window.clinicAPI));
+      }
+
       closeModal("patientModal");
       renderPatients();
       refreshPatientSelects();
+    }
+
+    function formatTodayDate() {
+      const d = new Date();
+      return String(d.getDate()).padStart(2, "0") + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + d.getFullYear();
     }
 
     function deletePatient() {
@@ -4699,13 +5281,50 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (!window.confirm(`Delete patient ${fullName(patient)}?`)) return;
       patients = patients.filter((item) => item.mrNo !== patient.mrNo);
       selectedPatientMr = patients[0]?.mrNo || "";
+      // Delete from database
+      if (window.clinicAPI) {
+        window.clinicAPI.deletePatient(patient.mrNo);
+      }
       renderPatients();
       refreshPatientSelects();
     }
 
+    function exportPatients() {
+      // Build CSV content
+      const headers = ["MR No", "Reg Date", "Patient Name", "Gender", "Mobile", "Nationality", "DOB", "Emirates ID", "City", "Emirate", "Status", "Category"];
+      const rows = patients.map(p => [
+        p.mrNo,
+        p.regDate,
+        fullName(p),
+        p.gender || "",
+        p.mobile || "",
+        p.nationality || "",
+        p.dob || "",
+        p.eid || "",
+        p.city || "",
+        p.emirate || "",
+        p.status || "",
+        p.category || ""
+      ]);
+
+      let csv = headers.join(",") + "\n";
+      for (const row of rows) {
+        csv += row.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(",") + "\n";
+      }
+
+      // Download as CSV file
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "patients_export_" + new Date().toISOString().split("T")[0] + ".csv";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
     function setInsuranceForm(record) {
       const form = byId("insuranceForm");
-      const data = record || { code: nextInsuranceCode(), type: "DINS", providerId: "", name: "", phone: "" };
+      const data = record || { code: nextInsuranceCode(), type: "DINS", providerId: "", name: "", address: "", phone: "", contactPerson: "", receiverCode: "" };
       Object.entries(data).forEach(([name, value]) => {
         if (form.elements[name]) form.elements[name].value = value ?? "";
       });
@@ -4713,7 +5332,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     function openInsuranceDialog(mode) {
       insuranceMode = mode;
-      byId("insuranceDialogTitle").textContent = mode === "edit" ? "Edit Insurance Company" : "New Insurance Company";
+      byId("insuranceDialogTitle").textContent = "Insurance";
       setInsuranceForm(mode === "edit" ? selectedInsurance() : null);
       openModal("insuranceModal");
       byId("insuranceForm").elements.name.focus();
@@ -4729,6 +5348,10 @@ podi kizhi + lepanam x 5 days.</textarea>
         insuranceRecords = [record, ...insuranceRecords];
       }
       selectedInsuranceCode = record.code;
+      // Save to database
+      if (window.clinicAPI) {
+        window.clinicAPI.saveInsurance(record);
+      }
       closeModal("insuranceModal");
       renderInsurance();
     }
@@ -4775,7 +5398,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       const doctor = byId("apptDoctor") ? byId("apptDoctor").value : data.doctor;
       const room = data.room || "ROOM NUMBER 4";
       appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time));
-      appointments.push({
+
+      const apptData = {
         mrNo: data.mrNo,
         patient: patient ? fullName(patient) : "",
         mobile: patient?.mobile || "",
@@ -4784,9 +5408,57 @@ podi kizhi + lepanam x 5 days.</textarea>
         status: "Booked",
         room: room,
         notes: data.notes || ""
-      });
-      closeModal("appointmentModal");
-      renderSchedule();
+      };
+      appointments.push(apptData);
+
+      // Save to MySQL and show popup
+      if (window.clinicAPI && window.clinicAPI.saveAppointment) {
+        window.clinicAPI.saveAppointment(apptData).then(function(result) {
+          if (result && result.success) {
+            alert("Appointment is Booked!\n\nPatient: " + apptData.patient + "\nMR No: " + apptData.mrNo + "\nDoctor: " + doctor + "\nTime: " + time + "\nRoom: " + room + "\nStatus: Booked\n\n✓ Saved to database");
+            // Send WhatsApp booking message
+            sendBookingMessage(apptData);
+          } else {
+            alert("Appointment Booked (local)\n\nMySQL Error: " + (result ? result.error : "No response"));
+          }
+          closeModal("appointmentModal");
+          renderSchedule();
+        }).catch(function(err) {
+          alert("Appointment Booked (local)\n\nConnection Error: " + err.message);
+          closeModal("appointmentModal");
+          renderSchedule();
+        });
+      } else {
+        alert("Appointment is Booked!\n\nPatient: " + apptData.patient + "\nDoctor: " + doctor + "\nTime: " + time);
+        sendBookingMessage(apptData);
+        closeModal("appointmentModal");
+        renderSchedule();
+      }
+    }
+
+    function sendBookingMessage(appt) {
+      const mobile = appt.mobile || "";
+      if (!mobile) return;
+      // Format phone number (remove leading 0, add country code if needed)
+      let phone = mobile.replace(/[^0-9]/g, "");
+      if (phone.startsWith("0")) phone = "971" + phone.substring(1);
+      if (!phone.startsWith("971") && phone.length <= 10) phone = "971" + phone;
+
+      const message = "Dear " + appt.patient + ",\n\n" +
+        "Your appointment has been booked.\n\n" +
+        "Date: " + formatTodayDate() + "\n" +
+        "Time: " + appt.time + "\n" +
+        "Doctor: " + appt.doctor + "\n" +
+        "Room: " + appt.room + "\n\n" +
+        "Please arrive 10 minutes early.\n\n" +
+        "Thank you,\nClinic";
+
+      const encoded = encodeURIComponent(message);
+      const url = "https://wa.me/" + phone + "?text=" + encoded;
+
+      if (confirm("Send WhatsApp booking message to " + appt.patient + "?\n\nNumber: " + phone)) {
+        window.open(url, "_blank");
+      }
     }
 
     function seedTimeOptions() {
@@ -4837,6 +5509,8 @@ podi kizhi + lepanam x 5 days.</textarea>
           activateView("packages");
         }
         if (tab.textContent.trim() === "Receipts") activateView("receipts");
+        if (tab.textContent.trim() === "Insurance Mapping") activateView("insuranceMapping");
+        if (tab.textContent.trim() === "Insurance Company's") activateView("insurance");
       });
       byId("patientRows").addEventListener("click", (event) => {
         const row = event.target.closest("[data-mr]");
@@ -4855,6 +5529,40 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("patientSearch").addEventListener("input", renderPatients);
       document.querySelectorAll("input[name='patientSearchBy']").forEach((radio) => radio.addEventListener("change", renderPatients));
       byId("insuranceSearch").addEventListener("input", renderInsurance);
+      byId("mappingSearch").addEventListener("input", renderMapping);
+      byId("mappingRows").addEventListener("click", (event) => {
+        const row = event.target.closest("[data-mapping-index]");
+        if (!row) return;
+        selectedMappingIndex = parseInt(row.dataset.mappingIndex);
+        renderMapping();
+      });
+      byId("mappingNew").addEventListener("click", () => {
+        const receiver = prompt("Receiver Name:");
+        if (!receiver) return;
+        const payer = prompt("Payer Name:");
+        if (!payer) return;
+        insuranceMappings.push({ type: "IMAP", receiverName: receiver.toUpperCase(), payerName: payer.toUpperCase() });
+        selectedMappingIndex = insuranceMappings.length - 1;
+        renderMapping();
+      });
+      byId("mappingEdit").addEventListener("click", () => {
+        const m = insuranceMappings[selectedMappingIndex];
+        if (!m) return;
+        const receiver = prompt("Receiver Name:", m.receiverName);
+        if (!receiver) return;
+        const payer = prompt("Payer Name:", m.payerName);
+        if (!payer) return;
+        m.receiverName = receiver.toUpperCase();
+        m.payerName = payer.toUpperCase();
+        renderMapping();
+      });
+      byId("mappingDelete").addEventListener("click", () => {
+        if (!insuranceMappings[selectedMappingIndex]) return;
+        if (!confirm("Delete this mapping record?")) return;
+        insuranceMappings.splice(selectedMappingIndex, 1);
+        selectedMappingIndex = Math.min(selectedMappingIndex, insuranceMappings.length - 1);
+        renderMapping();
+      });
       byId("packageSearch").addEventListener("input", renderPackages);
       byId("packageRows").addEventListener("click", (event) => {
         const row = event.target.closest("[data-package-code]");
@@ -4922,6 +5630,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("editVisit").addEventListener("click", () => openPatientDialog("edit"));
       byId("patientAppointmentInfo").addEventListener("click", () => activateView("appointments"));
       byId("patientIntake").addEventListener("click", () => openPatientDialog("edit"));
+      byId("patientExport").addEventListener("click", exportPatients);
       byId("insuranceNew").addEventListener("click", () => openInsuranceDialog("new"));
       byId("insuranceEdit").addEventListener("click", () => openInsuranceDialog("edit"));
       byId("insuranceDelete").addEventListener("click", deleteInsurance);
@@ -5115,9 +5824,77 @@ podi kizhi + lepanam x 5 days.</textarea>
       });
       // Consultation screen buttons
       byId("consultCancel")?.addEventListener("click", () => activateView("appointments"));
-      byId("consultSave")?.addEventListener("click", () => {
-        alert("Consultation saved successfully");
-        activateView("appointments");
+      byId("consultSave")?.addEventListener("click", async () => {
+        // Collect consultation data from the form
+        const mrNo = byId("consultMrNo")?.textContent?.trim() || "";
+        const patientName = byId("consultPatientName")?.textContent?.trim() || "";
+        const consultDate = byId("consultDate")?.value || "";
+
+        // Collect clinical notes
+        const chiefComplaints = byId("consultChiefComplaints")?.value || "";
+        const pastHistory = byId("consultPastHistory")?.value || "";
+        const presentIllness = byId("consultPresentIllness")?.value || "";
+        const examination = byId("consultExamination")?.value || "";
+        const treatmentPlan = byId("consultTreatmentPlan")?.value || "";
+        const disposition = byId("consultDisposition")?.value || "";
+
+        // Collect diagnosis
+        const diagRows = document.querySelectorAll(".consult-diagnosis .consult-table tbody tr");
+        let diagnosis = "";
+        diagRows.forEach(row => {
+          const code = row.cells[0]?.textContent?.trim();
+          const desc = row.cells[1]?.textContent?.trim();
+          if (code || desc) diagnosis += (code || "") + " - " + (desc || "") + "\n";
+        });
+
+        // Collect procedures
+        const procRows = document.querySelectorAll(".consult-procedure .consult-table tbody tr");
+        const procedures = [];
+        procRows.forEach(row => {
+          const medCode = row.cells[0]?.textContent?.trim();
+          const description = row.cells[1]?.textContent?.trim();
+          const price = row.cells[2]?.textContent?.trim();
+          const sessions = row.cells[3]?.textContent?.trim();
+          const amount = row.cells[4]?.textContent?.trim();
+          const netAmount = row.cells[8]?.textContent?.trim();
+          if (description) {
+            procedures.push({ medCode, description, price, sessions, amount, netAmount });
+          }
+        });
+
+        // Collect prescriptions
+        const rxRows = document.querySelectorAll("#prescriptionTableBody tr");
+        const prescriptions = [];
+        rxRows.forEach(row => {
+          const medicine = row.cells[0]?.textContent?.trim();
+          const instructions = row.cells[1]?.textContent?.trim();
+          const frequency = row.cells[2]?.textContent?.trim();
+          const duration = row.cells[3]?.textContent?.trim();
+          if (medicine) {
+            prescriptions.push({ medicine, instructions, frequency, duration });
+          }
+        });
+
+        const consultData = {
+          mrNo, patientName, consultDate,
+          chiefComplaints, pastHistory, presentIllness,
+          examination, treatmentPlan, disposition, diagnosis,
+          procedures, prescriptions
+        };
+
+        // Save to backend (if available) - auto-generates claim + logsheet
+        if (window.clinicAPI && window.clinicAPI.saveConsultation) {
+          const result = await window.clinicAPI.saveConsultation(consultData);
+          if (result && result.success) {
+            alert("Consultation saved successfully!\n\nMR No: " + mrNo + "\nPatient: " + patientName + "\n\n✓ Saved to MySQL");
+          } else {
+            alert("MySQL Error: " + (result ? result.error : "No response") + "\n\nData saved locally.");
+            generateLocalLogsheet(consultData);
+          }
+        } else {
+          generateLocalLogsheet(consultData);
+          alert("Consultation saved successfully!");
+        }
       });
       // Receipt Voucher buttons
       byId("rvNew")?.addEventListener("click", () => {
@@ -5175,6 +5952,48 @@ podi kizhi + lepanam x 5 days.</textarea>
         alert("Claim saved successfully");
         closeModal("claimsModal");
       });
+      // Claims action buttons (Medical Report, Treatment Report, Medicine Report, Logsheet, Edit, Delete)
+      byId("claimsListScreen")?.querySelector(".grid-shell")?.addEventListener("click", (event) => {
+        const btn = event.target.closest(".claims-act-btn");
+        if (!btn) return;
+        const row = btn.closest("tr");
+        if (!row) return;
+        const claimId = row.cells[0]?.textContent?.trim();
+        const fromDate = row.cells[1]?.textContent?.trim();
+        const toDate = row.cells[2]?.textContent?.trim();
+        const mrno = row.cells[3]?.textContent?.trim();
+        const patientName = row.cells[4]?.textContent?.trim();
+
+        if (btn.classList.contains("medical")) {
+          byId("mrClaimId").textContent = claimId;
+          byId("mrPatientName").textContent = patientName;
+          byId("mrMrno").textContent = mrno;
+          byId("mrPeriod").textContent = fromDate + " to " + toDate;
+          openModal("medicalReportModal");
+        } else if (btn.classList.contains("treatment")) {
+          byId("trClaimId").textContent = claimId;
+          byId("trPatientName").textContent = patientName;
+          byId("trMrno").textContent = mrno;
+          byId("trPeriod").textContent = fromDate + " to " + toDate;
+          openModal("treatmentReportModal");
+        } else if (btn.classList.contains("medicine")) {
+          byId("rxClaimId").textContent = claimId;
+          byId("rxPatientName").textContent = patientName;
+          byId("rxMrno").textContent = mrno;
+          byId("rxPeriod").textContent = fromDate + " to " + toDate;
+          openModal("medicineReportModal");
+        } else if (btn.classList.contains("logsheet")) {
+          openLogsheetForClaim(claimId, patientName, mrno, fromDate, toDate);
+        } else if (btn.classList.contains("edit")) {
+          byId("claimsForm")?.reset();
+          byId("claimsDialogTitle").textContent = "Edit Claim - " + claimId;
+          openModal("claimsModal");
+        } else if (btn.classList.contains("delete")) {
+          if (confirm("Delete claim " + claimId + "?")) {
+            row.remove();
+          }
+        }
+      });
       // Tariff Master detail - open on row click
       const tariffScreen = byId("tariffMasterScreen");
       if (tariffScreen) {
@@ -5199,6 +6018,21 @@ podi kizhi + lepanam x 5 days.</textarea>
         e.preventDefault();
         alert("Tariff item saved");
         closeModal("tariffItemModal");
+      });
+      // Diagnosis New/Edit buttons
+      byId("diagNew")?.addEventListener("click", () => {
+        byId("diagnosisForm")?.reset();
+        byId("diagnosisDialogTitle").textContent = "Diagnosis";
+        openModal("diagnosisModal");
+      });
+      byId("diagEdit")?.addEventListener("click", () => {
+        byId("diagnosisDialogTitle").textContent = "Edit Diagnosis";
+        openModal("diagnosisModal");
+      });
+      byId("diagnosisForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Diagnosis saved");
+        closeModal("diagnosisModal");
       });
       document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
       document.querySelectorAll(".modal-layer").forEach((layer) => {
@@ -5228,12 +6062,951 @@ podi kizhi + lepanam x 5 days.</textarea>
       });
     }
 
+    // ─── Local logsheet storage (fallback when no backend) ─────────
+    let savedConsultations = [];
+
+    function generateLocalLogsheet(consultData) {
+      const claimId = "S-" + String(Math.floor(1000 + Math.random() * 9000));
+      const fromDate = consultData.consultDate || "22-05-2026";
+      
+      // Calculate end date
+      let maxSessions = 0;
+      for (const proc of consultData.procedures) {
+        const s = parseInt(proc.sessions) || 0;
+        maxSessions += s;
+      }
+
+      // Build procedures/services text
+      const services = consultData.procedures.map(p => 
+        p.description.toUpperCase() + " &nbsp; " + (parseInt(p.sessions) || 1) + " Session"
+      ).join("<br>");
+
+      // Build medicine text
+      const medicines = consultData.prescriptions.map(rx =>
+        rx.medicine + " (" + rx.frequency + ") " + rx.instructions + " X " + rx.duration
+      ).join("<br>");
+
+      // Generate log entries
+      const entries = [];
+      let slNo = 1;
+      const startParts = fromDate.split("-");
+      let currentDate = new Date(startParts[2] + "-" + startParts[1] + "-" + startParts[0]);
+
+      // Consultation entry first
+      entries.push({
+        slNo: slNo++,
+        date: formatLogDate(currentDate),
+        treatment: "CONSULTATION FEE",
+        inTime: "10:30 AM",
+        outTime: "11:00 AM",
+        progress: consultData.examination || ""
+      });
+      currentDate.setDate(currentDate.getDate() + 1);
+
+      // Treatment entries
+      for (const proc of consultData.procedures) {
+        if (proc.description.toUpperCase().includes("CONSUL")) continue;
+        const sessions = parseInt(proc.sessions) || 1;
+        const name = proc.description.toUpperCase();
+        
+        for (let s = 0; s < sessions; s++) {
+          const hour = 10 + (s % 3);
+          const isPM = hour >= 12;
+          const dHour = hour > 12 ? hour - 12 : hour;
+          const inTime = String(dHour).padStart(2, "0") + ":00 " + (isPM ? "PM" : "AM");
+          
+          let durMin = 60;
+          if (name.includes("HALF HOUR")) durMin = 30;
+          const outHour = hour + Math.floor(durMin / 60);
+          const outMin = durMin % 60;
+          const outIsPM = outHour >= 12;
+          const outDHour = outHour > 12 ? outHour - 12 : outHour;
+          const outTime = String(outDHour).padStart(2, "0") + ":" + String(outMin).padStart(2, "0") + " " + (outIsPM ? "PM" : "AM");
+
+          entries.push({
+            slNo: slNo++,
+            date: formatLogDate(currentDate),
+            treatment: name,
+            inTime,
+            outTime,
+            progress: ""
+          });
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+      }
+
+      const endDate = formatLogDate(currentDate);
+      const totalAmount = consultData.procedures.reduce((sum, p) => sum + (parseFloat(p.amount?.replace(/,/g, "")) || 0), 0);
+
+      // Store consultation with logsheet data
+      const consultation = {
+        claimId,
+        mrNo: consultData.mrNo,
+        patientName: consultData.patientName,
+        fromDate,
+        toDate: endDate,
+        amount: totalAmount.toFixed(2),
+        services,
+        medicines,
+        entries
+      };
+      savedConsultations.push(consultation);
+
+      // Also add to the claims table in the UI
+      const claimsBody = document.querySelector("#claimsListScreen tbody");
+      if (claimsBody) {
+        const actionsHtml = '<div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div>';
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = '<td style="color:#4caf50;font-weight:900">' + claimId + '</td><td>' + fromDate + '</td><td>' + endDate + '</td><td>' + consultData.mrNo + '</td><td>' + consultData.patientName + '</td><td>' + totalAmount.toFixed(2) + '</td><td>0.00</td><td>' + actionsHtml + '</td>';
+        claimsBody.insertBefore(newRow, claimsBody.firstChild);
+      }
+    }
+
+    function formatLogDate(d) {
+      return String(d.getDate()).padStart(2, "0") + "." + String(d.getMonth() + 1).padStart(2, "0") + "." + d.getFullYear();
+    }
+
+    function openLogsheetForClaim(claimId, patientName, mrno, fromDate, toDate) {
+      // Try backend first
+      if (window.clinicAPI) {
+        window.clinicAPI.getLogsheet(claimId).then(result => {
+          if (result.success && result.data) {
+            renderLogsheetFromBackend(result.data, claimId, patientName, mrno, fromDate, toDate);
+          } else {
+            renderLogsheetFromLocal(claimId, patientName, mrno, fromDate, toDate);
+          }
+        });
+      } else {
+        renderLogsheetFromLocal(claimId, patientName, mrno, fromDate, toDate);
+      }
+    }
+
+    function renderLogsheetFromBackend(data, claimId, patientName, mrno, fromDate, toDate) {
+      byId("lsClaimId").textContent = claimId;
+      byId("lsPatientName").textContent = patientName;
+      byId("lsMrno").textContent = mrno;
+      byId("lsPeriod").textContent = fromDate + " to " + toDate;
+
+      // Render services
+      const servicesHtml = data.procedures.map(p => 
+        escapeHtml(p.description.toUpperCase()) + " &nbsp; " + (p.sessions || 1) + " Session"
+      ).join("<br>");
+      byId("lsServices").innerHTML = servicesHtml || "No procedures recorded";
+
+      // Render medicines
+      const medsHtml = data.prescriptions.map(rx =>
+        escapeHtml(rx.medicine) + " (" + escapeHtml(rx.frequency) + ") " + escapeHtml(rx.instructions) + " X " + escapeHtml(rx.duration)
+      ).join("<br>");
+      byId("lsMedicine").innerHTML = medsHtml || "No medicines prescribed";
+
+      // Render entries
+      byId("lsEntries").innerHTML = data.entries.map(e => 
+        '<tr><td style="border:1px solid #aaa;padding:4px;text-align:center">' + e.slNo + '</td>' +
+        '<td style="border:1px solid #aaa;padding:4px;text-align:center">' + escapeHtml(e.entryDate || "") + '</td>' +
+        '<td style="border:1px solid #aaa;padding:4px">' + escapeHtml(e.treatmentDone || "") + '</td>' +
+        '<td style="border:1px solid #aaa;padding:4px;text-align:center">' + escapeHtml(e.inTime || "") + '</td>' +
+        '<td style="border:1px solid #aaa;padding:4px;text-align:center">' + escapeHtml(e.outTime || "") + '</td>' +
+        '<td style="border:1px solid #aaa;padding:4px">' + escapeHtml(e.progress || "") + '</td></tr>'
+      ).join("");
+
+      openModal("logsheetModal");
+    }
+
+    function renderLogsheetFromLocal(claimId, patientName, mrno, fromDate, toDate) {
+      const consultation = savedConsultations.find(c => c.claimId === claimId);
+      
+      byId("lsClaimId").textContent = claimId;
+      byId("lsPatientName").textContent = patientName;
+      byId("lsMrno").textContent = mrno;
+      byId("lsPeriod").textContent = fromDate + " to " + toDate;
+
+      if (consultation) {
+        byId("lsServices").innerHTML = consultation.services || "No procedures recorded";
+        byId("lsMedicine").innerHTML = consultation.medicines || "No medicines prescribed";
+        byId("lsEntries").innerHTML = consultation.entries.map(e =>
+          '<tr><td style="border:1px solid #aaa;padding:4px;text-align:center">' + e.slNo + '</td>' +
+          '<td style="border:1px solid #aaa;padding:4px;text-align:center">' + escapeHtml(e.date) + '</td>' +
+          '<td style="border:1px solid #aaa;padding:4px">' + escapeHtml(e.treatment) + '</td>' +
+          '<td style="border:1px solid #aaa;padding:4px;text-align:center">' + escapeHtml(e.inTime) + '</td>' +
+          '<td style="border:1px solid #aaa;padding:4px;text-align:center">' + escapeHtml(e.outTime) + '</td>' +
+          '<td style="border:1px solid #aaa;padding:4px">' + escapeHtml(e.progress) + '</td></tr>'
+        ).join("");
+      }
+      // If no saved consultation found, keep the default sample data
+      openModal("logsheetModal");
+    }
+
+    // ─── Database Admin Panel Logic ──────────────────────────────────
+    const dbTableStructures = {
+      patients: [
+        { col: "mrNo", type: "VARCHAR(10)", key: "PRI", def: "" },
+        { col: "regDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "firstName", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "middleName", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "lastName", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "gender", type: "ENUM", key: "", def: "Male" },
+        { col: "mobile", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "nationality", type: "VARCHAR(50)", key: "", def: "" },
+        { col: "dob", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "eid", type: "VARCHAR(30)", key: "", def: "" },
+        { col: "city", type: "VARCHAR(50)", key: "", def: "" },
+        { col: "emirate", type: "VARCHAR(50)", key: "", def: "" },
+        { col: "status", type: "ENUM", key: "", def: "Active" },
+        { col: "category", type: "ENUM", key: "", def: "General" }
+      ],
+      consultations: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "mrNo", type: "VARCHAR(10)", key: "FK", def: "" },
+        { col: "patientName", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "consultDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "chiefComplaints", type: "TEXT", key: "", def: "" },
+        { col: "examination", type: "TEXT", key: "", def: "" },
+        { col: "treatmentPlan", type: "TEXT", key: "", def: "" },
+        { col: "diagnosis", type: "TEXT", key: "", def: "" }
+      ],
+      consultation_procedures: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "consultationId", type: "INT", key: "FK", def: "" },
+        { col: "medCode", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "description", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "price", type: "DECIMAL(10,2)", key: "", def: "0" },
+        { col: "sessions", type: "INT", key: "", def: "1" },
+        { col: "amount", type: "DECIMAL(10,2)", key: "", def: "0" },
+        { col: "netAmount", type: "DECIMAL(10,2)", key: "", def: "0" }
+      ],
+      consultation_prescriptions: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "consultationId", type: "INT", key: "FK", def: "" },
+        { col: "medicine", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "instructions", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "frequency", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "duration", type: "VARCHAR(100)", key: "", def: "" }
+      ],
+      claims: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "claimId", type: "VARCHAR(20)", key: "UNI", def: "" },
+        { col: "mrNo", type: "VARCHAR(10)", key: "FK", def: "" },
+        { col: "patientName", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "fromDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "toDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "amount", type: "DECIMAL(10,2)", key: "", def: "0" },
+        { col: "receivedAmount", type: "DECIMAL(10,2)", key: "", def: "0" },
+        { col: "status", type: "ENUM", key: "", def: "Pending" }
+      ],
+      logsheet_entries: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "claimId", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "slNo", type: "INT", key: "", def: "" },
+        { col: "entryDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "treatmentDone", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "inTime", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "outTime", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "progress", type: "TEXT", key: "", def: "" }
+      ],
+      appointments: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "mrNo", type: "VARCHAR(10)", key: "", def: "" },
+        { col: "patientName", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "doctorName", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "appointmentDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "appointmentTime", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "status", type: "ENUM", key: "", def: "Booked" }
+      ],
+      receipts: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "receiptNo", type: "VARCHAR(20)", key: "UNI", def: "" },
+        { col: "receiptDate", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "type", type: "ENUM", key: "", def: "Advance" },
+        { col: "mrNo", type: "VARCHAR(10)", key: "", def: "" },
+        { col: "amount", type: "DECIMAL(10,2)", key: "", def: "0" },
+        { col: "mode", type: "ENUM", key: "", def: "Cash" },
+        { col: "status", type: "ENUM", key: "", def: "Collected" }
+      ],
+      packages: [
+        { col: "code", type: "VARCHAR(20)", key: "PRI", def: "" },
+        { col: "name", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "amount", type: "DECIMAL(10,2)", key: "", def: "0" },
+        { col: "sessions", type: "INT", key: "", def: "1" }
+      ],
+      insurance_companies: [
+        { col: "code", type: "VARCHAR(20)", key: "PRI", def: "" },
+        { col: "type", type: "VARCHAR(10)", key: "", def: "DINS" },
+        { col: "providerId", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "name", type: "VARCHAR(150)", key: "", def: "" },
+        { col: "phone", type: "VARCHAR(30)", key: "", def: "" },
+        { col: "address", type: "TEXT", key: "", def: "" },
+        { col: "contactPerson", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "receiverCode", type: "VARCHAR(50)", key: "", def: "" }
+      ],
+      insurance_mappings: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "type", type: "VARCHAR(10)", key: "", def: "IMAP" },
+        { col: "receiverName", type: "VARCHAR(150)", key: "", def: "" },
+        { col: "payerName", type: "VARCHAR(150)", key: "", def: "" }
+      ],
+      doctors: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "name", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "specialization", type: "VARCHAR(100)", key: "", def: "" },
+        { col: "licenseNo", type: "VARCHAR(50)", key: "", def: "" },
+        { col: "phone", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "status", type: "ENUM", key: "", def: "Active" }
+      ],
+      tariff_master: [
+        { col: "id", type: "INT", key: "PRI", def: "AUTO_INCREMENT" },
+        { col: "code", type: "VARCHAR(20)", key: "", def: "" },
+        { col: "description", type: "VARCHAR(200)", key: "", def: "" },
+        { col: "category", type: "VARCHAR(50)", key: "", def: "" },
+        { col: "price", type: "DECIMAL(10,2)", key: "", def: "0" }
+      ]
+    };
+
+    function getDbTableData(tableName) {
+      if (tableName === "patients") return patients;
+      if (tableName === "insurance_companies") return insuranceRecords;
+      if (tableName === "insurance_mappings") return insuranceMappings;
+      if (tableName === "packages") return packageRecords.map(p => ({ code: p.code, name: p.name, amount: 0, sessions: 1 }));
+      if (tableName === "appointments") return appointments.map(a => ({ id: "", mrNo: a.mrNo, patientName: a.patient, doctorName: a.doctor, appointmentDate: "", appointmentTime: a.time, status: a.status }));
+      if (tableName === "receipts") return receipts.map((r, i) => ({ id: i + 1, receiptNo: r.receiptNo, receiptDate: r.date, type: r.type, mrNo: r.mrNo, amount: r.amount, mode: r.mode, status: r.status }));
+      if (tableName === "claims") return savedConsultations.map(c => ({ id: "", claimId: c.claimId, mrNo: c.mrNo, patientName: c.patientName, fromDate: c.fromDate, toDate: c.toDate, amount: c.amount, receivedAmount: "0.00", status: "Pending" }));
+      if (tableName === "consultations") return savedConsultations.map((c, i) => ({ id: i + 1, mrNo: c.mrNo, patientName: c.patientName, consultDate: c.fromDate, chiefComplaints: "", examination: "", treatmentPlan: "", diagnosis: "" }));
+      return [];
+    }
+
+    function renderDbTable(tableName) {
+      byId("dbCurrentTable").textContent = tableName;
+      document.querySelectorAll(".db-table-item").forEach(el => el.classList.toggle("active", el.dataset.table === tableName));
+
+      // Show data view by default
+      byId("dbDataView").style.display = "";
+      byId("dbStructureView").style.display = "none";
+
+      const data = getDbTableData(tableName);
+      byId("dbRowCount").textContent = data.length + " rows";
+
+      if (data.length === 0) {
+        byId("dbDataHead").innerHTML = "";
+        byId("dbDataBody").innerHTML = "";
+        byId("dbEmptyMsg").style.display = "";
+        byId("dbEmptyMsg").textContent = "No data in " + tableName;
+        return;
+      }
+      byId("dbEmptyMsg").style.display = "none";
+
+      const cols = Object.keys(data[0]);
+      byId("dbDataHead").innerHTML = "<tr>" + cols.map(c => "<th>" + escapeHtml(c) + "</th>").join("") + "</tr>";
+      byId("dbDataBody").innerHTML = data.map(row =>
+        "<tr>" + cols.map(c => "<td>" + escapeHtml(String(row[c] || "")) + "</td>").join("") + "</tr>"
+      ).join("");
+    }
+
+    function renderDbStructure(tableName) {
+      byId("dbDataView").style.display = "none";
+      byId("dbStructureView").style.display = "";
+
+      const structure = dbTableStructures[tableName] || [];
+      byId("dbStructureBody").innerHTML = structure.map(s =>
+        "<tr><td style='border:1px solid #bdc9d2;padding:5px;font-weight:700'>" + escapeHtml(s.col) + "</td>" +
+        "<td style='border:1px solid #bdc9d2;padding:5px'>" + escapeHtml(s.type) + "</td>" +
+        "<td style='border:1px solid #bdc9d2;padding:5px;color:" + (s.key === "PRI" ? "#c62828" : s.key === "FK" ? "#1565c0" : "#333") + ";font-weight:800'>" + escapeHtml(s.key) + "</td>" +
+        "<td style='border:1px solid #bdc9d2;padding:5px'>" + escapeHtml(s.def) + "</td></tr>"
+      ).join("");
+    }
+
+    // ─── Procedure Codes ─────────────────────────────────────────────
+    const procedureCodesLocal = [
+      {code:"9",desc:"CONSULTATION FEE",price:"100.00"},
+      {code:"1001",desc:"PODIKIZHI(CPS) - 1 HR",price:"280.00"},
+      {code:"1037",desc:"LEPANAM - HALF HOUR",price:"150.00"},
+      {code:"1002",desc:"ABHYANGAM - 1 HR",price:"250.00"},
+      {code:"1003",desc:"ABHYANGAM - HALF HOUR",price:"150.00"},
+      {code:"1004",desc:"SHIRODHARA - HALF HOUR",price:"200.00"},
+      {code:"1005",desc:"SHIRODHARA - 1 HR",price:"350.00"},
+      {code:"1006",desc:"PIZHICHIL - 1 HR",price:"400.00"},
+      {code:"1007",desc:"PIZHICHIL - HALF HOUR",price:"250.00"},
+      {code:"1008",desc:"NJAVARA KIZHI - 1 HR",price:"350.00"},
+      {code:"1009",desc:"NJAVARA KIZHI - HALF HOUR",price:"200.00"},
+      {code:"1010",desc:"ELAKIZHI - 1 HR",price:"280.00"},
+      {code:"1011",desc:"ELAKIZHI - HALF HOUR",price:"160.00"},
+      {code:"1012",desc:"UDWARTHANAM - 1 HR",price:"250.00"},
+      {code:"1013",desc:"UDWARTHANAM - HALF HOUR",price:"150.00"},
+      {code:"1014",desc:"KATIVASTI",price:"150.00"},
+      {code:"1015",desc:"JANUVASTI",price:"150.00"},
+      {code:"1016",desc:"GREEVAVASTI",price:"150.00"},
+      {code:"1017",desc:"NETHRAVASTI",price:"150.00"},
+      {code:"1018",desc:"NASYA",price:"100.00"},
+      {code:"1019",desc:"THALAM",price:"80.00"},
+      {code:"1020",desc:"PICHU - HALF HOUR",price:"120.00"},
+      {code:"1021",desc:"PICHU - 1 HR",price:"200.00"},
+      {code:"1022",desc:"STEAM BATH",price:"80.00"},
+      {code:"1023",desc:"DHANYAMLA DHARA - 1 HR",price:"300.00"},
+      {code:"1024",desc:"DHANYAMLA DHARA - HALF HOUR",price:"180.00"},
+      {code:"1025",desc:"KASHAYA DHARA - 1 HR",price:"300.00"},
+      {code:"1026",desc:"TAKRA DHARA - HALF HOUR",price:"180.00"},
+      {code:"1027",desc:"VASTI (ENEMA)",price:"200.00"},
+      {code:"1028",desc:"VIRECHANAM",price:"150.00"},
+      {code:"1029",desc:"VAMANAM",price:"200.00"},
+      {code:"1030",desc:"RAKTAMOKSHAM",price:"250.00"},
+      {code:"1031",desc:"AGNIKARMA",price:"150.00"},
+      {code:"1032",desc:"CUPPING THERAPY",price:"150.00"},
+      {code:"1033",desc:"PHYSIOTHERAPY - 1 HR",price:"200.00"},
+      {code:"1034",desc:"PHYSIOTHERAPY - HALF HOUR",price:"120.00"},
+      {code:"1035",desc:"ACUPUNCTURE",price:"200.00"},
+      {code:"1036",desc:"HIJAMA (WET CUPPING)",price:"250.00"},
+      {code:"1038",desc:"MARMA THERAPY",price:"200.00"},
+      {code:"1039",desc:"YOGA THERAPY - 1 HR",price:"150.00"},
+      {code:"1040",desc:"HOMEOPATHY CONSULTATION",price:"100.00"}
+    ];
+
+    // ─── Medicine/Drug List ──────────────────────────────────────────
+    const medicineListLocal = [
+      "Dasamoola Kashayam","Triphala Choornam","Murivenna Oil","Prasarinyadi Kashayam Tablet",
+      "Yoga Raja Guggulu Tablet","Brihat Triphala Choornam","Brihath Vaiswanara Choornam",
+      "Cardostab Tablet","Cephagrain Drops","Cephagrain Tablet","Cervilon Cap",
+      "Chandanasavam","Chandanosiradi Kashyam","Chandraprabha Tablet","Dhanwantharam Kashayam",
+      "Dhanwantharam Tablet","Gandha Tailam","Gugguluthikthakam Kashayam","Indukantham Kashayam",
+      "Kaishore Guggulu","Kaisora Guggulu Tablet","Kottamchukkadi Choornam","Ksheerabala 101 Cap",
+      "Ksheerabala Tailam","Lakshadi Guggulu","Maharasnadi Kashayam","Maha Yogaraj Guggulu",
+      "Manjishtadi Kashayam","Myaxyl Tablet","Nimbadi Choornam","Panchathikthakam Kashayam",
+      "Punarnavadi Kashayam","Rasnadi Choornam","Rasnaerandadi Kashayam","Sahacharadi Kashayam",
+      "Sahacharadi Tailam","Sapthasaram Kashayam","Sukumaram Kashayam","Tiktakam Kashayam",
+      "Varanadi Kashayam","Vidaryadi Kashayam","Amruthotharam Kashayam","Aragwadhadi Kashayam",
+      "Ashwagandha Choornam","Ashwagandha Tablet","Bala Tailam","Brahmi Ghritham",
+      "Brahmi Tablet","Chiruvilwadi Kashayam","Drakshadi Kashayam","Eranda Tailam",
+      "Gandharvahastadi Kashayam","Guluchyadi Kashayam","Hinguvachadi Choornam",
+      "Jeerakarishtam","Kumaryasavam","Kutajarishtam","Lohasavam","Manasamitra Vatakam",
+      "Mustharishtam","Nayopayam Kashayam","Panchakola Choornam","Pippalyasavam",
+      "Sarivadyasavam","Thaleesapathradi Choornam","Vaiswanara Choornam","Vilwadi Gulika"
+    ];
+
+    // ─── ICD Code Search ─────────────────────────────────────────────
+    const icdCodesLocal = [
+      {code:"M54.2",desc:"Cervicalgia"},{code:"M54.5",desc:"Low back pain"},{code:"M54.6",desc:"Pain in thoracic spine"},
+      {code:"M54.9",desc:"Dorsalgia, unspecified"},{code:"M54.1",desc:"Radiculopathy"},{code:"M54.3",desc:"Sciatica"},
+      {code:"M54.4",desc:"Lumbago with sciatica"},{code:"M79.1",desc:"Myalgia"},{code:"M25.5",desc:"Pain in joint"},
+      {code:"M75.1",desc:"Rotator cuff syndrome"},{code:"M75.0",desc:"Adhesive capsulitis of shoulder"},
+      {code:"M77.1",desc:"Lateral epicondylitis (Tennis elbow)"},{code:"M77.0",desc:"Medial epicondylitis"},
+      {code:"M65.4",desc:"Radial styloid tenosynovitis (de Quervain)"},{code:"M47.8",desc:"Other spondylosis"},
+      {code:"M47.9",desc:"Spondylosis, unspecified"},{code:"M47.2",desc:"Spondylosis with radiculopathy"},
+      {code:"M51.1",desc:"Lumbar disc disorders with radiculopathy"},{code:"M51.2",desc:"Intervertebral disc displacement"},
+      {code:"M50.1",desc:"Cervical disc disorder with radiculopathy"},{code:"M50.2",desc:"Other cervical disc displacement"},
+      {code:"M53.1",desc:"Cervicobrachial syndrome"},{code:"M62.8",desc:"Other disorders of muscle"},
+      {code:"M79.2",desc:"Neuralgia and neuritis"},{code:"M17.9",desc:"Osteoarthritis of knee"},
+      {code:"M17.1",desc:"Primary osteoarthritis of knee, bilateral"},{code:"M16.9",desc:"Osteoarthritis of hip"},
+      {code:"M19.9",desc:"Osteoarthritis, unspecified"},{code:"M15.0",desc:"Primary generalized osteoarthritis"},
+      {code:"G43.9",desc:"Migraine, unspecified"},{code:"G43.0",desc:"Migraine without aura"},
+      {code:"G44.1",desc:"Vascular headache"},{code:"G44.2",desc:"Tension-type headache"},{code:"R51",desc:"Headache"},
+      {code:"M79.7",desc:"Fibromyalgia"},{code:"M76.6",desc:"Achilles tendinitis"},
+      {code:"M72.2",desc:"Plantar fasciitis"},{code:"S13.4",desc:"Sprain of cervical spine (Whiplash)"},
+      {code:"S93.4",desc:"Sprain of ankle"},{code:"M70.6",desc:"Trochanteric bursitis"},
+      {code:"M10.9",desc:"Gout, unspecified"},{code:"M06.9",desc:"Rheumatoid arthritis"},
+      {code:"M45",desc:"Ankylosing spondylitis"},{code:"G56.0",desc:"Carpal tunnel syndrome"},
+      {code:"G57.0",desc:"Lesion of sciatic nerve"},{code:"I10",desc:"Essential hypertension"},
+      {code:"E11.9",desc:"Type 2 diabetes mellitus"},{code:"E78.5",desc:"Hyperlipidemia"},
+      {code:"J06.9",desc:"Acute upper respiratory infection"},{code:"J45.9",desc:"Asthma"},
+      {code:"K21.0",desc:"Gastro-esophageal reflux disease"},{code:"K30",desc:"Functional dyspepsia"},
+      {code:"K59.0",desc:"Constipation"},{code:"L40.0",desc:"Psoriasis vulgaris"},
+      {code:"L20.9",desc:"Atopic dermatitis"},{code:"R52",desc:"Pain, unspecified"},
+      {code:"F41.1",desc:"Generalized anxiety disorder"},{code:"G47.0",desc:"Insomnia"},
+      {code:"M81.0",desc:"Osteoporosis without fracture"},{code:"E66.9",desc:"Obesity"},
+      {code:"M48.0",desc:"Spinal stenosis"},{code:"M43.1",desc:"Spondylolisthesis"},
+      {code:"M24.5",desc:"Contracture of joint"},{code:"M62.4",desc:"Contracture of muscle"}
+    ];
+
+    function initICDSearch() {
+      const input = byId("icdSearchInput");
+      const dropdown = byId("icdDropdown");
+      const loadBtn = byId("icdLoadBtn");
+      if (!input || !dropdown) return;
+
+      function showResults(query) {
+        const q = (query || "").toLowerCase();
+        const filtered = q.length === 0 ? icdCodesLocal : icdCodesLocal.filter(function(item) {
+          return item.code.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+        });
+        const results = filtered.slice(0, 20);
+
+        if (results.length > 0) {
+          dropdown.innerHTML = results.map(function(item) {
+            return '<div class="icd-item" data-code="' + item.code + '" data-desc="' + escapeHtml(item.desc) + '" style="padding:6px 10px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:10px"><strong style="color:#1565c0;min-width:65px">' + item.code + '</strong><span>' + escapeHtml(item.desc) + '</span></div>';
+          }).join("");
+          dropdown.style.display = "block";
+        } else {
+          dropdown.innerHTML = '<div style="padding:8px;color:#999">No results found</div>';
+          dropdown.style.display = "block";
+        }
+      }
+
+      // Click 🔍 icon → show search box + load full list
+      if (loadBtn) {
+        loadBtn.addEventListener("click", function() {
+          input.style.display = "block";
+          input.focus();
+          showResults("");
+        });
+      }
+
+      // Filter as you type
+      input.addEventListener("input", function() {
+        showResults(input.value.trim());
+      });
+
+      input.addEventListener("focus", function() {
+        showResults(input.value.trim());
+      });
+
+      dropdown.addEventListener("click", function(e) {
+        const item = e.target.closest(".icd-item");
+        if (!item) return;
+        const code = item.dataset.code;
+        const desc = item.dataset.desc;
+
+        const tbody = byId("diagnosisTableBody");
+        if (tbody) {
+          const rows = tbody.querySelectorAll("tr");
+          let added = false;
+          for (let i = 0; i < rows.length; i++) {
+            if (!rows[i].cells[0].textContent.trim()) {
+              rows[i].cells[0].textContent = code;
+              rows[i].cells[1].textContent = desc;
+              rows[i].cells[2].textContent = "Primary";
+              added = true;
+              break;
+            }
+          }
+          if (!added) {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = '<td contenteditable="true">' + escapeHtml(code) + '</td><td contenteditable="true">' + escapeHtml(desc) + '</td><td contenteditable="true">Primary</td><td contenteditable="true"></td><td contenteditable="true"></td>';
+            tbody.appendChild(newRow);
+          }
+          const emptyRow = document.createElement("tr");
+          emptyRow.innerHTML = '<td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
+          tbody.appendChild(emptyRow);
+        }
+
+        input.value = "";
+        dropdown.style.display = "none";
+      });
+
+      document.addEventListener("click", function(e) {
+        if (!e.target.closest(".consult-diagnosis")) {
+          dropdown.style.display = "none";
+          input.style.display = "none";
+        }
+      });
+
+      dropdown.addEventListener("mouseover", function(e) {
+        const item = e.target.closest(".icd-item");
+        if (item) item.style.background = "#e3f2fd";
+      });
+      dropdown.addEventListener("mouseout", function(e) {
+        const item = e.target.closest(".icd-item");
+        if (item) item.style.background = "";
+      });
+    }
+
+    // ─── Procedure Search ────────────────────────────────────────────
+    function initProcedureSearch() {
+      const input = byId("procSearchInput");
+      const dropdown = byId("procDropdown");
+      const loadBtn = byId("procLoadBtn");
+      if (!input || !dropdown) return;
+
+      function showProcResults(query) {
+        const q = (query || "").toLowerCase();
+        const filtered = q.length === 0 ? procedureCodesLocal : procedureCodesLocal.filter(function(item) {
+          return item.code.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+        });
+        const results = filtered.slice(0, 20);
+
+        if (results.length > 0) {
+          dropdown.innerHTML = results.map(function(item) {
+            return '<div class="proc-item" data-code="' + item.code + '" data-desc="' + escapeHtml(item.desc) + '" data-price="' + item.price + '" style="padding:6px 10px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:10px"><strong style="color:#e65100;min-width:45px">' + item.code + '</strong><span style="flex:1">' + escapeHtml(item.desc) + '</span><span style="color:#2e7d32;font-weight:700">' + item.price + '</span></div>';
+          }).join("");
+          dropdown.style.display = "block";
+        } else {
+          dropdown.innerHTML = '<div style="padding:8px;color:#999">No results found</div>';
+          dropdown.style.display = "block";
+        }
+      }
+
+      if (loadBtn) {
+        loadBtn.addEventListener("click", function() {
+          input.style.display = "block";
+          input.focus();
+          showProcResults("");
+        });
+      }
+
+      input.addEventListener("input", function() {
+        showProcResults(input.value.trim());
+      });
+
+      input.addEventListener("focus", function() {
+        showProcResults(input.value.trim());
+      });
+
+      dropdown.addEventListener("click", function(e) {
+        const item = e.target.closest(".proc-item");
+        if (!item) return;
+        const code = item.dataset.code;
+        const desc = item.dataset.desc;
+        const price = item.dataset.price;
+
+        const tbody = byId("procedureTableBody");
+        if (tbody) {
+          const rows = tbody.querySelectorAll("tr");
+          let added = false;
+          for (let i = 0; i < rows.length; i++) {
+            if (!rows[i].cells[0].textContent.trim()) {
+              rows[i].cells[0].textContent = code;
+              rows[i].cells[1].textContent = desc;
+              rows[i].cells[2].textContent = price;
+              rows[i].cells[3].textContent = "1.00";
+              rows[i].cells[4].textContent = price;
+              rows[i].cells[5].textContent = "0.00";
+              rows[i].cells[6].textContent = "0.00";
+              rows[i].cells[7].textContent = "0.00";
+              rows[i].cells[8].textContent = price;
+              rows[i].cells[9].textContent = price;
+              // Add delete button if not there
+              if (!rows[i].cells[10].querySelector(".proc-del-btn")) {
+                rows[i].cells[10].innerHTML = '<button class="proc-del-btn" type="button" title="Delete">&#10005;</button>';
+              }
+              added = true;
+              break;
+            }
+          }
+          if (!added) {
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = '<td contenteditable="true">' + escapeHtml(code) + '</td><td contenteditable="true">' + escapeHtml(desc) + '</td><td contenteditable="true">' + price + '</td><td contenteditable="true">1.00</td><td contenteditable="true">' + price + '</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">' + price + '</td><td contenteditable="true">' + price + '</td><td><button class="proc-del-btn" type="button" title="Delete">&#10005;</button></td>';
+            tbody.appendChild(newRow);
+          }
+          // Add empty row
+          const emptyRow = document.createElement("tr");
+          emptyRow.innerHTML = '<td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td></td>';
+          tbody.appendChild(emptyRow);
+        }
+
+        input.value = "";
+        dropdown.style.display = "none";
+      });
+
+      document.addEventListener("click", function(e) {
+        if (!e.target.closest(".consult-procedure")) {
+          dropdown.style.display = "none";
+          input.style.display = "none";
+        }
+      });
+
+      dropdown.addEventListener("mouseover", function(e) {
+        const item = e.target.closest(".proc-item");
+        if (item) item.style.background = "#fff3e0";
+      });
+      dropdown.addEventListener("mouseout", function(e) {
+        const item = e.target.closest(".proc-item");
+        if (item) item.style.background = "";
+      });
+    }
+
+    // ─── Medicine Search & Add ───────────────────────────────────────
+    function initMedicineSearch() {
+      const input = byId("medSearchInput");
+      const listBody = byId("medListBody");
+      const nameField = byId("medNameField");
+      const addBtn = byId("medAddBtn");
+      const editBtn = byId("prescEditBtn");
+      const saveBtn = byId("prescSaveBtn");
+
+      function renderMedList(query) {
+        if (!listBody) return;
+        const q = (query || "").toLowerCase();
+        const filtered = q.length === 0 ? medicineListLocal : medicineListLocal.filter(function(m) {
+          return m.toLowerCase().includes(q);
+        });
+        listBody.innerHTML = filtered.map(function(m) {
+          return '<tr class="med-row" data-name="' + escapeHtml(m) + '" style="cursor:pointer"><td style="padding:4px 8px;border-bottom:1px solid #eee">' + escapeHtml(m) + '</td></tr>';
+        }).join("");
+      }
+
+      // Open modal on Edit click
+      if (editBtn) {
+        editBtn.addEventListener("click", function() {
+          renderMedList("");
+          // Load existing prescriptions into modal table
+          const mainBody = byId("prescriptionTableBody");
+          const modalBody = byId("medModalTableBody");
+          if (modalBody) {
+            modalBody.innerHTML = "";
+            if (mainBody) {
+              mainBody.querySelectorAll("tr").forEach(function(row) {
+                const med = row.cells[0]?.textContent?.trim();
+                if (med) {
+                  const nr = document.createElement("tr");
+                  nr.innerHTML = '<td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(med) + '</td><td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(row.cells[1]?.textContent || "") + '</td><td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(row.cells[2]?.textContent || "") + '</td><td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(row.cells[3]?.textContent || "") + '</td><td style="border:1px solid #ddd"><button class="proc-del-btn" type="button">&#10005;</button></td>';
+                  modalBody.appendChild(nr);
+                }
+              });
+            }
+          }
+          openModal("prescriptionModal");
+          if (input) input.focus();
+        });
+      }
+
+      // Search filter
+      if (input) {
+        input.addEventListener("input", function() { renderMedList(input.value.trim()); });
+      }
+
+      // Click medicine in list → select
+      if (listBody) {
+        listBody.addEventListener("click", function(e) {
+          const row = e.target.closest(".med-row");
+          if (!row) return;
+          listBody.querySelectorAll(".med-row").forEach(function(r) { r.style.background = ""; });
+          row.style.background = "#fff9c4";
+          if (nameField) nameField.value = row.dataset.name;
+        });
+      }
+
+      // Add button
+      if (addBtn) {
+        addBtn.addEventListener("click", function() {
+          const medicine = nameField ? nameField.value.trim() : "";
+          if (!medicine) { alert("Select a medicine first"); return; }
+          const instructions = byId("medInstructionsField")?.value?.trim() || "";
+          const frequency = byId("medFrequencyField")?.value || "";
+          const duration = byId("medDurationField")?.value || "";
+
+          const modalBody = byId("medModalTableBody");
+          if (modalBody) {
+            const nr = document.createElement("tr");
+            nr.innerHTML = '<td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(medicine) + '</td><td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(instructions) + '</td><td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(frequency) + '</td><td style="padding:4px 8px;border:1px solid #ddd">' + escapeHtml(duration) + '</td><td style="border:1px solid #ddd"><button class="proc-del-btn" type="button">&#10005;</button></td>';
+            modalBody.appendChild(nr);
+          }
+          if (nameField) nameField.value = "";
+          if (byId("medInstructionsField")) byId("medInstructionsField").value = "";
+          if (listBody) listBody.querySelectorAll(".med-row").forEach(function(r) { r.style.background = ""; });
+        });
+      }
+
+      // Delete from modal table
+      byId("medModalTableBody")?.addEventListener("click", function(e) {
+        if (e.target.closest(".proc-del-btn")) e.target.closest("tr")?.remove();
+      });
+
+      // Save → copy to main table
+      if (saveBtn) {
+        saveBtn.addEventListener("click", function() {
+          const modalBody = byId("medModalTableBody");
+          const mainBody = byId("prescriptionTableBody");
+          if (!modalBody || !mainBody) return;
+          mainBody.innerHTML = "";
+          modalBody.querySelectorAll("tr").forEach(function(row) {
+            const nr = document.createElement("tr");
+            nr.innerHTML = '<td>' + (row.cells[0]?.textContent || "") + '</td><td>' + (row.cells[1]?.textContent || "") + '</td><td>' + (row.cells[2]?.textContent || "") + '</td><td>' + (row.cells[3]?.textContent || "") + '</td><td><button class="proc-del-btn" type="button">&#10005;</button></td>';
+            mainBody.appendChild(nr);
+          });
+          closeModal("prescriptionModal");
+        });
+      }
+
+      // Delete from main table
+      byId("prescriptionTableBody")?.addEventListener("click", function(e) {
+        if (e.target.closest(".proc-del-btn")) e.target.closest("tr")?.remove();
+      });
+
+      // Inline medicine dropdown on cell click
+      const prescBody = byId("prescriptionTableBody");
+      if (prescBody) {
+        const inlineDropdown = document.createElement("div");
+        inlineDropdown.id = "medInlineDropdown";
+        inlineDropdown.style.cssText = "display:none;position:absolute;z-index:60;max-height:180px;overflow-y:auto;background:#fff;border:1px solid #888;box-shadow:0 3px 8px rgba(0,0,0,0.25);font-size:11px;width:250px";
+        document.body.appendChild(inlineDropdown);
+
+        let activeCell = null;
+
+        prescBody.addEventListener("click", function(e) {
+          const td = e.target.closest("td");
+          if (!td || e.target.closest(".proc-del-btn")) return;
+          const cellIndex = td.cellIndex;
+          if (cellIndex !== 0) return; // Only first column (Medicines)
+
+          activeCell = td;
+          const rect = td.getBoundingClientRect();
+          inlineDropdown.style.left = rect.left + "px";
+          inlineDropdown.style.top = (rect.bottom + 2) + "px";
+          inlineDropdown.style.width = Math.max(rect.width, 250) + "px";
+
+          const q = (td.textContent || "").trim().toLowerCase();
+          const filtered = q.length === 0 ? medicineListLocal : medicineListLocal.filter(function(m) { return m.toLowerCase().includes(q); });
+          inlineDropdown.innerHTML = filtered.slice(0, 20).map(function(m) {
+            return '<div class="med-inline-item" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee">' + escapeHtml(m) + '</div>';
+          }).join("");
+          inlineDropdown.style.display = "block";
+        });
+
+        prescBody.addEventListener("input", function(e) {
+          const td = e.target.closest("td");
+          if (!td || td.cellIndex !== 0) return;
+          activeCell = td;
+          const q = (td.textContent || "").trim().toLowerCase();
+          const filtered = q.length === 0 ? medicineListLocal : medicineListLocal.filter(function(m) { return m.toLowerCase().includes(q); });
+          inlineDropdown.innerHTML = filtered.slice(0, 20).map(function(m) {
+            return '<div class="med-inline-item" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee">' + escapeHtml(m) + '</div>';
+          }).join("");
+          inlineDropdown.style.display = "block";
+        });
+
+        inlineDropdown.addEventListener("click", function(e) {
+          const item = e.target.closest(".med-inline-item");
+          if (!item || !activeCell) return;
+          activeCell.textContent = item.textContent;
+          inlineDropdown.style.display = "none";
+        });
+
+        inlineDropdown.addEventListener("mouseover", function(e) {
+          const item = e.target.closest(".med-inline-item");
+          if (item) item.style.background = "#fff9c4";
+        });
+        inlineDropdown.addEventListener("mouseout", function(e) {
+          const item = e.target.closest(".med-inline-item");
+          if (item) item.style.background = "";
+        });
+
+        document.addEventListener("click", function(e) {
+          if (!e.target.closest("#prescriptionTableBody") && !e.target.closest("#medInlineDropdown")) {
+            inlineDropdown.style.display = "none";
+          }
+        });
+      }
+    }
+
+    function initDatabasePanel() {
+      const tablesList = byId("dbTablesList");
+      if (!tablesList) return;
+
+      tablesList.addEventListener("click", (e) => {
+        const item = e.target.closest(".db-table-item");
+        if (!item) return;
+        renderDbTable(item.dataset.table);
+      });
+
+      byId("dbViewData")?.addEventListener("click", () => {
+        const tableName = byId("dbCurrentTable").textContent;
+        renderDbTable(tableName);
+      });
+
+      byId("dbViewStructure")?.addEventListener("click", () => {
+        const tableName = byId("dbCurrentTable").textContent;
+        renderDbStructure(tableName);
+      });
+    }
+
     function boot() {
       renderChrome();
       renderPatients();
       renderInsurance();
+      renderMapping();
       renderPackages();
       renderReceipts();
+      initDatabasePanel();
+      initICDSearch();
+      initProcedureSearch();
+      initMedicineSearch();
+      // Procedure delete buttons
+      byId("procedureTableBody")?.addEventListener("click", function(e) {
+        if (e.target.closest(".proc-del-btn")) {
+          const row = e.target.closest("tr");
+          if (row) row.remove();
+        }
+      });
+
+      // Consolidated Report
+      byId("consolidatedReportBtn")?.addEventListener("click", function() {
+        // Fill report with current consultation data
+        byId("crRegNo").textContent = byId("consultMrNo")?.textContent || "";
+        byId("crName").textContent = byId("consultPatientName")?.textContent || "";
+        byId("crEid").textContent = byId("consultEid")?.textContent || "";
+        byId("crNationality").textContent = byId("consultNationality")?.textContent || "";
+        byId("crDobAge").textContent = (byId("consultDob")?.textContent || "") + " / " + (byId("consultAge")?.textContent || "");
+        byId("crMobile").textContent = "";
+        byId("crGender").textContent = byId("consultGender")?.textContent || "";
+        byId("crVisitDate").textContent = byId("consultDate")?.value || "";
+        byId("crClinician").textContent = "ANJNA NADAKKAVIL CHANDRAN";
+
+        // Vitals
+        const vitalsInputs = document.querySelectorAll(".consult-vitals-left input");
+        const vitalsLabels = ["Height", "Weight", "BMI", "BPS", "BPD", "Temp", "P/S", "RR", "PR", "O2", "BS", "HC"];
+        let vitalsText = "";
+        vitalsInputs.forEach(function(inp, i) {
+          if (inp.value) vitalsText += (vitalsLabels[i] || "") + " : " + inp.value + " | ";
+        });
+        byId("crVitals").textContent = vitalsText;
+
+        // Clinical notes
+        byId("crChiefComplaints").textContent = byId("consultChiefComplaints")?.value || "";
+        byId("crPresentIllness").textContent = byId("consultPresentIllness")?.value || "";
+        byId("crPastHistory").textContent = byId("consultPastHistory")?.value || "";
+        byId("crMedicineHistory").textContent = "Nothing specific (Not under any medication for DM, HTN And hyperlipidemia)";
+        byId("crExamination").textContent = byId("consultExamination")?.value || "";
+        byId("crTreatmentPlan").textContent = byId("consultTreatmentPlan")?.value || "";
+
+        // Diagnosis from table
+        const diagRows = document.querySelectorAll("#diagnosisTableBody tr");
+        let diagText = "";
+        diagRows.forEach(function(row) {
+          const code = row.cells[0]?.textContent?.trim();
+          const desc = row.cells[1]?.textContent?.trim();
+          if (code || desc) diagText += code + " : " + desc + "\n";
+        });
+        byId("crDiagnosis").textContent = diagText;
+
+        openModal("consolidatedReportModal");
+      });
+
+      // Print
+      byId("crPrint")?.addEventListener("click", function() {
+        const content = byId("crContent").innerHTML;
+        const win = window.open("", "_blank");
+        win.document.write("<html><head><title>Patient Clinical Summary</title><style>body{font-family:'Times New Roman',serif;font-size:13px;line-height:1.6;padding:20px}strong{font-weight:700}table{border-collapse:collapse}td{padding:2px 4px;vertical-align:top}</style></head><body>" + content + "</body></html>");
+        win.document.close();
+        win.print();
+      });
+
+      // PDF (print to PDF)
+      byId("crPDF")?.addEventListener("click", function() {
+        const content = byId("crContent").innerHTML;
+        const win = window.open("", "_blank");
+        win.document.write("<html><head><title>Patient Clinical Summary - PDF</title><style>body{font-family:'Times New Roman',serif;font-size:13px;line-height:1.6;padding:20px}strong{font-weight:700}table{border-collapse:collapse}td{padding:2px 4px;vertical-align:top}</style></head><body>" + content + "<script>setTimeout(function(){window.print()},500)<\/script></body></html>");
+        win.document.close();
+      });
+
+      // Excel export
+      byId("crExcel")?.addEventListener("click", function() {
+        const content = byId("crContent").innerHTML;
+        const blob = new Blob(["<html><head><meta charset='utf-8'></head><body>" + content + "</body></html>"], { type: "application/vnd.ms-excel" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Patient_Clinical_Summary.xls";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Word export
+      byId("crWord")?.addEventListener("click", function() {
+        const content = byId("crContent").innerHTML;
+        const blob = new Blob(["<html><head><meta charset='utf-8'></head><body>" + content + "</body></html>"], { type: "application/msword" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Patient_Clinical_Summary.doc";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
       // initialise calendar + schedule with the selected date
       byId("appointmentDate").value = fmtDateInput(selectedDate);
       renderMonth();

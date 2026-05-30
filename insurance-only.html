@@ -2941,8 +2941,8 @@
       <section class="screen" id="diagnosisListScreen" aria-label="Diagnosis List">
         <div class="screen-title" style="background:linear-gradient(90deg,#0d47a1,#1565c0)">Diagnosis List</div>
         <div class="toolbar">
-          <button class="tool-button primary" type="button"><span class="mini-icon i-new">+</span>New</button>
-          <button class="tool-button" type="button"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button primary" type="button" id="diagNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="diagEdit"><span class="mini-icon i-edit">/</span>Edit</button>
           <button class="tool-button delete" type="button"><span class="mini-icon i-delete">x</span>Delete</button>
           <span class="search-line">Search <input id="diagSearch" type="search" style="width:200px"></span>
           <span class="spacer"></span>
@@ -2950,18 +2950,40 @@
         </div>
         <div class="grid-shell">
           <table aria-label="Diagnosis list">
-            <colgroup><col style="width:140px"><col></colgroup>
-            <thead><tr><th>ICD Code</th><th>Description</th></tr></thead>
+            <colgroup><col style="width:120px"><col><col style="width:80px"></colgroup>
+            <thead><tr><th>ICD Code</th><th>Description</th><th>&#9661;</th></tr></thead>
             <tbody>
-              <tr class="selected"><td style="color:#c00;font-weight:900">V86.51XS</td><td>Driver of amblnc/fire eng injured nontraf, sequela</td></tr>
-              <tr><td>V86.52XA</td><td>Driver of snowmobile injured in nontraffic accident, init</td></tr>
-              <tr><td>V86.52XD</td><td>Driver of snowmobile injured in nontraffic accident, subs</td></tr>
-              <tr><td>V86.53XA</td><td>Driver of dune buggy injured in nontraffic accident, init</td></tr>
-              <tr><td>V86.53XD</td><td>Driver of dune buggy injured in nontraffic accident, subs</td></tr>
-              <tr><td>V86.54XA</td><td>Driver of military vehicle injured nontraf, init</td></tr>
-              <tr><td>V86.55XA</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, init</td></tr>
-              <tr><td>W21.89XS</td><td>Striking against or struck by oth sports equipment, sequela</td></tr>
-              <tr><td>M54.2</td><td>Cervicalgia</td></tr>
+              <tr><td colspan="3" style="font-size:11px;padding:3px 8px"><strong>Contains:</strong> <span style="font-weight:400">&#9661; Contains:</span></td></tr>
+              <tr class="selected"><td style="color:#c00;font-weight:900">V86.51XS</td><td>Driver of amblnc/fire eng injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.52XA</td><td>Driver of snowmobile injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.52XD</td><td>Driver of snowmobile injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.52XS</td><td>Driver of snowmobile injured in nontraffic accident, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.53XA</td><td>Driver of dune buggy injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.53XD</td><td>Driver of dune buggy injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.53XS</td><td>Driver of dune buggy injured in nontraffic accident, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.54XA</td><td>Driver of military vehicle injured nontraf, init</td><td>ICD10</td></tr>
+              <tr><td>V86.54XD</td><td>Driver of military vehicle injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.54XS</td><td>Driver of military vehicle injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.55XA</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, init</td><td>ICD10</td></tr>
+              <tr><td>V86.55XD</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.55XS</td><td>Driver of 3- or 4- wheeled ATV injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>W21.89XS</td><td>Striking against or struck by oth sports equipment, sequela</td><td>ICD10</td></tr>
+              <tr><td>W21.9XXA</td><td>Striking against or struck by unsp sports equipment, init</td><td>ICD10</td></tr>
+              <tr><td>V86.56XD</td><td>Driver of dirt bike or motor/cross bike inj nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.56XS</td><td>Driver of dirt bike or motor/cross bike inj nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.59XA</td><td>Driver of sp off-rd mv injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.59XD</td><td>Driver of sp off-rd mv injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.59XS</td><td>Driver of sp off rd mv nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.61XA</td><td>Passenger of amblnc/fire eng injured nontraf, init</td><td>ICD10</td></tr>
+              <tr><td>V86.61XD</td><td>Passenger of amblnc/fire eng injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.61XS</td><td>Passenger of amblnc/fire eng injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.62XA</td><td>Passenger of snowmobile injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.62XD</td><td>Passenger of snowmobile injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>V86.62XS</td><td>Passenger of snowmobile injured in nontraffic accident, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.63XA</td><td>Passenger of dune buggy injured in nontraffic accident, init</td><td>ICD10</td></tr>
+              <tr><td>V86.63XD</td><td>Passenger of dune buggy injured nontraf, subs</td><td>ICD10</td></tr>
+              <tr><td>V86.63XS</td><td>Passenger of dune buggy injured nontraf, sequela</td><td>ICD10</td></tr>
+              <tr><td>M54.2</td><td>Cervicalgia</td><td>ICD10</td></tr>
             </tbody>
           </table>
         </div>
@@ -3846,6 +3868,30 @@ podi kizhi + lepanam x 5 days.</textarea>
             </tbody>
           </table>
         </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="diagnosisModal" role="dialog" aria-modal="true" aria-labelledby="diagnosisDialogTitle">
+    <form class="dialog narrow" id="diagnosisForm">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)"><span id="diagnosisDialogTitle">Diagnosis</span><button class="close-modal" type="button" data-close="diagnosisModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px">
+        <div style="display:grid;grid-template-columns:90px 1fr;gap:10px 12px;font-size:12px;font-weight:700;align-items:center">
+          <label>Code</label><input name="diagCode" style="height:28px;width:100px;font-size:12px">
+          <label>ICD Code</label><input name="diagIcdCode" style="height:28px;font-size:12px">
+          <label>Type</label>
+          <div style="display:flex;gap:4px;align-items:center">
+            <input name="diagType" style="height:28px;width:60px;font-size:11px">
+            <button class="small-button" type="button">&#128269;</button>
+            <span style="font-weight:700">Name</span>
+            <input name="diagTypeName" style="height:28px;flex:1;font-size:11px">
+          </div>
+          <label>Description</label><textarea name="diagDescription" style="height:60px;font-size:12px;resize:vertical"></textarea>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="diagnosisModal">Cancel</button>
       </div>
     </form>
   </div>
@@ -5199,6 +5245,21 @@ podi kizhi + lepanam x 5 days.</textarea>
         e.preventDefault();
         alert("Tariff item saved");
         closeModal("tariffItemModal");
+      });
+      // Diagnosis New/Edit buttons
+      byId("diagNew")?.addEventListener("click", () => {
+        byId("diagnosisForm")?.reset();
+        byId("diagnosisDialogTitle").textContent = "Diagnosis";
+        openModal("diagnosisModal");
+      });
+      byId("diagEdit")?.addEventListener("click", () => {
+        byId("diagnosisDialogTitle").textContent = "Edit Diagnosis";
+        openModal("diagnosisModal");
+      });
+      byId("diagnosisForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("Diagnosis saved");
+        closeModal("diagnosisModal");
       });
       document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
       document.querySelectorAll(".modal-layer").forEach((layer) => {

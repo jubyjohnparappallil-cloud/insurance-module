@@ -1,12 +1,59 @@
 {
   "name": "clinic",
   "version": "1.0.0",
+  "description": "Clinic EMR Desktop Application",
   "main": "main.js",
+  "author": "Clinic",
   "scripts": {
     "start": "electron .",
-    "start:insurance": "electron . --insurance"
+    "start:insurance": "electron . --insurance",
+    "server": "node server.js",
+    "build": "electron-builder --win",
+    "build:portable": "electron-builder --win portable",
+    "pack": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.clinic.emr",
+    "productName": "Clinic EMR",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "database.js",
+      "index.html",
+      "insurance-only.html",
+      "clinic-emr.html",
+      "vercel.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Clinic EMR"
+    },
+    "portable": {
+      "artifactName": "ClinicEMR-Portable.exe"
+    }
   },
   "devDependencies": {
-    "electron": "^latest"
+    "electron": "*",
+    "electron-builder": "*"
+  },
+  "dependencies": {
+    "mysql2": "^3.22.4"
   }
 }
