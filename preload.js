@@ -29,5 +29,9 @@ contextBridge.exposeInMainWorld('clinicAPI', {
   getDbPath: () => ipcRenderer.invoke('get-db-path'),
 
   // ─── ICD Codes ─────────────────────────────────────────────────
-  searchICD: (query) => ipcRenderer.invoke('search-icd', query)
+  searchICD: (query) => ipcRenderer.invoke('search-icd', query),
+
+  // ─── Prescription inherit ─────────────────────────────────────
+  getLastPrescription: (mrNo) => ipcRenderer.invoke('get-last-prescription', mrNo),
+  getLastProcedures: (mrNo) => ipcRenderer.invoke('get-last-procedures', mrNo)
 });

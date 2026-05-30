@@ -3367,7 +3367,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               </div>
               <!-- Prescription -->
               <div class="consult-prescription">
-                <div class="consult-section-title presc-title">Prescription <button type="button" id="prescEditBtn" style="margin-left:10px;padding:2px 10px;font-size:11px;font-weight:700;background:linear-gradient(#fff,#e0e9f1);border:1px solid #9aaab7;border-radius:2px;cursor:pointer">Edit</button></div>
+                <div class="consult-section-title presc-title">Prescription <button type="button" id="prescEditBtn" style="margin-left:10px;padding:2px 10px;font-size:11px;font-weight:700;background:linear-gradient(#fff,#e0e9f1);border:1px solid #9aaab7;border-radius:2px;cursor:pointer">Edit</button> <button type="button" id="prescInheritBtn" style="margin-left:4px;padding:2px 10px;font-size:11px;font-weight:700;background:linear-gradient(#fff3e0,#ffe0b2);border:1px solid #f57c00;color:#e65100;border-radius:2px;cursor:pointer">Inherit from EMR</button></div>
                 <table class="consult-table">
                   <thead><tr><th style="width:30%">Medicines</th><th style="width:30%">Instructions</th><th style="width:20%">Frequency</th><th style="width:15%">Duration</th><th style="width:30px"></th></tr></thead>
                   <tbody id="prescriptionTableBody">
@@ -3873,7 +3873,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           </div>
         </div>
         <!-- Inherit from EMR -->
-        <div style="margin-bottom:8px"><button class="small-button" type="button" style="font-weight:800;color:#1b5e20">+ Inherit From EMR</button></div>
+        <div style="margin-bottom:8px"><button class="small-button" type="button" id="invInheritEmr" style="font-weight:800;color:#1b5e20">+ Inherit From EMR</button></div>
         <!-- Items table -->
         <div style="border:1px solid #ccc;min-height:120px;margin-bottom:10px;overflow-x:auto">
           <table class="consult-table" style="font-size:10px" id="invTable">
@@ -3883,6 +3883,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             </tbody>
           </table>
           <button type="button" class="small-button" id="invAddRow" style="margin:4px;font-size:10px;font-weight:800;color:#1b5e20">+ Add New</button>
+          <div id="invAddDropdown" style="display:none;position:absolute;z-index:60;max-height:200px;overflow-y:auto;background:#fff;border:1px solid #888;box-shadow:0 3px 8px rgba(0,0,0,0.25);font-size:11px;width:350px"></div>
         </div>
         <!-- Bottom section: Previous Dues + Tendered + Total -->
         <div style="display:grid;grid-template-columns:140px 1fr 200px;gap:10px;font-size:10px;font-weight:700">
@@ -5914,12 +5915,74 @@ podi kizhi + lepanam x 5 days.</textarea>
         row.innerHTML = `<td contenteditable="true">${rowCount}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>`;
         tbody.appendChild(row);
       });
-      byId("invAddRow")?.addEventListener("click", () => {
+      byId("invAddRow")?.addEventListener("click", function() {
+        const dropdown = byId("invAddDropdown");
+        if (!dropdown) return;
+
+        // Build list of procedures + packages
+        const allItems = [];
+        procedureCodesLocal.forEach(function(p) {
+          allItems.push({ code: p.code, desc: p.desc, price: p.price, type: "Procedure" });
+        });
+        packageRecords.forEach(function(p) {
+          allItems.push({ code: p.code, desc: p.name, price: "0.00", type: "Package" });
+        });
+
+        dropdown.innerHTML = '<div style="padding:4px 8px;border-bottom:1px solid #ccc"><input type="text" id="invAddSearch" placeholder="Search procedure/package..." style="width:100%;height:24px;font-size:11px;padding:2px 6px"></div>' +
+          allItems.map(function(item) {
+            return '<div class="inv-add-item" data-code="' + item.code + '" data-desc="' + escapeHtml(item.desc) + '" data-price="' + item.price + '" data-type="' + item.type + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px"><strong style="color:#e65100;min-width:45px;font-size:10px">' + item.code + '</strong><span style="flex:1;font-size:11px">' + escapeHtml(item.desc) + '</span><span style="color:#2e7d32;font-size:10px">' + item.price + '</span></div>';
+          }).join("");
+
+        const rect = byId("invAddRow").getBoundingClientRect();
+        dropdown.style.left = rect.left + "px";
+        dropdown.style.top = (rect.bottom + 2) + "px";
+        dropdown.style.display = "block";
+
+        // Search filter
+        setTimeout(function() {
+          const searchInput = byId("invAddSearch");
+          if (searchInput) {
+            searchInput.focus();
+            searchInput.addEventListener("input", function() {
+              const q = searchInput.value.trim().toLowerCase();
+              dropdown.querySelectorAll(".inv-add-item").forEach(function(el) {
+                const match = el.dataset.desc.toLowerCase().includes(q) || el.dataset.code.toLowerCase().includes(q);
+                el.style.display = match ? "" : "none";
+              });
+            });
+          }
+        }, 50);
+      });
+
+      // Click item in Add New dropdown
+      byId("invAddDropdown")?.addEventListener("click", function(e) {
+        const item = e.target.closest(".inv-add-item");
+        if (!item) return;
         const tbody = byId("invTableBody");
         const rowCount = tbody.rows.length + 1;
+        const price = parseFloat(item.dataset.price) || 0;
         const row = document.createElement("tr");
-        row.innerHTML = `<td contenteditable="true">${rowCount}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button type="button" class="inv-del-row" style="width:20px;height:20px;border:1px solid #c00;background:#e01b36;color:#fff;font-size:10px;padding:0;cursor:pointer">&#128465;</button></td>`;
+        row.innerHTML = '<td contenteditable="true">' + rowCount + '</td><td contenteditable="true">' + escapeHtml(item.dataset.code) + '</td><td contenteditable="true">' + escapeHtml(item.dataset.type) + '</td><td contenteditable="true">' + escapeHtml(item.dataset.desc) + '</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">0</td><td contenteditable="true">0.00</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0.00</td><td contenteditable="true">' + price.toFixed(2) + '</td><td><button type="button" class="inv-del-row" style="width:20px;height:20px;border:1px solid #c00;background:#e01b36;color:#fff;font-size:10px;padding:0;cursor:pointer">&#128465;</button></td>';
         tbody.appendChild(row);
+        byId("invAddDropdown").style.display = "none";
+      });
+
+      // Hide dropdown on outside click
+      document.addEventListener("click", function(e) {
+        if (!e.target.closest("#invAddRow") && !e.target.closest("#invAddDropdown")) {
+          const dd = byId("invAddDropdown");
+          if (dd) dd.style.display = "none";
+        }
+      });
+
+      // Hover effect
+      byId("invAddDropdown")?.addEventListener("mouseover", function(e) {
+        const item = e.target.closest(".inv-add-item");
+        if (item) item.style.background = "#e8f5e9";
+      });
+      byId("invAddDropdown")?.addEventListener("mouseout", function(e) {
+        const item = e.target.closest(".inv-add-item");
+        if (item) item.style.background = "";
       });
       // Delete row in invoice table
       byId("invTable")?.addEventListener("click", (event) => {
@@ -5941,6 +6004,40 @@ podi kizhi + lepanam x 5 days.</textarea>
         alert("Invoice saved successfully");
         closeModal("invoiceModal");
       });
+
+      // Inherit from EMR in Invoice - load consultation PROCEDURES
+      byId("invInheritEmr")?.addEventListener("click", async function() {
+        const mrNo = byId("invMrNo")?.textContent?.trim() || "";
+        if (!mrNo) { alert("No patient selected"); return; }
+
+        if (window.clinicAPI && window.clinicAPI.getLastProcedures) {
+          try {
+            const result = await window.clinicAPI.getLastProcedures(mrNo);
+            if (result && result.success && result.data && result.data.length > 0) {
+              const tbody = byId("invTableBody");
+              if (tbody) {
+                tbody.innerHTML = "";
+                result.data.forEach(function(proc, i) {
+                  const price = parseFloat(proc.price) || 0;
+                  const sessions = parseInt(proc.sessions) || 1;
+                  const amount = parseFloat(proc.amount) || (price * sessions);
+                  const row = document.createElement("tr");
+                  row.innerHTML = '<td contenteditable="true">' + (i + 1) + '</td><td contenteditable="true">' + escapeHtml(proc.medCode || "") + '</td><td contenteditable="true">Procedure</td><td contenteditable="true">' + escapeHtml(proc.description || "") + '</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">' + sessions + '</td><td contenteditable="true">0</td><td contenteditable="true">0.00</td><td contenteditable="true">' + amount.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">' + amount.toFixed(2) + '</td><td contenteditable="true">0.00</td><td contenteditable="true">' + amount.toFixed(2) + '</td><td><button type="button" class="inv-del-row" style="width:20px;height:20px;border:1px solid #c00;background:#e01b36;color:#fff;font-size:10px;padding:0;cursor:pointer">&#128465;</button></td>';
+                  tbody.appendChild(row);
+                });
+                alert("Loaded " + result.data.length + " procedure(s) from EMR consultation.");
+              }
+            } else {
+              alert("No consultation procedures found for MR No: " + mrNo);
+            }
+          } catch (err) {
+            alert("Error: " + err.message);
+          }
+        } else {
+          alert("Database not connected");
+        }
+      });
+
       // Claims Add button
       byId("claimsAdd")?.addEventListener("click", () => {
         byId("claimsForm")?.reset();
@@ -6751,6 +6848,39 @@ podi kizhi + lepanam x 5 days.</textarea>
           }
           openModal("prescriptionModal");
           if (input) input.focus();
+        });
+      }
+
+      // Inherit from EMR - load last saved prescription
+      const inheritBtn = byId("prescInheritBtn");
+      if (inheritBtn) {
+        inheritBtn.addEventListener("click", async function() {
+          const mrNo = byId("consultMrNo")?.textContent?.trim() || "";
+          if (!mrNo) { alert("No patient selected"); return; }
+
+          if (window.clinicAPI && window.clinicAPI.getLastPrescription) {
+            const result = await window.clinicAPI.getLastPrescription(mrNo);
+            if (result && result.success && result.data && result.data.length > 0) {
+              const mainBody = byId("prescriptionTableBody");
+              if (mainBody) {
+                mainBody.innerHTML = "";
+                result.data.forEach(function(rx) {
+                  const nr = document.createElement("tr");
+                  nr.innerHTML = '<td>' + escapeHtml(rx.medicine || "") + '</td><td>' + escapeHtml(rx.instructions || "") + '</td><td>' + escapeHtml(rx.frequency || "") + '</td><td>' + escapeHtml(rx.duration || "") + '</td><td><button class="proc-del-btn" type="button">&#10005;</button></td>';
+                  mainBody.appendChild(nr);
+                });
+                // Add empty row
+                const empty = document.createElement("tr");
+                empty.innerHTML = '<td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td></td>';
+                mainBody.appendChild(empty);
+                alert("Prescription loaded from previous consultation!\n\n" + result.data.length + " medicine(s) inherited.");
+              }
+            } else {
+              alert("No previous prescription found for MR No: " + mrNo);
+            }
+          } else {
+            alert("Database not connected. Cannot inherit prescription.");
+          }
         });
       }
 

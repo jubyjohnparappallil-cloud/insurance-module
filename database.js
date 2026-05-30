@@ -291,6 +291,7 @@ function getDatabasePath() {
 }
 
 module.exports = {
+  getPool,
   savePatient,
   getPatients,
   deletePatient,

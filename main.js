@@ -143,6 +143,32 @@ function setupIPC() {
     }
   });
 
+  // ─── Get last prescription for a patient ────────────────────
+  ipcMain.handle('get-last-prescription', async (event, mrNo) => {
+    try {
+      const pool = database.getPool();
+      const [consults] = await pool.execute('SELECT id FROM consultations WHERE mrNo = ? ORDER BY createdAt DESC LIMIT 1', [mrNo]);
+      if (consults.length === 0) return { success: true, data: [] };
+      const [rxs] = await pool.execute('SELECT medicine, instructions, frequency, duration FROM consultation_prescriptions WHERE consultationId = ?', [consults[0].id]);
+      return { success: true, data: rxs };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  });
+
+  // ─── Get last procedures for a patient (for invoice inherit) ──
+  ipcMain.handle('get-last-procedures', async (event, mrNo) => {
+    try {
+      const pool = database.getPool();
+      const [consults] = await pool.execute('SELECT id FROM consultations WHERE mrNo = ? ORDER BY createdAt DESC LIMIT 1', [mrNo]);
+      if (consults.length === 0) return { success: true, data: [] };
+      const [procs] = await pool.execute('SELECT medCode, description, price, sessions, amount, netAmount FROM consultation_procedures WHERE consultationId = ?', [consults[0].id]);
+      return { success: true, data: procs };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  });
+
   // ─── Database info ───────────────────────────────────────────
   ipcMain.handle('get-db-path', async () => {
     return { success: true, path: database.getDatabasePath() };
