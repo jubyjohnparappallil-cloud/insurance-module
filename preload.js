@@ -33,5 +33,6 @@ contextBridge.exposeInMainWorld('clinicAPI', {
 
   // ─── Prescription inherit ─────────────────────────────────────
   getLastPrescription: (mrNo) => ipcRenderer.invoke('get-last-prescription', mrNo),
-  getLastProcedures: (mrNo) => ipcRenderer.invoke('get-last-procedures', mrNo)
+  getLastProcedures: (mrNo) => ipcRenderer.invoke('get-last-procedures', mrNo),
+  getConsultationByClaim: (claimId) => ipcRenderer.invoke('get-consultation-by-claim', claimId)
 });

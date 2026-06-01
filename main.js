@@ -169,6 +169,22 @@ function setupIPC() {
     }
   });
 
+  // ─── Get full consultation by claim ID ──────────────────────────
+  ipcMain.handle('get-consultation-by-claim', async (event, claimId) => {
+    try {
+      const pool = database.getPool();
+      const [claims] = await pool.execute('SELECT consultationId FROM claims WHERE claimId = ?', [claimId]);
+      if (claims.length === 0 || !claims[0].consultationId) return { success: false, error: 'No consultation found' };
+      const [consults] = await pool.execute('SELECT * FROM consultations WHERE id = ?', [claims[0].consultationId]);
+      if (consults.length === 0) return { success: false, error: 'Consultation not found' };
+      const [procs] = await pool.execute('SELECT * FROM consultation_procedures WHERE consultationId = ?', [claims[0].consultationId]);
+      const [rxs] = await pool.execute('SELECT * FROM consultation_prescriptions WHERE consultationId = ?', [claims[0].consultationId]);
+      return { success: true, data: { consultation: consults[0], procedures: procs, prescriptions: rxs } };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  });
+
   // ─── Database info ───────────────────────────────────────────
   ipcMain.handle('get-db-path', async () => {
     return { success: true, path: database.getDatabasePath() };
