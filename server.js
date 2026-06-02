@@ -36,6 +36,7 @@ function loadDatabase() {
     logsheetEntries: [],
     insuranceCompanies: [],
     insuranceMappings: [],
+    signatures: {},
     nextIds: { patient: 4747, consultation: 1, claim: 918, insurance: 113 }
   };
 }
@@ -71,12 +72,19 @@ function sendJSON(res, data, status = 200) {
 }
 
 function serveFile(res, filePath) {
-  const ext = path.extname(filePath);
-  const types = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.json': 'application/json', '.ico': 'image/x-icon' };
-  const contentType = types[ext] || 'text/plain';
+  const ext = path.extname(filePath).toLowerCase();
+  const types = {
+    '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css',
+    '.json': 'application/json', '.ico': 'image/x-icon', '.png': 'image/png',
+    '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif',
+    '.svg': 'image/svg+xml', '.woff': 'font/woff', '.woff2': 'font/woff2'
+  };
+  const contentType = types[ext] || 'application/octet-stream';
+  const isBinary = ['.png','.jpg','.jpeg','.gif','.ico','.woff','.woff2'].includes(ext);
 
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
+    if (!fs.existsSync(filePath)) { res.writeHead(404); res.end('Not Found'); return; }
+    const content = fs.readFileSync(filePath, isBinary ? null : 'utf8');
     res.writeHead(200, { 'Content-Type': contentType });
     res.end(content);
   } catch {
@@ -267,6 +275,73 @@ async function handleAPI(req, res) {
     return sendJSON(res, { success: true, path: DATA_FILE });
   }
 
+  // ── Signatures ──
+  if (url === '/api/signatures' && method === 'GET') {
+    if (!db.signatures) db.signatures = {};
+    return sendJSON(res, { success: true, data: db.signatures });
+  }
+  if (url === '/api/signatures' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.signatures) db.signatures = {};
+    // body = { type: "doctor"|"seal"|"patient", data: "base64string" }
+    if (body.type && body.data) {
+      db.signatures[body.type] = body.data;
+      saveDatabase();
+      return sendJSON(res, { success: true, message: body.type + ' signature saved' });
+    }
+    return sendJSON(res, { error: 'Missing type or data' }, 400);
+  }
+
+  // ── Sign page (link-based signing) ──
+  if (url.startsWith('/sign') && method === 'GET') {
+    const signPage = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Digital Signature</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#f5f5f5;padding:20px}
+h2{color:#1b5e20;margin-bottom:10px;font-size:18px}
+p{color:#666;margin-bottom:15px;font-size:13px;text-align:center}
+canvas{border:2px solid #43a047;border-radius:8px;background:#fff;touch-action:none;cursor:crosshair}
+.btns{margin-top:12px;display:flex;gap:10px}
+button{padding:10px 24px;font-size:14px;font-weight:bold;border:none;border-radius:4px;cursor:pointer}
+.clear{background:#eee;color:#333}
+.submit{background:#43a047;color:#fff}
+.submit:hover{background:#2e7d32}
+.msg{margin-top:12px;font-size:14px;font-weight:bold;color:#1b5e20;display:none}
+</style></head><body>
+<h2>&#9998; Digital Signature</h2>
+<p>Draw your signature below using your finger, stylus, or mouse</p>
+<canvas id="pad" width="500" height="200"></canvas>
+<div class="btns">
+<button class="clear" onclick="clearPad()">Clear</button>
+<button class="submit" onclick="submitSig()">Submit Signature</button>
+</div>
+<div class="msg" id="msg">&#10004; Signature saved successfully!</div>
+<script>
+var canvas=document.getElementById("pad"),ctx=canvas.getContext("2d"),drawing=false;
+function getPos(e){var r=canvas.getBoundingClientRect();var t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top}}
+canvas.addEventListener("mousedown",function(e){drawing=true;ctx.beginPath();var p=getPos(e);ctx.moveTo(p.x,p.y)});
+canvas.addEventListener("mousemove",function(e){if(!drawing)return;ctx.lineWidth=2.5;ctx.lineCap="round";ctx.strokeStyle="#000";var p=getPos(e);ctx.lineTo(p.x,p.y);ctx.stroke()});
+canvas.addEventListener("mouseup",function(){drawing=false});
+canvas.addEventListener("touchstart",function(e){e.preventDefault();drawing=true;ctx.beginPath();var p=getPos(e);ctx.moveTo(p.x,p.y)});
+canvas.addEventListener("touchmove",function(e){e.preventDefault();if(!drawing)return;ctx.lineWidth=2.5;ctx.lineCap="round";ctx.strokeStyle="#000";var p=getPos(e);ctx.lineTo(p.x,p.y);ctx.stroke()});
+canvas.addEventListener("touchend",function(){drawing=false});
+function clearPad(){ctx.clearRect(0,0,canvas.width,canvas.height)}
+function submitSig(){
+  var data=canvas.toDataURL("image/png");
+  var params=new URLSearchParams(window.location.search);
+  var type=params.get("type")||"doctor";
+  fetch("/api/signatures",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:type,data:data})})
+  .then(function(r){return r.json()})
+  .then(function(d){document.getElementById("msg").style.display="block"})
+  .catch(function(e){alert("Error saving: "+e.message)});
+}
+</script></body></html>`;
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(signPage);
+    return;
+  }
+
   sendJSON(res, { error: 'Not found' }, 404);
 }
 
@@ -277,8 +352,13 @@ const server = http.createServer((req, res) => {
     return handleAPI(req, res);
   }
 
+  // Sign page (link-based signing)
+  if (req.url.startsWith('/sign')) {
+    return handleAPI(req, res);
+  }
+
   // Serve static files
-  let filePath = req.url === '/' ? '/index.html' : req.url;
+  let filePath = req.url === '/' ? '/insurance-only.html' : req.url.split('?')[0];
   filePath = path.join(__dirname, filePath);
   serveFile(res, filePath);
 });

@@ -2027,528 +2027,501 @@
       display: block;
       overflow: hidden;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       z-index: 40;
-      background: #f0f0f0;
+      background: #dbe5ee;
     }
 
     .consult-layout {
       display: grid;
-      grid-template-rows: auto auto 1fr auto;
+      grid-template-rows: 26px 26px 1fr 32px;
       height: 100vh;
       overflow: hidden;
     }
 
     .consult-title-bar {
-      background: linear-gradient(90deg, #1a6b1a, #2e8e2e);
-      color: #fff;
-      padding: 4px 14px;
-      font-size: 15px;
-      font-weight: 900;
-      border-bottom: 2px solid #0d5e0d;
-      height: 28px;
-      display: flex;
-      align-items: center;
+      background:linear-gradient(90deg,#1a6b1a,#2e8e2e); color:#fff;
+      padding:0 14px; font-size:13px; font-weight:900;
+      border-bottom:2px solid #0d5e0d; height:26px;
+      display:flex; align-items:center;
     }
 
     .consult-date-bar {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 8px;
-      background: #e0e0e0;
-      border-bottom: 2px solid #4caf50;
-      height: 28px;
+      display:flex; align-items:center; gap:4px; padding:2px 8px;
+      background:#e8e8e8; border-bottom:2px solid #4caf50; height:26px;
     }
 
     .consult-date-bar input {
-      height: 22px;
-      font-size: 12px;
-      font-weight: 800;
-      border: 1px solid #999;
-      padding: 0 6px;
-      width: 90px;
-      min-height: 22px;
+      height:20px; font-size:11px; font-weight:800;
+      border:1px solid #999; padding:0 5px; width:82px; min-height:0;
     }
 
-    .consult-date-bar .small-button {
-      height: 22px;
-      min-width: 22px;
-      padding: 0 4px;
-      font-size: 11px;
-    }
+    .consult-date-bar .small-button { height:20px; min-width:20px; padding:0 3px; font-size:10px; }
 
-    .consult-body {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      min-height: 0;
-      overflow: hidden;
-    }
+    .consult-body { display:grid; grid-template-columns:130px 1fr; min-height:0; overflow:hidden; }
 
     /* Sidebar */
     .consult-sidebar {
-      display: flex;
-      flex-direction: column;
-      border-right: 3px solid #4caf50;
-      background: #f8f8f8;
-      overflow-y: auto;
-      font-size: 12px;
+      display:flex; flex-direction:column; border-right:3px solid #4caf50;
+      background:#f5f5f5; overflow-y:auto; font-size:11px;
     }
 
     .consult-patient-card {
-      padding: 8px 8px;
-      border-bottom: 2px solid #4caf50;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      background: #fff;
+      padding:4px 5px; border-bottom:2px solid #4caf50;
+      display:flex; flex-direction:column; gap:1px; background:#fff;
     }
 
     .consult-patient-photo {
-      width: 120px;
-      height: 110px;
-      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-      border: 2px solid #4caf50;
-      margin-bottom: 6px;
+      width:108px; height:85px;
+      background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+      border:2px solid #4caf50; margin-bottom:2px; align-self:center;
     }
 
-    .consult-patient-name {
-      font-weight: 900;
-      font-size: 12px;
-      color: #1b5e20;
-      word-break: break-word;
-      line-height: 1.2;
-      margin-bottom: 3px;
-    }
+    .consult-patient-name { font-weight:900; font-size:10px; color:#1b5e20; word-break:break-word; line-height:1.2; }
 
-    .consult-patient-detail {
-      font-size: 11px;
-      font-weight: 700;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      line-height: 1.5;
-    }
+    .consult-patient-detail { font-size:10px; font-weight:700; color:#333; display:flex; align-items:center; gap:3px; line-height:1.4; }
 
-    .consult-patient-detail strong {
-      color: #1b5e20;
-      font-size: 11px;
-    }
+    .consult-patient-detail strong { color:#1b5e20; font-size:10px; }
 
-    .consult-mr-badge {
-      background: #4caf50;
-      color: #fff;
-      padding: 1px 6px;
-      font-weight: 900;
-      font-size: 11px;
-    }
+    .consult-mr-badge     { background:#4caf50; color:#fff; padding:1px 5px; font-weight:900; font-size:10px; }
+    .consult-gender-badge { background:#66bb6a; color:#fff; padding:1px 4px; font-size:10px; }
+    .consult-dob-badge    { background:#ffeb3b; color:#333; padding:1px 4px; font-size:10px; font-weight:800; }
 
-    .consult-gender-badge {
-      background: #66bb6a;
-      color: #fff;
-      padding: 1px 5px;
-      font-size: 11px;
-    }
+    .consult-sidebar-date { padding:3px 6px; background:#4caf50; font-weight:900; font-size:11px; color:#fff; border-bottom:1px solid #388e3c; }
 
-    .consult-dob-badge {
-      background: #ffeb3b;
-      color: #333;
-      padding: 1px 5px;
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .consult-sidebar-date {
-      padding: 5px 8px;
-      background: #4caf50;
-      font-weight: 900;
-      font-size: 12px;
-      color: #fff;
-      border-bottom: 1px solid #388e3c;
-    }
-
-    .consult-sidebar-links {
-      display: flex;
-      flex-direction: column;
-    }
+    .consult-sidebar-links { display:flex; flex-direction:column; }
 
     .consult-sidebar-links button {
-      text-align: left;
-      padding: 5px 8px;
-      border: none;
-      border-bottom: 1px solid #c8e6c9;
-      background: transparent;
-      font-size: 12px;
-      font-weight: 700;
-      color: #1b5e20;
-      cursor: pointer;
-      min-height: 0;
-      height: auto;
-      line-height: 1.6;
+      text-align:left; padding:3px 7px; border:none; border-bottom:1px solid #c8e6c9;
+      background:transparent; font-size:10px; font-weight:700; color:#1b5e20;
+      cursor:pointer; min-height:0; height:auto; line-height:1.5;
     }
 
     .consult-sidebar-links button:hover,
-    .consult-sidebar-links button.active {
-      background: #c8e6c9;
-      font-weight: 900;
-    }
+    .consult-sidebar-links button.active { background:#c8e6c9; font-weight:900; }
 
     /* Main content area - full width */
     .consult-main {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      overflow-y: auto;
-      background: #f5f5f5;
+      display:grid;
+      grid-template-rows: 96px 2fr 2fr 1fr;
+      min-height:0; overflow:hidden; background:#f0f3f5;
     }
 
     /* Vitals + Allergies/Habits/Tabs in one row */
     .consult-vitals {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      background: #fff;
-      border-bottom: 3px solid #4caf50;
+      display:grid; grid-template-columns:300px 1fr;
+      background:#fff; border-bottom:2px solid #4caf50; flex-shrink:0;
     }
 
     .consult-vitals-left {
-      display: grid;
-      grid-template-rows: repeat(4, 32px);
-      border-right: 3px solid #4caf50;
+      display:grid; grid-template-rows:repeat(4,24px);
+      border-right:2px solid #4caf50;
     }
 
-    .vital-row {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #c8e6c9;
-    }
+    .vital-row { display:flex; align-items:center; border-bottom:1px solid #c8e6c9; }
+    .vital-row:last-child { border-bottom:none; }
 
     .vital-row label {
-      font-size: 11px;
-      font-weight: 800;
-      color: #1b5e20;
-      white-space: nowrap;
-      width: 70px;
-      min-width: 70px;
-      padding: 0 5px;
-      border-right: 1px solid #c8e6c9;
-      height: 100%;
-      display: flex;
-      align-items: center;
+      font-size:9px; font-weight:800; color:#1b5e20; white-space:nowrap;
+      width:56px; min-width:56px; padding:0 3px;
+      border-right:1px solid #c8e6c9; height:100%; display:flex; align-items:center;
     }
 
     .vital-row input {
-      height: 31px;
-      width: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      text-align: center;
-      padding: 0 2px;
-      border: none;
-      border-right: 1px solid #c8e6c9;
-      border-radius: 0;
-      min-height: 0;
-      box-shadow: none;
-      background: #fff;
+      height:23px; width:44px; font-size:10px; font-weight:700;
+      text-align:center; padding:0 2px; border:none;
+      border-right:1px solid #c8e6c9; border-radius:0;
+      min-height:0; box-shadow:none; background:#fff;
     }
 
-    .vital-row input:focus {
-      outline: none;
-      background: #e8f5e9;
-    }
+    .vital-row input:focus { outline:none; background:#e8f5e9; }
 
     /* Right side: Allergies + Habits + Tabs */
-    .consult-vitals-right {
-      display: flex;
-      flex-direction: column;
-    }
+    .consult-vitals-right { display:flex; flex-direction:column; }
 
-    .consult-allergy-habits {
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      flex: 1;
-    }
+    .consult-allergy-habits { display:grid; grid-template-columns:1fr 1fr 1fr; flex:1; }
 
-    .consult-allergy-box {
-      border-right: 2px solid #4caf50;
-      display: flex;
-      flex-direction: column;
-    }
+    .consult-allergy-box { border-right:2px solid #4caf50; display:flex; flex-direction:column; }
 
     .consult-box-title {
-      padding: 2px 8px;
-      font-size: 11px;
-      font-weight: 900;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      height: 22px;
-      min-height: 22px;
+      padding:1px 4px; font-size:9px; font-weight:900; color:#fff;
+      display:flex; align-items:center; gap:2px; height:18px; min-height:18px;
     }
 
-    .allergy-title { background: #e53935; }
-    .habits-title { background: #fb8c00; }
+    .allergy-title { background: #43a047; }
+    .habits-title { background: #43a047; }
 
-    .consult-box-content {
-      flex: 1;
-      padding: 3px 5px;
-      font-size: 11px;
-      background: #fff;
-    }
+    .consult-box-content { flex:1; padding:2px 4px; font-size:10px; background:#fff; }
 
-    .consult-extra-tabs {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      min-width: 220px;
-    }
+    .consult-extra-tabs { display:flex; flex-direction:column; gap:0; min-width:185px; }
 
-    .consult-extra-tabs-row {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid #ccc;
-    }
+    .consult-extra-tabs-row { display:flex; gap:0; border-bottom:1px solid #ccc; }
 
     .consult-extra-tabs-row button {
-      padding: 3px 10px;
-      border: 1px solid #999;
-      border-bottom: none;
-      background: #f5f5f5;
-      font-size: 11px;
-      font-weight: 700;
-      text-align: center;
-      cursor: pointer;
-      min-height: 0;
-      height: 26px;
-      color: #333;
+      padding:1px 7px; border:1px solid #999; border-bottom:none;
+      background:#f0f0f0; font-size:10px; font-weight:700;
+      cursor:pointer; min-height:0; height:21px; color:#333;
     }
 
-    .consult-extra-tabs-row button:hover {
-      background: #e8f5e9;
-    }
+    .consult-extra-tabs-row button:hover { background:#e8f5e9; }
 
-    .consult-extra-tabs-green {
-      display: flex;
-      gap: 0;
-    }
+    .consult-extra-tabs-green { display:flex; gap:0; }
 
     .consult-extra-tabs-green button {
-      flex: 1;
-      padding: 3px 8px;
-      border: none;
-      background: #4caf50;
-      font-size: 11px;
-      font-weight: 800;
-      text-align: center;
-      cursor: pointer;
-      min-height: 0;
-      height: 24px;
-      color: #fff;
-      border-right: 1px solid #388e3c;
+      flex:1; padding:1px 5px; border:none; background:#43a047;
+      font-size:10px; font-weight:800; cursor:pointer;
+      min-height:0; height:20px; color:#fff; border-right:1px solid #2e7d32;
     }
 
-    .consult-extra-tabs-green button:last-child {
-      border-right: none;
-    }
+    .consult-extra-tabs-green button:last-child { border-right:none; }
 
-    .consult-extra-tabs-green button:hover {
-      background: #388e3c;
-    }
+    .consult-extra-tabs-green button:hover { background:#2e7d32; }
 
     .consult-extra-tabs-content {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      background: #fff;
+      flex:1; display:grid; grid-template-columns:1fr 1fr; background:#fff;
     }
 
     .consult-extra-tabs-content div {
-      border-right: 1px solid #ddd;
-      min-height: 40px;
+      border-right:1px solid #ddd; min-height:30px; padding:2px 3px; font-size:10px;
     }
 
-    .consult-extra-tabs-content div:last-child {
-      border-right: none;
-    }
+    .consult-extra-tabs-content div:last-child { border-right:none; }
 
     /* Clinical notes - 6 columns in one row */
     .consult-clinical-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 0;
-      border-bottom: 3px solid #4caf50;
-      flex: 1;
-      min-height: 120px;
+      display:grid; grid-template-columns:repeat(6,1fr);
+      border-bottom:2px solid #4caf50;
+      min-height:0; height:100%; overflow:hidden;
     }
 
     .clinical-box {
-      border-right: 2px solid #4caf50;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
+      border-right:1px solid #4caf50; background:#fff;
+      display:flex; flex-direction:column; min-height:0; overflow:hidden;
     }
 
-    .clinical-box:last-child {
-      border-right: none;
-    }
+    .clinical-box:last-child { border-right:none; }
 
     .clinical-box-title {
-      padding: 3px 6px;
-      font-size: 10px;
-      font-weight: 900;
-      background: #fff9c4;
-      color: #333;
-      border-bottom: 2px solid #4caf50;
-      min-height: 22px;
-      display: flex;
-      align-items: center;
+      padding:1px 5px; font-size:9px; font-weight:900;
+      background:#fff9c4; color:#333; border-bottom:1px solid #4caf50;
+      height:18px; min-height:18px; display:flex; align-items:center; flex-shrink:0;
     }
 
     .clinical-box textarea {
-      width: 100%;
-      flex: 1;
-      min-height: 100px;
-      border: none;
-      padding: 4px 5px;
-      font-size: 11px;
-      font-weight: 600;
-      resize: none;
-      box-sizing: border-box;
-      line-height: 1.35;
-      color: #222;
+      width:100%; flex:1; min-height:0; border:none;
+      padding:2px 3px; font-size:9px; font-weight:600;
+      resize:none; box-sizing:border-box; line-height:1.25;
+      color:#222; overflow-y:auto; background:#fff;
     }
 
-    .clinical-box textarea:focus {
-      outline: none;
-      background: #f1f8e9;
-    }
+    .clinical-box textarea:focus { outline:none; background:#f1f8e9; }
 
     /* Diagnosis + Procedure side by side */
     .consult-diag-proc {
-      display: grid;
-      grid-template-columns: 2fr 3fr;
-      gap: 0;
-      border-bottom: 3px solid #4caf50;
+      display:grid; grid-template-columns:2fr 3fr;
+      border-bottom:2px solid #4caf50; overflow:hidden;
+      min-height:0; height:100%;
     }
 
     .consult-diagnosis {
-      border-right: 3px solid #4caf50;
-      background: #fff;
+      border-right:2px solid #4caf50; background:#fff;
+      display:flex; flex-direction:column; overflow:hidden; min-height:0;
+      position:relative;
     }
 
     .consult-procedure {
-      background: #fff;
+      background:#fff; display:flex; flex-direction:column; overflow:hidden; min-height:0;
+      position:relative;
     }
 
-    .consult-section-title {
-      padding: 3px 10px;
-      font-size: 12px;
-      font-weight: 900;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      height: 24px;
+    .diag-proc-wrap {
+      position:relative; flex:1; display:flex; flex-direction:column;
+      overflow-y:auto; min-height:0;
     }
 
-    .diag-title { background: #43a047; }
-    .proc-title { background: #ef6c00; }
-    .presc-title { background: #43a047; }
-
-    .consult-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
+    .diag-proc-wrap > .consult-table {
+      width:100%; flex-shrink:0;
     }
 
-    .consult-table th {
-      height: 22px;
-      background: #e8f5e9;
-      border: 1px solid #4caf50;
-      padding: 2px 5px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #1b5e20;
-      position: static;
-      text-align: left;
+    .diag-proc-wrap > .consult-table thead {
+      width:100%;
     }
 
-    .consult-table td {
-      height: 22px;
-      border: 1px solid #c8e6c9;
-      padding: 2px 5px;
-      font-size: 11px;
-      background: #fff;
-    }
-
-    .consult-table tr:nth-child(even) td {
-      background: #f1f8e9;
+    .diag-proc-wrap > .consult-table tbody {
+      width:100%;
     }
 
     /* Prescription */
     .consult-prescription {
-      background: #fff;
-      border-bottom: 3px solid #4caf50;
+      background:#fff; display:flex; flex-direction:column;
+      overflow-y:auto; min-height:0; height:100%;
+      position:relative;
     }
 
-    .consult-table td[contenteditable="true"] {
-      cursor: text;
+    .consult-section-title {
+      padding:1px 8px; font-size:10px; font-weight:900; color:#fff;
+      display:flex; align-items:center; gap:4px;
+      height:20px; min-height:20px; flex-shrink:0;
     }
 
-    .consult-table td[contenteditable="true"]:focus {
-      outline: none;
-      background: #e8f5e9;
+    .diag-title  { background:#43a047; }
+    .proc-title  { background:#43a047; }
+    .presc-title { background:#43a047; }
+
+    .consult-table {
+      width:100%; border-collapse:collapse; font-size:10px; table-layout:fixed;
+      border-spacing:0;
     }
 
-    [contenteditable="true"]:focus {
-      outline: 1px solid #4caf50;
-      background: #f1f8e9;
+    .consult-table th {
+      height:18px; background:linear-gradient(#e8f5e9,#c8e6c9);
+      border:1px solid #4caf50; padding:0 4px; font-size:10px;
+      font-weight:800; color:#1b5e20; white-space:nowrap;
+      overflow:hidden; text-align:left;
     }
+
+    .consult-table td {
+      height:18px; border:1px solid #c8e6c9;
+      padding:0 4px; font-size:10px; background:#fff;
+      white-space:nowrap; overflow:hidden;
+    }
+
+    .consult-table tr:nth-child(even) td { background:#f1f8e9; }
+    .consult-table tr.ct-selected td    { background:#f2df73 !important; border-color:#c49815 !important; }
+
+    /* ── Input-based table cells (replaces old contenteditable/picker) ── */
+
+    .consult-table td[contenteditable="true"] { cursor:text; }
+    .consult-table td[contenteditable="true"]:focus { outline:none; background:#e8f5e9; }
+    [contenteditable="true"]:focus { outline:1px solid #4caf50; background:#f1f8e9; }
+
+    /* ── Input-based table cells ──────────────────────────────────── */
+    .ac-cell { position:relative; padding:0 !important; overflow:visible !important; }
+
+    .ac-input, .ct-input {
+      width:100%; height:17px; border:none; border-radius:0;
+      padding:0 4px; font-size:10px; font-weight:700; background:transparent;
+      box-shadow:none; min-height:0; color:#142a3b;
+    }
+
+    .ac-input:focus, .ct-input:focus {
+      outline:none; background:#e8f5e9;
+    }
+
+    .ct-del-cell { padding:1px 2px !important; text-align:center; }
+
+    .ct-del-btn {
+      width:16px; height:16px; padding:0; border:1px solid #c00;
+      background:#e01b36; color:#fff; font-size:9px; border-radius:2px;
+      cursor:pointer; line-height:1;
+    }
+
+    .ct-add-row {
+      display:flex; align-items:center; padding:1px 6px;
+      background:#f1f8e9; border-top:1px solid #c8e6c9;
+      flex-shrink:0; height:20px;
+    }
+
+    .ct-add-btn {
+      height:16px; padding:0 6px; border:1px solid #388e3c;
+      background:linear-gradient(#43a047,#2e7d32); color:#fff;
+      font-size:9px; font-weight:800; border-radius:2px; cursor:pointer;
+    }
+
+    /* Search button in title bar */
+    .ct-search-btn {
+      margin-left:auto; width:20px; height:18px; padding:0;
+      border:none; background:rgba(255,255,255,0.25); color:#fff;
+      font-size:12px; cursor:pointer; border-radius:2px; line-height:1;
+      flex-shrink:0;
+    }
+
+    .ct-search-btn:hover { background:rgba(255,255,255,0.45); }
+
+    /* Side search panel — overlays the right portion of the section */
+    .side-search-panel {
+      position:absolute; top:20px; right:0; bottom:0;
+      width:200px; z-index:100;
+      background:#fff; border-left:2px solid #4caf50;
+      box-shadow:-3px 0 10px rgba(20,39,55,0.18);
+      display:flex; flex-direction:column;
+    }
+
+    /* ── Prescription Form ────────────────────────────────────────── */
+    .rx-form-overlay {
+      display:none; position:absolute; top:0; left:0; right:0; bottom:0;
+      z-index:200; background:#ece9d8;
+    }
+
+    .rx-form-overlay.open { display:flex; flex-direction:column; }
+
+    .rx-form-panel {
+      width:100%; height:100%; background:#ece9d8;
+      display:flex; flex-direction:column; overflow:hidden;
+    }
+
+    .rx-form-header {
+      background:linear-gradient(90deg,#0054e3,#0078d4);
+      color:#fff; padding:0 4px 0 6px; font-size:11px; font-weight:700;
+      display:flex; align-items:center; height:22px;
+    }
+
+    .rx-form-header span { flex:1; }
+
+    .rx-form-header button {
+      background:#ddd; border:1px outset #fff; color:#000;
+      font-size:9px; width:16px; height:14px; padding:0;
+      cursor:pointer; font-weight:900; line-height:1; margin-left:2px;
+    }
+
+    .rx-form-body {
+      flex:1; display:flex; flex-direction:column;
+      padding:6px 8px; gap:4px; overflow:hidden;
+    }
+
+    .rx-form-search-row {
+      display:flex; align-items:center; gap:8px; flex-shrink:0;
+    }
+
+    .rx-form-search-row label { font-size:12px; font-weight:800; color:#000; white-space:nowrap; }
+
+    .rx-form-search-row input {
+      width:280px; height:20px; font-size:11px; padding:1px 4px;
+      border:1px solid #7f9db9; min-height:0; background:#fff;
+    }
+
+    .rx-drug-list {
+      flex:1; overflow-y:auto; border:1px solid #7f9db9;
+      background:#fff; min-height:60px;
+    }
+
+    .rx-drug-list table { width:100%; border-collapse:collapse; font-size:11px; }
+
+    .rx-drug-list th {
+      height:18px; background:#f0f0f0; border-bottom:1px solid #aaa;
+      padding:1px 6px; font-weight:800; color:#333; text-align:center;
+      position:sticky; top:0;
+    }
+
+    .rx-drug-list td {
+      height:18px; padding:1px 8px; border-bottom:1px solid #e0e0e0;
+      cursor:pointer; font-size:11px;
+    }
+
+    .rx-drug-list tr:hover td { background:#e8f0f8; }
+    .rx-drug-list tr.rx-selected td { background:#f2df73; }
+
+    .rx-form-inputs {
+      display:flex; align-items:flex-end; gap:8px; flex-shrink:0;
+      padding:4px 0; border-top:1px solid #aaa;
+    }
+
+    .rx-form-input-col { display:flex; flex-direction:column; gap:1px; min-width:100px; }
+    .rx-form-input-col.wide { flex:4; }
+
+    .rx-form-input-col label { font-size:11px; font-weight:800; color:#000; }
+
+    .rx-form-input-col input,
+    .rx-form-input-col select {
+      height:40px; font-size:11px; padding:4px 6px;
+      border:1px solid #7f9db9; min-height:0; background:#fff;
+    }
+
+    .rx-form-add-btn {
+      height:22px; min-width:40px; border:1px outset #fff;
+      background:#ddd; color:#000; font-size:11px; font-weight:700;
+      cursor:pointer;
+    }
+
+    .rx-form-added {
+      flex:1; min-height:50px; overflow-y:auto;
+      border:1px solid #7f9db9; background:#fff;
+    }
+
+    .rx-form-added table { width:100%; border-collapse:collapse; font-size:11px; }
+    .rx-form-added th { height:18px; background:#f0f0f0; border-bottom:1px solid #aaa; padding:1px 6px; font-weight:800; text-align:center; position:sticky; top:0; }
+    .rx-form-added td { height:18px; border-bottom:1px solid #e0e0e0; padding:1px 6px; }
+
+    .rx-form-footer {
+      display:flex; justify-content:flex-end; padding:4px 0 0; flex-shrink:0;
+    }
+
+    .rx-form-footer button {
+      height:22px; min-width:55px; font-size:11px; font-weight:700;
+      border:1px outset #fff; background:#ddd; color:#000; cursor:pointer;
+    }
+
+    .rx-form-footer button:hover { background:#e8e8e8; }
+
+    .side-search-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:4px 8px; background:linear-gradient(90deg,#1a6b9a,#0d4f7a);
+      color:#fff; font-size:11px; font-weight:800; flex-shrink:0;
+    }
+
+    .side-search-close {
+      background:none; border:none; color:#fff; font-size:13px;
+      font-weight:900; cursor:pointer; padding:0 2px; line-height:1;
+    }
+
+    .side-search-input {
+      margin:4px 6px; height:22px; font-size:11px;
+      border:1px solid #9caeba; border-radius:2px;
+      padding:2px 5px; width:calc(100% - 12px); min-height:0; flex-shrink:0;
+    }
+
+    .side-search-list {
+      flex:1; overflow-y:auto; padding:0;
+    }
+
+    .side-search-item {
+      padding:4px 8px; font-size:10px; font-weight:700; cursor:pointer;
+      border-bottom:1px solid #e8eff4;
+    }
+
+    .side-search-item:hover { background:#d4edda; color:#1b5e20; }
+
+    .side-search-item .ssi-code { color:#0d4f7a; font-weight:900; font-size:10px; margin-right:4px; }
+    .side-search-item .ssi-price { float:right; color:#2e7d32; font-weight:800; font-size:10px; }
+
+    /* ── Inline autocomplete dropdown ───────────────────────────── */
+    .ac-drop {
+      display:none; position:absolute; top:100%; left:0; z-index:9999;
+      min-width:260px; max-height:200px; overflow-y:auto;
+      background:#fff; border:1px solid #5c8fbd; border-radius:0 0 4px 4px;
+      box-shadow:0 4px 12px rgba(20,39,55,0.22); font-size:11px;
+    }
+
+    .ac-drop.open { display:block; }
+
+    .ac-drop-item {
+      padding:4px 8px; cursor:pointer; border-bottom:1px solid #e8eff4;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      font-weight:700; color:#142a3b;
+    }
+
+    .ac-drop-item:hover, .ac-drop-item.ac-hl { background:#d4edda; color:#1b5e20; }
+
+    .ac-drop-item .ac-code { color:#0d4f7a; font-weight:900; margin-right:6px; }
+    .ac-drop-item .ac-price { float:right; color:#2e7d32; font-weight:800; }
 
     .consult-total {
-      text-align: right;
-      padding: 4px 12px;
-      font-size: 12px;
-      font-weight: 900;
-      color: #1b5e20;
-      border-top: 1px solid #c8e6c9;
-      background: #f1f8e9;
+      text-align:right; padding:3px 10px; font-size:11px; font-weight:900;
+      color:#1b5e20; border-top:1px solid #c8e6c9; background:#f1f8e9; flex-shrink:0;
     }
 
     /* Footer with Save/Cancel */
     .consult-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0;
-      padding: 0;
-      height: 34px;
-      background: #e0e0e0;
+      display:flex; justify-content:flex-end; padding:0; height:32px; background:#e0e0e0;
     }
 
     .consult-footer .tool-button {
-      min-width: 90px;
-      height: 34px;
-      border-radius: 0;
-      border: none;
-      font-size: 13px;
-      font-weight: 900;
-      box-shadow: none;
+      min-width:90px; height:32px; border-radius:0; border:none;
+      font-size:13px; font-weight:900; box-shadow:none;
     }
 
-    .consult-footer .tool-button.primary {
-      background: #4caf50;
-      color: #fff;
-    }
-
-    .consult-footer .consult-cancel-btn {
-      background: #00838f;
-      color: #fff;
-    }
+    .consult-footer .tool-button.primary { background:#4caf50; color:#fff; }
+    .consult-footer .consult-cancel-btn  { background:#00838f; color:#fff; }
   </style>
 </head>
 <script>
@@ -2927,6 +2900,7 @@ function inheritFromEMR() {
               <tr><td>S-0915</td><td>18-05-2026</td><td>22-05-2026</td><td>4234</td><td>ADYAAN KARIM TALHA KARIM</td><td>1,300.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
               <tr><td>S-0916</td><td>18-05-2026</td><td>25-05-2026</td><td>4770</td><td>RUSAILA MANGALATT ASIF</td><td>2,050.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
               <tr><td>S-0917</td><td>21-05-2026</td><td>25-05-2026</td><td>4771</td><td>AMRUTHA THALAPPAN KAVILEVEEDU</td><td>800.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
+              <tr><td>S-0918</td><td>12-05-2026</td><td>18-05-2026</td><td>2919</td><td>RONITA BAAYA AGREGADO</td><td>2,250.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -3276,40 +3250,166 @@ podi kizhi + lepanam x 5 days.</textarea>
               <!-- Diagnosis and Procedure side by side -->
               <div class="consult-diag-proc">
                 <div class="consult-diagnosis">
-                  <div class="consult-section-title diag-title">Diagnosis &#128269;</div>
-                  <table class="consult-table">
-                    <thead><tr><th>ICD Code</th><th>Description</th><th>Dig. Type</th><th>Primary</th><th>Type</th></tr></thead>
-                    <tbody>
-                      <tr><td contenteditable="true">M54.2</td><td contenteditable="true">Cervicalgia</td><td contenteditable="true">Primary</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                      <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                  <div class="consult-section-title diag-title">
+                    <span>Diagnosis</span>
+                    <button type="button" class="ct-search-btn" id="diagSearchBtn" title="Search ICD codes">&#128269;</button>
+                  </div>
+                  <div class="diag-proc-wrap" style="position:relative">
+                  <table class="consult-table" id="diagnosisTable">
+                    <thead><tr><th style="width:22%">ICD Code</th><th>Description</th><th style="width:16%">Dig. Type</th><th style="width:12%">Primary</th><th style="width:10%">&#128465;</th></tr></thead>
+                    <tbody id="diagTbody">
+                      <tr>
+                        <td class="ac-cell"><input class="ac-input diag-code-input" value="M54.2" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>
+                        <td><input class="ct-input diag-desc-input" value="Cervicalgia" placeholder="Description..."></td>
+                        <td><input class="ct-input" value="Primary" placeholder="Type..."></td>
+                        <td><input class="ct-input" value="" placeholder=""></td>
+                        <td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>
+                      </tr>
+                      <tr>
+                        <td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>
+                        <td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td>
+                        <td><input class="ct-input" value="" placeholder="Type..."></td>
+                        <td><input class="ct-input" value="" placeholder=""></td>
+                        <td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>
+                      </tr>
                     </tbody>
                   </table>
+                  <div class="ct-add-row"><button class="ct-add-btn" type="button" id="diagAddRow">+ Add Row</button></div>
+                  </div><!-- end diag-proc-wrap -->
+                  <!-- Diagnosis search panel (right side) -->
+                  <div class="side-search-panel" id="diagSearchPanel" style="display:none">
+                    <div class="side-search-header">
+                      <span>ICD Code Search</span>
+                      <button type="button" class="side-search-close" id="diagSearchClose">&#10005;</button>
+                    </div>
+                    <input type="text" class="side-search-input" id="diagSearchInput" placeholder="Search code or diagnosis..." autocomplete="off">
+                    <div class="side-search-list" id="diagSearchList"></div>
+                  </div>
                 </div>
                 <div class="consult-procedure">
-                  <div class="consult-section-title proc-title">Procedure</div>
-                  <table class="consult-table">
-                    <thead><tr><th>Med.Code</th><th>Descripti...</th><th>Price</th><th>Sessions</th><th>Amount</th><th>Disc Amt</th><th>discper</th><th>VAT Amt</th><th>Net Amt.</th><th>p. Share</th></tr></thead>
-                    <tbody>
-                      <tr><td contenteditable="true">9</td><td contenteditable="true">CONSUL...</td><td contenteditable="true">100.00</td><td contenteditable="true">1.00</td><td contenteditable="true">100.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">100.00</td><td contenteditable="true">100.00</td></tr>
-                      <tr><td contenteditable="true">1001</td><td contenteditable="true">PODIK...</td><td contenteditable="true">280.00</td><td contenteditable="true">5.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">1,400.00</td><td contenteditable="true">1,400.00</td></tr>
-                      <tr><td contenteditable="true">1037</td><td contenteditable="true">LEPAN...</td><td contenteditable="true">150.00</td><td contenteditable="true">5.00</td><td contenteditable="true">750.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">0.00</td><td contenteditable="true">750.00</td><td contenteditable="true">750.00</td></tr>
-                      <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                  <div class="consult-section-title proc-title">
+                    <span>Procedure</span>
+                    <button type="button" class="ct-search-btn" id="procSearchBtn" title="Search procedures">&#128269;</button>
+                  </div>
+                  <div class="diag-proc-wrap" style="position:relative">
+                  <table class="consult-table" id="procedureTable">
+                    <thead><tr><th style="width:8%">Med.Code</th><th style="width:18%">Description</th><th style="width:8%">Price</th><th style="width:7%">Sessions</th><th style="width:10%">Amount</th><th style="width:8%">Disc Amt</th><th style="width:7%">Disc%</th><th style="width:7%">VAT Amt</th><th style="width:9%">Net Amt.</th><th style="width:9%">p.Share</th><th style="width:5%">&#128465;</th></tr></thead>
+                    <tbody id="procTbody">
+                      <tr>
+                        <td class="ac-cell"><input class="ac-input proc-code-input" value="9" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>
+                        <td><input class="ct-input proc-desc-input" value="CONSULTATION FEE" placeholder="Description..."></td>
+                        <td><input class="ct-input proc-price-input" value="100.00" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-sess-input" value="1.00" placeholder="1"></td>
+                        <td><input class="ct-input proc-amt-input" value="100.00" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0.00"></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0"></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-net-input" value="100.00" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="100.00" placeholder="0.00"></td>
+                        <td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>
+                      </tr>
+                      <tr>
+                        <td class="ac-cell"><input class="ac-input proc-code-input" value="1001" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>
+                        <td><input class="ct-input proc-desc-input" value="PODIKIZHI(CPS) - 1 HR" placeholder="Description..."></td>
+                        <td><input class="ct-input proc-price-input" value="280.00" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-sess-input" value="5.00" placeholder="1"></td>
+                        <td><input class="ct-input proc-amt-input" value="1400.00" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0.00"></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0"></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-net-input" value="1400.00" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="1400.00" placeholder="0.00"></td>
+                        <td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>
+                      </tr>
+                      <tr>
+                        <td class="ac-cell"><input class="ac-input proc-code-input" value="1037" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>
+                        <td><input class="ct-input proc-desc-input" value="LEPANAM - HALF HOUR" placeholder="Description..."></td>
+                        <td><input class="ct-input proc-price-input" value="150.00" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-sess-input" value="5.00" placeholder="1"></td>
+                        <td><input class="ct-input proc-amt-input" value="750.00" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0.00"></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0"></td>
+                        <td><input class="ct-input" value="0.00" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-net-input" value="750.00" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="750.00" placeholder="0.00"></td>
+                        <td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>
+                      </tr>
+                      <tr>
+                        <td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>
+                        <td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td>
+                        <td><input class="ct-input proc-price-input" value="" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-sess-input" value="" placeholder="1"></td>
+                        <td><input class="ct-input proc-amt-input" value="" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="" placeholder="0.00"></td>
+                        <td><input class="ct-input" value="" placeholder="0"></td>
+                        <td><input class="ct-input" value="" placeholder="0.00"></td>
+                        <td><input class="ct-input proc-net-input" value="" placeholder="0.00" readonly></td>
+                        <td><input class="ct-input" value="" placeholder="0.00"></td>
+                        <td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>
+                      </tr>
                     </tbody>
                   </table>
+                  <div class="ct-add-row" style="justify-content:space-between">
+                    <button class="ct-add-btn" type="button" id="procAddRow">+ Add Row</button>
+                    <span style="font-size:13px;font-weight:900;color:#1b5e20">Total Amount: <strong id="procTotalAmt" style="font-size:14px">2,250.00</strong></span>
+                  </div>
+                  </div><!-- end diag-proc-wrap -->
+                  <!-- Procedure search panel (right side) -->
+                  <div class="side-search-panel" id="procSearchPanel" style="display:none">
+                    <div class="side-search-header" style="background:linear-gradient(90deg,#ef6c00,#bf360c)">
+                      <span>Procedure Search</span>
+                      <button type="button" class="side-search-close" id="procSearchClose">&#10005;</button>
+                    </div>
+                    <input type="text" class="side-search-input" id="procSearchInput" placeholder="Search code or procedure..." autocomplete="off">
+                    <div class="side-search-list" id="procSearchList"></div>
+                  </div>
                 </div>
               </div>
+
               <!-- Prescription -->
               <div class="consult-prescription">
-                <div class="consult-section-title presc-title">Prescription</div>
-                <table class="consult-table">
-                  <thead><tr><th style="width:25%">Medicines</th><th style="width:30%">Instructions</th><th style="width:25%">Frequency</th><th style="width:20%">Duration</th></tr></thead>
-                  <tbody>
-                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
-                    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <div class="consult-section-title presc-title">
+                  <span>Prescription</span>
+                  <button type="button" class="ct-search-btn" id="rxEditBtn" title="Open Prescription Form" style="font-size:10px">&#9998;</button>
+                  <button type="button" class="ct-search-btn" id="rxSearchBtn" title="Search medicines">&#128269;</button>
+                </div>
+                <div class="diag-proc-wrap" style="position:relative">
+                <table class="consult-table" id="prescriptionTable">
+                  <thead><tr><th style="width:26%">Medicines</th><th style="width:28%">Instructions</th><th style="width:24%">Frequency</th><th style="width:22%">Duration</th></tr></thead>
+                  <tbody id="rxTbody">
+                    <tr>
+                      <td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td>
+                      <td><input class="ct-input" value="" placeholder="Instructions..."></td>
+                      <td><input class="ct-input" value="" placeholder="Frequency..."></td>
+                      <td><input class="ct-input" value="" placeholder="Duration..."></td>
+                    </tr>
+                    <tr>
+                      <td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td>
+                      <td><input class="ct-input" value="" placeholder="Instructions..."></td>
+                      <td><input class="ct-input" value="" placeholder="Frequency..."></td>
+                      <td><input class="ct-input" value="" placeholder="Duration..."></td>
+                    </tr>
+                    <tr>
+                      <td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td>
+                      <td><input class="ct-input" value="" placeholder="Instructions..."></td>
+                      <td><input class="ct-input" value="" placeholder="Frequency..."></td>
+                      <td><input class="ct-input" value="" placeholder="Duration..."></td>
+                    </tr>
                   </tbody>
                 </table>
-                <div class="consult-total">Total Amount: <strong>2,250</strong></div>
+                <div class="ct-add-row" style="justify-content:space-between;padding:2px 8px">
+                  <button class="ct-add-btn" type="button" id="rxAddRow">+ Add Row</button>
+                </div>
+                </div><!-- end diag-proc-wrap -->
+                <!-- Medicine search panel (right side) -->
+                <div class="side-search-panel" id="rxSearchPanel" style="display:none">
+                  <div class="side-search-header" style="background:linear-gradient(90deg,#388e3c,#1b5e20)">
+                    <span>Medicine Search</span>
+                    <button type="button" class="side-search-close" id="rxSearchClose">&#10005;</button>
+                  </div>
+                  <input type="text" class="side-search-input" id="rxSearchInput" placeholder="Search medicine..." autocomplete="off">
+                  <div class="side-search-list" id="rxSearchList"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -3321,6 +3421,69 @@ podi kizhi + lepanam x 5 days.</textarea>
         </div>
       </section>
     </section>
+
+    <!-- Prescription Form Modal -->
+    <div class="rx-form-overlay" id="rxFormOverlay">
+      <div class="rx-form-panel">
+        <div class="rx-form-header">
+          <span>&#9744; Prescriptions</span>
+          <button type="button" title="Minimize">&#9866;</button>
+          <button type="button" title="Maximize">&#9633;</button>
+          <button type="button" id="rxFormClose" title="Close">&#10005;</button>
+        </div>
+        <div class="rx-form-body">
+          <!-- Search Drugs -->
+          <div class="rx-form-search-row">
+            <label>Search Drugs</label>
+            <input type="text" id="rxFormSearch" autocomplete="off">
+          </div>
+          <!-- Medicine list -->
+          <div class="rx-drug-list">
+            <table>
+              <thead><tr><th>Medicine</th></tr></thead>
+              <tbody id="rxFormDrugList"></tbody>
+            </table>
+          </div>
+          <!-- Input row: Medicines | Instructions | Frequency/Duration | Add -->
+          <div class="rx-form-inputs">
+            <div class="rx-form-input-col wide">
+              <label>Medicines</label>
+              <input type="text" id="rxFormMedName" readonly>
+            </div>
+            <div class="rx-form-input-col wide">
+              <label>Instructions</label>
+              <input type="text" id="rxFormInstr">
+            </div>
+            <div class="rx-form-input-col">
+              <label>Frequency</label>
+              <select id="rxFormFreq" style="width:120px">
+                <option value=""></option>
+                <option>Once Daily</option>
+                <option>Twice Daily</option>
+                <option>Three Times Daily</option>
+                <option>Before Food</option>
+                <option>After Food</option>
+                <option>SOS</option>
+              </select>
+              <label style="margin-top:2px">Duration</label>
+              <input type="text" id="rxFormDuration" style="width:120px">
+            </div>
+            <button type="button" class="rx-form-add-btn" id="rxFormAddBtn">Add</button>
+          </div>
+          <!-- Added prescriptions table -->
+          <div class="rx-form-added">
+            <table>
+              <thead><tr><th>Medicine</th><th>Instructions</th><th>Frequency</th><th>Durations</th></tr></thead>
+              <tbody id="rxFormAddedList"></tbody>
+            </table>
+          </div>
+          <!-- Save -->
+          <div class="rx-form-footer">
+            <button type="button" id="rxFormSave">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="status-bar">
       <span class="status-light" aria-hidden="true"></span>
@@ -3829,9 +3992,9 @@ podi kizhi + lepanam x 5 days.</textarea>
         <!-- Claims items table -->
         <div style="border:1px solid #ccc;min-height:200px;overflow:auto;margin-bottom:12px">
           <table class="consult-table" style="font-size:10px;min-width:800px" id="claimsTable">
-            <thead><tr><th style="width:80px">Date</th><th>Description</th><th style="width:70px">Progress</th><th style="width:65px">In Time</th><th style="width:65px">Out Time</th><th style="width:60px">Rate</th><th style="width:55px">Quantity</th><th style="width:60px">Gross</th><th style="width:50px">Disc</th><th style="width:50px">VAT%</th></tr></thead>
+            <thead><tr><th style="width:90px">Date</th><th>Description</th><th style="width:70px">Progress</th><th style="width:65px">In Time</th><th style="width:65px">Out Time</th><th style="width:60px">Rate</th><th style="width:55px">Quantity</th><th style="width:60px">Gross</th><th style="width:50px">Disc</th><th style="width:50px">VAT%</th></tr></thead>
             <tbody id="claimsTableBody">
-              <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+              <tr><td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
             </tbody>
           </table>
         </div>
@@ -3978,6 +4141,231 @@ podi kizhi + lepanam x 5 days.</textarea>
     </form>
   </div>
 
+  <!-- Signature Settings Modal -->
+  <div class="modal-layer" id="signatureModal" role="dialog" aria-modal="true" aria-labelledby="signatureModalTitle" style="z-index:60">
+    <div class="dialog" style="width:min(92vw,700px);max-height:90vh">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1a6b1a,#2e8e2e)">
+        <span id="signatureModalTitle" style="color:#fff">Signature & Seal Settings</span>
+        <button class="close-modal" type="button" data-close="signatureModal" style="color:#fff">&#x2715;</button>
+      </div>
+      <div class="dialog-body" style="padding:12px;overflow-y:auto">
+        <!-- Doctor Signature -->
+        <div style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:900;color:#1b5e20;margin-bottom:6px;border-bottom:2px solid #43a047;padding-bottom:3px">Doctor Signature</div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div>
+              <div style="font-size:10px;font-weight:700;margin-bottom:3px">Option 1: Draw Signature</div>
+              <canvas id="sigCanvasDoctor" width="400" height="120" style="border:1px solid #999;background:#fff;cursor:crosshair;display:block"></canvas>
+              <div style="display:flex;gap:4px;margin-top:4px">
+                <button type="button" class="tool-button" style="height:24px;font-size:10px;min-width:50px" onclick="clearCanvas('sigCanvasDoctor')">Clear</button>
+                <button type="button" class="tool-button primary" style="height:24px;font-size:10px;min-width:80px" onclick="saveSignature('doctor')">Save Drawn Signature</button>
+              </div>
+              <div style="font-size:10px;font-weight:700;margin-top:10px;margin-bottom:3px">Option 2: Upload Signature Image</div>
+              <div style="display:flex;gap:4px;align-items:center">
+                <input type="file" id="sigUploadDoctor" accept="image/*" style="font-size:10px">
+                <button type="button" class="tool-button primary" style="height:24px;font-size:10px;min-width:80px" onclick="uploadSignature('doctor')">Upload & Save</button>
+              </div>
+              <div style="font-size:10px;font-weight:700;margin-top:10px;margin-bottom:3px">Option 3: Send Sign Link (for remote signing)</div>
+              <button type="button" class="tool-button" style="height:24px;font-size:10px;background:#0078d4;color:#fff;border-color:#005a9e" onclick="copySignLink('doctor')">&#128279; Copy Doctor Sign Link</button>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:10px;font-weight:700;margin-bottom:4px">Current Saved:</div>
+              <img id="savedDoctorSig" style="max-height:80px;border:1px dashed #ccc;min-width:100px;min-height:50px;background:#fafafa" src="">
+            </div>
+          </div>
+        </div>
+        <!-- Clinic Seal -->
+        <div style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:900;color:#1b5e20;margin-bottom:6px;border-bottom:2px solid #43a047;padding-bottom:3px">Clinic Seal (Upload Image)</div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div>
+              <input type="file" id="sealUpload" accept="image/*" style="font-size:11px">
+              <button type="button" class="tool-button primary" style="height:24px;font-size:10px;min-width:80px;margin-top:6px" onclick="saveSeal()">Save Seal</button>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:10px;font-weight:700;margin-bottom:4px">Current Saved:</div>
+              <img id="savedSeal" style="max-height:80px;border:1px dashed #ccc;min-width:70px;min-height:50px;background:#fafafa" src="">
+            </div>
+          </div>
+        </div>
+        <!-- Patient Signature -->
+        <div>
+          <div style="font-size:12px;font-weight:900;color:#1b5e20;margin-bottom:6px;border-bottom:2px solid #43a047;padding-bottom:3px">Patient Signature (for consent forms)</div>
+          <canvas id="sigCanvasPatient" width="400" height="120" style="border:1px solid #999;background:#fff;cursor:crosshair;display:block"></canvas>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <button type="button" class="tool-button" style="height:24px;font-size:10px;min-width:50px" onclick="clearCanvas('sigCanvasPatient')">Clear</button>
+            <button type="button" class="tool-button primary" style="height:24px;font-size:10px;min-width:80px" onclick="saveSignature('patient')">Save Patient Signature</button>
+            <button type="button" class="tool-button" style="height:24px;font-size:10px;background:#0078d4;color:#fff;border-color:#005a9e" onclick="copySignLink('patient')">&#128279; Copy Patient Sign Link</button>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button" type="button" data-close="signatureModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Signature Pad Logic ─────────────────────────────────────────────
+    (function() {
+      function initCanvas(canvasId) {
+        var canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        var ctx = canvas.getContext("2d");
+        var drawing = false;
+
+        canvas.addEventListener("mousedown", function(e) {
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(e.offsetX, e.offsetY);
+        });
+        canvas.addEventListener("mousemove", function(e) {
+          if (!drawing) return;
+          ctx.lineWidth = 2;
+          ctx.lineCap = "round";
+          ctx.strokeStyle = "#000";
+          ctx.lineTo(e.offsetX, e.offsetY);
+          ctx.stroke();
+        });
+        canvas.addEventListener("mouseup", function() { drawing = false; });
+        canvas.addEventListener("mouseleave", function() { drawing = false; });
+
+        // Touch support
+        canvas.addEventListener("touchstart", function(e) {
+          e.preventDefault();
+          var rect = canvas.getBoundingClientRect();
+          var touch = e.touches[0];
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener("touchmove", function(e) {
+          e.preventDefault();
+          if (!drawing) return;
+          var rect = canvas.getBoundingClientRect();
+          var touch = e.touches[0];
+          ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
+          ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+          ctx.stroke();
+        });
+        canvas.addEventListener("touchend", function() { drawing = false; });
+      }
+
+      initCanvas("sigCanvasDoctor");
+      initCanvas("sigCanvasPatient");
+
+      // Load saved signatures on page load
+      var docSig = localStorage.getItem("doctorSignature");
+      var sealImg = localStorage.getItem("clinicSeal");
+      if (docSig) { var img = document.getElementById("savedDoctorSig"); if (img) img.src = docSig; }
+      if (sealImg) { var img2 = document.getElementById("savedSeal"); if (img2) img2.src = sealImg; }
+    })();
+
+    window.clearCanvas = function(canvasId) {
+      var canvas = document.getElementById(canvasId);
+      if (canvas) canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    };
+
+    window.saveSignature = function(type) {
+      var canvasId = type === "doctor" ? "sigCanvasDoctor" : "sigCanvasPatient";
+      var canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      var dataUrl = canvas.toDataURL("image/png");
+      // Save to server
+      fetch("/api/signatures", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({type: type, data: dataUrl}) })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        localStorage.setItem(type + "Signature", dataUrl);
+        if (type === "doctor") {
+          var img = document.getElementById("savedDoctorSig");
+          if (img) img.src = dataUrl;
+        }
+        alert(type.charAt(0).toUpperCase() + type.slice(1) + " signature saved!");
+      })
+      .catch(function() {
+        // Fallback to localStorage if server unavailable
+        localStorage.setItem(type + "Signature", dataUrl);
+        if (type === "doctor") {
+          var img = document.getElementById("savedDoctorSig");
+          if (img) img.src = dataUrl;
+        }
+        alert(type.charAt(0).toUpperCase() + type.slice(1) + " signature saved (local)!");
+      });
+    };
+
+    window.saveSeal = function() {
+      var input = document.getElementById("sealUpload");
+      if (!input || !input.files[0]) { alert("Please select a seal image"); return; }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        fetch("/api/signatures", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({type: "seal", data: e.target.result}) })
+        .then(function() {
+          localStorage.setItem("clinicSeal", e.target.result);
+          var img = document.getElementById("savedSeal");
+          if (img) img.src = e.target.result;
+          alert("Clinic seal saved!");
+        })
+        .catch(function() {
+          localStorage.setItem("clinicSeal", e.target.result);
+          var img = document.getElementById("savedSeal");
+          if (img) img.src = e.target.result;
+          alert("Clinic seal saved (local)!");
+        });
+      };
+      reader.readAsDataURL(input.files[0]);
+    };
+
+    window.uploadSignature = function(type) {
+      var inputId = type === "doctor" ? "sigUploadDoctor" : "sigUploadPatient";
+      var input = document.getElementById(inputId);
+      if (!input || !input.files[0]) { alert("Please select a signature image"); return; }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        fetch("/api/signatures", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({type: type, data: e.target.result}) })
+        .then(function() {
+          localStorage.setItem(type + "Signature", e.target.result);
+          if (type === "doctor") {
+            var img = document.getElementById("savedDoctorSig");
+            if (img) img.src = e.target.result;
+          }
+          alert(type.charAt(0).toUpperCase() + type.slice(1) + " signature uploaded!");
+        })
+        .catch(function() {
+          localStorage.setItem(type + "Signature", e.target.result);
+          if (type === "doctor") {
+            var img = document.getElementById("savedDoctorSig");
+            if (img) img.src = e.target.result;
+          }
+          alert(type.charAt(0).toUpperCase() + type.slice(1) + " signature uploaded (local)!");
+        });
+      };
+      reader.readAsDataURL(input.files[0]);
+    };
+
+    window.copySignLink = function(type) {
+      var host = window.location.hostname;
+      if (host === "localhost" || host === "127.0.0.1") {
+        host = window.location.host; // use host:port
+      } else {
+        host = window.location.host;
+      }
+      var url = window.location.protocol + "//" + host + "/sign?type=" + type;
+      navigator.clipboard.writeText(url).then(function() {
+        alert("Sign link copied!\\n\\n" + url + "\\n\\nShare this link to sign from phone/tablet.\\nBoth devices must be on same WiFi.");
+      }).catch(function() {
+        prompt("Copy this sign link and share it:", url);
+      });
+    };
+
+    // Load signatures from server on page load
+    fetch("/api/signatures").then(function(r){return r.json()}).then(function(d) {
+      if (d.data) {
+        if (d.data.doctor) { localStorage.setItem("doctorSignature", d.data.doctor); var img = document.getElementById("savedDoctorSig"); if (img) img.src = d.data.doctor; }
+        if (d.data.seal) { localStorage.setItem("clinicSeal", d.data.seal); var img2 = document.getElementById("savedSeal"); if (img2) img2.src = d.data.seal; }
+      }
+    }).catch(function(){});
+  </script>
+
   <script>
     const homeModules = [
       ["Patients", "g-patient", "patients"],
@@ -3998,6 +4386,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Documents", "g-doc", "packages"],
       ["SMS Settings", "g-receipt", "packages"],
       ["App. Settings", "g-company", "packages"],
+      ["Signature", "g-doc", "signatureSettings"],
       ["FTP", "g-inventory", "packages"],
       ["SMS Schedule", "g-doc", "packages"],
       ["Backup", "g-gift", "packages"],
@@ -4199,6 +4588,10 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function activateView(view) {
+      if (view === "signatureSettings") {
+        openModal("signatureModal");
+        return;
+      }
       activeView = view;
       document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
       const target = byId(`${view}Screen`);
@@ -5205,10 +5598,877 @@ podi kizhi + lepanam x 5 days.</textarea>
       // Consultation screen buttons
       byId("consultCancel")?.addEventListener("click", () => activateView("appointments"));
       byId("consultSave")?.addEventListener("click", () => {
-        alert("Consultation saved successfully");
-        activateView("appointments");
+        // Collect all consultation data
+        var consultData = {
+          mrNo: document.getElementById("consultMrNo")?.textContent || "",
+          patientName: document.getElementById("consultPatientName")?.textContent || "",
+          consultDate: document.getElementById("consultDate")?.value || "",
+          chiefComplaints: document.getElementById("consultChiefComplaints")?.value || "",
+          pastHistory: document.getElementById("consultPastHistory")?.value || "",
+          presentIllness: document.getElementById("consultPresentIllness")?.value || "",
+          examination: document.getElementById("consultExamination")?.value || "",
+          treatmentPlan: document.getElementById("consultTreatmentPlan")?.value || "",
+          disposition: document.getElementById("consultDisposition")?.value || "",
+          procedures: [],
+          prescriptions: [],
+          diagnoses: []
+        };
+
+        // Collect procedures
+        document.querySelectorAll("#procTbody tr").forEach(function(row) {
+          var code = row.querySelector(".proc-code-input");
+          var desc = row.querySelector(".proc-desc-input");
+          var price = row.querySelector(".proc-price-input");
+          var sess = row.querySelector(".proc-sess-input");
+          var amt = row.querySelector(".proc-amt-input");
+          if (code && code.value.trim()) {
+            consultData.procedures.push({
+              medCode: code.value.trim(),
+              description: desc ? desc.value.trim() : "",
+              price: price ? price.value.trim() : "0",
+              sessions: sess ? sess.value.trim() : "1",
+              amount: amt ? amt.value.trim() : "0"
+            });
+          }
+        });
+
+        // Collect diagnoses
+        document.querySelectorAll("#diagTbody tr").forEach(function(row) {
+          var code = row.querySelector(".diag-code-input");
+          var desc = row.querySelector(".diag-desc-input");
+          if (code && code.value.trim()) {
+            consultData.diagnoses.push({ code: code.value.trim(), description: desc ? desc.value.trim() : "" });
+          }
+        });
+
+        // Collect prescriptions
+        document.querySelectorAll("#rxTbody tr").forEach(function(row) {
+          var med = row.querySelector(".rx-med-input");
+          var inputs = row.querySelectorAll(".ct-input");
+          if (med && med.value.trim()) {
+            consultData.prescriptions.push({
+              medicine: med.value.trim(),
+              instructions: inputs[0] ? inputs[0].value.trim() : "",
+              frequency: inputs[1] ? inputs[1].value.trim() : "",
+              duration: inputs[2] ? inputs[2].value.trim() : ""
+            });
+          }
+        });
+
+        // Save to server
+        saveConsultationToServer(consultData).then(function(result) {
+          if (result.success) {
+            alert("Consultation saved successfully!\nClaim ID: " + (result.claimId || ""));
+            loadClaimsFromServer(); // Refresh claims list
+          } else {
+            alert("Consultation saved (local).");
+          }
+          activateView("appointments");
+        }).catch(function() {
+          alert("Consultation saved (offline mode).");
+          activateView("appointments");
+        });
       });
-      // Receipt Voucher buttons
+
+      // ── Consolidated Report ─────────────────────────────────────────────
+      document.querySelector(".consult-sidebar-links")?.addEventListener("click", function(e) {
+        var btn = e.target.closest("button");
+        if (!btn) return;
+        // Highlight active
+        document.querySelectorAll(".consult-sidebar-links button").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+
+        if (btn.textContent.trim() === "Consolidated Report") {
+          generateConsolidatedReport();
+        }
+      });
+
+      function generateConsolidatedReport() {
+        var patName = document.getElementById("consultPatientName")?.textContent || "";
+        var mrNo = document.getElementById("consultMrNo")?.textContent || "";
+        var gender = document.getElementById("consultGender")?.textContent || "";
+        var dob = document.getElementById("consultDob")?.textContent || "";
+        var age = document.getElementById("consultAge")?.textContent || "";
+        var eid = document.getElementById("consultEid")?.textContent || "";
+        var nationality = document.getElementById("consultNationality")?.textContent || "";
+        var visitDate = document.getElementById("consultDate")?.value || "";
+
+        // Vitals
+        var vitals = [];
+        document.querySelectorAll(".vital-row").forEach(function(row) {
+          var labels = row.querySelectorAll("label");
+          var inputs = row.querySelectorAll("input");
+          for (var i = 0; i < labels.length; i++) {
+            var v = inputs[i] ? inputs[i].value.trim() : "";
+            if (v) vitals.push(labels[i].textContent.trim() + " : " + v);
+          }
+        });
+
+        // Clinical notes
+        var chief = document.getElementById("consultChiefComplaints")?.value || "";
+        var pastHx = document.getElementById("consultPastHistory")?.value || "";
+        var presentIll = document.getElementById("consultPresentIllness")?.value || "";
+        var exam = document.getElementById("consultExamination")?.value || "";
+        var treatment = document.getElementById("consultTreatmentPlan")?.value || "";
+        var disposition = document.getElementById("consultDisposition")?.value || "";
+
+        // Diagnosis
+        var diagRows = document.querySelectorAll("#diagTbody tr");
+        var diagnoses = [];
+        diagRows.forEach(function(row) {
+          var code = row.querySelector(".diag-code-input");
+          var desc = row.querySelector(".diag-desc-input");
+          if (code && code.value.trim()) {
+            diagnoses.push(code.value.trim() + " : " + (desc ? desc.value.trim() : ""));
+          }
+        });
+
+        // Build report HTML
+        var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Patient Clinical Summary Consolidated</title><style>' +
+          '@page{size:A4;margin:8mm 12mm}' +
+          'body{margin:0;padding:8px 25px;font-family:"Times New Roman",Georgia,serif;font-size:12px;color:#000;line-height:1.3;background:#fff}' +
+          '.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-bottom:4px;border-bottom:3px solid #2e7d32}' +
+          '.clinic-info{font-size:11px;line-height:1.4;color:#000;font-weight:700}' +
+          '.clinic-logo img{height:55px}' +
+          '.title{text-align:center;font-size:12px;font-weight:bold;font-style:italic;margin:4px 0;padding:2px 0;background:#a5d6a7;border-top:2px solid #2e7d32;border-bottom:1px solid #2e7d32;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+          '.patient-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;font-size:11px;margin-bottom:2px;font-weight:bold}' +
+          '.patient-grid div{display:flex;gap:4px}' +
+          '.patient-grid strong{min-width:70px;font-weight:900}' +
+          '.visit-row{display:flex;gap:40px;margin:2px 0;font-size:11px;padding:2px 4px;border-top:1px solid #2e7d32;border-bottom:1px solid #2e7d32;background:#a5d6a7;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-weight:bold}' +
+          '.section-title{font-weight:bold;font-size:11px;margin:4px 0 1px;padding:1px 4px;color:#000;border-bottom:1px solid #2e7d32;background:#a5d6a7;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+          '.section-title.shaded{background:#a5d6a7}' +
+          '.section-content{margin:0 0 1px;padding:1px 4px;white-space:pre-wrap;font-size:10px}' +
+          '@media print{body{margin:0;padding:8mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cr-toolbar{display:none !important}.report-body{margin-top:0}*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;page-break-inside:avoid}}' +
+          '.sign-seal-section{margin-top:15px;display:flex;justify-content:flex-end;align-items:flex-end;gap:40px;padding:5px 20px}' +
+          '.sign-seal-section img{height:50px;max-width:120px}' +
+          '.sign-seal-section .sign-label{text-align:center;font-size:10px;font-weight:bold;margin-top:4px;border-top:1px solid #000;padding-top:3px}' +
+          '.sign-seal-hidden .sign-seal-section{display:none !important}' +
+          '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:3px;z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,0.1)}' +
+          '.cr-toolbar button{height:24px;padding:0 8px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px;color:#333}' +
+          '.cr-toolbar button:hover{background:linear-gradient(#eee,#ddd)}' +
+          '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+          '.cr-toolbar button.green:hover{background:linear-gradient(#2e7d32,#1b5e20)}' +
+          '.cr-toolbar .cr-sep{width:1px;height:20px;background:#ccc;margin:0 4px}' +
+          '.cr-toolbar select{height:24px;font-size:10px;border:1px solid #bbb;border-radius:2px;padding:0 4px}' +
+          '.cr-toolbar .cr-page{font-size:10px;font-weight:700;color:#333;margin:0 6px}' +
+          '.cr-toolbar .cr-title{font-size:11px;font-weight:800;color:#1b5e20;margin-right:8px}' +
+          '.report-body{margin-top:40px}' +
+          '</style></head><body>' +
+          '<div class="cr-toolbar">' +
+            '<span class="cr-title">&#128203; Consolidated Report</span>' +
+            '<div class="cr-sep"></div>' +
+            '<button class="green" onclick="printWithSign()" title="Print with Sign & Seal">&#128424; With Sign &amp; Seal</button>' +
+            '<button onclick="printWithoutSign()" title="Print without Sign & Seal">&#128424; Without Sign</button>' +
+            '<div class="cr-sep"></div>' +
+            '<button onclick="exportPDF()">&#128196; PDF</button>' +
+            '<button onclick="exportWord()">&#128221; Word</button>' +
+            '<button onclick="exportExcel()">&#128202; Excel</button>' +
+            '<div class="cr-sep"></div>' +
+            '<button onclick="zoomIn()">+</button>' +
+            '<button onclick="zoomOut()">-</button>' +
+            '<select id="crZoom" onchange="setZoom(this.value)"><option value="75">75%</option><option value="100" selected>100%</option><option value="125">125%</option><option value="150">150%</option></select>' +
+            '<div class="cr-sep"></div>' +
+            '<span class="cr-page">Page 1 of 1</span>' +
+          '</div>' +
+          '<div class="report-body">' +
+          '<div class="header">' +
+            '<div class="clinic-info">SHANTHI WELLNESS AYURVEDIC<br>MEDICAL CENTRE LLC<br>SUITE M19 ROYAL HOUSE<br>AL WUHEIDA STREET<br>Tel:+97142255133<br>Email:info@ayurvedauae.com</div>' +
+            '<div class="clinic-logo"><img src="logo.png" alt="Shanthi Wellness"></div>' +
+          '</div>' +
+          '<div class="title">Patient Clinical Summary Consolidated</div>' +
+          '<div class="patient-grid">' +
+            '<div><strong>Reg.No</strong>: ' + mrNo + '</div>' +
+            '<div><strong>Emirates ID</strong>: ' + eid + '</div>' +
+            '<div><strong>Name</strong>: ' + patName + '</div><div></div>' +
+            '<div><strong>Nationality</strong>: ' + nationality + '</div>' +
+            '<div><strong>DOB/Age</strong>: ' + dob + ' / ' + age + '</div>' +
+            '<div><strong>Mobile</strong>: </div>' +
+            '<div><strong>Gender</strong>: ' + gender + '</div>' +
+          '</div>' +
+          '<div class="visit-row"><span><strong>Visit Date</strong> : ' + visitDate + '</span><span><strong>Clinician</strong> : </span></div>' +
+          '<div class="section-title">Vitals</div>' +
+          '<div class="section-content">' + vitals.join(" | ") + '</div>' +
+          '<div class="section-title">Chief Complaints</div>' +
+          '<div class="section-content">' + chief + '</div>' +
+          '<div class="section-title">History of Present Illness</div>' +
+          '<div class="section-content">' + presentIll + '</div>' +
+          '<div class="section-title">Past History</div>' +
+          '<div class="section-content">' + pastHx + '</div>' +
+          '<div class="section-title shaded">Medicine History</div>' +
+          '<div class="section-content">' + disposition + '</div>' +
+          '<div class="section-title">On Examination</div>' +
+          '<div class="section-content">' + exam + '</div>' +
+          '<div class="section-title shaded">Diagnosis</div>' +
+          '<div class="section-content">' + diagnoses.join("<br>") + '</div>' +
+          '<div class="section-title shaded">Treatment Plan</div>' +
+          '<div class="section-content">' + treatment + '</div>' +
+          '<div class="sign-seal-section">' +
+            '<div style="text-align:center"><img id="reportDoctorSig" style="height:70px" src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
+            '<div style="text-align:center"><img id="reportSeal" style="height:70px" src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+          '</div>' +
+          '</div>' +
+          '<script>' +
+          'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+          'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+          'function exportPDF(){printWithSign();}' +
+          'function exportWord(){' +
+          '  var tb=document.querySelector(".cr-toolbar");if(tb)tb.style.display="none";' +
+          '  var content=document.documentElement.outerHTML;' +
+          '  if(tb)tb.style.display="flex";' +
+          '  var blob=new Blob(["\\ufeff"+content],{type:"application/msword"});' +
+          '  var url=URL.createObjectURL(blob);' +
+          '  var a=document.createElement("a");a.href=url;a.download="Patient_Clinical_Summary.doc";a.click();' +
+          '  URL.revokeObjectURL(url);' +
+          '}' +
+          'function exportExcel(){' +
+          '  var data=[' +
+          '    ["Patient Clinical Summary Consolidated"],' +
+          '    ["Reg.No","' + mrNo + '","Emirates ID","' + eid + '"],' +
+          '    ["Name","' + patName.replace(/"/g,"") + '"],' +
+          '    ["Nationality","' + nationality + '","DOB/Age","' + dob + " / " + age + '"],' +
+          '    ["Gender","' + gender + '"],' +
+          '    [],' +
+          '    ["Visit Date","' + visitDate + '"],' +
+          '    [],' +
+          '    ["Vitals","' + vitals.join(" | ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["Chief Complaints","' + chief.replace(/\n/g," ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["History of Present Illness","' + presentIll.replace(/\n/g," ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["Past History","' + pastHx.replace(/\n/g," ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["Medicine History","' + disposition.replace(/\n/g," ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["On Examination","' + exam.replace(/\n/g," ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["Diagnosis","' + diagnoses.join("; ").replace(/"/g,"") + '"],' +
+          '    [],' +
+          '    ["Treatment Plan","' + treatment.replace(/\n/g," ").replace(/"/g,"") + '"]' +
+          '  ];' +
+          '  var csv=data.map(function(r){return r.map(function(c){return "\\""+c+"\\"";}).join(",");}).join("\\n");' +
+          '  var blob=new Blob(["\\ufeff"+csv],{type:"text/csv;charset=utf-8"});' +
+          '  var url=URL.createObjectURL(blob);' +
+          '  var a=document.createElement("a");a.href=url;a.download="Patient_Clinical_Summary.csv";a.click();' +
+          '  URL.revokeObjectURL(url);' +
+          '}' +
+          'function zoomIn(){var b=document.querySelector(".report-body");var s=parseFloat(b.style.zoom||1);b.style.zoom=(s+0.25);}' +
+          'function zoomOut(){var b=document.querySelector(".report-body");var s=parseFloat(b.style.zoom||1);if(s>0.5)b.style.zoom=(s-0.25);}' +
+          'function setZoom(v){document.querySelector(".report-body").style.zoom=(parseInt(v)/100);}' +
+          '<\/script>' +
+          '</body></html>';
+
+        var win = window.open("", "_blank");
+        win.document.write(html);
+        win.document.close();
+      }
+
+      // ── Inline Autocomplete for Diagnosis / Procedure / Medicine ──────
+      (function() {
+
+        // ── Data ───────────────────────────────────────────────────────────
+        var ICD_LIST = [
+          {code:"M54.2",desc:"Cervicalgia"},{code:"M54.5",desc:"Low back pain"},{code:"M54.6",desc:"Pain in thoracic spine"},
+          {code:"M54.9",desc:"Dorsalgia, unspecified"},{code:"M54.1",desc:"Radiculopathy"},{code:"M54.3",desc:"Sciatica"},
+          {code:"M54.4",desc:"Lumbago with sciatica"},{code:"M79.1",desc:"Myalgia"},{code:"M25.5",desc:"Pain in joint"},
+          {code:"M75.1",desc:"Rotator cuff syndrome"},{code:"M75.0",desc:"Adhesive capsulitis of shoulder"},
+          {code:"M77.1",desc:"Lateral epicondylitis (Tennis elbow)"},{code:"M77.0",desc:"Medial epicondylitis"},
+          {code:"M47.8",desc:"Other spondylosis"},{code:"M47.9",desc:"Spondylosis, unspecified"},
+          {code:"M47.2",desc:"Spondylosis with radiculopathy"},{code:"M51.1",desc:"Lumbar disc with radiculopathy"},
+          {code:"M51.2",desc:"Intervertebral disc displacement"},{code:"M50.1",desc:"Cervical disc with radiculopathy"},
+          {code:"M50.2",desc:"Cervical disc displacement"},{code:"M53.1",desc:"Cervicobrachial syndrome"},
+          {code:"M17.9",desc:"Osteoarthritis of knee"},{code:"M17.1",desc:"Osteoarthritis of knee, bilateral"},
+          {code:"M16.9",desc:"Osteoarthritis of hip"},{code:"M19.9",desc:"Osteoarthritis, unspecified"},
+          {code:"G43.9",desc:"Migraine, unspecified"},{code:"G44.2",desc:"Tension-type headache"},
+          {code:"R51",desc:"Headache"},{code:"M79.7",desc:"Fibromyalgia"},{code:"M76.6",desc:"Achilles tendinitis"},
+          {code:"M72.2",desc:"Plantar fasciitis"},{code:"M10.9",desc:"Gout, unspecified"},
+          {code:"M06.9",desc:"Rheumatoid arthritis"},{code:"M45",desc:"Ankylosing spondylitis"},
+          {code:"S13.4",desc:"Sprain of cervical spine (Whiplash)"},{code:"S93.4",desc:"Sprain of ankle"},
+          {code:"R52",desc:"Pain, unspecified"},{code:"I10",desc:"Essential hypertension"},
+          {code:"E11.9",desc:"Type 2 diabetes"},{code:"J06.9",desc:"Acute upper respiratory infection"},
+          {code:"K21.0",desc:"GERD with oesophagitis"},{code:"F41.1",desc:"Generalised anxiety disorder"}
+        ];
+
+        var PROC_LIST = [
+          {code:"9",   desc:"CONSULTATION FEE",        price:100},
+          {code:"1001",desc:"PODIKIZHI(CPS) - 1 HR",   price:280},
+          {code:"1037",desc:"LEPANAM - HALF HOUR",      price:150},
+          {code:"1002",desc:"ABHYANGAM - 1 HR",         price:250},
+          {code:"1003",desc:"ABHYANGAM - HALF HOUR",    price:150},
+          {code:"1004",desc:"SHIRODHARA - HALF HOUR",   price:200},
+          {code:"1005",desc:"SHIRODHARA - 1 HR",        price:350},
+          {code:"1006",desc:"PIZHICHIL - 1 HR",         price:400},
+          {code:"1007",desc:"PIZHICHIL - HALF HOUR",    price:250},
+          {code:"1008",desc:"NJAVARA KIZHI - 1 HR",     price:350},
+          {code:"1020",desc:"PICHU - HALF HOUR",        price:120},
+          {code:"1021",desc:"PICHU - 1 HR",             price:200},
+          {code:"1022",desc:"STEAM BATH",               price:80},
+          {code:"1014",desc:"KATIVASTI",                price:150},
+          {code:"1015",desc:"JANUVASTI",                price:150},
+          {code:"1018",desc:"NASYA",                    price:100},
+          {code:"1033",desc:"PHYSIOTHERAPY - 1 HR",     price:200},
+          {code:"1035",desc:"ACUPUNCTURE",              price:200}
+        ];
+
+        var MED_LIST = [
+          "Dasamoola Kashayam","Triphala Choornam","Murivenna Oil","Cotton Roll",
+          "Ashwagandha Churna","Brahmi Ghritam","Chyavanprash","Dhanwantharam Thailam",
+          "Gandha Thailam","Kottamchukkadi Choornam","Mahanarayan Tailam","Nagaradi Kashayam",
+          "Panchakola Churna","Sahacharadi Kashayam","Thriphala Ghritham","Vasarishtam",
+          "Balarishta","Draksharishtam","Karpooradi Tailam","Sahacharadi Tailam",
+          "Ksheerabala Tailam","Pinda Tailam","Rasnadi Churna","Trikatu Churna"
+        ];
+
+        // ── Generic inline autocomplete engine ────────────────────────────
+        function makeAC(inputEl, data, buildItems, onSelect) {
+          var drop = inputEl.nextElementSibling; // the .ac-drop div
+          if (!drop || !drop.classList.contains("ac-drop")) return;
+
+          function showDrop(q) {
+            drop.innerHTML = "";
+            var items = data.filter(function(d) {
+              return buildItems.match(d, q);
+            });
+            if (!items.length) { drop.classList.remove("open"); return; }
+            items.forEach(function(d) {
+              var div = document.createElement("div");
+              div.className = "ac-drop-item";
+              div.innerHTML = buildItems.render(d);
+              div.addEventListener("mousedown", function(e) {
+                e.preventDefault();
+                onSelect(d, inputEl);
+                drop.classList.remove("open");
+              });
+              drop.appendChild(div);
+            });
+            drop.classList.add("open");
+          }
+
+          inputEl.addEventListener("input", function() {
+            var q = inputEl.value.trim().toLowerCase();
+            if (q.length === 0) { drop.classList.remove("open"); return; }
+            showDrop(q);
+          });
+
+          inputEl.addEventListener("focus", function() {
+            var q = inputEl.value.trim().toLowerCase();
+            if (q.length > 0) showDrop(q);
+          });
+
+          inputEl.addEventListener("keydown", function(e) {
+            var items = drop.querySelectorAll(".ac-drop-item");
+            var hl = drop.querySelector(".ac-hl");
+            if (e.key === "ArrowDown") {
+              e.preventDefault();
+              var next = hl ? hl.nextElementSibling : items[0];
+              if (hl) hl.classList.remove("ac-hl");
+              if (next) { next.classList.add("ac-hl"); next.scrollIntoView({block:"nearest"}); }
+            } else if (e.key === "ArrowUp") {
+              e.preventDefault();
+              if (hl && hl.previousElementSibling) {
+                hl.classList.remove("ac-hl");
+                hl.previousElementSibling.classList.add("ac-hl");
+                hl.previousElementSibling.scrollIntoView({block:"nearest"});
+              }
+            } else if (e.key === "Enter" && hl) {
+              hl.dispatchEvent(new MouseEvent("mousedown"));
+            } else if (e.key === "Escape") {
+              drop.classList.remove("open");
+            }
+          });
+
+          document.addEventListener("mousedown", function(e) {
+            if (!inputEl.contains(e.target) && !drop.contains(e.target)) {
+              drop.classList.remove("open");
+            }
+          });
+        }
+
+        // ── Wire up autocomplete on a diagnosis row ────────────────────────
+        function wireDiagRow(row) {
+          var codeInput = row.querySelector(".diag-code-input");
+          var descInput = row.querySelector(".diag-desc-input");
+          if (!codeInput || !descInput) return;
+          makeAC(codeInput, ICD_LIST, {
+            match: function(d, q) { return d.code.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q); },
+            render: function(d) { return '<span class="ac-code">' + d.code + '</span>' + d.desc; }
+          }, function(d) {
+            codeInput.value = d.code;
+            descInput.value = d.desc;
+          });
+        }
+
+        // ── Wire up autocomplete on a procedure row ────────────────────────
+        function wireProcRow(row) {
+          var codeInput = row.querySelector(".proc-code-input");
+          var descInput = row.querySelector(".proc-desc-input");
+          var priceInput = row.querySelector(".proc-price-input");
+          var sessInput  = row.querySelector(".proc-sess-input");
+          var amtInput   = row.querySelector(".proc-amt-input");
+          var netInput   = row.querySelector(".proc-net-input");
+          if (!codeInput || !descInput) return;
+
+          function recalc() {
+            var p = parseFloat(priceInput.value)||0;
+            var s = parseFloat(sessInput.value)||1;
+            var a = (p * s).toFixed(2);
+            if (amtInput) amtInput.value = a;
+            if (netInput) netInput.value = a;
+            updateTotal();
+          }
+
+          makeAC(codeInput, PROC_LIST, {
+            match: function(d, q) { return d.code.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q); },
+            render: function(d) { return '<span class="ac-code">' + d.code + '</span>' + d.desc + '<span class="ac-price">AED ' + d.price.toFixed(2) + '</span>'; }
+          }, function(d) {
+            codeInput.value = d.code;
+            descInput.value = d.desc;
+            if (priceInput) priceInput.value = d.price.toFixed(2);
+            if (sessInput)  sessInput.value  = "1.00";
+            if (amtInput)   amtInput.value   = d.price.toFixed(2);
+            if (netInput)   netInput.value   = d.price.toFixed(2);
+            updateTotal();
+          });
+
+          if (priceInput) priceInput.addEventListener("input", recalc);
+          if (sessInput)  sessInput.addEventListener("input", recalc);
+        }
+
+        // ── Wire up autocomplete on a medicine row ─────────────────────────
+        function wireRxRow(row) {
+          var medInput = row.querySelector(".rx-med-input");
+          if (!medInput) return;
+          makeAC(medInput, MED_LIST, {
+            match: function(d, q) { return d.toLowerCase().includes(q); },
+            render: function(d) { return d; }
+          }, function(d) {
+            medInput.value = d;
+          });
+        }
+
+        // ── Recalculate total from all procedure rows ──────────────────────
+        function updateTotal() {
+          var total = 0;
+          document.querySelectorAll("#procTbody .proc-net-input").forEach(function(inp) {
+            total += parseFloat(inp.value) || 0;
+          });
+          var el = document.getElementById("procTotalAmt");
+          if (el) el.textContent = total.toFixed(2);
+        }
+
+        // ── Add Row buttons ────────────────────────────────────────────────
+        function addDiagRow() {
+          var tbody = document.getElementById("diagTbody");
+          if (!tbody) return;
+          var tr = document.createElement("tr");
+          tr.innerHTML = '<td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>' +
+            '<td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td>' +
+            '<td><input class="ct-input" value="" placeholder="Type..."></td>' +
+            '<td><input class="ct-input" value="" placeholder=""></td>' +
+            '<td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+          tbody.appendChild(tr);
+          wireDiagRow(tr);
+          tr.querySelector(".diag-code-input").focus();
+        }
+
+        function addProcRow() {
+          var tbody = document.getElementById("procTbody");
+          if (!tbody) return;
+          var tr = document.createElement("tr");
+          tr.innerHTML = '<td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>' +
+            '<td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td>' +
+            '<td><input class="ct-input proc-price-input" value="" placeholder="0.00"></td>' +
+            '<td><input class="ct-input proc-sess-input" value="1.00" placeholder="1"></td>' +
+            '<td><input class="ct-input proc-amt-input" value="" placeholder="0.00" readonly></td>' +
+            '<td><input class="ct-input" value="" placeholder="0.00"></td>' +
+            '<td><input class="ct-input" value="" placeholder="0"></td>' +
+            '<td><input class="ct-input" value="" placeholder="0.00"></td>' +
+            '<td><input class="ct-input proc-net-input" value="" placeholder="0.00" readonly></td>' +
+            '<td><input class="ct-input" value="" placeholder="0.00"></td>' +
+            '<td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+          tbody.appendChild(tr);
+          wireProcRow(tr);
+          tr.querySelector(".proc-code-input").focus();
+        }
+
+        function addRxRow() {
+          var tbody = document.getElementById("rxTbody");
+          if (!tbody) return;
+          var tr = document.createElement("tr");
+          tr.innerHTML = '<td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td>' +
+            '<td><input class="ct-input" value="" placeholder="Instructions..."></td>' +
+            '<td><input class="ct-input" value="" placeholder="Frequency..."></td>' +
+            '<td><input class="ct-input" value="" placeholder="Duration..."></td>';
+          tbody.appendChild(tr);
+          wireRxRow(tr);
+          tr.querySelector(".rx-med-input").focus();
+        }
+
+        // ── Delete row ─────────────────────────────────────────────────────
+        document.addEventListener("click", function(e) {
+          var btn = e.target.closest(".ct-del-btn");
+          if (!btn) return;
+          var row = btn.closest("tr");
+          if (row) { row.remove(); updateTotal(); }
+        });
+
+        // ── Wire all initial rows ──────────────────────────────────────────
+        document.querySelectorAll("#diagTbody tr").forEach(wireDiagRow);
+        document.querySelectorAll("#procTbody tr").forEach(wireProcRow);
+        document.querySelectorAll("#rxTbody tr").forEach(wireRxRow);
+
+        // ── Button listeners ───────────────────────────────────────────────
+        var diagAdd = document.getElementById("diagAddRow");
+        var procAdd = document.getElementById("procAddRow");
+        var rxAdd   = document.getElementById("rxAddRow");
+        if (diagAdd) diagAdd.addEventListener("click", addDiagRow);
+        if (procAdd) procAdd.addEventListener("click", addProcRow);
+        if (rxAdd)   rxAdd.addEventListener("click",   addRxRow);
+
+      })();
+
+      // ── Side Search Panels ─────────────────────────────────────────────
+      (function() {
+        var ICD_LIST = [
+          {code:"M54.2",desc:"Cervicalgia"},{code:"M54.5",desc:"Low back pain"},{code:"M54.6",desc:"Pain in thoracic spine"},
+          {code:"M54.9",desc:"Dorsalgia, unspecified"},{code:"M54.1",desc:"Radiculopathy"},{code:"M54.3",desc:"Sciatica"},
+          {code:"M54.4",desc:"Lumbago with sciatica"},{code:"M79.1",desc:"Myalgia"},{code:"M25.5",desc:"Pain in joint"},
+          {code:"M75.1",desc:"Rotator cuff syndrome"},{code:"M75.0",desc:"Adhesive capsulitis of shoulder"},
+          {code:"M77.1",desc:"Lateral epicondylitis (Tennis elbow)"},{code:"M77.0",desc:"Medial epicondylitis"},
+          {code:"M47.8",desc:"Other spondylosis"},{code:"M47.9",desc:"Spondylosis, unspecified"},
+          {code:"M47.2",desc:"Spondylosis with radiculopathy"},{code:"M51.1",desc:"Lumbar disc with radiculopathy"},
+          {code:"M51.2",desc:"Intervertebral disc displacement"},{code:"M50.1",desc:"Cervical disc with radiculopathy"},
+          {code:"M50.2",desc:"Cervical disc displacement"},{code:"M53.1",desc:"Cervicobrachial syndrome"},
+          {code:"M17.9",desc:"Osteoarthritis of knee"},{code:"M16.9",desc:"Osteoarthritis of hip"},
+          {code:"M19.9",desc:"Osteoarthritis, unspecified"},{code:"G43.9",desc:"Migraine, unspecified"},
+          {code:"G44.2",desc:"Tension-type headache"},{code:"R51",desc:"Headache"},{code:"M79.7",desc:"Fibromyalgia"},
+          {code:"M76.6",desc:"Achilles tendinitis"},{code:"M72.2",desc:"Plantar fasciitis"},
+          {code:"M10.9",desc:"Gout, unspecified"},{code:"M06.9",desc:"Rheumatoid arthritis"},
+          {code:"M45",desc:"Ankylosing spondylitis"},{code:"S13.4",desc:"Whiplash / cervical sprain"},
+          {code:"S93.4",desc:"Sprain of ankle"},{code:"R52",desc:"Pain, unspecified"},
+          {code:"I10",desc:"Essential hypertension"},{code:"E11.9",desc:"Type 2 diabetes"},
+          {code:"J06.9",desc:"Acute upper respiratory infection"},{code:"K21.0",desc:"GERD with oesophagitis"},
+          {code:"F41.1",desc:"Generalised anxiety disorder"},{code:"F32.9",desc:"Depressive episode, unspecified"},
+          {code:"M62.8",desc:"Other specified disorders of muscle"},{code:"M79.2",desc:"Neuralgia and neuritis"},
+          {code:"M70.6",desc:"Trochanteric bursitis"},{code:"M71.5",desc:"Other bursitis"}
+        ];
+
+        var PROC_LIST = [
+          {code:"9",   desc:"CONSULTATION FEE",        price:100},
+          {code:"1001",desc:"PODIKIZHI(CPS) - 1 HR",   price:280},
+          {code:"1037",desc:"LEPANAM - HALF HOUR",      price:150},
+          {code:"1002",desc:"ABHYANGAM - 1 HR",         price:250},
+          {code:"1003",desc:"ABHYANGAM - HALF HOUR",    price:150},
+          {code:"1004",desc:"SHIRODHARA - HALF HOUR",   price:200},
+          {code:"1005",desc:"SHIRODHARA - 1 HR",        price:350},
+          {code:"1006",desc:"PIZHICHIL - 1 HR",         price:400},
+          {code:"1007",desc:"PIZHICHIL - HALF HOUR",    price:250},
+          {code:"1008",desc:"NJAVARA KIZHI - 1 HR",     price:350},
+          {code:"1020",desc:"PICHU - HALF HOUR",        price:120},
+          {code:"1021",desc:"PICHU - 1 HR",             price:200},
+          {code:"1022",desc:"STEAM BATH",               price:80},
+          {code:"1014",desc:"KATIVASTI",                price:150},
+          {code:"1015",desc:"JANUVASTI",                price:150},
+          {code:"1018",desc:"NASYA",                    price:100},
+          {code:"1033",desc:"PHYSIOTHERAPY - 1 HR",     price:200},
+          {code:"1035",desc:"ACUPUNCTURE",              price:200}
+        ];
+
+        var MED_LIST = [
+          "Dasamoola Kashayam","Triphala Choornam","Murivenna Oil","Cotton Roll",
+          "Ashwagandha Churna","Brahmi Ghritam","Chyavanprash","Dhanwantharam Thailam",
+          "Gandha Thailam","Kottamchukkadi Choornam","Mahanarayan Tailam","Nagaradi Kashayam",
+          "Panchakola Churna","Sahacharadi Kashayam","Thriphala Ghritham","Vasarishtam",
+          "Balarishta","Draksharishtam","Karpooradi Tailam","Sahacharadi Tailam",
+          "Ksheerabala Tailam","Pinda Tailam","Rasnadi Churna","Trikatu Churna"
+        ];
+
+        // ── Generic side search panel builder ─────────────────────────────
+        function buildSidePanel(btnId, panelId, closeId, searchId, listId, data, renderItem, onSelect) {
+          var btn    = document.getElementById(btnId);
+          var panel  = document.getElementById(panelId);
+          var close  = document.getElementById(closeId);
+          var search = document.getElementById(searchId);
+          var list   = document.getElementById(listId);
+          if (!btn || !panel || !list) return;
+
+          function renderList(q) {
+            q = (q||"").toLowerCase();
+            list.innerHTML = "";
+            data.filter(function(d) {
+              return !q || renderItem.match(d, q);
+            }).forEach(function(d) {
+              var div = document.createElement("div");
+              div.className = "side-search-item";
+              div.innerHTML = renderItem.html(d);
+              div.addEventListener("click", function() {
+                onSelect(d);
+                panel.style.display = "none";
+              });
+              list.appendChild(div);
+            });
+          }
+
+          btn.addEventListener("click", function(e) {
+            e.stopPropagation();
+            if (panel.style.display !== "none") {
+              panel.style.display = "none";
+            } else {
+              panel.style.display = "flex";
+              renderList("");
+              if (search) search.focus();
+            }
+          });
+
+          if (close) close.addEventListener("click", function() { panel.style.display = "none"; });
+          if (search) search.addEventListener("input", function() { renderList(search.value); });
+        }
+
+        // ── Diagnosis side search ──────────────────────────────────────────
+        buildSidePanel("diagSearchBtn","diagSearchPanel","diagSearchClose","diagSearchInput","diagSearchList",
+          ICD_LIST,
+          {
+            match: function(d,q) { return d.code.toLowerCase().includes(q)||d.desc.toLowerCase().includes(q); },
+            html:  function(d) { return '<span class="ssi-code">'+d.code+'</span>'+d.desc; }
+          },
+          function(d) {
+            // Find first empty diag row or add new one
+            var tbody = document.getElementById("diagTbody");
+            if (!tbody) return;
+            var emptyRow = null;
+            var rows = tbody.querySelectorAll("tr");
+            for (var i=0; i<rows.length; i++) {
+              var ci = rows[i].querySelector(".diag-code-input");
+              if (ci && !ci.value.trim()) { emptyRow = rows[i]; break; }
+            }
+            if (!emptyRow) {
+              var tr = document.createElement("tr");
+              tr.innerHTML = '<td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>' +
+                '<td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td>' +
+                '<td><input class="ct-input" value="" placeholder="Type..."></td>' +
+                '<td><input class="ct-input" value="" placeholder=""></td>' +
+                '<td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+              tbody.appendChild(tr);
+              emptyRow = tr;
+            }
+            emptyRow.querySelector(".diag-code-input").value = d.code;
+            emptyRow.querySelector(".diag-desc-input").value = d.desc;
+          }
+        );
+
+        // ── Procedure side search ──────────────────────────────────────────
+        buildSidePanel("procSearchBtn","procSearchPanel","procSearchClose","procSearchInput","procSearchList",
+          PROC_LIST,
+          {
+            match: function(d,q) { return d.code.toLowerCase().includes(q)||d.desc.toLowerCase().includes(q); },
+            html:  function(d) { return '<span class="ssi-code">'+d.code+'</span>'+d.desc+'<span class="ssi-price">AED '+d.price+'</span>'; }
+          },
+          function(d) {
+            var tbody = document.getElementById("procTbody");
+            if (!tbody) return;
+            var emptyRow = null;
+            var rows = tbody.querySelectorAll("tr");
+            for (var i=0; i<rows.length; i++) {
+              var ci = rows[i].querySelector(".proc-code-input");
+              if (ci && !ci.value.trim()) { emptyRow = rows[i]; break; }
+            }
+            if (!emptyRow) {
+              var tr = document.createElement("tr");
+              tr.innerHTML = '<td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td>' +
+                '<td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td>' +
+                '<td><input class="ct-input proc-price-input" value="" placeholder="0.00"></td>' +
+                '<td><input class="ct-input proc-sess-input" value="1.00" placeholder="1"></td>' +
+                '<td><input class="ct-input proc-amt-input" value="" placeholder="0.00" readonly></td>' +
+                '<td><input class="ct-input" value="" placeholder="0.00"></td>' +
+                '<td><input class="ct-input" value="" placeholder="0"></td>' +
+                '<td><input class="ct-input" value="" placeholder="0.00"></td>' +
+                '<td><input class="ct-input proc-net-input" value="" placeholder="0.00" readonly></td>' +
+                '<td><input class="ct-input" value="" placeholder="0.00"></td>' +
+                '<td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+              tbody.appendChild(tr);
+              emptyRow = tr;
+            }
+            var pi = emptyRow.querySelector(".proc-price-input");
+            var si = emptyRow.querySelector(".proc-sess-input");
+            var ai = emptyRow.querySelector(".proc-amt-input");
+            var ni = emptyRow.querySelector(".proc-net-input");
+            emptyRow.querySelector(".proc-code-input").value = d.code;
+            emptyRow.querySelector(".proc-desc-input").value = d.desc;
+            if (pi) pi.value = d.price.toFixed(2);
+            if (si) si.value = "1.00";
+            if (ai) ai.value = d.price.toFixed(2);
+            if (ni) ni.value = d.price.toFixed(2);
+            // Recalc total
+            var total = 0;
+            document.querySelectorAll("#procTbody .proc-net-input").forEach(function(inp) {
+              total += parseFloat(inp.value)||0;
+            });
+            var el = document.getElementById("procTotalAmt");
+            if (el) el.textContent = total.toFixed(2);
+          }
+        );
+
+        // ── Medicine side search ───────────────────────────────────────────
+        buildSidePanel("rxSearchBtn","rxSearchPanel","rxSearchClose","rxSearchInput","rxSearchList",
+          MED_LIST,
+          {
+            match: function(d,q) { return d.toLowerCase().includes(q); },
+            html:  function(d) { return d; }
+          },
+          function(d) {
+            var tbody = document.getElementById("rxTbody");
+            if (!tbody) return;
+            var emptyRow = null;
+            var rows = tbody.querySelectorAll("tr");
+            for (var i=0; i<rows.length; i++) {
+              var mi = rows[i].querySelector(".rx-med-input");
+              if (mi && !mi.value.trim()) { emptyRow = rows[i]; break; }
+            }
+            if (!emptyRow) {
+              var tr = document.createElement("tr");
+              tr.innerHTML = '<td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td>' +
+                '<td><input class="ct-input" value="" placeholder="Instructions..."></td>' +
+                '<td><input class="ct-input" value="" placeholder="Frequency..."></td>' +
+                '<td><input class="ct-input" value="" placeholder="Duration..."></td>';
+              tbody.appendChild(tr);
+              emptyRow = tr;
+            }
+            emptyRow.querySelector(".rx-med-input").value = d;
+          }
+        );
+
+      })();
+
+      // ── Prescription Form Modal ─────────────────────────────────────────
+      (function() {
+        var DRUG_LIST = [
+          "Dasamoola Kashayam","Triphala Choornam","Murivenna Oil","Ashwagandha Churna",
+          "Brahmi Ghritam","Chyavanprash","Dhanwantharam Thailam","Gandha Thailam",
+          "Kottamchukkadi Choornam","Mahanarayan Tailam","Nagaradi Kashayam","Panchakola Churna",
+          "Sahacharadi Kashayam","Thriphala Ghritham","Vasarishtam","Balarishta",
+          "Draksharishtam","Karpooradi Tailam","Sahacharadi Tailam","Ksheerabala Tailam",
+          "Pinda Tailam","Rasnadi Churna","Trikatu Churna","Brihat triphala Choornam",
+          "Brihath Vaiswanara choornam","Cardostab tablet","Cephagrain drops",
+          "Cephagrain tablet","Cervilon Cap","Chandanasavam","Chandanosiradi kashyam",
+          "Chandraprabha tablet","Dhanwantharam kashayam","Eladi Choornam",
+          "Gugguluthikthakam Kashayam","Indukantham Kashayam","Jeerakarishtam",
+          "Kayyunyadi Kashayam","Kumaryasavam","Liv 52 tablet","Mahatiktakam kashayam"
+        ];
+
+        var overlay = document.getElementById("rxFormOverlay");
+        var closeBtn = document.getElementById("rxFormClose");
+        var cancelBtn = document.getElementById("rxFormCancelBtn");
+        var searchInput = document.getElementById("rxFormSearch");
+        var drugListEl = document.getElementById("rxFormDrugList");
+        var addedListEl = document.getElementById("rxFormAddedList");
+        var medNameInput = document.getElementById("rxFormMedName");
+        var instrInput = document.getElementById("rxFormInstr");
+        var freqInput = document.getElementById("rxFormFreq");
+        var durInput = document.getElementById("rxFormDuration");
+        var addBtn = document.getElementById("rxFormAddBtn");
+        var saveBtn = document.getElementById("rxFormSave");
+        var editBtn = document.getElementById("rxEditBtn");
+
+        var addedItems = [];
+
+        function openForm() {
+          if (!overlay) return;
+          overlay.classList.add("open");
+          addedItems = [];
+          renderAdded();
+          renderDrugs("");
+          medNameInput.value = "";
+          instrInput.value = "";
+          freqInput.value = "";
+          durInput.value = "";
+          searchInput.value = "";
+          searchInput.focus();
+        }
+
+        function closeForm() {
+          if (overlay) overlay.classList.remove("open");
+        }
+
+        function renderDrugs(q) {
+          q = (q||"").toLowerCase();
+          drugListEl.innerHTML = "";
+          DRUG_LIST.filter(function(d) {
+            return !q || d.toLowerCase().includes(q);
+          }).forEach(function(d) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = "<td>" + d + "</td>";
+            tr.addEventListener("click", function() {
+              drugListEl.querySelectorAll("tr").forEach(function(r) { r.classList.remove("rx-selected"); });
+              tr.classList.add("rx-selected");
+              medNameInput.value = d;
+              instrInput.focus();
+            });
+            drugListEl.appendChild(tr);
+          });
+        }
+
+        function renderAdded() {
+          addedListEl.innerHTML = "";
+          addedItems.forEach(function(item) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = "<td>" + item.med + "</td><td>" + item.instr + "</td><td>" + item.freq + "</td><td>" + item.dur + "</td>";
+            addedListEl.appendChild(tr);
+          });
+        }
+
+        function addItem() {
+          var med = medNameInput.value.trim();
+          if (!med) { alert("Select a medicine first"); return; }
+          addedItems.push({
+            med: med,
+            instr: instrInput.value.trim(),
+            freq: freqInput.value.trim(),
+            dur: durInput.value.trim()
+          });
+          renderAdded();
+          medNameInput.value = "";
+          instrInput.value = "";
+          freqInput.value = "";
+          durInput.value = "";
+          searchInput.focus();
+        }
+
+        function saveToTable() {
+          var tbody = document.getElementById("rxTbody");
+          if (!tbody) return;
+          // Clear existing empty rows
+          tbody.innerHTML = "";
+          addedItems.forEach(function(item) {
+            var tr = document.createElement("tr");
+            tr.innerHTML = '<td class="ac-cell"><input class="ac-input rx-med-input" value="' + item.med + '" autocomplete="off"><div class="ac-drop"></div></td>' +
+              '<td><input class="ct-input" value="' + item.instr + '"></td>' +
+              '<td><input class="ct-input" value="' + item.freq + '"></td>' +
+              '<td><input class="ct-input" value="' + item.dur + '"></td>';
+            tbody.appendChild(tr);
+          });
+          // Add one empty row
+          var emptyTr = document.createElement("tr");
+          emptyTr.innerHTML = '<td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td>' +
+            '<td><input class="ct-input" value="" placeholder="Instructions..."></td>' +
+            '<td><input class="ct-input" value="" placeholder="Frequency..."></td>' +
+            '<td><input class="ct-input" value="" placeholder="Duration..."></td>';
+          tbody.appendChild(emptyTr);
+          closeForm();
+        }
+
+        if (editBtn) editBtn.addEventListener("click", openForm);
+        if (closeBtn) closeBtn.addEventListener("click", closeForm);
+        if (cancelBtn) cancelBtn.addEventListener("click", closeForm);
+        if (addBtn) addBtn.addEventListener("click", addItem);
+        if (saveBtn) saveBtn.addEventListener("click", saveToTable);
+        if (searchInput) searchInput.addEventListener("input", function() { renderDrugs(searchInput.value); });
+
+        // Close on overlay click
+        if (overlay) overlay.addEventListener("click", function(e) {
+          if (e.target === overlay) closeForm();
+        });
+      })();
+
       byId("rvNew")?.addEventListener("click", () => {
         byId("rvForm")?.reset();
         byId("rvDialogTitle").textContent = "Receipt Voucher";
@@ -5261,16 +6521,37 @@ podi kizhi + lepanam x 5 days.</textarea>
       });
 
       // Insurance Claims - Patient search
+      // Insurance Claims - Patient search (only shows patients with consultations)
       let insClaimSelectedMr = "";
+      let consultedPatients = []; // loaded from server
+
+      // Load consulted patients from server
+      fetch("/api/claims").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data) {
+          d.data.forEach(function(claim) {
+            if (!consultedPatients.find(function(p){return p.mrNo === claim.mrNo;})) {
+              consultedPatients.push({ mrNo: claim.mrNo, name: claim.patientName });
+            }
+          });
+        }
+      }).catch(function(){});
+
       byId("claimsModal")?.addEventListener("input", function(e) {
         if (e.target.id === "insClaimPatientSearch") {
           const q = e.target.value.trim().toLowerCase();
           const dd = byId("insClaimPatientDD");
-          const filtered = patients.filter(function(p) {
-            return q.length === 0 || [p.mrNo, fullName(p), p.mobile || ""].join(" ").toLowerCase().includes(q);
+          // Search from both consulted patients and all patients
+          var allPats = patients.map(function(p){ return {mrNo:p.mrNo, name:fullName(p)}; });
+          consultedPatients.forEach(function(cp) {
+            if (!allPats.find(function(a){return a.mrNo===cp.mrNo;})) allPats.push(cp);
+          });
+          const filtered = allPats.filter(function(p) {
+            return q.length === 0 || [p.mrNo, p.name].join(" ").toLowerCase().includes(q);
           }).slice(0, 15);
           dd.innerHTML = filtered.map(function(p) {
-            return '<div class="ins-pat-item" data-mr="' + p.mrNo + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px"><strong>' + p.mrNo + '</strong><span>' + escapeHtml(fullName(p)) + '</span></div>';
+            var isClaimed = consultedPatients.find(function(c){return c.mrNo===p.mrNo;});
+            var badge = isClaimed ? '<span style="color:#43a047;font-size:9px;margin-left:4px">&#10004; Consulted</span>' : '';
+            return '<div class="ins-pat-item" data-mr="' + p.mrNo + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center"><strong>' + p.mrNo + '</strong><span>' + escapeHtml(p.name) + '</span>' + badge + '</div>';
           }).join("");
           dd.style.display = filtered.length > 0 ? "block" : "none";
         }
@@ -5279,11 +6560,17 @@ podi kizhi + lepanam x 5 days.</textarea>
         if (e.target.id === "insClaimPatientSearch") {
           const q = e.target.value.trim().toLowerCase();
           const dd = byId("insClaimPatientDD");
-          const filtered = patients.filter(function(p) {
-            return q.length === 0 || [p.mrNo, fullName(p), p.mobile || ""].join(" ").toLowerCase().includes(q);
+          var allPats = patients.map(function(p){ return {mrNo:p.mrNo, name:fullName(p)}; });
+          consultedPatients.forEach(function(cp) {
+            if (!allPats.find(function(a){return a.mrNo===cp.mrNo;})) allPats.push(cp);
+          });
+          const filtered = allPats.filter(function(p) {
+            return q.length === 0 || [p.mrNo, p.name].join(" ").toLowerCase().includes(q);
           }).slice(0, 15);
           dd.innerHTML = filtered.map(function(p) {
-            return '<div class="ins-pat-item" data-mr="' + p.mrNo + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px"><strong>' + p.mrNo + '</strong><span>' + escapeHtml(fullName(p)) + '</span></div>';
+            var isClaimed = consultedPatients.find(function(c){return c.mrNo===p.mrNo;});
+            var badge = isClaimed ? '<span style="color:#43a047;font-size:9px;margin-left:4px">&#10004; Consulted</span>' : '';
+            return '<div class="ins-pat-item" data-mr="' + p.mrNo + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center"><strong>' + p.mrNo + '</strong><span>' + escapeHtml(p.name) + '</span>' + badge + '</div>';
           }).join("");
           dd.style.display = filtered.length > 0 ? "block" : "none";
         }
@@ -5295,40 +6582,105 @@ podi kizhi + lepanam x 5 days.</textarea>
         if (patItem) {
           insClaimSelectedMr = patItem.dataset.mr;
           const p = patients.find(function(pt) { return pt.mrNo === insClaimSelectedMr; });
-          byId("insClaimPatientSearch").value = insClaimSelectedMr + " - " + (p ? fullName(p) : "");
+          var cpat = consultedPatients.find(function(c){return c.mrNo===insClaimSelectedMr;});
+          byId("insClaimPatientSearch").value = insClaimSelectedMr + " - " + (p ? fullName(p) : (cpat ? cpat.name : ""));
           byId("insClaimPatientDD").style.display = "none";
         }
       });
 
-      // Load Bills button
+      // Load Bills button - fetches patient's consultation data from server
       byId("insClaimLoadBills")?.addEventListener("click", function() {
         if (!insClaimSelectedMr) { alert("Select a patient first"); return; }
-        // Load from consultation procedures
-        const procRows = document.querySelectorAll(".consult-procedure .consult-table tbody tr");
-        const tbody = byId("claimsTableBody");
-        tbody.innerHTML = "";
-        let total = 0;
-        let count = 0;
-        procRows.forEach(function(row) {
-          const desc = row.cells[1]?.textContent?.trim();
-          if (!desc) return;
-          const price = parseFloat(row.cells[2]?.textContent) || 0;
-          const sessions = parseInt(row.cells[3]?.textContent) || 1;
-          for (let i = 0; i < sessions; i++) {
-            total += price;
-            count++;
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = '<td contenteditable="true"></td><td contenteditable="true">' + escapeHtml(desc) + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
-            tbody.appendChild(newRow);
+
+        // First try to load from server (saved consultations)
+        fetch("/api/claims").then(function(r){return r.json()}).then(function(d) {
+          if (!d.success || !d.data) throw new Error("No data");
+
+          // Find claims for this patient
+          var patientClaims = d.data.filter(function(c) { return c.mrNo === insClaimSelectedMr; });
+          if (patientClaims.length === 0) throw new Error("No claims for this patient");
+
+          // Get the latest claim
+          var latestClaim = patientClaims[0];
+
+          // Load logsheet entries for this claim
+          return fetch("/api/logsheet/" + latestClaim.claimId).then(function(r2){return r2.json()}).then(function(d2) {
+            if (!d2.success || !d2.data) throw new Error("No logsheet data");
+
+            var tbody = byId("claimsTableBody");
+            tbody.innerHTML = "";
+            var total = 0;
+            var entries = d2.data.entries || [];
+            var procedures = d2.data.procedures || [];
+
+            // Fill from logsheet entries
+            if (entries.length > 0) {
+              entries.forEach(function(entry) {
+                var proc = procedures.find(function(p) { return entry.treatmentDone.toUpperCase().includes(p.description.toUpperCase().substring(0,10)); });
+                var rate = proc ? (parseFloat(proc.price) || 0) : 0;
+                total += rate;
+                var newRow = document.createElement("tr");
+                newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent" value="' + (entry.entryDate ? convertDateToISO(entry.entryDate) : "") + '"></td><td contenteditable="true">' + escapeHtml(entry.treatmentDone) + '</td><td contenteditable="true">' + (entry.progress || "") + '</td><td contenteditable="true">' + (entry.inTime || "") + '</td><td contenteditable="true">' + (entry.outTime || "") + '</td><td contenteditable="true">' + rate.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + rate.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+                tbody.appendChild(newRow);
+              });
+            } else if (procedures.length > 0) {
+              // Fallback: use procedures directly
+              procedures.forEach(function(proc) {
+                var price = parseFloat(proc.price) || 0;
+                var sessions = parseInt(proc.sessions) || 1;
+                for (var i = 0; i < sessions; i++) {
+                  total += price;
+                  var newRow = document.createElement("tr");
+                  newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent"></td><td contenteditable="true">' + escapeHtml(proc.description || "") + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+                  tbody.appendChild(newRow);
+                }
+              });
+            }
+
+            byId("insClaimAmount").value = total.toFixed(2);
+            byId("insClaimNet").value = total.toFixed(2);
+
+            // Set dates from claim
+            if (latestClaim.fromDate) {
+              var billFrom = byId("claimsForm")?.elements["claimBillFrom"];
+              var billTo = byId("claimsForm")?.elements["claimBillTo"];
+              if (billFrom) billFrom.value = latestClaim.fromDate;
+              if (billTo) billTo.value = latestClaim.toDate || latestClaim.fromDate;
+            }
+
+            alert("Loaded " + tbody.rows.length + " entries for patient " + insClaimSelectedMr + "\nTotal: AED " + total.toFixed(2));
+          });
+        }).catch(function() {
+          // Fallback: try loading from current consultation form
+          const procRows = document.querySelectorAll("#procTbody tr");
+          const tbody = byId("claimsTableBody");
+          tbody.innerHTML = "";
+          let total = 0;
+          let count = 0;
+          procRows.forEach(function(row) {
+            var descInput = row.querySelector(".proc-desc-input");
+            var priceInput = row.querySelector(".proc-price-input");
+            var sessInput = row.querySelector(".proc-sess-input");
+            const desc = descInput ? descInput.value.trim() : "";
+            if (!desc) return;
+            const price = parseFloat(priceInput ? priceInput.value : "0") || 0;
+            const sessions = parseInt(sessInput ? sessInput.value : "1") || 1;
+            for (let i = 0; i < sessions; i++) {
+              total += price;
+              count++;
+              const newRow = document.createElement("tr");
+              newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent"></td><td contenteditable="true">' + escapeHtml(desc) + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+              tbody.appendChild(newRow);
+            }
+          });
+          if (count > 0) {
+            byId("insClaimAmount").value = total.toFixed(2);
+            byId("insClaimNet").value = total.toFixed(2);
+            alert("Bills loaded from current consultation: " + count + " entries");
+          } else {
+            alert("No bills found. Save a consultation for this patient first.");
           }
         });
-        if (count > 0) {
-          byId("insClaimAmount").value = total.toFixed(2);
-          byId("insClaimNet").value = total.toFixed(2);
-          alert("Bills loaded: " + count + " entries");
-        } else {
-          alert("No bills found. Save a consultation first.");
-        }
       });
 
       // Consultation button
@@ -5396,29 +6748,84 @@ podi kizhi + lepanam x 5 days.</textarea>
           const claim = savedClaimsData.find(function(c) { return c.claimId === claimId; });
           alert("Medical Report\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate);
         } else if (btn.classList.contains("treatment")) {
-          const claim = savedClaimsData.find(function(c) { return c.claimId === claimId; });
-          // Generate Treatment Report
-          let reportHtml = '<div style="padding:30px 40px;font-family:Times New Roman,serif;font-size:13px;line-height:1.7">';
-          reportHtml += '<div style="text-align:center;margin-bottom:8px"><img src="logo.png" style="height:55px" alt="Shanthi Wellness"><div style="font-size:10px;color:#555">Ayurvedic Medical Centre LLC</div></div>';
-          reportHtml += '<div style="text-align:center;font-size:16px;font-weight:700;text-decoration:underline;margin:12px 0 16px">TREATMENT REPORT</div>';
-          reportHtml += '<p>This is to certify that ' + patientName + ' a patient came for the consultation had undergone Ayurveda treatment. He/She is also advised to take follow-up treatments to prevent recurrence.</p>';
-          reportHtml += '<p>Treatment details are given below :-</p>';
-          reportHtml += '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px">';
-          let total = 0;
-          if (claim && claim.entries) {
-            claim.entries.forEach(function(e) {
-              total += e.rate || 0;
-              reportHtml += '<tr><td style="border:1px solid #888;padding:5px;width:90px">' + (e.date || "") + '</td><td style="border:1px solid #888;padding:5px">' + (e.description || "") + '</td><td style="border:1px solid #888;padding:5px;width:80px">AED ' + (e.rate || 0) + '</td></tr>';
-            });
-          }
-          reportHtml += '<tr><td style="border:1px solid #888;padding:5px"></td><td style="border:1px solid #888;padding:5px;font-weight:700">Total</td><td style="border:1px solid #888;padding:5px;font-weight:700">AED ' + total + '</td></tr>';
-          reportHtml += '</table>';
-          reportHtml += '<div style="margin-top:40px;text-align:center;font-size:12px"><div>For SHANTHI WELLNESS AYURVEDIC</div><div>MEDICAL CENTRE LLC</div><div style="margin-top:30px;font-weight:700">ANJNA NADAKKAVIL CHANDRAN</div><div style="font-size:11px">AYURVEDA PRACTITIONER</div><div style="font-size:11px">DHA Lic. No. 02548615-004</div></div>';
-          reportHtml += '</div>';
+          // Generate Treatment Report - fetch from server
+          fetch("/api/logsheet/" + claimId).then(function(r){return r.json()}).then(function(d) {
+            var entries = (d.data && d.data.entries) || [];
+            var procedures = (d.data && d.data.procedures) || [];
+            var consultation = d.data && d.data.claim ? d.data.claim : {};
 
-          const win = window.open("", "_blank", "width=700,height=900");
-          win.document.write("<html><head><title>Treatment Report - " + patientName + "</title><style>body{margin:0}table{border-collapse:collapse}td{border:1px solid #888;padding:5px}@media print{body{margin:0}}</style></head><body>" + reportHtml + "<script>setTimeout(function(){window.print()},300)<\/script></body></html>");
-          win.document.close();
+            var reportHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Treatment Report - ' + patientName + '</title><style>' +
+              '@page{size:A4;margin:15mm}' +
+              'body{margin:0;padding:25px 40px;font-family:"Times New Roman",serif;font-size:13px;line-height:1.6;color:#000}' +
+              '.logo{text-align:right;margin-bottom:10px}' +
+              '.logo img{height:65px}' +
+              '.title{text-align:center;font-size:16px;font-weight:700;text-decoration:underline;margin:15px 0 20px}' +
+              '.cert-text{margin-bottom:15px;text-align:justify}' +
+              'table{width:100%;border-collapse:collapse;margin:15px 0}' +
+              'td{border:1px solid #333;padding:6px 10px;font-size:12px}' +
+              '.total-row td{font-weight:700}' +
+              '.sign-section{margin-top:40px;display:flex;justify-content:flex-end;align-items:flex-end;gap:30px}' +
+              '.sign-section img{height:60px}' +
+              '.sign-label{text-align:center;font-size:11px;margin-top:4px;border-top:1px solid #000;padding-top:3px}' +
+              '.sign-seal-hidden .sign-section{display:none !important}' +
+              '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:4px;z-index:1000}' +
+              '.cr-toolbar button{height:24px;padding:0 10px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}' +
+              '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+              '.cr-toolbar .sep{width:1px;height:20px;background:#ccc;margin:0 3px}' +
+              '.report-body{margin-top:40px}' +
+              '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}body{padding:15mm}-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+              '</style></head><body>' +
+              '<div class="cr-toolbar">' +
+                '<button class="green" onclick="printWithSign()">&#128424; Print (With Sign & Seal)</button>' +
+                '<button onclick="printWithoutSign()">&#128424; Print (Without Sign)</button>' +
+                '<div class="sep"></div>' +
+                '<button onclick="window.print()">&#128196; PDF</button>' +
+              '</div>' +
+              '<div class="report-body">' +
+              '<div class="logo"><img src="logo.png" alt="Shanthi Wellness"></div>' +
+              '<div class="title">TREATMENT REPORT</div>' +
+              '<p class="cert-text">This is to certify that <strong>' + patientName + '</strong> a patient is suffering from treatment related conditions, came for the consultation had undergone Ayurveda treatment for ' + fromDate + ' to ' + toDate + '. He/She is also advised to take follow-up treatments to prevent recurrence.</p>' +
+              '<p>Treatment details are given below :-</p>' +
+              '<table>';
+
+            var total = 0;
+            if (entries.length > 0) {
+              entries.forEach(function(e) {
+                var proc = procedures.find(function(p) { return e.treatmentDone && p.description && e.treatmentDone.toUpperCase().includes(p.description.toUpperCase().substring(0,8)); });
+                var rate = proc ? (parseFloat(proc.price) || 0) : 0;
+                total += rate;
+                reportHtml += '<tr><td style="width:100px">' + (e.entryDate || "") + '</td><td>' + (e.treatmentDone || "") + '</td><td style="width:90px">AED ' + rate + '</td></tr>';
+              });
+            } else {
+              // Fallback from procedures
+              procedures.forEach(function(proc) {
+                var price = parseFloat(proc.price) || 0;
+                var sessions = parseInt(proc.sessions) || 1;
+                for (var i = 0; i < sessions; i++) {
+                  total += price;
+                  reportHtml += '<tr><td style="width:100px"></td><td>' + (proc.description || "") + '</td><td style="width:90px">AED ' + price + '</td></tr>';
+                }
+              });
+            }
+
+            reportHtml += '<tr class="total-row"><td></td><td>Total</td><td>AED' + total + '</td></tr>';
+            reportHtml += '</table>';
+            reportHtml += '<div class="sign-section">' +
+              '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
+              '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+            '</div>';
+            reportHtml += '</div>';
+            reportHtml += '<script>' +
+              'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+              'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+              '<\/script></body></html>';
+
+            var win = window.open("", "_blank", "width=700,height=900");
+            win.document.write(reportHtml);
+            win.document.close();
+          }).catch(function() {
+            alert("Treatment Report\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate + "\n\nSave a consultation first to generate the full report.");
+          });
         } else if (btn.classList.contains("medicine")) {
           alert("Medicine Report\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate);
         } else if (btn.classList.contains("logsheet")) {
@@ -5514,6 +6921,62 @@ podi kizhi + lepanam x 5 days.</textarea>
       seedTimeOptions();
       refreshPatientSelects();
       wireEvents();
+      // Load dynamic data from server
+      loadClaimsFromServer();
+      loadPatientsFromServer();
+    }
+
+    // ─── Dynamic Data Loading from Server ──────────────────────────
+    function convertDateToISO(dateStr) {
+      if (!dateStr) return "";
+      // Handle "25.05.2026" or "25-05-2026" → "2026-05-25"
+      var parts = dateStr.split(/[.\-\/]/);
+      if (parts.length === 3) {
+        if (parts[0].length === 4) return dateStr; // already ISO
+        return parts[2] + "-" + parts[1].padStart(2,"0") + "-" + parts[0].padStart(2,"0");
+      }
+      return dateStr;
+    }
+
+    function loadClaimsFromServer() {
+      fetch("/api/claims").then(function(r){return r.json()}).then(function(d) {
+        if (!d.success || !d.data || !d.data.length) return;
+        var tbody = document.querySelector("#claimsListScreen tbody");
+        if (!tbody) return;
+        var actionsHtml = '<div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div>';
+        // Append server claims that aren't already in the table
+        var existingIds = [];
+        tbody.querySelectorAll("tr").forEach(function(row) {
+          if (row.cells[0]) existingIds.push(row.cells[0].textContent.trim());
+        });
+        d.data.forEach(function(claim) {
+          if (existingIds.includes(claim.claimId)) return;
+          var row = document.createElement("tr");
+          row.innerHTML = '<td>' + claim.claimId + '</td><td>' + (claim.fromDate||"") + '</td><td>' + (claim.toDate||"") + '</td><td>' + (claim.mrNo||"") + '</td><td>' + (claim.patientName||"") + '</td><td>' + (claim.amount||"0.00") + '</td><td>' + (claim.receivedAmount||"0.00") + '</td><td>' + actionsHtml + '</td>';
+          tbody.appendChild(row);
+        });
+      }).catch(function(){});
+    }
+
+    function loadPatientsFromServer() {
+      fetch("/api/patients").then(function(r){return r.json()}).then(function(d) {
+        if (!d.success || !d.data || !d.data.length) return;
+        // Merge server patients with local ones
+        d.data.forEach(function(p) {
+          var exists = patientRecords.find(function(r) { return r.mrNo === p.mrNo; });
+          if (!exists) patientRecords.push(p);
+        });
+        renderPatients();
+        refreshPatientSelects();
+      }).catch(function(){});
+    }
+
+    function saveConsultationToServer(data) {
+      return fetch("/api/consultations", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      }).then(function(r){return r.json()});
     }
 
     boot();
@@ -5619,3 +7082,4 @@ podi kizhi + lepanam x 5 days.</textarea>
   </script>
 </body>
 </html>
+
