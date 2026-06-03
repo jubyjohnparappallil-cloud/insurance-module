@@ -205,6 +205,14 @@ async function handleAPI(req, res) {
   }
 
   // ── Consultations ──
+  if (url === '/api/consultations' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.consultations || [] });
+  }
+  if (url.startsWith('/api/consultations/') && method === 'GET') {
+    const mrNo = decodeURIComponent(url.split('/')[3]);
+    const patientConsults = (db.consultations || []).filter(c => c.mrNo === mrNo);
+    return sendJSON(res, { success: true, data: patientConsults });
+  }
   if (url === '/api/consultations' && method === 'POST') {
     const body = await parseBody(req);
     const id = db.nextIds.consultation++;

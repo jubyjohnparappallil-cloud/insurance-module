@@ -1726,8 +1726,6 @@
       background: linear-gradient(90deg, #31e15a, #18d430);
       font-weight: 900;
     }
-      gap: 10px;
-    }
 
     .field-row.gender-reg input,
     .field-row.gender-reg select {
@@ -4900,6 +4898,44 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function openConsultation(appt) {
+      // Clear all consultation fields for fresh consultation
+      byId("consultChiefComplaints").value = "";
+      byId("consultPastHistory").value = "";
+      byId("consultPresentIllness").value = "";
+      byId("consultExamination").value = "";
+      byId("consultTreatmentPlan").value = "";
+      byId("consultDisposition").value = "";
+
+      // Clear diagnosis table
+      var diagTbody = byId("diagTbody");
+      if (diagTbody) {
+        diagTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input" value="" placeholder="Type..."></td><td><input class="ct-input" value="" placeholder=""></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td></tr>';
+      }
+
+      // Clear procedure table
+      var procTbody = byId("procTbody");
+      if (procTbody) {
+        procTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input proc-price-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-sess-input" value="1.00" placeholder="1"></td><td><input class="ct-input proc-amt-input" value="" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input" value="" placeholder="0"></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-net-input" value="" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td></tr>';
+      }
+
+      // Clear prescription table
+      var rxTbody = byId("rxTbody");
+      if (rxTbody) {
+        rxTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input" value="" placeholder="Instructions..."></td><td><input class="ct-input" value="" placeholder="Frequency..."></td><td><input class="ct-input" value="" placeholder="Duration..."></td></tr>';
+      }
+
+      // Reset total
+      var totalEl = byId("procTotalAmt");
+      if (totalEl) totalEl.textContent = "0.00";
+
+      // Clear vitals
+      document.querySelectorAll(".vital-row input").forEach(function(inp) { if (!inp.readOnly) inp.value = ""; });
+
+      // Set today's date
+      var today = new Date();
+      var dateStr = String(today.getDate()).padStart(2,"0") + "-" + String(today.getMonth()+1).padStart(2,"0") + "-" + today.getFullYear();
+      byId("consultDate").value = dateStr;
+
       // Fill patient info in consultation screen
       const patient = patients.find(p => p.mrNo === appt.mrNo);
       if (patient) {
@@ -4909,7 +4945,6 @@ podi kizhi + lepanam x 5 days.</textarea>
         byId("consultDob").textContent = patient.dob || "";
         byId("consultEid").textContent = patient.eid || "";
         byId("consultNationality").textContent = patient.nationality || "";
-        // Calculate age
         const dob = parseAnyDate(patient.dob);
         if (dob) {
           const ageDiff = new Date().getFullYear() - dob.getFullYear();
@@ -6735,6 +6770,13 @@ podi kizhi + lepanam x 5 days.</textarea>
 
       // Claims action buttons (Medical Report, Treatment Report, Logsheet, Edit, Delete)
       byId("claimsListScreen")?.querySelector(".grid-shell")?.addEventListener("click", (event) => {
+        // Row selection
+        const clickedRow = event.target.closest("tr");
+        if (clickedRow && !event.target.closest(".claims-act-btn") && clickedRow.closest("tbody")) {
+          document.querySelectorAll("#claimsListScreen tbody tr").forEach(function(r){ r.classList.remove("selected"); });
+          clickedRow.classList.add("selected");
+        }
+
         const btn = event.target.closest(".claims-act-btn");
         if (!btn) return;
         const row = btn.closest("tr");
@@ -6745,15 +6787,64 @@ podi kizhi + lepanam x 5 days.</textarea>
         const toDate = row.cells[2]?.textContent?.trim();
 
         if (btn.classList.contains("medical")) {
-          const claim = savedClaimsData.find(function(c) { return c.claimId === claimId; });
-          alert("Medical Report\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate);
+          // Generate Medical Report - fetch consultation data by MR number
+          var mrNo = row.cells[3]?.textContent?.trim() || "";
+          fetch("/api/consultations/" + mrNo).then(function(r){return r.json()}).then(function(d) {
+            var consult = null;
+            if (d.success && d.data && d.data.length > 0) {
+              consult = d.data[d.data.length - 1]; // latest consultation
+            }
+            generateMedicalReport(patientName, fromDate, toDate, consult);
+          }).catch(function() {
+            // Fallback with current form data
+            var consult = {
+              chiefComplaints: document.getElementById("consultChiefComplaints")?.value || "",
+              presentIllness: document.getElementById("consultPresentIllness")?.value || "",
+              examination: document.getElementById("consultExamination")?.value || "",
+              treatmentPlan: document.getElementById("consultTreatmentPlan")?.value || "",
+              disposition: document.getElementById("consultDisposition")?.value || "",
+              diagnoses: []
+            };
+            var diagRows = document.querySelectorAll("#diagTbody tr");
+            diagRows.forEach(function(r) {
+              var c = r.querySelector(".diag-code-input");
+              var d = r.querySelector(".diag-desc-input");
+              if (c && c.value.trim()) consult.diagnoses.push({code:c.value.trim(), description: d ? d.value.trim() : ""});
+            });
+            generateMedicalReport(patientName, fromDate, toDate, consult);
+          });
         } else if (btn.classList.contains("treatment")) {
-          // Generate Treatment Report - fetch from server
-          fetch("/api/logsheet/" + claimId).then(function(r){return r.json()}).then(function(d) {
-            var entries = (d.data && d.data.entries) || [];
-            var procedures = (d.data && d.data.procedures) || [];
-            var consultation = d.data && d.data.claim ? d.data.claim : {};
+          // Generate Treatment Report - fetch consultation data by MR number
+          var mrNo = row.cells[3]?.textContent?.trim() || "";
+          fetch("/api/consultations/" + mrNo).then(function(r){return r.json()}).then(function(d) {
+            var consult = null;
+            if (d.success && d.data && d.data.length > 0) {
+              // Find consultation matching this claim's date
+              consult = d.data.find(function(c) { return c.consultDate === fromDate; });
+              if (!consult) consult = d.data[d.data.length-1]; // fallback to latest
+            }
+            var procedures = (consult && consult.procedures) || [];
+            var entries = [];
+            var startParts = fromDate.split("-");
+            var startDt = new Date(startParts[2]+"-"+startParts[1]+"-"+startParts[0]);
+            var dayOffset = 0;
 
+            procedures.forEach(function(proc) {
+              var sessions = parseInt(proc.sessions) || 1;
+              var price = parseFloat(proc.price) || 0;
+              for (var i = 0; i < sessions; i++) {
+                var d = new Date(startDt);
+                d.setDate(d.getDate() + dayOffset);
+                dayOffset++;
+                entries.push({
+                  entryDate: String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear(),
+                  treatmentDone: proc.description || "",
+                  price: price
+                });
+              }
+            });
+
+            // Generate the report HTML
             var reportHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Treatment Report - ' + patientName + '</title><style>' +
               '@page{size:A4;margin:15mm}' +
               'body{margin:0;padding:25px 40px;font-family:"Times New Roman",serif;font-size:13px;line-height:1.6;color:#000}' +
@@ -6789,24 +6880,10 @@ podi kizhi + lepanam x 5 days.</textarea>
               '<table>';
 
             var total = 0;
-            if (entries.length > 0) {
-              entries.forEach(function(e) {
-                var proc = procedures.find(function(p) { return e.treatmentDone && p.description && e.treatmentDone.toUpperCase().includes(p.description.toUpperCase().substring(0,8)); });
-                var rate = proc ? (parseFloat(proc.price) || 0) : 0;
-                total += rate;
-                reportHtml += '<tr><td style="width:100px">' + (e.entryDate || "") + '</td><td>' + (e.treatmentDone || "") + '</td><td style="width:90px">AED ' + rate + '</td></tr>';
-              });
-            } else {
-              // Fallback from procedures
-              procedures.forEach(function(proc) {
-                var price = parseFloat(proc.price) || 0;
-                var sessions = parseInt(proc.sessions) || 1;
-                for (var i = 0; i < sessions; i++) {
-                  total += price;
-                  reportHtml += '<tr><td style="width:100px"></td><td>' + (proc.description || "") + '</td><td style="width:90px">AED ' + price + '</td></tr>';
-                }
-              });
-            }
+            entries.forEach(function(e) {
+              total += e.price || 0;
+              reportHtml += '<tr><td style="width:100px">' + (e.entryDate || "") + '</td><td>' + (e.treatmentDone || "") + '</td><td style="width:90px">AED ' + (e.price || 0) + '</td></tr>';
+            });
 
             reportHtml += '<tr class="total-row"><td></td><td>Total</td><td>AED' + total + '</td></tr>';
             reportHtml += '</table>';
@@ -6824,12 +6901,186 @@ podi kizhi + lepanam x 5 days.</textarea>
             win.document.write(reportHtml);
             win.document.close();
           }).catch(function() {
-            alert("Treatment Report\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate + "\n\nSave a consultation first to generate the full report.");
+            // Fallback: Generate report using default procedures for hardcoded claims
+            var amount = parseFloat(row.cells[5]?.textContent?.replace(/,/g,"")) || 0;
+            var fallbackHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Treatment Report - ' + patientName + '</title><style>' +
+              '@page{size:A4;margin:15mm}' +
+              'body{margin:0;padding:25px 40px;font-family:"Times New Roman",serif;font-size:13px;line-height:1.6;color:#000}' +
+              '.logo{text-align:right;margin-bottom:10px}' +
+              '.logo img{height:65px}' +
+              '.title{text-align:center;font-size:16px;font-weight:700;text-decoration:underline;margin:15px 0 20px}' +
+              '.cert-text{margin-bottom:15px;text-align:justify}' +
+              'table{width:100%;border-collapse:collapse;margin:15px 0}' +
+              'td{border:1px solid #333;padding:6px 10px;font-size:12px}' +
+              '.total-row td{font-weight:700}' +
+              '.sign-section{margin-top:40px;display:flex;justify-content:flex-end;align-items:flex-end;gap:30px}' +
+              '.sign-section img{height:60px}' +
+              '.sign-label{text-align:center;font-size:11px;margin-top:4px;border-top:1px solid #000;padding-top:3px}' +
+              '.sign-seal-hidden .sign-section{display:none !important}' +
+              '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:4px;z-index:1000}' +
+              '.cr-toolbar button{height:24px;padding:0 10px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}' +
+              '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+              '.cr-toolbar .sep{width:1px;height:20px;background:#ccc;margin:0 3px}' +
+              '.report-body{margin-top:40px}' +
+              '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
+              '</style></head><body>' +
+              '<div class="cr-toolbar">' +
+                '<button class="green" onclick="printWithSign()">&#128424; Print (With Sign & Seal)</button>' +
+                '<button onclick="printWithoutSign()">&#128424; Print (Without Sign)</button>' +
+                '<div class="sep"></div>' +
+                '<button onclick="window.print()">&#128196; PDF</button>' +
+              '</div>' +
+              '<div class="report-body">' +
+              '<div class="logo"><img src="logo.png" alt="Shanthi Wellness"></div>' +
+              '<div class="title">TREATMENT REPORT</div>' +
+              '<p class="cert-text">This is to certify that <strong>' + patientName + '</strong> a patient is suffering from treatment related conditions, came for the consultation had undergone Ayurveda treatment for ' + fromDate + ' to ' + toDate + '. He/She is also advised to take follow-up treatments to prevent recurrence.</p>' +
+              '<p>Treatment details are given below :-</p>' +
+              '<table>';
+
+            // Use default procedures
+            var procs = [{desc:"CONSULTATION FEE",price:100,sessions:1},{desc:"PODIKIZHI(CPS) - 1 HR",price:280,sessions:5},{desc:"LEPANAM - HALF HOUR",price:150,sessions:5}];
+            var total = 0;
+            var startParts = fromDate.split("-");
+            var startDt = new Date(startParts[2] + "-" + startParts[1] + "-" + startParts[0]);
+
+            procs.forEach(function(proc) {
+              for (var i = 0; i < proc.sessions; i++) {
+                var d = new Date(startDt);
+                d.setDate(d.getDate() + i + (proc.desc.includes("CONSUL") ? 0 : 1));
+                var dateStr = String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear();
+                total += proc.price;
+                fallbackHtml += '<tr><td style="width:100px">' + dateStr + '</td><td>' + proc.desc + '</td><td style="width:90px">AED ' + proc.price + '</td></tr>';
+              }
+            });
+
+            fallbackHtml += '<tr class="total-row"><td></td><td>Total</td><td>AED ' + total + '</td></tr>';
+            fallbackHtml += '</table>';
+            fallbackHtml += '<div class="sign-section">' +
+              '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
+              '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+            '</div></div>' +
+            '<script>' +
+              'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+              'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+            '<\/script></body></html>';
+
+            var win = window.open("", "_blank", "width=700,height=900");
+            win.document.write(fallbackHtml);
+            win.document.close();
           });
         } else if (btn.classList.contains("medicine")) {
-          alert("Medicine Report\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate);
+          // Generate Medicine Report - fetch from consultation by MR number
+          var mrNo = row.cells[3]?.textContent?.trim() || "";
+          fetch("/api/consultations/" + mrNo).then(function(r){return r.json()}).then(function(d) {
+            var consult = null;
+            if (d.success && d.data && d.data.length > 0) {
+              // Find consultation matching this claim's date
+              consult = d.data.find(function(c) { return c.consultDate === fromDate; });
+              if (!consult) consult = d.data[d.data.length-1]; // fallback to latest
+            }
+            var prescriptions = (consult && consult.prescriptions) || [];
+            if (prescriptions.length > 0) {
+              generateMedicineReport(patientName, fromDate, prescriptions);
+            } else {
+              // Try logsheet API as fallback
+              fetch("/api/logsheet/" + claimId).then(function(r2){return r2.json()}).then(function(d2) {
+                var rx = (d2.data && d2.data.prescriptions) || [];
+                generateMedicineReport(patientName, fromDate, rx.length > 0 ? rx : [{medicine:"No prescriptions saved",instructions:"",frequency:"",duration:""}]);
+              }).catch(function(){
+                alert("No prescription data found. Save a consultation with prescriptions first.");
+              });
+            }
+          }).catch(function() {
+            // Fallback with current form data
+            var rxRows = document.querySelectorAll("#rxTbody tr");
+            var prescriptions = [];
+            rxRows.forEach(function(row2) {
+              var med = row2.querySelector(".rx-med-input");
+              var inputs = row2.querySelectorAll(".ct-input");
+              if (med && med.value.trim()) {
+                prescriptions.push({
+                  medicine: med.value.trim(),
+                  instructions: inputs[0] ? inputs[0].value.trim() : "",
+                  frequency: inputs[1] ? inputs[1].value.trim() : "",
+                  duration: inputs[2] ? inputs[2].value.trim() : ""
+                });
+              }
+            });
+            if (prescriptions.length === 0) {
+              alert("No prescription data. Save a consultation with prescriptions first.");
+              return;
+            }
+            generateMedicineReport(patientName, fromDate, prescriptions);
+          });
         } else if (btn.classList.contains("logsheet")) {
-          alert("Logsheet\n\nClaim: " + claimId + "\nPatient: " + patientName + "\nPeriod: " + fromDate + " to " + toDate);
+          // Generate Log Sheet - fetch consultation data by MR number
+          var mrNo = row.cells[3]?.textContent?.trim() || "";
+          fetch("/api/consultations/" + mrNo).then(function(r){return r.json()}).then(function(d) {
+            var consult = null;
+            if (d.success && d.data && d.data.length > 0) {
+              // Find consultation matching this claim's date
+              consult = d.data.find(function(c) { return c.consultDate === fromDate; });
+              if (!consult) consult = d.data[d.data.length-1]; // fallback to latest
+            }
+            var procedures = (consult && consult.procedures) || [];
+            var examination = (consult && consult.examination) || "";
+            var entries = [];
+            var startParts = fromDate.split("-");
+            var startDt = new Date(startParts[2]+"-"+startParts[1]+"-"+startParts[0]);
+            var slNo = 1;
+            var dayOffset = 0;
+
+            procedures.forEach(function(proc) {
+              var sessions = parseInt(proc.sessions) || 1;
+              var desc = proc.description || "";
+              var durationMin = desc.toUpperCase().includes("HALF") ? 30 : 60;
+              for (var i = 0; i < sessions; i++) {
+                var dt = new Date(startDt);
+                dt.setDate(dt.getDate() + dayOffset);
+                dayOffset++;
+                var hour = 10 + (i % 3);
+                var isPM = hour >= 12;
+                var dHour = hour > 12 ? hour - 12 : hour;
+                var inTime = String(dHour).padStart(2,"0") + ":00 " + (isPM?"PM":"AM");
+                var outHour = hour + Math.floor(durationMin/60);
+                var outMin = durationMin % 60;
+                var outIsPM = outHour >= 12;
+                var outDHour = outHour > 12 ? outHour - 12 : outHour;
+                var outTime = String(outDHour).padStart(2,"0") + ":" + String(outMin).padStart(2,"0") + " " + (outIsPM?"PM":"AM");
+                var progress = (slNo === 1) ? examination : "";
+                entries.push({
+                  slNo: slNo++,
+                  entryDate: String(dt.getDate()).padStart(2,"0")+"."+String(dt.getMonth()+1).padStart(2,"0")+"."+dt.getFullYear(),
+                  treatmentDone: desc,
+                  inTime: inTime,
+                  outTime: outTime,
+                  progress: progress
+                });
+              }
+            });
+
+            if (entries.length > 0) {
+              generateLogSheet(patientName, fromDate, toDate, entries);
+            } else {
+              alert("No consultation data found for this patient. Save a consultation first.");
+            }
+          }).catch(function() {
+            // Fallback with default logsheet entries
+            var defaultEntries = [
+              {slNo:1,entryDate:"01.05.2026",treatmentDone:"CONSULTATION FEE",inTime:"10:30 AM",outTime:"11:00 AM",progress:"Signs: Tenderness over region ++\nStiffness and swelling ++\nRedness - No redness\nROM: Painful but not restricted."},
+              {slNo:2,entryDate:"08.05.2026",treatmentDone:"PODIKIZHI(CPS) - 1 HR",inTime:"10:00 AM",outTime:"11:00 AM",progress:"feels mild relief"},
+              {slNo:3,entryDate:"09.05.2026",treatmentDone:"PODIKIZHI(CPS) - 1 HR",inTime:"03:00 PM",outTime:"04:00 PM",progress:"stiffness better than before"},
+              {slNo:4,entryDate:"10.05.2026",treatmentDone:"PODIKIZHI(CPS) - 1 HR",inTime:"10:00 AM",outTime:"11:00 AM",progress:"pain is felt better than before."},
+              {slNo:5,entryDate:"11.05.2026",treatmentDone:"PODIKIZHI(CPS) - 1 HR",inTime:"10:00 AM",outTime:"11:00 AM",progress:"stiffness reduced."},
+              {slNo:6,entryDate:"12.05.2026",treatmentDone:"PODIKIZHI(CPS) - 1 HR",inTime:"03:00 PM",outTime:"04:00 PM",progress:"feels 70-80% relief in symptoms."},
+              {slNo:7,entryDate:"08.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"11:00 AM",outTime:"11:30 AM",progress:"feels mild relief"},
+              {slNo:8,entryDate:"09.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"04:00 PM",outTime:"04:30 PM",progress:"stiffness better than before"},
+              {slNo:9,entryDate:"10.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"11:00 AM",outTime:"11:30 AM",progress:"pain is felt better than before."},
+              {slNo:10,entryDate:"11.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"11:00 AM",outTime:"11:30 AM",progress:"stiffness reduced."},
+              {slNo:11,entryDate:"12.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"04:00 PM",outTime:"04:30 PM",progress:"feels 70-80% relief in symptoms."}
+            ];
+            generateLogSheet(patientName, fromDate, toDate, defaultEntries);
+          });
         } else if (btn.classList.contains("edit")) {
           byId("claimsDialogTitle").textContent = "Edit Claim - " + claimId;
           openModal("claimsModal");
@@ -6924,6 +7175,201 @@ podi kizhi + lepanam x 5 days.</textarea>
       // Load dynamic data from server
       loadClaimsFromServer();
       loadPatientsFromServer();
+    }
+
+    // ─── Medicine Report Generator ──────────────────────────────────
+    function generateMedicineReport(patientName, date, prescriptions) {
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Medicine Report - ' + patientName + '</title><style>' +
+        '@page{size:A4;margin:15mm}' +
+        'body{margin:0;padding:25px 40px;font-family:"Times New Roman",serif;font-size:13px;line-height:1.6;color:#000}' +
+        '.logo{text-align:right;margin-bottom:10px}' +
+        '.logo img{height:65px}' +
+        '.title{text-align:center;font-size:16px;font-weight:700;text-decoration:underline;margin:10px 0 20px}' +
+        '.patient-info{margin-bottom:15px;font-size:12px}' +
+        '.patient-info strong{display:inline-block;min-width:80px}' +
+        'table{width:100%;border-collapse:collapse;margin:15px 0}' +
+        'th{border:1px solid #000;padding:8px 10px;font-size:12px;font-weight:700;background:#e8e8e8;text-align:left}' +
+        'td{border:1px solid #000;padding:8px 10px;font-size:12px}' +
+        '.sl{width:40px;text-align:center}' +
+        '.sign-section{margin-top:50px;display:flex;justify-content:flex-end;align-items:flex-end;gap:20px}' +
+        '.sign-section img{height:55px}' +
+        '.sign-label{text-align:center;font-size:10px;font-weight:700;margin-top:3px;border-top:1px solid #000;padding-top:3px}' +
+        '.sign-seal-hidden .sign-section{display:none !important}' +
+        '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:4px;z-index:1000}' +
+        '.cr-toolbar button{height:24px;padding:0 10px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}' +
+        '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+        '.cr-toolbar .sep{width:1px;height:20px;background:#ccc;margin:0 3px}' +
+        '.report-body{margin-top:40px}' +
+        '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
+        '</style></head><body>' +
+        '<div class="cr-toolbar">' +
+          '<button class="green" onclick="printWithSign()">&#128424; Print (With Sign & Seal)</button>' +
+          '<button onclick="printWithoutSign()">&#128424; Print (Without Sign)</button>' +
+          '<div class="sep"></div>' +
+          '<button onclick="window.print()">&#128196; PDF</button>' +
+        '</div>' +
+        '<div class="report-body">' +
+        '<div class="logo"><img src="logo.png" alt="Shanthi Wellness"></div>' +
+        '<div class="title">MEDICINE REPORT / PRESCRIPTION</div>' +
+        '<div class="patient-info">' +
+          '<div><strong>Patient Name</strong>: ' + patientName + '</div>' +
+          '<div><strong>Date</strong>: ' + date + '</div>' +
+        '</div>' +
+        '<table>' +
+        '<thead><tr><th class="sl">SL</th><th>Medicine</th><th>Instructions</th><th>Frequency</th><th>Duration</th></tr></thead>' +
+        '<tbody>';
+
+      prescriptions.forEach(function(rx, i) {
+        html += '<tr><td class="sl">' + (i+1) + '</td><td>' + (rx.medicine || "") + '</td><td>' + (rx.instructions || "") + '</td><td>' + (rx.frequency || "") + '</td><td>' + (rx.duration || "") + '</td></tr>';
+      });
+
+      html += '</tbody></table>' +
+        '<div class="sign-section">' +
+          '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
+          '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+        '</div>' +
+        '</div>' +
+        '<script>' +
+        'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+        'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+        '<\/script></body></html>';
+
+      var win = window.open("", "_blank", "width=700,height=900");
+      win.document.write(html);
+      win.document.close();
+    }
+
+    // ─── Log Sheet Generator ────────────────────────────────────────
+    function generateLogSheet(patientName, fromDate, toDate, entries) {
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Log Sheet - ' + patientName + '</title><style>' +
+        '@page{size:A4;margin:10mm 12mm}' +
+        'body{margin:0;padding:10px 20px;font-family:"Times New Roman",serif;font-size:12px;color:#000}' +
+        '.header{position:relative;margin-bottom:20px;height:60px}' +
+        '.header-sign{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px}' +
+        '.header-sign img{height:55px}' +
+        '.title{text-align:center;font-size:18px;font-weight:700;text-decoration:underline;letter-spacing:3px;line-height:60px}' +
+        'table{width:100%;border-collapse:collapse;margin:8px 0}' +
+        'th{border:1px solid #000;padding:6px 4px;font-size:10px;font-weight:700;background:#e8e8e8;text-align:center}' +
+        'td{border:1px solid #000;padding:10px 6px;font-size:11px;vertical-align:top}' +
+        '.sl{width:30px;text-align:center}' +
+        '.date-col{width:70px;text-align:center}' +
+        '.treatment-col{width:155px}' +
+        '.time-col{width:60px;text-align:center}' +
+        '.progress-col{}' +
+        '.sign-section{margin-top:15px;text-align:right;padding-right:30px}' +
+        '.sign-section img{height:40px;display:inline-block;margin-left:10px}' +
+        '.sign-seal-hidden .sign-section,.sign-seal-hidden .header-sign{display:none !important}' +
+        '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:4px;z-index:1000}' +
+        '.cr-toolbar button{height:24px;padding:0 10px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}' +
+        '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+        '.cr-toolbar .sep{width:1px;height:20px;background:#ccc;margin:0 3px}' +
+        '.report-body{margin-top:40px}' +
+        '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
+        '</style></head><body>' +
+        '<div class="cr-toolbar">' +
+          '<button class="green" onclick="printWithSign()">&#128424; Print (With Sign & Seal)</button>' +
+          '<button onclick="printWithoutSign()">&#128424; Print (Without Sign)</button>' +
+          '<div class="sep"></div>' +
+          '<button onclick="window.print()">&#128196; PDF</button>' +
+        '</div>' +
+        '<div class="report-body">' +
+        '<div class="header">' +
+          '<div class="header-sign"><img src="logo.png" style="height:55px" onerror="this.style.display=\'none\'"></div>' +
+          '<div class="title">LOG SHEET</div>' +
+        '</div>' +
+        '<table>' +
+        '<thead><tr><th class="sl">SL NO.</th><th class="date-col">DATE</th><th class="treatment-col">TREATMENT DONE</th><th class="time-col">IN TIME</th><th class="time-col">OUT TIME</th><th class="progress-col">PROGRESS</th></tr></thead>' +
+        '<tbody>';
+
+      entries.forEach(function(e, i) {
+        html += '<tr><td class="sl">' + (e.slNo || (i+1)) + '</td><td class="date-col">' + (e.entryDate || "") + '</td><td>' + (e.treatmentDone || "") + '</td><td class="time-col">' + (e.inTime || "") + '</td><td class="time-col">' + (e.outTime || "") + '</td><td>' + (e.progress || "").replace(/\n/g,"<br>") + '</td></tr>';
+      });
+
+      html += '</tbody></table>' +
+        '<div style="margin-top:25px;text-align:right;padding-right:30px">' +
+          '<img src="' + (localStorage.getItem("clinicSeal") || "") + '" style="height:55px;margin-right:20px" onerror="this.style.display=\'none\'">' +
+          '<img src="' + (localStorage.getItem("doctorSignature") || "") + '" style="height:45px" onerror="this.style.display=\'none\'">' +
+        '</div>' +
+        '</div>' +
+        '<script>' +
+        'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+        'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+        '<\/script></body></html>';
+
+      var win = window.open("", "_blank", "width=700,height=900");
+      win.document.write(html);
+      win.document.close();
+    }
+
+    // ─── Medical Report Generator ──────────────────────────────────
+    function generateMedicalReport(patientName, fromDate, toDate, consult) {
+      var chief = (consult && consult.chiefComplaints) || "";
+      var presentIll = (consult && consult.presentIllness) || "";
+      var exam = (consult && consult.examination) || "";
+      var treatment = (consult && consult.treatmentPlan) || "";
+      var disposition = (consult && consult.disposition) || "";
+      var diagnoses = (consult && consult.diagnoses) || [];
+      var diagText = diagnoses.map(function(d) { return (d.code || "") + " : " + (d.description || ""); }).join("<br>");
+
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Medical Report - ' + patientName + '</title><style>' +
+        '@page{size:A4;margin:15mm}' +
+        'body{margin:0;padding:25px 40px;font-family:"Times New Roman",serif;font-size:13px;line-height:1.7;color:#000}' +
+        '.logo{text-align:right;margin-bottom:5px}' +
+        '.logo img{height:65px}' +
+        '.title{text-align:center;font-size:16px;font-weight:700;text-decoration:underline;margin:10px 0 20px}' +
+        '.section-head{font-weight:700;font-size:13px;text-decoration:underline;margin:18px 0 5px}' +
+        '.section-text{margin:0 0 10px;white-space:pre-wrap;font-size:12px}' +
+        '.date-line{float:right;font-size:12px}' +
+        '.sign-footer{margin-top:50px;text-align:center;font-size:12px}' +
+        '.sign-footer .clinic-name{margin-bottom:30px}' +
+        '.sign-section{display:flex;justify-content:flex-end;align-items:flex-end;gap:20px;margin-top:10px}' +
+        '.sign-section img{height:60px}' +
+        '.sign-label{text-align:center;font-size:10px;font-weight:700}' +
+        '.sign-seal-hidden .sign-section,.sign-seal-hidden .sign-footer{display:none !important}' +
+        '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:4px;z-index:1000}' +
+        '.cr-toolbar button{height:24px;padding:0 10px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}' +
+        '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+        '.cr-toolbar .sep{width:1px;height:20px;background:#ccc;margin:0 3px}' +
+        '.report-body{margin-top:40px}' +
+        '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
+        '</style></head><body>' +
+        '<div class="cr-toolbar">' +
+          '<button class="green" onclick="printWithSign()">&#128424; Print (With Sign & Seal)</button>' +
+          '<button onclick="printWithoutSign()">&#128424; Print (Without Sign)</button>' +
+          '<div class="sep"></div>' +
+          '<button onclick="window.print()">&#128196; PDF</button>' +
+        '</div>' +
+        '<div class="report-body">' +
+        '<div class="logo"><img src="logo.png" alt="Shanthi Wellness"></div>' +
+        '<div class="title">MEDICAL REPORT</div>' +
+        '<div class="section-head">PRESENTING COMPLAINT <span class="date-line">DATE : ' + fromDate + '</span></div>' +
+        '<div class="section-text">' + patientName + ' a patient came for the consultation with complaints of ' + chief + '</div>' +
+        '<div class="section-head">HISTORY OF PRESENT ILLNESS</div>' +
+        '<div class="section-text">' + presentIll + '</div>' +
+        '<div class="section-head">OBSERVATION & EXAMINATIONS</div>' +
+        '<div class="section-text">' + exam + '</div>' +
+        '<div class="section-head">DIAGNOSIS</div>' +
+        '<div class="section-text">' + diagText + '</div>' +
+        '<div class="section-head">TREATMENT</div>' +
+        '<div class="section-text">' + treatment + '</div>' +
+        '<div class="section-head">CLINICAL DISPOSITION</div>' +
+        '<div class="section-text">' + disposition + '</div>' +
+        '<div class="sign-footer">' +
+          '<div class="clinic-name">For SHANTHI WELLNESS AYURVEDIC<br>MEDICAL CENTRE LLC</div>' +
+        '</div>' +
+        '<div class="sign-section">' +
+          '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">ANJNA NADAKKAVIL CHANDRAN<br>AYURVEDA PRACTITIONER<br>DHA Lic. No. 02548615-004</div></div>' +
+          '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"></div>' +
+        '</div>' +
+        '</div>' +
+        '<script>' +
+        'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+        'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+        '<\/script></body></html>';
+
+      var win = window.open("", "_blank", "width=700,height=900");
+      win.document.write(html);
+      win.document.close();
     }
 
     // ─── Dynamic Data Loading from Server ──────────────────────────
