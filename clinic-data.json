@@ -1,0 +1,516 @@
+{
+  "patients": [
+    {
+      "mrNo": "4749",
+      "recordNo": "ds",
+      "firstName": "sumesh",
+      "middleName": "as",
+      "lastName": "nil",
+      "mobile": "952685706",
+      "city": "asas",
+      "area": "as",
+      "address": "as",
+      "poBox": "a",
+      "emirate": "Dubai",
+      "status": "Active",
+      "eid": "1232232323",
+      "language": "English",
+      "category": "General",
+      "dob": "22/May/2026",
+      "years": "0",
+      "months": "0",
+      "days": "0",
+      "gender": "Male",
+      "regDate": "04-06-2026",
+      "religion": "Hindu",
+      "email": "Sumesh@ayurvedauae.com",
+      "passport": "9586625",
+      "marital": "Single",
+      "nationality": "Pakistan",
+      "job": "dsad",
+      "company": "sdasd",
+      "whatsapp": "dsd",
+      "homeTel": "sad",
+      "referral": "",
+      "notes": "sad",
+      "know": "GOOGLE",
+      "packageName": "None",
+      "packageStart": "22-05-2026",
+      "packageVisits": "0",
+      "packageBalance": "0",
+      "policyName": "",
+      "policyExpiry": "21-05-2027",
+      "insuranceLimit": "0",
+      "insuranceCoPay": "0",
+      "emergencyName": "",
+      "emergencyPhone": "",
+      "relationship": "",
+      "noOfChildren": "0",
+      "eidExpiry": "",
+      "vip": false,
+      "pregnant": false,
+      "medication": false
+    },
+    {
+      "mrNo": "4748",
+      "recordNo": "ds",
+      "firstName": "liju",
+      "middleName": "as",
+      "lastName": "asa",
+      "mobile": "as",
+      "city": "ass",
+      "area": "as",
+      "address": "sas",
+      "poBox": "sa",
+      "emirate": "Dubai",
+      "status": "Active",
+      "eid": "1232232323",
+      "language": "English",
+      "category": "General",
+      "dob": "22/May/2026",
+      "years": "0",
+      "months": "0",
+      "days": "0",
+      "gender": "Male",
+      "regDate": "04-06-2026",
+      "religion": "Not Specified",
+      "email": "lijuvma@gmail.com",
+      "passport": "sas",
+      "marital": "",
+      "nationality": "India",
+      "job": "dsad",
+      "company": "sdasd",
+      "whatsapp": "dsd",
+      "homeTel": "sad",
+      "referral": "",
+      "notes": "sad",
+      "know": "GOOGLE",
+      "packageName": "None",
+      "packageStart": "22-05-2026",
+      "packageVisits": "0",
+      "packageBalance": "0",
+      "policyName": "",
+      "policyExpiry": "21-05-2027",
+      "insuranceLimit": "0",
+      "insuranceCoPay": "0",
+      "emergencyName": "",
+      "emergencyPhone": "",
+      "relationship": "",
+      "noOfChildren": "0",
+      "eidExpiry": "",
+      "vip": false,
+      "pregnant": false,
+      "medication": false
+    },
+    {
+      "mrNo": "4747",
+      "recordNo": "ds",
+      "firstName": "juby",
+      "middleName": "john",
+      "lastName": "john",
+      "mobile": "95268570755",
+      "city": "asash",
+      "area": "asas",
+      "address": "asashas",
+      "poBox": "aad",
+      "emirate": "Sharjah",
+      "status": "Active",
+      "eid": "1232232323",
+      "language": "English",
+      "category": "General",
+      "dob": "22/May/2026",
+      "years": "0",
+      "months": "0",
+      "days": "0",
+      "gender": "Male",
+      "regDate": "04-06-2026",
+      "religion": "Hindu",
+      "email": "jubyjohnparappallil@gmail.com",
+      "passport": "sas",
+      "marital": "",
+      "nationality": "India",
+      "job": "",
+      "company": "",
+      "whatsapp": "",
+      "homeTel": "",
+      "referral": "",
+      "notes": "",
+      "know": "GOOGLE",
+      "packageName": "None",
+      "packageStart": "22-05-2026",
+      "packageVisits": "0",
+      "packageBalance": "0",
+      "policyName": "",
+      "policyExpiry": "21-05-2027",
+      "insuranceLimit": "0",
+      "insuranceCoPay": "0",
+      "emergencyName": "",
+      "emergencyPhone": "",
+      "relationship": "",
+      "noOfChildren": "0",
+      "eidExpiry": "",
+      "vip": false,
+      "pregnant": false,
+      "medication": false
+    }
+  ],
+  "consultations": [
+    {
+      "id": 1,
+      "mrNo": "4748",
+      "patientName": "liju as asa",
+      "consultDate": "04-06-2026",
+      "chiefComplaints": "AA",
+      "pastHistory": "",
+      "presentIllness": "sS",
+      "examination": "",
+      "treatmentPlan": "",
+      "disposition": "",
+      "procedures": [],
+      "prescriptions": [],
+      "diagnoses": [],
+      "createdAt": "2026-06-04T13:17:56.323Z"
+    },
+    {
+      "id": 2,
+      "mrNo": "4747",
+      "patientName": "juby john john",
+      "consultDate": "04-06-2026",
+      "chiefComplaints": "ASA",
+      "pastHistory": "",
+      "presentIllness": "S",
+      "examination": "ASAS",
+      "treatmentPlan": "",
+      "disposition": "SASD",
+      "procedures": [],
+      "prescriptions": [],
+      "diagnoses": [],
+      "createdAt": "2026-06-04T13:20:15.527Z"
+    },
+    {
+      "id": 3,
+      "mrNo": "4747",
+      "patientName": "juby john john",
+      "consultDate": "04-06-2026",
+      "doctor": "RESHMI",
+      "chiefComplaints": "ZXS",
+      "pastHistory": "A",
+      "presentIllness": "S",
+      "examination": "AS",
+      "treatmentPlan": "AS",
+      "disposition": "",
+      "procedures": [
+        {
+          "medCode": "1037",
+          "description": "LEPANAM - HALF HOUR",
+          "price": "150.00",
+          "sessions": "1.00",
+          "amount": "150.00"
+        }
+      ],
+      "prescriptions": [
+        {
+          "medicine": "Dasamoola Kashayam",
+          "instructions": "",
+          "frequency": "",
+          "duration": ""
+        }
+      ],
+      "diagnoses": [
+        {
+          "code": "M54.6",
+          "description": "Pain in thoracic spine"
+        }
+      ],
+      "createdAt": "2026-06-04T13:35:17.277Z"
+    },
+    {
+      "id": 4,
+      "mrNo": "4747",
+      "patientName": "juby john john",
+      "consultDate": "04-06-2026",
+      "doctor": "LINTU RAJAN",
+      "chiefComplaints": "A",
+      "pastHistory": "A",
+      "presentIllness": "A",
+      "examination": "Aaa",
+      "treatmentPlan": "sas",
+      "disposition": "ss",
+      "procedures": [
+        {
+          "medCode": "1037",
+          "description": "LEPANAM - HALF HOUR",
+          "price": "150.00",
+          "sessions": "1.00",
+          "amount": "150.00"
+        }
+      ],
+      "prescriptions": [
+        {
+          "medicine": "Dasamoola Kashayam",
+          "instructions": "",
+          "frequency": "",
+          "duration": ""
+        }
+      ],
+      "diagnoses": [
+        {
+          "code": "M54.9",
+          "description": "Dorsalgia, unspecified"
+        }
+      ],
+      "createdAt": "2026-06-04T14:34:36.759Z"
+    },
+    {
+      "id": 5,
+      "mrNo": "4748",
+      "patientName": "liju as asa",
+      "consultDate": "04-06-2026",
+      "doctor": "NEETHU",
+      "chiefComplaints": "sdsd",
+      "pastHistory": "sdsd",
+      "presentIllness": "sdsd",
+      "examination": "sdsd",
+      "treatmentPlan": "sdsd",
+      "disposition": "sdds",
+      "procedures": [
+        {
+          "medCode": "1003",
+          "description": "ABHYANGAM - HALF HOUR",
+          "price": "150.00",
+          "sessions": "1.00",
+          "amount": "150.00"
+        },
+        {
+          "medCode": "1003",
+          "description": "ABHYANGAM - HALF HOUR",
+          "price": "150.00",
+          "sessions": "1.00",
+          "amount": "150.00"
+        }
+      ],
+      "prescriptions": [
+        {
+          "medicine": "Triphala Choornam",
+          "instructions": "",
+          "frequency": "",
+          "duration": ""
+        }
+      ],
+      "diagnoses": [
+        {
+          "code": "M54.5",
+          "description": "Low back pain"
+        }
+      ],
+      "createdAt": "2026-06-04T14:40:45.237Z"
+    }
+  ],
+  "claims": [
+    {
+      "claimId": "S-0922",
+      "mrNo": "4748",
+      "patientName": "liju as asa",
+      "fromDate": "04-06-2026",
+      "toDate": "07-06-2026",
+      "amount": "300.00",
+      "receivedAmount": "0.00",
+      "consultationId": 5,
+      "createdAt": "2026-06-04T14:40:45.237Z"
+    },
+    {
+      "claimId": "S-0921",
+      "mrNo": "4747",
+      "patientName": "juby john john",
+      "fromDate": "04-06-2026",
+      "toDate": "06-06-2026",
+      "amount": "150.00",
+      "receivedAmount": "0.00",
+      "consultationId": 4,
+      "createdAt": "2026-06-04T14:34:36.760Z"
+    },
+    {
+      "claimId": "S-0920",
+      "mrNo": "4747",
+      "patientName": "juby john john",
+      "fromDate": "04-06-2026",
+      "toDate": "06-06-2026",
+      "amount": "150.00",
+      "receivedAmount": "0.00",
+      "consultationId": 3,
+      "createdAt": "2026-06-04T13:35:17.277Z"
+    },
+    {
+      "claimId": "S-0919",
+      "mrNo": "4747",
+      "patientName": "juby john john",
+      "fromDate": "04-06-2026",
+      "toDate": "05-06-2026",
+      "amount": "0.00",
+      "receivedAmount": "0.00",
+      "consultationId": 2,
+      "createdAt": "2026-06-04T13:20:15.527Z"
+    },
+    {
+      "claimId": "S-0918",
+      "mrNo": "4748",
+      "patientName": "liju as asa",
+      "fromDate": "04-06-2026",
+      "toDate": "05-06-2026",
+      "amount": "0.00",
+      "receivedAmount": "0.00",
+      "consultationId": 1,
+      "createdAt": "2026-06-04T13:17:56.326Z"
+    }
+  ],
+  "logsheetEntries": [
+    {
+      "claimId": "S-0918",
+      "slNo": 1,
+      "entryDate": "04.06.2026",
+      "treatmentDone": "CONSULTATION FEE",
+      "inTime": "10:30 AM",
+      "outTime": "11:00 AM",
+      "progress": ""
+    },
+    {
+      "claimId": "S-0919",
+      "slNo": 1,
+      "entryDate": "04.06.2026",
+      "treatmentDone": "CONSULTATION FEE",
+      "inTime": "10:30 AM",
+      "outTime": "11:00 AM",
+      "progress": "ASAS"
+    },
+    {
+      "claimId": "S-0920",
+      "slNo": 1,
+      "entryDate": "04.06.2026",
+      "treatmentDone": "CONSULTATION FEE",
+      "inTime": "10:30 AM",
+      "outTime": "11:00 AM",
+      "progress": "AS"
+    },
+    {
+      "claimId": "S-0920",
+      "slNo": 2,
+      "entryDate": "05.06.2026",
+      "treatmentDone": "LEPANAM - HALF HOUR",
+      "inTime": "10:00 AM",
+      "outTime": "10:30 AM",
+      "progress": ""
+    },
+    {
+      "claimId": "S-0921",
+      "slNo": 1,
+      "entryDate": "04.06.2026",
+      "treatmentDone": "CONSULTATION FEE",
+      "inTime": "10:30 AM",
+      "outTime": "11:00 AM",
+      "progress": "Aaa"
+    },
+    {
+      "claimId": "S-0921",
+      "slNo": 2,
+      "entryDate": "05.06.2026",
+      "treatmentDone": "LEPANAM - HALF HOUR",
+      "inTime": "10:00 AM",
+      "outTime": "10:30 AM",
+      "progress": ""
+    },
+    {
+      "claimId": "S-0922",
+      "slNo": 1,
+      "entryDate": "04.06.2026",
+      "treatmentDone": "CONSULTATION FEE",
+      "inTime": "10:30 AM",
+      "outTime": "11:00 AM",
+      "progress": "sdsd"
+    },
+    {
+      "claimId": "S-0922",
+      "slNo": 2,
+      "entryDate": "05.06.2026",
+      "treatmentDone": "ABHYANGAM - HALF HOUR",
+      "inTime": "10:00 AM",
+      "outTime": "10:30 AM",
+      "progress": ""
+    },
+    {
+      "claimId": "S-0922",
+      "slNo": 3,
+      "entryDate": "06.06.2026",
+      "treatmentDone": "ABHYANGAM - HALF HOUR",
+      "inTime": "10:00 AM",
+      "outTime": "10:30 AM",
+      "progress": ""
+    }
+  ],
+  "insuranceCompanies": [
+    {
+      "code": "INS000113",
+      "type": "TPA",
+      "providerId": "sdsd",
+      "phone": "sdsd",
+      "name": "ddsss ju "
+    },
+    {
+      "code": "INS000114",
+      "type": "TPA",
+      "providerId": "sdsd",
+      "phone": "SDszz",
+      "name": "ddsss ju "
+    },
+    {
+      "code": "INS000115",
+      "type": "DINS",
+      "providerId": "sdsd",
+      "phone": "SDszz",
+      "name": "ddsss ju "
+    }
+  ],
+  "insuranceMappings": [],
+  "signatures": {},
+  "nextIds": {
+    "patient": 4747,
+    "consultation": 6,
+    "claim": 923,
+    "insurance": 113
+  },
+  "appointments": [
+    {
+      "mrNo": "4747",
+      "patient": "juby john john",
+      "mobile": "95268570755",
+      "doctor": "RESHMI",
+      "time": "9:00 AM",
+      "date": "22/May/2026",
+      "status": "Booked",
+      "room": "ROOM NUMBER 4",
+      "notes": "Created by admin"
+    },
+    {
+      "mrNo": "4747",
+      "patient": "juby john john",
+      "mobile": "95268570755",
+      "doctor": "LINTU RAJAN",
+      "time": "8:30 AM",
+      "date": "22/May/2026",
+      "status": "Booked",
+      "room": "ROOM NUMBER 4",
+      "notes": "Created by admin"
+    },
+    {
+      "mrNo": "4748",
+      "patient": "liju as asa",
+      "mobile": "as",
+      "doctor": "NEETHU",
+      "time": "9:00 AM",
+      "date": "22/May/2026",
+      "status": "Booked",
+      "room": "ROOM NUMBER 4",
+      "notes": "Created by admin"
+    }
+  ],
+  "drugs": []
+}

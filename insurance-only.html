@@ -2869,38 +2869,33 @@ function inheritFromEMR() {
         <div class="screen-title green">Claims List</div>
         <div class="toolbar">
           <label class="check-radio"><input type="checkbox"> Patient</label>
-          <input type="search" placeholder="" style="width:140px">
+          <input type="search" id="claimsPatientSearch" placeholder="" style="width:140px">
           <button class="small-button" type="button">&#128269;</button>
           <span class="spacer"></span>
-          <span class="search-line">From Date <input type="text" value="18-05-2026" style="width:100px"></span>
-          <span class="search-line">To Date <input type="text" value="25-05-2026" style="width:100px"></span>
-          <button class="tool-button" type="button">&#128269; Search</button>
-          <button class="tool-button primary" type="button" id="claimsAdd">Add</button>
+          <span class="search-line">From Date <input type="text" id="claimsFromDate" value="27-04-2026" style="width:100px"></span>
+          <span class="search-line">To Date <input type="text" id="claimsToDate" value="15-05-2026" style="width:100px"></span>
+          <button class="tool-button" type="button" id="claimsSearchBtn">&#128269; Search</button>
+          <button class="tool-button" type="button" id="claimsEditBtn"><span class="mini-icon i-edit">/</span></button>
+          <button class="tool-button primary" type="button" id="claimsAdd">+ Add</button>
         </div>
         <div class="grid-shell">
           <table aria-label="Claims list">
             <colgroup>
-              <col style="width:90px">
-              <col style="width:100px">
-              <col style="width:100px">
-              <col style="width:60px">
+              <col style="width:80px">
+              <col style="width:95px">
+              <col style="width:95px">
+              <col style="width:55px">
               <col>
-              <col style="width:90px">
-              <col style="width:90px">
+              <col style="width:85px">
+              <col style="width:105px">
               <col style="width:200px">
             </colgroup>
             <thead>
               <tr><th>Claim ID</th><th>From Date</th><th>To Date</th><th>MRNO</th><th>Patient Name</th><th>Amount</th><th>Received Amount</th><th>Actions</th></tr>
             </thead>
-            <tbody>
-              <tr class="selected"><td style="color:#4caf50;font-weight:900">S-0913</td><td>18-05-2026</td><td>24-05-2026</td><td>4760</td><td>VINU MADHAVAN MADHAVAN PAZHANMALA</td><td>2,530.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
-              <tr><td>S-0914</td><td>21-05-2026</td><td>24-05-2026</td><td>4407</td><td>IRFAN ISMAIL PATEL PATEL ISMAIL HAROON</td><td>1,240.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
-              <tr><td>S-0915</td><td>18-05-2026</td><td>22-05-2026</td><td>4234</td><td>ADYAAN KARIM TALHA KARIM</td><td>1,300.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
-              <tr><td>S-0916</td><td>18-05-2026</td><td>25-05-2026</td><td>4770</td><td>RUSAILA MANGALATT ASIF</td><td>2,050.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
-              <tr><td>S-0917</td><td>21-05-2026</td><td>25-05-2026</td><td>4771</td><td>AMRUTHA THALAPPAN KAVILEVEEDU</td><td>800.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
-              <tr><td>S-0918</td><td>12-05-2026</td><td>18-05-2026</td><td>2919</td><td>RONITA BAAYA AGREGADO</td><td>2,250.00</td><td>0.00</td><td><div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div></td></tr>
-            </tbody>
+            <tbody id="claimsRows"></tbody>
           </table>
+          <div class="empty-message" id="claimsEmpty">No claims found.</div>
         </div>
       </section>
 
@@ -3024,6 +3019,52 @@ function inheritFromEMR() {
         </div>
       </section>
 
+      <section class="screen" id="drugMasterScreen" aria-label="Drug Master">
+        <div class="screen-title green">Drug Master List</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button" id="drugNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="drugEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="drugDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+          <button class="tool-button" type="button" id="drugUpload" style="margin-left:20px;background:#fff;border:1px solid #888;font-weight:700">&#8593; Upload</button>
+          <input type="file" id="drugFileInput" accept=".csv,.xlsx,.xls" style="display:none">
+          <span class="search-line">Search <input id="drugSearch" type="search" style="width: min(34vw, 520px)"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Drug Master list">
+            <colgroup>
+              <col style="width:60px">
+              <col style="width:160px">
+              <col style="width:120px">
+              <col style="width:160px">
+              <col style="width:90px">
+              <col style="width:80px">
+              <col style="width:60px">
+              <col style="width:80px">
+              <col style="width:70px">
+              <col style="width:110px">
+              <col style="width:50px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>DDC</th>
+                <th>Trade Name</th>
+                <th>Scientific Code</th>
+                <th>Scientific Name</th>
+                <th>Strength</th>
+                <th>Dosage</th>
+                <th>ROA</th>
+                <th>Pack Price</th>
+                <th>Gran Unit</th>
+                <th>Update Date</th>
+                <th>is Fbp</th>
+              </tr>
+            </thead>
+            <tbody id="drugRows"></tbody>
+          </table>
+          <div class="empty-message" id="drugEmpty">No drugs found.</div>
+        </div>
+      </section>
+
       <section class="screen" id="employeesScreen" aria-label="Employees">
         <div class="screen-title green">Employees</div>
         <div class="toolbar">
@@ -3115,6 +3156,42 @@ function inheritFromEMR() {
               <tr><td style="padding-left:24px">Allow FTP</td><td></td></tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <section class="screen" id="doctorManagementScreen" aria-label="Doctor Management">
+        <div class="screen-title green">Doctor Management - Signatures & Seals</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button" id="doctorAddBtn"><span class="mini-icon i-new">+</span>Add Doctor</button>
+          <button class="tool-button delete" type="button" id="doctorDeleteBtn"><span class="mini-icon i-delete">x</span>Delete</button>
+        </div>
+        <div class="grid-shell" style="max-height:none">
+          <table aria-label="Doctors list">
+            <colgroup>
+              <col style="width:180px">
+              <col style="width:140px">
+              <col style="width:140px">
+              <col style="width:100px">
+              <col style="width:100px">
+            </colgroup>
+            <thead>
+              <tr><th>Doctor Name</th><th>Licence ID</th><th>DHA No</th><th>Signature</th><th>Seal</th></tr>
+            </thead>
+            <tbody id="doctorMgmtRows"></tbody>
+          </table>
+        </div>
+        <div id="doctorSignPad" style="display:none;margin-top:10px;padding:10px;border:1px solid #ccc;background:#fff;border-radius:6px">
+          <div style="font-weight:700;margin-bottom:5px" id="signPadTitle">Draw Signature</div>
+          <canvas id="doctorCanvas" width="400" height="150" style="border:2px solid #43a047;border-radius:4px;cursor:crosshair;touch-action:none"></canvas>
+          <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+            <button class="tool-button" type="button" id="signPadClear">Clear</button>
+            <button class="tool-button primary" type="button" id="signPadSave">Save Drawing</button>
+            <span style="margin:0 8px;color:#888">OR</span>
+            <button class="tool-button" type="button" id="signPadUpload" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0">&#8593; Upload Image</button>
+            <input type="file" id="signPadFileInput" accept="image/*" style="display:none">
+            <span style="flex:1"></span>
+            <button class="tool-button" type="button" id="signPadCancel">Cancel</button>
+          </div>
         </div>
       </section>
 
@@ -3485,14 +3562,11 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     <footer class="status-bar">
       <span class="status-light" aria-hidden="true"></span>
-      <span>Developed By <span class="red-text">Kaizen Star Technologies LLC Dubai UAE</span></span>
-      <span>Powered by <span class="red-text">Kaizenstar Technologies India</span></span>
-      <span>Support <span class="green-text">+971 56 508 2227</span></span>
-      <span>Feedback <span class="green-text">+971 50 806 3342</span></span>
-      <span class="green-text">www.kaizendubai.com</span>
-      <span>Working on : shanthiyur_new</span>
+      <span>Developed By <span class="red-text">Shanthi Wellness Ayurvedic Medical Centre LLC</span></span>
+      <span>Support <span class="green-text">+971 42 255 133</span></span>
+      <span>Working on : shanthi_wellness</span>
       <span class="status-light" aria-hidden="true"></span>
-      <span>Ver: 1.0.0.12653</span>
+      <span>Ver: 1.0.0</span>
     </footer>
   </main>
 
@@ -3642,6 +3716,36 @@ podi kizhi + lepanam x 5 days.</textarea>
       <div class="dialog-actions">
         <button class="tool-button primary" type="submit">Save</button>
         <button class="tool-button" type="button" data-close="insuranceModal">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-layer" id="drugModal" role="dialog" aria-modal="true" aria-labelledby="drugDialogTitle">
+    <form class="dialog" id="drugForm" style="max-width:640px">
+      <div class="dialog-title"><span id="drugDialogTitle">Drug Master</span><button class="close-modal" type="button" data-close="drugModal">x</button></div>
+      <div class="dialog-body">
+        <div class="small-form-grid" style="grid-template-columns:1fr 1fr;">
+          <label class="form-field">Code<input name="code"></label>
+          <label class="form-field">DDC Code<input name="ddcCode" required></label>
+          <label class="form-field">Trade Name<input name="tradeName" required></label>
+          <label class="form-field">Scienti.Code<input name="scientificCode"></label>
+          <label class="form-field">Scienti.Name<input name="scientificName"></label>
+          <label class="form-field">Incre.Strength<input name="strength"></label>
+          <label class="form-field">Dosage<input name="dosage"></label>
+          <label class="form-field">Pkg.Price<input name="packPrice" type="number" min="0" step="0.01" value="0"></label>
+          <label class="form-field">Granular.Unit<input name="granUnit" type="number" min="0" step="0.01" value="0"></label>
+          <label class="form-field">UpdatedDate<input name="updatedDate" type="date"></label>
+          <label class="form-field">Route<input name="route"></label>
+          <label class="form-field">Manufacturer<input name="manufacturer"></label>
+          <label class="form-field">Owner<input name="owner"></label>
+          <label class="form-field">Code Type<input name="codeType"></label>
+          <label class="form-field">Status<input name="status"></label>
+          <label class="form-field" style="display:flex;align-items:center;gap:8px;padding-top:18px"><input type="checkbox" name="isEbp" style="width:auto"> IsEbp</label>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="tool-button primary" type="submit">Save</button>
+        <button class="tool-button" type="button" data-close="drugModal">Cancel</button>
       </div>
     </form>
   </div>
@@ -4385,6 +4489,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["SMS Settings", "g-receipt", "packages"],
       ["App. Settings", "g-company", "packages"],
       ["Signature", "g-doc", "signatureSettings"],
+      ["Doctors", "g-doc", "doctorManagement"],
       ["FTP", "g-inventory", "packages"],
       ["SMS Schedule", "g-doc", "packages"],
       ["Backup", "g-gift", "packages"],
@@ -4440,7 +4545,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     const emrMastersModules = [
       ["Diagnosis", "g-doc", "diagnosisList"],
-      ["Drug", "g-gift", "tariffMaster"],
+      ["Drug", "g-gift", "drugMaster"],
       ["Tariff Master", "g-bill", "tariffMaster"],
       ["Complaints", "g-receipt", "tariffMaster"],
       ["Radiology", "g-inventory", "tariffMaster"]
@@ -4459,45 +4564,11 @@ podi kizhi + lepanam x 5 days.</textarea>
     let insuranceMode = "new";
     let selectedAppointmentIndex = null;
 
-    let patients = [
-      { mrNo: "4746", regDate: "20-05-2026", firstName: "AMAN", middleName: "FAISAL KHAN", lastName: "FAISAL YUSUF KHAN", gender: "Male", mobile: "971507412478", referral: "", nationality: "India", dob: "14-02-2018", eid: "784-2018-1688520-2", city: "Dubai", area: "", address: "", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4745", regDate: "20-05-2026", firstName: "HAMZA", middleName: "JAMSHED", lastName: "JAMSHED KHAN", gender: "Male", mobile: "971552840028", referral: "", nationality: "Pakistan", dob: "23-11-1999", eid: "784-1999-2919184-1", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4744", regDate: "20-05-2026", firstName: "RINEESH", middleName: "KANNOTH", lastName: "PADINJARAYIL", gender: "Male", mobile: "971502684168", referral: "", nationality: "India", dob: "23-04-1987", eid: "784-1987-7462860-0", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Insurance", know: "FRIEND" },
-      { mrNo: "4743", regDate: "19-05-2026", firstName: "THAKUR", middleName: "", lastName: "SANWANT", gender: "Male", mobile: "971543023456", referral: "", nationality: "Nepal", dob: "25-12-1981", eid: "784-1981-9262950-3", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4742", regDate: "19-05-2026", firstName: "ASWATHY", middleName: "", lastName: "MENON", gender: "Female", mobile: "971525741238", referral: "", nationality: "India", dob: "19-05-2026", eid: "000-0000-0000000-0", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Package", know: "INSTAGRAM" },
-      { mrNo: "4741", regDate: "19-05-2026", firstName: "JUBY", middleName: "JOHN", lastName: "YOHANNAN PARAPPALLILVADAKETHIL", gender: "Female", mobile: "971522743676", referral: "", nationality: "India", dob: "10-04-1995", eid: "784-1995-1824662-6", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4740", regDate: "19-05-2026", firstName: "DILEEP", middleName: "KUMAR", lastName: "KOCHUTUNDIL", gender: "Male", mobile: "971569109722", referral: "", nationality: "India", dob: "30-05-1983", eid: "784-1983-1690715-7", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Insurance", know: "GOOGLE" },
-      { mrNo: "4739", regDate: "19-05-2026", firstName: "ANDREI", middleName: "MIGUEL", lastName: "", gender: "Male", mobile: "971568132724", referral: "", nationality: "Philippines", dob: "08-03-1996", eid: "784-1996-7613914-2", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "FRIEND" },
-      { mrNo: "4738", regDate: "19-05-2026", firstName: "PRADEEP", middleName: "KUMAR SINGH", lastName: "RANDHIR SINGH", gender: "Male", mobile: "971505940352", referral: "", nationality: "India", dob: "16-03-1975", eid: "784-1975-6437963-0", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4737", regDate: "19-05-2026", firstName: "JAISHNAVI", middleName: "", lastName: "AHER", gender: "Female", mobile: "971568824720", referral: "", nationality: "India", dob: "14-08-2019", eid: "784-2019-6513107-7", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4736", regDate: "19-05-2026", firstName: "ACHU", middleName: "ASHOK", lastName: "VELLAPPAN ASOKAN", gender: "Male", mobile: "971523451639", referral: "", nationality: "India", dob: "20-05-1988", eid: "784-1988-5796490-6", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Package", know: "SIGN BOARD" },
-      { mrNo: "4735", regDate: "19-05-2026", firstName: "JACKSON", middleName: "BANAYOS", lastName: "BATARA", gender: "Male", mobile: "971524479647", referral: "", nationality: "Philippines", dob: "08-08-1993", eid: "784-1993-8391307-8", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "Insurance", know: "GOOGLE" },
-      { mrNo: "4734", regDate: "19-05-2026", firstName: "JENNEL", middleName: "BAAYA", lastName: "AGREGADO", gender: "Female", mobile: "971552083538", referral: "", nationality: "Philippines", dob: "01-02-1987", eid: "784-1987-4807253-9", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" },
-      { mrNo: "4733", regDate: "18-05-2026", firstName: "HAASHINI", middleName: "BASKARAN", lastName: "BASKARAN THAMIL SELVAN", gender: "Female", mobile: "971557555637", referral: "", nationality: "India", dob: "01-08-2008", eid: "784-2008-1905075-6", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "FRIEND" },
-      { mrNo: "4732", regDate: "18-05-2026", firstName: "SARFARAZ", middleName: "AHMED", lastName: "MOHAMMED", gender: "Male", mobile: "971582766119", referral: "", nationality: "India", dob: "23-08-1990", eid: "784-1990-5154057-5", city: "Dubai", emirate: "Dubai", status: "Active", language: "English", category: "General", know: "GOOGLE" }
-    ];
+    let patients = [];
 
-    let insuranceRecords = [
-      { code: "INS000001", type: "DINS", providerId: "TPA005", name: "ATENA", phone: "" },
-      { code: "INS000002", type: "DINS", providerId: "TPA006", name: "AMITY HEALTH", phone: "" },
-      { code: "INS000003", type: "DINS", providerId: "INS027", name: "ADNIC INSURANCE", phone: "" },
-      { code: "INS000004", type: "DINS", providerId: "TPA003", name: "ALMADALLAH", phone: "" },
-      { code: "INS000005", type: "DINS", providerId: "TPA001", name: "NEURON", phone: "" },
-      { code: "INS000006", type: "DINS", providerId: "TPA002", name: "NEXTCARE", phone: "" },
-      { code: "INS000007", type: "DINS", providerId: "INS038", name: "NGI", phone: "" },
-      { code: "INS000008", type: "DINS", providerId: "INS012", name: "OMAN BUPA", phone: "" },
-      { code: "INS000009", type: "DINS", providerId: "INS015", name: "SAICO", phone: "" },
-      { code: "INS000010", type: "DINS", providerId: "INS129", name: "SAADA", phone: "" },
-      { code: "INS000108", type: "DINS", providerId: "INS028", name: "AETNA-AL AIN AHLIA", phone: "" },
-      { code: "INS000109", type: "DINS", providerId: "INS002", name: "ENAYA", phone: "" },
-      { code: "INS000112", type: "DINS", providerId: "INS139", name: "ORIENT UNB TAKAFUL PJSC", phone: "" }
-    ];
+    let insuranceRecords = [];
 
-    let receipts = [
-      { date: "22/05/2026", type: "Advance", receiptNo: "REC000451", mrNo: "4746", patientName: "AMAN FAISAL KHAN FAISAL YUSUF KHAN", amount: "250.00", mode: "Cash", status: "Collected" },
-      { date: "22/05/2026", type: "Due", receiptNo: "REC000452", mrNo: "4742", patientName: "ASWATHY MENON", amount: "75.00", mode: "Card", status: "Pending" },
-      { date: "20/05/2026", type: "Package", receiptNo: "REC000449", mrNo: "4745", patientName: "HAMZA JAMSHED JAMSHED KHAN", amount: "1200.00", mode: "Online", status: "Collected" }
-    ];
+    let receipts = [];
 
     let packageRecords = [
       { code: "AY000051", name: "20 SESSIONS WITH STEAM" },
@@ -4522,12 +4593,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       { code: "AY000073", name: "15 session with steam" }
     ];
 
-    let appointments = [
-      { mrNo: "2919", patient: "ELLIS RONITA JUDEROSHAN", mobile: "971556238838", doctor: "NEETHU", time: "9:00 AM", status: "Arrived", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
-      { mrNo: "4007", patient: "BETTY NIRU VELLICKARA VARGHESE BABY", mobile: "971502947720", doctor: "NEETHU", time: "12:00 PM", status: "Booked", room: "ROOM NUMBER 4", notes: "Therapist: NEETHU" },
-      { mrNo: "4748", patient: "MURSHIDA SIRAJ", mobile: "971509142600", doctor: "ANEESH", time: "10:30 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Therapist: ANEESH" },
-      { mrNo: "4742", patient: "ASWATHY MENON", mobile: "971525741238", doctor: "ANEESH", time: "11:00 AM", status: "Consulted", room: "ROOM NUMBER 3", notes: "Package review" }
-    ];
+    let appointments = [];
 
     const byId = (id) => document.getElementById(id);
     const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -4609,6 +4675,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (activeView === "employees") return "Employees";
       if (activeView === "receiptVoucher") return "Receipt Voucher";
       if (activeView === "tariffMaster") return "Tariff Master";
+      if (activeView === "drugMaster") return "Drug Master";
+      if (activeView === "doctorManagement") return "Doctor Management";
       if (activeView === "diagnosisList") return "Diagnosis List";
       if (activeView === "claimsList") return "Claims List";
       return "";
@@ -4954,6 +5022,12 @@ podi kizhi + lepanam x 5 days.</textarea>
         byId("consultPatientName").textContent = appt.patient || "";
         byId("consultMrNo").textContent = appt.mrNo || "";
       }
+      // Store the doctor from the appointment for this consultation
+      if (byId("consultDoctorName")) {
+        byId("consultDoctorName").textContent = appt.doctor || "";
+      }
+      // Store doctor in a hidden field for saving
+      window._consultDoctor = appt.doctor || "";
       activateView("consultation");
     }
 
@@ -4996,7 +5070,18 @@ podi kizhi + lepanam x 5 days.</textarea>
         renderSchedule();
       }
       if (action === "delete") {
+        var apptToDelete = appointments[selectedAppointmentIndex];
+        if (!confirm("Delete appointment" + (apptToDelete ? " for " + (apptToDelete.patient || "") : "") + "?")) { hideAppointmentMenu(); return; }
+        // Delete from server
+        if (apptToDelete) {
+          fetch("/api/appointments", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({_delete: true, doctor: apptToDelete.doctor, time: apptToDelete.time, date: apptToDelete.date})
+          }).catch(function(){});
+        }
         appointments.splice(selectedAppointmentIndex, 1);
+        selectedAppointmentIndex = null;
         renderSchedule();
       }
       if (action === "edit") {
@@ -5201,13 +5286,29 @@ podi kizhi + lepanam x 5 days.</textarea>
         patients = patients.map((patient) => patient.mrNo === data.mrNo ? { ...patient, ...data } : patient);
         selectedPatientMr = data.mrNo;
       } else {
-        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: "22-05-2026" };
+        const patient = { ...data, mrNo: data.mrNo || nextPatientMr(), regDate: formatTodayDate() };
         patients = [patient, ...patients];
         selectedPatientMr = patient.mrNo;
+        data.mrNo = patient.mrNo;
+        data.regDate = patient.regDate;
       }
       closeModal("patientModal");
       renderPatients();
       refreshPatientSelects();
+
+      // Save to server
+      fetch("/api/patients", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      }).then(function(r){return r.json()}).then(function(d) {
+        if (d.success) console.log("Patient saved to server: " + data.mrNo);
+      }).catch(function(e) { console.log("Patient save (offline):", e.message); });
+    }
+
+    function formatTodayDate() {
+      var d = new Date();
+      return String(d.getDate()).padStart(2,"0") + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + d.getFullYear();
     }
 
     function deletePatient() {
@@ -5218,6 +5319,12 @@ podi kizhi + lepanam x 5 days.</textarea>
       selectedPatientMr = patients[0]?.mrNo || "";
       renderPatients();
       refreshPatientSelects();
+
+      // Delete from server
+      fetch("/api/patients/" + patient.mrNo, { method: "DELETE" })
+        .then(function(r){return r.json()})
+        .then(function(d) { if (d.success) console.log("Patient deleted from server"); })
+        .catch(function(){});
     }
 
     function setInsuranceForm(record) {
@@ -5248,6 +5355,15 @@ podi kizhi + lepanam x 5 days.</textarea>
       selectedInsuranceCode = record.code;
       closeModal("insuranceModal");
       renderInsurance();
+
+      // Save to server
+      fetch("/api/insurance", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(record)
+      }).then(function(r){return r.json()}).then(function(d) {
+        if (d.success) console.log("Insurance saved to server: " + record.code);
+      }).catch(function(){});
     }
 
     function deleteInsurance() {
@@ -5257,6 +5373,246 @@ podi kizhi + lepanam x 5 days.</textarea>
       insuranceRecords = insuranceRecords.filter((item) => item.code !== record.code);
       selectedInsuranceCode = insuranceRecords[0]?.code || "";
       renderInsurance();
+
+      // Delete from server
+      fetch("/api/insurance/" + record.code, { method: "DELETE" })
+        .catch(function(){});
+    }
+
+    // ─── Drug Master ─────────────────────────────────────────────────
+    let drugs = [];
+    let selectedDrugIndex = -1;
+    let drugMode = "new";
+
+    // Pre-loaded drug data
+    var defaultDrugs = [
+      {ddcCode:"AYR",tradeName:"Dasamoolakatutray...",scientificCode:"",scientificName:"Dasamoolakatutray...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"09/02/2023",isEbp:true},
+      {ddcCode:"AYR",tradeName:"SAJNA TABLET",scientificCode:"",scientificName:"SAJNA TABLET",strength:"",dosage:"",route:"ORL",packPrice:"0.00",granUnit:"0.00",updatedDate:"18/09/2023",isEbp:true},
+      {ddcCode:"AYR",tradeName:"BHADRA DARVADI...",scientificCode:"",scientificName:"BHADRA DARVADI...",strength:"",dosage:"",route:"ORL",packPrice:"0.00",granUnit:"0.00",updatedDate:"25/09/2023",isEbp:true},
+      {ddcCode:"AYK",tradeName:"ASHTAVARGAM KAS...",scientificCode:"",scientificName:"ASHTAVARGAM KAS...",strength:"",dosage:"",route:"ORL",packPrice:"0.00",granUnit:"0.00",updatedDate:"30/09/2023",isEbp:true},
+      {ddcCode:"AYK",tradeName:"RASNASAPTHAKAM...",scientificCode:"",scientificName:"RASNASAPTHAKAM...",strength:"",dosage:"",route:"ORL",packPrice:"0.00",granUnit:"0.00",updatedDate:"30/09/2023",isEbp:true},
+      {ddcCode:"AYU",tradeName:"GANTHARVAHASTA...",scientificCode:"CLINIC",scientificName:"GANTHARVAHASTA...",strength:"",dosage:"",route:"ORL",packPrice:"0.00",granUnit:"0.00",updatedDate:"30/09/2023",isEbp:true},
+      {ddcCode:"AYR",tradeName:"Abayarishtam",scientificCode:"",scientificName:"Abayarishtam",strength:"",dosage:"",route:"ORL",packPrice:"60.00",granUnit:"10.00",updatedDate:"02/10/2025",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Agastyarasayanam",scientificCode:"",scientificName:"Agastyarasayanam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Ajamamsa rasayanam",scientificCode:"",scientificName:"Ajamamsa rasayanam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Ajashwagandhadi l...",scientificCode:"",scientificName:"Ajashwagandhadi l...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Allerin tablet",scientificCode:"",scientificName:"Allerin tablet",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Amla powder",scientificCode:"",scientificName:"Amla powder",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Amrithamehari cho...",scientificCode:"",scientificName:"Amrithamehari cho...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Amrutharishtam",scientificCode:"",scientificName:"Amrutharishtam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Amruthotharam kas...",scientificCode:"",scientificName:"Amruthotharam kas...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Amruthotharam kas...",scientificCode:"",scientificName:"Amruthotharam kas...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Annabedhi sindhoor...",scientificCode:"",scientificName:"Annabedhi sindhoor...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Anu thailam",scientificCode:"",scientificName:"Anu thailam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Aragwadarishtam",scientificCode:"",scientificName:"Aragwadarishtam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Aragwadhadi kasha...",scientificCode:"",scientificName:"Aragwadhadi kasha...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Aragwadhadi kashy...",scientificCode:"",scientificName:"Aragwadhadi kashy...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Aravindasavam",scientificCode:"",scientificName:"Aravindasavam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Arimedadi Thailam",scientificCode:"",scientificName:"Arimedadi Thailam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Arjuna Tab",scientificCode:"",scientificName:"Arjuna Tab",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Arogyavardhini gulika",scientificCode:"",scientificName:"Arogyavardhini gulika",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Ashtachoornam",scientificCode:"",scientificName:"Ashtachoornam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Ashtavargam kasha...",scientificCode:"",scientificName:"Ashtavargam kasha...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Ashtavargam kashy...",scientificCode:"",scientificName:"Ashtavargam kashy...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Ashwagandha Caps...",scientificCode:"",scientificName:"Ashwagandha Caps...",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Asnaeladi thailam",scientificCode:"",scientificName:"Asnaeladi thailam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false},
+      {ddcCode:"AYR",tradeName:"Asnavilwadi thailam",scientificCode:"",scientificName:"Asnavilwadi thailam",strength:"",dosage:"",route:"",packPrice:"0.00",granUnit:"0.00",updatedDate:"23/01/2023",isEbp:false}
+    ];
+
+    function renderDrugs() {
+      const search = (byId("drugSearch")?.value || "").toLowerCase();
+      const filtered = drugs.filter(function(d) {
+        return !search || (d.tradeName || "").toLowerCase().includes(search) ||
+          (d.scientificName || "").toLowerCase().includes(search) ||
+          (d.ddcCode || "").toLowerCase().includes(search) ||
+          (d.route || "").toLowerCase().includes(search);
+      });
+      const rows = filtered.map(function(d, i) {
+        const idx = drugs.indexOf(d);
+        return '<tr class="' + (idx === selectedDrugIndex ? 'selected' : '') + '" data-drug-idx="' + idx + '">' +
+          '<td>' + escapeHtml(d.ddcCode || '') + '</td>' +
+          '<td>' + escapeHtml(d.tradeName || '') + '</td>' +
+          '<td>' + escapeHtml(d.scientificCode || '') + '</td>' +
+          '<td>' + escapeHtml(d.scientificName || '') + '</td>' +
+          '<td>' + escapeHtml(d.strength || '') + '</td>' +
+          '<td>' + escapeHtml(d.dosage || '') + '</td>' +
+          '<td>' + escapeHtml(d.route || '') + '</td>' +
+          '<td>' + (parseFloat(d.packPrice) || 0).toFixed(2) + '</td>' +
+          '<td>' + (parseFloat(d.granUnit) || 0).toFixed(2) + '</td>' +
+          '<td>' + escapeHtml(d.updatedDate || '') + '</td>' +
+          '<td>' + (d.isEbp ? '&#10003;' : '') + '</td>' +
+          '</tr>';
+      }).join('');
+      byId("drugRows").innerHTML = rows;
+      byId("drugEmpty").style.display = filtered.length ? "none" : "block";
+    }
+
+    function openDrugDialog(mode) {
+      drugMode = mode;
+      byId("drugDialogTitle").textContent = mode === "edit" ? "Edit Drug" : "New Drug";
+      const form = byId("drugForm");
+      form.reset();
+      if (mode === "edit" && drugs[selectedDrugIndex]) {
+        const d = drugs[selectedDrugIndex];
+        form.elements.code.value = d.code || '';
+        form.elements.ddcCode.value = d.ddcCode || '';
+        form.elements.tradeName.value = d.tradeName || '';
+        form.elements.scientificCode.value = d.scientificCode || '';
+        form.elements.scientificName.value = d.scientificName || '';
+        form.elements.strength.value = d.strength || '';
+        form.elements.dosage.value = d.dosage || '';
+        form.elements.packPrice.value = d.packPrice || 0;
+        form.elements.granUnit.value = d.granUnit || 0;
+        form.elements.updatedDate.value = d.updatedDate || '';
+        form.elements.route.value = d.route || '';
+        form.elements.manufacturer.value = d.manufacturer || '';
+        form.elements.owner.value = d.owner || '';
+        form.elements.codeType.value = d.codeType || '';
+        form.elements.status.value = d.status || '';
+        form.elements.isEbp.checked = !!d.isEbp;
+      }
+      openModal("drugModal");
+      form.elements.tradeName.focus();
+    }
+
+    function saveDrug(event) {
+      event.preventDefault();
+      const form = byId("drugForm");
+      const record = {
+        code: form.elements.code.value.trim(),
+        ddcCode: form.elements.ddcCode.value.trim(),
+        tradeName: form.elements.tradeName.value.trim(),
+        scientificCode: form.elements.scientificCode.value.trim(),
+        scientificName: form.elements.scientificName.value.trim(),
+        strength: form.elements.strength.value.trim(),
+        dosage: form.elements.dosage.value.trim(),
+        packPrice: form.elements.packPrice.value,
+        granUnit: form.elements.granUnit.value,
+        updatedDate: form.elements.updatedDate.value,
+        route: form.elements.route.value.trim(),
+        manufacturer: form.elements.manufacturer.value.trim(),
+        owner: form.elements.owner.value.trim(),
+        codeType: form.elements.codeType.value.trim(),
+        status: form.elements.status.value.trim(),
+        isEbp: form.elements.isEbp.checked
+      };
+      if (drugMode === "edit" && selectedDrugIndex >= 0) {
+        drugs[selectedDrugIndex] = record;
+      } else {
+        drugs.unshift(record);
+        selectedDrugIndex = 0;
+      }
+      closeModal("drugModal");
+      renderDrugs();
+
+      // Save to server
+      fetch("/api/drugs", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(record)
+      }).then(function(r){return r.json()}).then(function(d) {
+        if (d.success) console.log("Drug saved: " + record.tradeName);
+      }).catch(function(){});
+    }
+
+    function deleteDrug() {
+      if (selectedDrugIndex < 0 || !drugs[selectedDrugIndex]) return;
+      const d = drugs[selectedDrugIndex];
+      if (!window.confirm('Delete drug: ' + d.tradeName + '?')) return;
+      drugs.splice(selectedDrugIndex, 1);
+      selectedDrugIndex = drugs.length ? 0 : -1;
+      renderDrugs();
+
+      // Delete from server
+      fetch("/api/drugs/" + encodeURIComponent(d.tradeName), { method: "DELETE" })
+        .catch(function(){});
+    }
+
+    function loadDrugs() {
+      fetch("/api/drugs").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data && d.data.length) {
+          drugs = d.data;
+        } else {
+          drugs = defaultDrugs.slice();
+        }
+        renderDrugs();
+      }).catch(function(){
+        drugs = defaultDrugs.slice();
+        renderDrugs();
+      });
+    }
+
+    function uploadDrugsCSV(file) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var text = e.target.result;
+        var lines = text.split(/\r?\n/).filter(function(l) { return l.trim(); });
+        if (lines.length < 2) { alert("File is empty or has no data rows."); return; }
+        // Parse header
+        var header = lines[0].split(",").map(function(h) { return h.trim().toLowerCase().replace(/[^a-z0-9]/g, ''); });
+        // Map headers to our fields
+        var fieldMap = {
+          ddc: 'ddcCode', ddccode: 'ddcCode', code: 'code',
+          tradename: 'tradeName', trade: 'tradeName',
+          scientificcode: 'scientificCode', scienticode: 'scientificCode',
+          scientificname: 'scientificName', scientiname: 'scientificName',
+          strength: 'strength', increstrength: 'strength',
+          dosage: 'dosage',
+          roa: 'route', route: 'route',
+          packprice: 'packPrice', pkgprice: 'packPrice', price: 'packPrice',
+          granunit: 'granUnit', granularunit: 'granUnit',
+          updatedate: 'updatedDate', drugmupdatedate: 'updatedDate', updateddate: 'updatedDate',
+          isebp: 'isEbp', isfbp: 'isEbp', fbp: 'isEbp',
+          manufacturer: 'manufacturer', owner: 'owner', codetype: 'codeType', status: 'status'
+        };
+        var mapped = header.map(function(h) { return fieldMap[h] || null; });
+
+        var imported = 0;
+        for (var i = 1; i < lines.length; i++) {
+          var cols = parseCSVLine(lines[i]);
+          var record = {};
+          for (var j = 0; j < cols.length; j++) {
+            if (mapped[j]) {
+              var val = cols[j].trim();
+              if (mapped[j] === 'isEbp') {
+                record[mapped[j]] = val === '1' || val.toLowerCase() === 'true' || val === '✓';
+              } else {
+                record[mapped[j]] = val;
+              }
+            }
+          }
+          if (record.tradeName || record.ddcCode) {
+            drugs.push(record);
+            imported++;
+          }
+        }
+        renderDrugs();
+        alert(imported + " drugs imported successfully!");
+
+        // Save all to server
+        fetch("/api/drugs/bulk", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ drugs: drugs })
+        }).then(function(r){return r.json()}).then(function(d) {
+          if (d.success) console.log("All drugs saved to server");
+        }).catch(function(){});
+      };
+      reader.readAsText(file);
+    }
+
+    function parseCSVLine(line) {
+      var result = [];
+      var current = '';
+      var inQuotes = false;
+      for (var i = 0; i < line.length; i++) {
+        var ch = line[i];
+        if (ch === '"') { inQuotes = !inQuotes; }
+        else if (ch === ',' && !inQuotes) { result.push(current); current = ''; }
+        else { current += ch; }
+      }
+      result.push(current);
+      return result;
     }
 
     function refreshPatientSelects() {
@@ -5291,19 +5647,48 @@ podi kizhi + lepanam x 5 days.</textarea>
       const time = byId("apptStartTime") ? byId("apptStartTime").value : (data.time || "9:00 AM");
       const doctor = byId("apptDoctor") ? byId("apptDoctor").value : data.doctor;
       const room = data.room || "ROOM NUMBER 4";
-      appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time));
-      appointments.push({
+      const apptDate = data.date || byId("apptDate")?.value || "";
+      appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time && item.date === apptDate));
+      var newAppt = {
         mrNo: data.mrNo,
         patient: patient ? fullName(patient) : "",
         mobile: patient?.mobile || "",
         doctor: doctor,
         time: time,
+        date: apptDate,
         status: "Booked",
         room: room,
         notes: data.notes || ""
-      });
+      };
+      appointments.push(newAppt);
       closeModal("appointmentModal");
       renderSchedule();
+
+      // Save to server
+      fetch("/api/appointments", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(newAppt)
+      }).then(function(r){return r.json()}).then(function(d) {
+        if (d.success) console.log("Appointment saved to server");
+      }).catch(function(){});
+
+      // Send appointment confirmation email
+      if (patient && patient.email) {
+        fetch("/api/send-email", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            email: patient.email,
+            patientName: fullName(patient),
+            date: apptDate,
+            time: time,
+            doctor: doctor
+          })
+        }).then(function(r){return r.json()}).then(function(d) {
+          if (d.success) console.log("Appointment email sent to " + patient.email);
+        }).catch(function(){});
+      }
     }
 
     function seedTimeOptions() {
@@ -5442,6 +5827,67 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("insuranceNew").addEventListener("click", () => openInsuranceDialog("new"));
       byId("insuranceEdit").addEventListener("click", () => openInsuranceDialog("edit"));
       byId("insuranceDelete").addEventListener("click", deleteInsurance);
+      byId("drugNew").addEventListener("click", () => openDrugDialog("new"));
+      byId("drugEdit").addEventListener("click", () => openDrugDialog("edit"));
+      byId("drugDelete").addEventListener("click", deleteDrug);
+      byId("drugForm").addEventListener("submit", saveDrug);
+      byId("drugSearch").addEventListener("input", renderDrugs);
+      byId("drugUpload").addEventListener("click", function() { byId("drugFileInput").click(); });
+      byId("drugFileInput").addEventListener("change", function(e) {
+        if (e.target.files && e.target.files[0]) {
+          uploadDrugsCSV(e.target.files[0]);
+          e.target.value = '';
+        }
+      });
+      byId("drugRows").addEventListener("click", function(event) {
+        const row = event.target.closest("tr");
+        if (!row) return;
+        selectedDrugIndex = Number(row.dataset.drugIdx);
+        renderDrugs();
+      });
+      byId("drugRows").addEventListener("dblclick", function(event) {
+        const row = event.target.closest("tr");
+        if (!row) return;
+        selectedDrugIndex = Number(row.dataset.drugIdx);
+        openDrugDialog("edit");
+      });
+      // Doctor Management
+      byId("doctorAddBtn")?.addEventListener("click", function() {
+        var name = prompt("Enter Doctor Name:");
+        if (!name) return;
+        var licenceId = prompt("Enter Licence ID (optional):") || "";
+        var dhaNo = prompt("Enter DHA No (optional):") || "";
+        var doc = {name: name.toUpperCase().trim(), licenceId: licenceId, dhaNo: dhaNo};
+        doctorProfiles.push(doc);
+        renderDoctorMgmt();
+        fetch("/api/doctors", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(doc)}).catch(function(){});
+      });
+      byId("doctorDeleteBtn")?.addEventListener("click", function() {
+        if (selectedDoctorIdx < 0 || !doctorProfiles[selectedDoctorIdx]) return;
+        var doc = doctorProfiles[selectedDoctorIdx];
+        if (!confirm("Delete doctor: " + doc.name + "?")) return;
+        doctorProfiles.splice(selectedDoctorIdx, 1);
+        selectedDoctorIdx = -1;
+        renderDoctorMgmt();
+        fetch("/api/doctors/" + encodeURIComponent(doc.name), {method:"DELETE"}).catch(function(){});
+      });
+      byId("doctorMgmtRows")?.addEventListener("click", function(e) {
+        var row = e.target.closest("tr");
+        var btn = e.target.closest("[data-doc-sign]");
+        if (btn) {
+          signPadMode = btn.dataset.docSign;
+          signPadDoctor = btn.dataset.docName;
+          byId("signPadTitle").textContent = "Draw " + (signPadMode === "seal" ? "Seal" : "Signature") + " for " + signPadDoctor;
+          byId("doctorSignPad").style.display = "block";
+          var ctx = byId("doctorCanvas").getContext("2d");
+          ctx.clearRect(0, 0, 400, 150);
+          return;
+        }
+        if (row && row.dataset.docIdx !== undefined) {
+          selectedDoctorIdx = Number(row.dataset.docIdx);
+          renderDoctorMgmt();
+        }
+      });
       byId("packageNew").addEventListener("click", addPackage);
       byId("packageEdit").addEventListener("click", editPackage);
       byId("packageDelete").addEventListener("click", deletePackage);
@@ -5558,10 +6004,10 @@ podi kizhi + lepanam x 5 days.</textarea>
         const button = event.target.closest("[data-appt-action]");
         if (!button) return;
         handleAppointmentAction(button.dataset.apptAction);
+        hideAllMenus();
       });
 
       byId("arrivedMenu").addEventListener("click", (event) => {
-        event.stopPropagation();
         const button = event.target.closest("[data-arrived-action]");
         if (!button) return;
         const action = button.dataset.arrivedAction;
@@ -5569,7 +6015,22 @@ podi kizhi + lepanam x 5 days.</textarea>
           openNewAppointmentForSlot("", "");
         } else if (action === "delete") {
           if (selectedAppointmentIndex != null) {
+            var apptToDelete = appointments[selectedAppointmentIndex];
+            if (!confirm("Delete appointment" + (apptToDelete ? " for " + (apptToDelete.patient || "") : "") + "?\nThis will also delete the consultation if exists.")) { hideAllMenus(); return; }
+            // Delete consultation from server if exists
+            if (apptToDelete && apptToDelete.mrNo) {
+              fetch("/api/consultations/" + apptToDelete.mrNo, {method: "DELETE"}).catch(function(){});
+            }
+            // Delete appointment from server
+            if (apptToDelete) {
+              fetch("/api/appointments", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({_delete: true, doctor: apptToDelete.doctor, time: apptToDelete.time, date: apptToDelete.date})
+              }).catch(function(){});
+            }
             appointments.splice(selectedAppointmentIndex, 1);
+            selectedAppointmentIndex = null;
             renderSchedule();
           }
         } else if (action === "invoice") {
@@ -5614,8 +6075,9 @@ podi kizhi + lepanam x 5 days.</textarea>
         hideAllMenus();
       });
 
-      document.addEventListener("click", (event) => {
-        if (!event.target.closest(".appointment-menu") && !event.target.closest(".appointment-card") && !event.target.closest(".slot")) {
+      document.addEventListener("mousedown", (event) => {
+        const isInsideMenu = event.target.closest(".appointment-menu") || event.target.closest(".arrived-menu") || event.target.closest(".slot-menu") || event.target.closest("#slotMenu") || event.target.closest("#appointmentMenu") || event.target.closest("#arrivedMenu");
+        if (!isInsideMenu) {
           hideAllMenus();
         }
       });
@@ -5638,6 +6100,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           mrNo: document.getElementById("consultMrNo")?.textContent || "",
           patientName: document.getElementById("consultPatientName")?.textContent || "",
           consultDate: document.getElementById("consultDate")?.value || "",
+          doctor: window._consultDoctor || "",
           chiefComplaints: document.getElementById("consultChiefComplaints")?.value || "",
           pastHistory: document.getElementById("consultPastHistory")?.value || "",
           presentIllness: document.getElementById("consultPresentIllness")?.value || "",
@@ -6554,6 +7017,9 @@ podi kizhi + lepanam x 5 days.</textarea>
         byId("claimsDialogTitle").textContent = "★ Claims";
         openModal("claimsModal");
       });
+      // Claims search
+      byId("claimsPatientSearch")?.addEventListener("input", renderClaimsList);
+      byId("claimsSearchBtn")?.addEventListener("click", renderClaimsList);
 
       // Insurance Claims - Patient search
       // Insurance Claims - Patient search (only shows patients with consultations)
@@ -6887,9 +7353,10 @@ podi kizhi + lepanam x 5 days.</textarea>
 
             reportHtml += '<tr class="total-row"><td></td><td>Total</td><td>AED' + total + '</td></tr>';
             reportHtml += '</table>';
+            var tDoctorName = (consult && consult.doctor) || "";
             reportHtml += '<div class="sign-section">' +
-              '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
-              '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+              '<div style="text-align:center"><img src="' + getDoctorSignature(tDoctorName) + '" onerror="this.style.display=\'none\'"><div class="sign-label">' + tDoctorName + '<br>AYURVEDA PRACTITIONER</div></div>' +
+              '<div style="text-align:center"><img src="' + getDoctorSeal(tDoctorName) + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
             '</div>';
             reportHtml += '</div>';
             reportHtml += '<script>' +
@@ -6956,8 +7423,8 @@ podi kizhi + lepanam x 5 days.</textarea>
             fallbackHtml += '<tr class="total-row"><td></td><td>Total</td><td>AED ' + total + '</td></tr>';
             fallbackHtml += '</table>';
             fallbackHtml += '<div class="sign-section">' +
-              '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
-              '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+              '<div style="text-align:center"><img src="' + getDoctorSignature("") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
+              '<div style="text-align:center"><img src="' + getDoctorSeal("") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
             '</div></div>' +
             '<script>' +
               'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
@@ -6969,48 +7436,19 @@ podi kizhi + lepanam x 5 days.</textarea>
             win.document.close();
           });
         } else if (btn.classList.contains("medicine")) {
-          // Generate Medicine Report - fetch from consultation by MR number
+          // Generate Medical Report (Rx style - logo right, address left, no blue heading)
           var mrNo = row.cells[3]?.textContent?.trim() || "";
           fetch("/api/consultations/" + mrNo).then(function(r){return r.json()}).then(function(d) {
             var consult = null;
             if (d.success && d.data && d.data.length > 0) {
-              // Find consultation matching this claim's date
               consult = d.data.find(function(c) { return c.consultDate === fromDate; });
-              if (!consult) consult = d.data[d.data.length-1]; // fallback to latest
+              if (!consult) consult = d.data[d.data.length-1];
             }
-            var prescriptions = (consult && consult.prescriptions) || [];
-            if (prescriptions.length > 0) {
-              generateMedicineReport(patientName, fromDate, prescriptions);
-            } else {
-              // Try logsheet API as fallback
-              fetch("/api/logsheet/" + claimId).then(function(r2){return r2.json()}).then(function(d2) {
-                var rx = (d2.data && d2.data.prescriptions) || [];
-                generateMedicineReport(patientName, fromDate, rx.length > 0 ? rx : [{medicine:"No prescriptions saved",instructions:"",frequency:"",duration:""}]);
-              }).catch(function(){
-                alert("No prescription data found. Save a consultation with prescriptions first.");
-              });
-            }
+            if (!consult) consult = {};
+            consult.mrNo = consult.mrNo || mrNo;
+            generateRxReport(patientName, fromDate, toDate, consult);
           }).catch(function() {
-            // Fallback with current form data
-            var rxRows = document.querySelectorAll("#rxTbody tr");
-            var prescriptions = [];
-            rxRows.forEach(function(row2) {
-              var med = row2.querySelector(".rx-med-input");
-              var inputs = row2.querySelectorAll(".ct-input");
-              if (med && med.value.trim()) {
-                prescriptions.push({
-                  medicine: med.value.trim(),
-                  instructions: inputs[0] ? inputs[0].value.trim() : "",
-                  frequency: inputs[1] ? inputs[1].value.trim() : "",
-                  duration: inputs[2] ? inputs[2].value.trim() : ""
-                });
-              }
-            });
-            if (prescriptions.length === 0) {
-              alert("No prescription data. Save a consultation with prescriptions first.");
-              return;
-            }
-            generateMedicineReport(patientName, fromDate, prescriptions);
+            generateRxReport(patientName, fromDate, toDate, {mrNo: mrNo});
           });
         } else if (btn.classList.contains("logsheet")) {
           // Generate Log Sheet - fetch consultation data by MR number
@@ -7060,7 +7498,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             });
 
             if (entries.length > 0) {
-              generateLogSheet(patientName, fromDate, toDate, entries);
+              generateLogSheet(patientName, fromDate, toDate, entries, (consult && consult.doctor) || "");
             } else {
               alert("No consultation data found for this patient. Save a consultation first.");
             }
@@ -7079,7 +7517,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               {slNo:10,entryDate:"11.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"11:00 AM",outTime:"11:30 AM",progress:"stiffness reduced."},
               {slNo:11,entryDate:"12.05.2026",treatmentDone:"LEPANAM - HALF HOUR",inTime:"04:00 PM",outTime:"04:30 PM",progress:"feels 70-80% relief in symptoms."}
             ];
-            generateLogSheet(patientName, fromDate, toDate, defaultEntries);
+            generateLogSheet(patientName, fromDate, toDate, defaultEntries, "");
           });
         } else if (btn.classList.contains("edit")) {
           byId("claimsDialogTitle").textContent = "Edit Claim - " + claimId;
@@ -7175,31 +7613,163 @@ podi kizhi + lepanam x 5 days.</textarea>
       // Load dynamic data from server
       loadClaimsFromServer();
       loadPatientsFromServer();
+      loadAppointmentsFromServer();
+      loadInsuranceFromServer();
+      loadDrugs();
+      loadDoctorProfiles();
+      initDoctorSignPad();
     }
 
-    // ─── Medicine Report Generator ──────────────────────────────────
-    function generateMedicineReport(patientName, date, prescriptions) {
-      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Medicine Report - ' + patientName + '</title><style>' +
-        '@page{size:A4;margin:15mm}' +
-        'body{margin:0;padding:25px 40px;font-family:"Times New Roman",serif;font-size:13px;line-height:1.6;color:#000}' +
-        '.logo{text-align:right;margin-bottom:10px}' +
-        '.logo img{height:65px}' +
-        '.title{text-align:center;font-size:16px;font-weight:700;text-decoration:underline;margin:10px 0 20px}' +
-        '.patient-info{margin-bottom:15px;font-size:12px}' +
-        '.patient-info strong{display:inline-block;min-width:80px}' +
-        'table{width:100%;border-collapse:collapse;margin:15px 0}' +
-        'th{border:1px solid #000;padding:8px 10px;font-size:12px;font-weight:700;background:#e8e8e8;text-align:left}' +
-        'td{border:1px solid #000;padding:8px 10px;font-size:12px}' +
-        '.sl{width:40px;text-align:center}' +
-        '.sign-section{margin-top:50px;display:flex;justify-content:flex-end;align-items:flex-end;gap:20px}' +
-        '.sign-section img{height:55px}' +
-        '.sign-label{text-align:center;font-size:10px;font-weight:700;margin-top:3px;border-top:1px solid #000;padding-top:3px}' +
+    // ─── Doctor Management (Signatures & Seals) ─────────────────────
+    var doctorProfiles = [];
+    var doctorSignatures = {};
+    var selectedDoctorIdx = -1;
+    var signPadMode = ""; // "signature" or "seal"
+    var signPadDoctor = "";
+
+    function loadDoctorProfiles() {
+      fetch("/api/doctors").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data) doctorProfiles = d.data;
+        renderDoctorMgmt();
+      }).catch(function(){});
+      fetch("/api/doctor-sign").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data) doctorSignatures = d.data;
+        renderDoctorMgmt();
+      }).catch(function(){});
+    }
+
+    function renderDoctorMgmt() {
+      var tbody = byId("doctorMgmtRows");
+      if (!tbody) return;
+      var html = doctorProfiles.map(function(doc, i) {
+        var sigKey = doc.name + '_signature';
+        var sealKey = doc.name + '_seal';
+        var hasSig = !!doctorSignatures[sigKey];
+        var hasSeal = !!doctorSignatures[sealKey];
+        return '<tr class="' + (i === selectedDoctorIdx ? 'selected' : '') + '" data-doc-idx="' + i + '">' +
+          '<td style="font-weight:700">' + escapeHtml(doc.name) + '</td>' +
+          '<td>' + escapeHtml(doc.licenceId || '') + '</td>' +
+          '<td>' + escapeHtml(doc.dhaNo || '') + '</td>' +
+          '<td><button class="tool-button" type="button" data-doc-sign="signature" data-doc-name="' + escapeHtml(doc.name) + '" style="font-size:9px;padding:2px 6px;background:' + (hasSig ? '#c8e6c9' : '#fff') + '">' + (hasSig ? '&#10003; Captured' : 'Capture') + '</button></td>' +
+          '<td><button class="tool-button" type="button" data-doc-sign="seal" data-doc-name="' + escapeHtml(doc.name) + '" style="font-size:9px;padding:2px 6px;background:' + (hasSeal ? '#c8e6c9' : '#fff') + '">' + (hasSeal ? '&#10003; Captured' : 'Capture') + '</button></td>' +
+          '</tr>';
+      }).join('');
+      tbody.innerHTML = html;
+    }
+
+    function getDoctorSignature(doctorName) {
+      var key = doctorName + '_signature';
+      return doctorSignatures[key] || localStorage.getItem("doctorSignature") || "";
+    }
+
+    function getDoctorSeal(doctorName) {
+      var key = doctorName + '_seal';
+      return doctorSignatures[key] || localStorage.getItem("clinicSeal") || "";
+    }
+
+    function initDoctorSignPad() {
+      var canvas = byId("doctorCanvas");
+      if (!canvas) return;
+      var ctx = canvas.getContext("2d");
+      var drawing = false;
+      function getPos(e) {
+        var r = canvas.getBoundingClientRect();
+        var t = e.touches ? e.touches[0] : e;
+        return {x: t.clientX - r.left, y: t.clientY - r.top};
+      }
+      canvas.addEventListener("mousedown", function(e) { drawing = true; ctx.beginPath(); var p = getPos(e); ctx.moveTo(p.x, p.y); });
+      canvas.addEventListener("mousemove", function(e) { if (!drawing) return; ctx.lineWidth = 2.5; ctx.lineCap = "round"; ctx.strokeStyle = "#000"; var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+      canvas.addEventListener("mouseup", function() { drawing = false; });
+      canvas.addEventListener("touchstart", function(e) { e.preventDefault(); drawing = true; ctx.beginPath(); var p = getPos(e); ctx.moveTo(p.x, p.y); });
+      canvas.addEventListener("touchmove", function(e) { e.preventDefault(); if (!drawing) return; ctx.lineWidth = 2.5; ctx.lineCap = "round"; ctx.strokeStyle = "#000"; var p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+      canvas.addEventListener("touchend", function() { drawing = false; });
+
+      byId("signPadClear").addEventListener("click", function() { ctx.clearRect(0, 0, canvas.width, canvas.height); });
+      byId("signPadCancel").addEventListener("click", function() { byId("doctorSignPad").style.display = "none"; });
+      byId("signPadUpload").addEventListener("click", function() { byId("signPadFileInput").click(); });
+      byId("signPadFileInput").addEventListener("change", function(e) {
+        if (!e.target.files || !e.target.files[0]) return;
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+          var data = ev.target.result;
+          doctorSignatures[signPadDoctor + '_' + signPadMode] = data;
+          fetch("/api/doctor-sign", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({doctor: signPadDoctor, type: signPadMode, data: data})
+          }).then(function(r){return r.json()}).then(function() {
+            renderDoctorMgmt();
+          }).catch(function(){});
+          byId("doctorSignPad").style.display = "none";
+          alert((signPadMode === "seal" ? "Seal" : "Signature") + " uploaded for " + signPadDoctor);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+        e.target.value = '';
+      });
+      byId("signPadSave").addEventListener("click", function() {
+        var data = canvas.toDataURL("image/png");
+        doctorSignatures[signPadDoctor + '_' + signPadMode] = data;
+        fetch("/api/doctor-sign", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({doctor: signPadDoctor, type: signPadMode, data: data})
+        }).then(function(r){return r.json()}).then(function() {
+          renderDoctorMgmt();
+        }).catch(function(){});
+        byId("doctorSignPad").style.display = "none";
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    // ─── Rx Report Generator (Medical Prescription - Logo Right, Address Left) ──
+    function generateRxReport(patientName, fromDate, toDate, consult) {
+      var doctorName = (consult && consult.doctor) || "ANJNA NADAKKAVIL CHANDRAN";
+      var mrNo = (consult && consult.mrNo) || "";
+      var pat = patients.find(function(p) { return p.mrNo === mrNo; });
+      var dob = (pat && pat.dob) || "";
+      var nationality = (pat && pat.nationality) || "India";
+      var sex = (pat && pat.gender) || "Female";
+      var mobile = (pat && (pat.mobile || pat.phone)) || "";
+      var licenceId = (consult && consult.licenceId) || "";
+      var diagnoses = (consult && consult.diagnoses) || [];
+      var icdCode = diagnoses.length ? (diagnoses[0].code || "") : "";
+      var diagnosis = diagnoses.length ? (diagnoses[0].description || "") : "";
+      var prescriptions = (consult && consult.prescriptions) || [];
+
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Medical Prescription - ' + patientName + '</title><style>' +
+        '@page{size:A4;margin:12mm}' +
+        'body{margin:0;padding:20px 30px;font-family:Arial,sans-serif;font-size:11px;color:#000}' +
+        '.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;padding-bottom:5px}' +
+        '.header-left{text-align:left;font-size:9px;color:#333;line-height:1.5}' +
+        '.header-left .clinic-name{font-weight:700;font-size:10px;color:#000}' +
+        '.header-right{text-align:right}' +
+        '.header-right img{height:75px}' +
+        '.prescription-title{text-align:center;font-size:13px;font-weight:700;border:1px solid #000;padding:4px;margin:5px 0;background:#f5f5f5}' +
+        '.info-table{width:100%;border-collapse:collapse;margin:3px 0}' +
+        '.info-table td{border:1px solid #000;padding:3px 6px;font-size:10px}' +
+        '.info-table .lbl{font-weight:700;width:85px}' +
+        '.doctor-table{width:100%;border-collapse:collapse;margin:3px 0}' +
+        '.doctor-table td{border:1px solid #000;padding:3px 6px;font-size:10px}' +
+        '.doctor-table .lbl{font-weight:700;width:85px}' +
+        '.icd-section{margin:5px 0;font-size:10px;border:1px solid #000;padding:3px 6px}' +
+        '.icd-section .lbl{font-weight:700}' +
+        '.med-table{width:100%;border-collapse:collapse;margin:8px 0}' +
+        '.med-table th{border:1px solid #000;padding:5px 6px;font-size:10px;font-weight:700;background:#bbb;text-align:left}' +
+        '.med-table td{border:1px solid #000;padding:5px 6px;font-size:10px;vertical-align:top}' +
+        '.med-table .sl{width:40px;text-align:center}' +
+        '.med-table .type{width:60px;text-align:center}' +
+        '.duration-note{margin-top:20px;font-size:12px;font-style:italic}' +
+        '.sign-section{margin-top:30px;display:flex;justify-content:flex-end;align-items:flex-end;gap:25px;padding-right:10px}' +
+        '.sign-box{text-align:center}' +
+        '.sign-box img{height:45px;display:block;margin:0 auto}' +
+        '.sign-box .name{font-size:9px;font-weight:700;margin-top:3px}' +
+        '.seal-box img{height:60px}' +
         '.sign-seal-hidden .sign-section{display:none !important}' +
-        '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:4px;z-index:1000}' +
-        '.cr-toolbar button{height:24px;padding:0 10px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}' +
+        '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:38px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 12px;gap:6px;z-index:1000}' +
+        '.cr-toolbar button{height:26px;padding:0 12px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:11px;font-weight:700;cursor:pointer;border-radius:3px}' +
         '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
-        '.cr-toolbar .sep{width:1px;height:20px;background:#ccc;margin:0 3px}' +
-        '.report-body{margin-top:40px}' +
+        '.cr-toolbar .sep{width:1px;height:22px;background:#ccc;margin:0 4px}' +
+        '.report-body{margin-top:44px}' +
         '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
         '</style></head><body>' +
         '<div class="cr-toolbar">' +
@@ -7209,24 +7779,171 @@ podi kizhi + lepanam x 5 days.</textarea>
           '<button onclick="window.print()">&#128196; PDF</button>' +
         '</div>' +
         '<div class="report-body">' +
-        '<div class="logo"><img src="logo.png" alt="Shanthi Wellness"></div>' +
-        '<div class="title">MEDICINE REPORT / PRESCRIPTION</div>' +
-        '<div class="patient-info">' +
-          '<div><strong>Patient Name</strong>: ' + patientName + '</div>' +
-          '<div><strong>Date</strong>: ' + date + '</div>' +
+        '<div class="header">' +
+          '<div class="header-left">' +
+            '<div class="clinic-name">SHANTHI WELLNESS AYURVEDIC<br>MEDICAL CENTRE LLC</div>' +
+            '<div>SUITE M19 ROYAL HOUSE<br>AL WUHEIDA STREET<br>DUBAI - UAE</div>' +
+            '<div>www.ayurvedauae.com</div>' +
+          '</div>' +
+          '<div class="header-right">' +
+            '<img src="logo.png" alt="Shanthi Wellness">' +
+          '</div>' +
         '</div>' +
-        '<table>' +
-        '<thead><tr><th class="sl">SL</th><th>Medicine</th><th>Instructions</th><th>Frequency</th><th>Duration</th></tr></thead>' +
-        '<tbody>';
+        '<div class="prescription-title">Medical Prescription</div>' +
+        '<table class="info-table">' +
+          '<tr><td class="lbl">MR No</td><td>' + mrNo + '</td><td class="lbl">Name</td><td>' + patientName + '</td></tr>' +
+          '<tr><td class="lbl">DOB</td><td>' + dob + '</td><td class="lbl">Sex</td><td>' + sex + '</td></tr>' +
+          '<tr><td class="lbl">Nationality</td><td>' + nationality + '</td><td class="lbl">Mobile</td><td>' + mobile + '</td></tr>' +
+        '</table>' +
+        '<table class="doctor-table">' +
+          '<tr><td class="lbl">Doctor</td><td colspan="3">' + doctorName + '</td></tr>' +
+          '<tr><td class="lbl">LicenceID</td><td colspan="3">' + licenceId + '</td></tr>' +
+          '<tr><td class="lbl">Date</td><td colspan="3">' + fromDate + '</td></tr>' +
+        '</table>' +
+        '<div class="icd-section"><span class="lbl">ICDCode</span> &nbsp;' + icdCode + ' &nbsp;&nbsp;&nbsp; <span class="lbl">Diagnosis</span> &nbsp;' + diagnosis + '</div>' +
+        '<table class="med-table">' +
+          '<thead><tr><th class="sl">SL NO</th><th>Medicine</th><th class="type">Type</th></tr></thead>' +
+          '<tbody>';
+
+      if (prescriptions.length > 0) {
+        prescriptions.forEach(function(rx, i) {
+          var medicine = (rx.medicine || '').toUpperCase();
+          var instructions = '';
+          if (rx.frequency) instructions += rx.frequency;
+          if (rx.duration) instructions += ' (' + rx.duration + ')';
+          if (rx.instructions) instructions += ' ' + rx.instructions;
+          html += '<tr><td class="sl">' + (i+1) + '</td><td><strong>' + medicine + '</strong><br>' + instructions.trim() + '</td><td>Primary</td></tr>';
+        });
+      } else {
+        html += '<tr><td class="sl">1</td><td><strong>AMRUTHOTTARAM KASHAYAM TABLET</strong><br>TWICE DAILY (2 WEEKS) 2 TABLETS TWICE DAILY BEFORE FOOD</td><td>Primary</td></tr>';
+        html += '<tr><td class="sl">2</td><td><strong>RASNA SAPTHAKAM KASHAYAM TABLET</strong><br>TWICE DAILY (2 WEEKS) 1 TABLET TWICE DAILY BEFORE FOOD</td><td>Primary</td></tr>';
+        html += '<tr><td class="sl">3</td><td><strong>YOGA RAJA GUGGULU TABLET</strong><br>TWICE DAILY (2 WEEKS) 2 TABLETS TWICE DAILY BEFORE FOOD</td><td>Primary</td></tr>';
+      }
+
+      html += '</tbody></table>' +
+        '<div class="sign-section">' +
+          '<div class="sign-box"><img src="' + getDoctorSignature(doctorName) + '" onerror="this.style.display=\'none\'"><div class="name">' + doctorName + '<br>AYURVEDA PRACTITIONER</div></div>' +
+          '<div class="seal-box"><img src="' + getDoctorSeal(doctorName) + '" onerror="this.style.display=\'none\'"></div>' +
+        '</div>' +
+        '</div>' +
+        '<script>' +
+        'function printWithSign(){document.body.classList.remove("sign-seal-hidden");window.print();}' +
+        'function printWithoutSign(){document.body.classList.add("sign-seal-hidden");window.print();setTimeout(function(){document.body.classList.remove("sign-seal-hidden")},1000);}' +
+        '<\/script></body></html>';
+
+      var win = window.open("", "_blank", "width=700,height=900");
+      win.document.write(html);
+      win.document.close();
+    }
+
+    // ─── Medicine Report Generator ──────────────────────────────────
+    function generateMedicineReport(patientName, date, prescriptions, options) {
+      // options: { withSign: true/false } - if not provided, show toolbar with both options
+      // Get patient info from the claim/consultation context
+      var mrNo = options?.mrNo || '';
+      var dob = options?.dob || '';
+      var nationality = options?.nationality || '';
+      var sex = options?.sex || '';
+      var mobile = options?.mobile || '';
+      var doctorName = options?.doctor || 'ANJNA NADAKKAVIL CHANDRAN';
+      var licenceId = options?.licenceId || '';
+      var icdCode = options?.icdCode || '';
+      var diagnosis = options?.diagnosis || '';
+
+      // Try to find patient details
+      if (patientName && !mrNo) {
+        var pat = patients.find(function(p) { return (p.firstName + ' ' + (p.middleName||'') + ' ' + (p.lastName||'')).trim().toUpperCase().includes(patientName.toUpperCase()) || p.mrNo === patientName; });
+        if (!pat) pat = patients.find(function(p) { return patientName.includes(p.firstName); });
+        if (pat) {
+          mrNo = pat.mrNo || '';
+          dob = pat.dob || '';
+          nationality = pat.nationality || '';
+          sex = pat.gender || '';
+          mobile = pat.mobile || pat.phone || '';
+        }
+      }
+
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Medical Prescription - ' + patientName + '</title><style>' +
+        '@page{size:A4;margin:12mm}' +
+        'body{margin:0;padding:20px 30px;font-family:Arial,sans-serif;font-size:12px;color:#000}' +
+        '.header{text-align:center;margin-bottom:10px;position:relative}' +
+        '.header img{height:60px}' +
+        '.header h1{font-family:"Brush Script MT",cursive;font-size:32px;margin:0;color:#1a237e}' +
+        '.header p{font-size:11px;margin:2px 0;color:#333}' +
+        '.prescription-title{text-align:center;font-size:15px;font-weight:700;border:2px solid #000;padding:5px;margin:10px 0;background:#f0f0f0}' +
+        '.info-table{width:100%;border-collapse:collapse;margin:5px 0}' +
+        '.info-table td{border:1px solid #000;padding:4px 8px;font-size:11px}' +
+        '.info-table .label{font-weight:700;background:#f5f5f5;width:90px}' +
+        '.info-table .val{min-width:150px}' +
+        '.doctor-table{width:100%;border-collapse:collapse;margin:5px 0}' +
+        '.doctor-table td{border:1px solid #000;padding:4px 8px;font-size:11px}' +
+        '.doctor-table .label{font-weight:700;background:#f5f5f5;width:90px}' +
+        '.icd-table{width:100%;border-collapse:collapse;margin:5px 0}' +
+        '.icd-table td{border:1px solid #000;padding:4px 8px;font-size:11px}' +
+        '.icd-table .label{font-weight:700;background:#f5f5f5;width:90px}' +
+        '.med-table{width:100%;border-collapse:collapse;margin:10px 0}' +
+        '.med-table th{border:1px solid #000;padding:6px 8px;font-size:11px;font-weight:700;background:#d0d0d0;text-align:left}' +
+        '.med-table td{border:1px solid #000;padding:6px 8px;font-size:11px;vertical-align:top}' +
+        '.med-table .sl{width:40px;text-align:center}' +
+        '.med-table .type{width:60px;text-align:center}' +
+        '.sign-section{margin-top:40px;display:flex;justify-content:flex-end;align-items:flex-end;gap:30px;padding-right:20px}' +
+        '.sign-box{text-align:center}' +
+        '.sign-box img{height:50px;display:block;margin:0 auto}' +
+        '.sign-box .name{font-size:10px;font-weight:700;margin-top:5px}' +
+        '.sign-box .title-text{font-size:9px}' +
+        '.seal-box{text-align:center}' +
+        '.seal-box img{height:70px}' +
+        '.sign-seal-hidden .sign-section{display:none !important}' +
+        '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:38px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 12px;gap:6px;z-index:1000}' +
+        '.cr-toolbar button{height:26px;padding:0 12px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:11px;font-weight:700;cursor:pointer;border-radius:3px}' +
+        '.cr-toolbar button.green{background:linear-gradient(#43a047,#2e7d32);color:#fff;border-color:#2e7d32}' +
+        '.cr-toolbar .sep{width:1px;height:22px;background:#ccc;margin:0 4px}' +
+        '.report-body{margin-top:44px}' +
+        '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
+        '</style></head><body>' +
+        '<div class="cr-toolbar">' +
+          '<button class="green" onclick="printWithSign()">&#128424; Print (With Sign & Seal)</button>' +
+          '<button onclick="printWithoutSign()">&#128424; Print (Without Sign)</button>' +
+          '<div class="sep"></div>' +
+          '<button onclick="window.print()">&#128196; PDF</button>' +
+        '</div>' +
+        '<div class="report-body">' +
+        '<div class="header">' +
+          '<img src="logo.png" alt="Shanthi Wellness" onerror="this.style.display=\'none\'">' +
+          '<h1>Shanthi Wellness</h1>' +
+          '<p>Ayurvedic Medical Centre LLC</p>' +
+        '</div>' +
+        '<div class="prescription-title">Medical Prescription</div>' +
+        '<table class="info-table">' +
+          '<tr><td class="label">MR No</td><td class="val">' + mrNo + '</td><td class="label">Name</td><td class="val">' + patientName + '</td></tr>' +
+          '<tr><td class="label">DOB</td><td class="val">' + dob + '</td><td class="label">Sex</td><td class="val">' + sex + '</td></tr>' +
+          '<tr><td class="label">Nationality</td><td class="val">' + nationality + '</td><td class="label">Mobile</td><td class="val">' + mobile + '</td></tr>' +
+        '</table>' +
+        '<table class="doctor-table">' +
+          '<tr><td class="label">Doctor</td><td>' + doctorName + '</td></tr>' +
+          '<tr><td class="label">LicenceID</td><td>' + licenceId + '</td></tr>' +
+          '<tr><td class="label">Date</td><td>' + date + '</td></tr>' +
+        '</table>' +
+        '<table class="icd-table">' +
+          '<tr><td class="label">ICDCode</td><td style="width:80px">' + icdCode + '</td><td class="label">Diagnosis</td><td>' + diagnosis + '</td></tr>' +
+        '</table>' +
+        '<table class="med-table">' +
+          '<thead><tr><th class="sl">SL NO</th><th>Medicine</th><th class="type">Type</th></tr></thead>' +
+          '<tbody>';
 
       prescriptions.forEach(function(rx, i) {
-        html += '<tr><td class="sl">' + (i+1) + '</td><td>' + (rx.medicine || "") + '</td><td>' + (rx.instructions || "") + '</td><td>' + (rx.frequency || "") + '</td><td>' + (rx.duration || "") + '</td></tr>';
+        var medicine = (rx.medicine || '').toUpperCase();
+        var instructions = '';
+        if (rx.frequency) instructions += rx.frequency;
+        if (rx.duration) instructions += ' (' + rx.duration + ')';
+        if (rx.instructions) instructions += ' ' + rx.instructions;
+        html += '<tr><td class="sl">' + (i+1) + '</td><td><strong>' + medicine + '</strong><br>' + instructions.trim() + '</td><td>Primary</td></tr>';
       });
 
       html += '</tbody></table>' +
         '<div class="sign-section">' +
-          '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Doctor Signature</div></div>' +
-          '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">Clinic Seal</div></div>' +
+          '<div class="sign-box"><img src="' + getDoctorSignature(doctorName) + '" onerror="this.style.display=\'none\'"><div class="name">' + doctorName + '</div><div class="title-text">AYURVEDA PRACTITIONER</div></div>' +
+          '<div class="seal-box"><img src="' + getDoctorSeal(doctorName) + '" onerror="this.style.display=\'none\'"></div>' +
         '</div>' +
         '</div>' +
         '<script>' +
@@ -7240,7 +7957,7 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     // ─── Log Sheet Generator ────────────────────────────────────────
-    function generateLogSheet(patientName, fromDate, toDate, entries) {
+    function generateLogSheet(patientName, fromDate, toDate, entries, doctorName) {
       var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Log Sheet - ' + patientName + '</title><style>' +
         '@page{size:A4;margin:10mm 12mm}' +
         'body{margin:0;padding:10px 20px;font-family:"Times New Roman",serif;font-size:12px;color:#000}' +
@@ -7287,8 +8004,8 @@ podi kizhi + lepanam x 5 days.</textarea>
 
       html += '</tbody></table>' +
         '<div style="margin-top:25px;text-align:right;padding-right:30px">' +
-          '<img src="' + (localStorage.getItem("clinicSeal") || "") + '" style="height:55px;margin-right:20px" onerror="this.style.display=\'none\'">' +
-          '<img src="' + (localStorage.getItem("doctorSignature") || "") + '" style="height:45px" onerror="this.style.display=\'none\'">' +
+          '<img src="' + getDoctorSeal(doctorName || "") + '" style="height:55px;margin-right:20px" onerror="this.style.display=\'none\'">' +
+          '<img src="' + getDoctorSignature(doctorName || "") + '" style="height:45px" onerror="this.style.display=\'none\'">' +
         '</div>' +
         '</div>' +
         '<script>' +
@@ -7308,6 +8025,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       var exam = (consult && consult.examination) || "";
       var treatment = (consult && consult.treatmentPlan) || "";
       var disposition = (consult && consult.disposition) || "";
+      var doctorName = (consult && consult.doctor) || "";
       var diagnoses = (consult && consult.diagnoses) || [];
       var diagText = diagnoses.map(function(d) { return (d.code || "") + " : " + (d.description || ""); }).join("<br>");
 
@@ -7358,8 +8076,8 @@ podi kizhi + lepanam x 5 days.</textarea>
           '<div class="clinic-name">For SHANTHI WELLNESS AYURVEDIC<br>MEDICAL CENTRE LLC</div>' +
         '</div>' +
         '<div class="sign-section">' +
-          '<div style="text-align:center"><img src="' + (localStorage.getItem("doctorSignature") || "") + '" onerror="this.style.display=\'none\'"><div class="sign-label">ANJNA NADAKKAVIL CHANDRAN<br>AYURVEDA PRACTITIONER<br>DHA Lic. No. 02548615-004</div></div>' +
-          '<div style="text-align:center"><img src="' + (localStorage.getItem("clinicSeal") || "") + '" onerror="this.style.display=\'none\'"></div>' +
+          '<div style="text-align:center"><img src="' + getDoctorSignature(doctorName) + '" onerror="this.style.display=\'none\'"><div class="sign-label">' + (doctorName || 'Doctor') + '<br>AYURVEDA PRACTITIONER</div></div>' +
+          '<div style="text-align:center"><img src="' + getDoctorSeal(doctorName) + '" onerror="this.style.display=\'none\'"></div>' +
         '</div>' +
         '</div>' +
         '<script>' +
@@ -7384,36 +8102,123 @@ podi kizhi + lepanam x 5 days.</textarea>
       return dateStr;
     }
 
+    // Default claims dummy data
+    var defaultClaims = [
+      {claimId:"S-0795",fromDate:"27-04-2026",toDate:"02-05-2026",mrNo:"3597",patientName:"SUSHEELA ALMEDA HEMINGTON WILLIAM ALMEDA",amount:"1,610.00",receivedAmount:"0.00"},
+      {claimId:"S-0796",fromDate:"29-04-2026",toDate:"02-05-2026",mrNo:"4662",patientName:"REMYA VARGHESE",amount:"1,300.00",receivedAmount:"0.00"},
+      {claimId:"S-0809",fromDate:"28-04-2026",toDate:"04-05-2026",mrNo:"4674",patientName:"SHAJU SHAJI SUSHEELA SHAJI SATHIYAKUMAR",amount:"1,850.00",receivedAmount:"0.00"},
+      {claimId:"S-0810",fromDate:"02-05-2026",toDate:"04-05-2026",mrNo:"4676",patientName:"AKSHAY KEZHAKKETHIL AYYAPPAN MULLAPULLY",amount:"858.00",receivedAmount:"0.00"},
+      {claimId:"S-0813",fromDate:"27-04-2026",toDate:"03-05-2026",mrNo:"4678",patientName:"SHAHBAS SATHYAVAYSA RESOPH ARUNK KAMAR",amount:"2,080.00",receivedAmount:"0.00"},
+      {claimId:"S-0814",fromDate:"02-05-2026",toDate:"05-05-2026",mrNo:"4663",patientName:"ALIHASSAN THARAYLIL AZEEZ",amount:"0.00",receivedAmount:"0.00"},
+      {claimId:"S-0819",fromDate:"01-05-2026",toDate:"07-05-2026",mrNo:"4685",patientName:"TOM JOSEPH SAJAN THOMAS",amount:"1,900.00",receivedAmount:"0.00"},
+      {claimId:"S-0821",fromDate:"28-04-2026",toDate:"07-05-2026",mrNo:"4686",patientName:"LIZBETH RAMOS REYES",amount:"3,340.00",receivedAmount:"0.00"},
+      {claimId:"S-0822",fromDate:"29-04-2026",toDate:"08-05-2026",mrNo:"4687",patientName:"GLORIA LABBAO GUTTTU",amount:"3,390.00",receivedAmount:"0.00"},
+      {claimId:"S-0823",fromDate:"01-05-2026",toDate:"07-05-2026",mrNo:"4688",patientName:"SHERINL RENJIT RENJIT KURIAN",amount:"2,150.00",receivedAmount:"0.00"},
+      {claimId:"S-0825",fromDate:"29-04-2026",toDate:"08-05-2026",mrNo:"4694",patientName:"PURVINDU KUMAR BALARAM SINGH SINGH",amount:"3,340.00",receivedAmount:"0.00"},
+      {claimId:"S-0827",fromDate:"29-04-2026",toDate:"08-05-2026",mrNo:"4035",patientName:"ZAKIR HUSSIAN RAHIM RAHIM",amount:"3,480.00",receivedAmount:"0.00"},
+      {claimId:"S-0829",fromDate:"02-05-2026",toDate:"09-05-2026",mrNo:"4288",patientName:"MAHAPUTHA SAHEEMA DHAYAN ALI",amount:"2,520.00",receivedAmount:"0.00"},
+      {claimId:"S-0830",fromDate:"02-05-2026",toDate:"09-05-2026",mrNo:"4698",patientName:"PETER CASTILLONES POTESTAS",amount:"3,380.00",receivedAmount:"0.00"},
+      {claimId:"S-0831",fromDate:"02-05-2026",toDate:"09-05-2026",mrNo:"4697",patientName:"PRITHINDAS DEVADAS DEVADIS PURUSHOTHAMNN",amount:"3,290.00",receivedAmount:"0.00"},
+      {claimId:"S-0832",fromDate:"02-05-2026",toDate:"08-05-2026",mrNo:"4695",patientName:"SAHMAL ARAKKAL POOJITHYI KEORIBHASAHOY POOYHIYI NARU",amount:"1,480.00",receivedAmount:"0.00"},
+      {claimId:"S-0836",fromDate:"02-05-2026",toDate:"10-05-2026",mrNo:"4692",patientName:"SOORAJ JAYAKRISHNAN JAYAKRISHNAN RAMAN",amount:"3,340.00",receivedAmount:"0.00"},
+      {claimId:"S-0837",fromDate:"03-05-2026",toDate:"10-05-2026",mrNo:"4700",patientName:"MUHAMMED RAMEES ABDUL JALEEL",amount:"2,700.00",receivedAmount:"0.00"},
+      {claimId:"S-0840",fromDate:"01-05-2026",toDate:"10-05-2026",mrNo:"3805",patientName:"Ashwin Muralidharan Muralidharan",amount:"3,340.00",receivedAmount:"0.00"},
+      {claimId:"S-0841",fromDate:"29-04-2026",toDate:"09-05-2026",mrNo:"1825",patientName:"Ravi Shankar Mishra Balram Mishra",amount:"3,670.00",receivedAmount:"0.00"},
+      {claimId:"S-0843",fromDate:"02-05-2026",toDate:"10-05-2026",mrNo:"4703",patientName:"RUSHEL PAZGY SAMPUELO",amount:"2,470.00",receivedAmount:"0.00"},
+      {claimId:"S-0844",fromDate:"02-05-2026",toDate:"10-05-2026",mrNo:"4793",patientName:"NESELYN TUGAS RAVLA",amount:"3,530.00",receivedAmount:"0.00"},
+      {claimId:"S-0845",fromDate:"02-05-2026",toDate:"11-05-2026",mrNo:"4704",patientName:"ROSHAN SANTIAGORAJ PETER NITHEN",amount:"3,820.00",receivedAmount:"0.00"},
+      {claimId:"S-0846",fromDate:"29-04-2026",toDate:"11-05-2026",mrNo:"4705",patientName:"WAJEEH UR REHMAN BABUR KAMRAN QURESHI",amount:"5,110.00",receivedAmount:"0.00"},
+      {claimId:"S-0847",fromDate:"02-05-2026",toDate:"11-05-2026",mrNo:"2842",patientName:"ANNA THOMAS JOSE",amount:"3,340.00",receivedAmount:"0.00"},
+      {claimId:"S-0848",fromDate:"03-05-2026",toDate:"12-05-2026",mrNo:"4708",patientName:"ALFREDO BALABAT QUIAMBAO",amount:"3,340.00",receivedAmount:"0.00"},
+      {claimId:"S-0849",fromDate:"02-05-2026",toDate:"12-05-2026",mrNo:"4710",patientName:"CHARLIE BADDY SALLEOS",amount:"3,270.00",receivedAmount:"0.00"},
+      {claimId:"S-0850",fromDate:"02-05-2026",toDate:"12-05-2026",mrNo:"4709",patientName:"ARUN THAPA KUMSHA BAHADUR THAPA",amount:"3,390.00",receivedAmount:"0.00"},
+      {claimId:"S-0851",fromDate:"30-04-2026",toDate:"12-05-2026",mrNo:"4707",patientName:"RABEEL SHAKTI SHAKTI AHMED",amount:"5,010.00",receivedAmount:"0.00"},
+      {claimId:"S-0852",fromDate:"08-05-2026",toDate:"09-05-2026",mrNo:"4706",patientName:"MOHAMMAD MOHSIN KAMAL",amount:"650.00",receivedAmount:"0.00"},
+      {claimId:"S-0853",fromDate:"03-05-2026",toDate:"12-05-2026",mrNo:"4714",patientName:"AMARTE CARLO SISON ACIERDA",amount:"3,340.00",receivedAmount:"0.00"}
+    ];
+
+    function renderClaimsList() {
+      var tbody = byId("claimsRows");
+      if (!tbody) return;
+      var search = (byId("claimsPatientSearch")?.value || "").toLowerCase();
+      var allClaims = savedClaimsData.length ? savedClaimsData : defaultClaims;
+      var filtered = allClaims.filter(function(c) {
+        if (!search) return true;
+        return (c.patientName || "").toLowerCase().includes(search) || (c.mrNo || "").includes(search) || (c.claimId || "").toLowerCase().includes(search);
+      });
+      var actionsHtml = '<div class="claims-actions">' +
+        '<button class="claims-act-btn medical" title="Medical Report">M</button>' +
+        '<button class="claims-act-btn treatment" title="Treatment Report">T</button>' +
+        '<button class="claims-act-btn medicine" title="Medicine Report">Rx</button>' +
+        '<button class="claims-act-btn logsheet" title="Logsheet">L</button>' +
+        '<button class="claims-act-btn edit" title="Edit">&#9998;</button>' +
+        '<button class="claims-act-btn delete" title="Delete">&#10005;</button>' +
+        '</div>';
+      var html = filtered.map(function(c, i) {
+        return '<tr data-claim-id="' + escapeHtml(c.claimId) + '">' +
+          '<td style="color:#d00;font-weight:700">' + escapeHtml(c.claimId) + '</td>' +
+          '<td>' + escapeHtml(c.fromDate || '') + '</td>' +
+          '<td>' + escapeHtml(c.toDate || '') + '</td>' +
+          '<td>' + escapeHtml(c.mrNo || '') + '</td>' +
+          '<td>' + escapeHtml(c.patientName || '') + '</td>' +
+          '<td style="text-align:right">' + (c.amount || '0.00') + '</td>' +
+          '<td style="text-align:right">' + (c.receivedAmount || '0.00') + '</td>' +
+          '<td>' + actionsHtml + '</td>' +
+          '</tr>';
+      }).join('');
+      tbody.innerHTML = html;
+      byId("claimsEmpty").style.display = filtered.length ? "none" : "block";
+    }
+
     function loadClaimsFromServer() {
       fetch("/api/claims").then(function(r){return r.json()}).then(function(d) {
-        if (!d.success || !d.data || !d.data.length) return;
-        var tbody = document.querySelector("#claimsListScreen tbody");
-        if (!tbody) return;
-        var actionsHtml = '<div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div>';
-        // Append server claims that aren't already in the table
-        var existingIds = [];
-        tbody.querySelectorAll("tr").forEach(function(row) {
-          if (row.cells[0]) existingIds.push(row.cells[0].textContent.trim());
-        });
-        d.data.forEach(function(claim) {
-          if (existingIds.includes(claim.claimId)) return;
-          var row = document.createElement("tr");
-          row.innerHTML = '<td>' + claim.claimId + '</td><td>' + (claim.fromDate||"") + '</td><td>' + (claim.toDate||"") + '</td><td>' + (claim.mrNo||"") + '</td><td>' + (claim.patientName||"") + '</td><td>' + (claim.amount||"0.00") + '</td><td>' + (claim.receivedAmount||"0.00") + '</td><td>' + actionsHtml + '</td>';
-          tbody.appendChild(row);
-        });
-      }).catch(function(){});
+        if (d.success && d.data && d.data.length) {
+          savedClaimsData = d.data;
+        }
+        renderClaimsList();
+      }).catch(function(){
+        renderClaimsList();
+      });
     }
 
     function loadPatientsFromServer() {
       fetch("/api/patients").then(function(r){return r.json()}).then(function(d) {
         if (!d.success || !d.data || !d.data.length) return;
-        // Merge server patients with local ones
+        // Merge server patients with local ones (server data takes priority)
         d.data.forEach(function(p) {
-          var exists = patientRecords.find(function(r) { return r.mrNo === p.mrNo; });
-          if (!exists) patientRecords.push(p);
+          var existsIdx = patients.findIndex(function(r) { return r.mrNo === p.mrNo; });
+          if (existsIdx >= 0) {
+            patients[existsIdx] = Object.assign(patients[existsIdx], p);
+          } else {
+            patients.push(p);
+          }
         });
         renderPatients();
         refreshPatientSelects();
+      }).catch(function(){});
+    }
+
+    function loadAppointmentsFromServer() {
+      fetch("/api/appointments").then(function(r){return r.json()}).then(function(d) {
+        if (!d.success || !d.data || !d.data.length) return;
+        d.data.forEach(function(appt) {
+          var exists = appointments.find(function(a) {
+            return a.doctor === appt.doctor && a.time === appt.time && a.date === appt.date;
+          });
+          if (!exists) appointments.push(appt);
+        });
+        renderSchedule();
+      }).catch(function(){});
+    }
+
+    function loadInsuranceFromServer() {
+      fetch("/api/insurance").then(function(r){return r.json()}).then(function(d) {
+        if (!d.success || !d.data || !d.data.length) return;
+        d.data.forEach(function(ins) {
+          var exists = insuranceRecords.find(function(r) { return r.code === ins.code; });
+          if (!exists) insuranceRecords.push(ins);
+        });
+        renderInsurance();
       }).catch(function(){});
     }
 

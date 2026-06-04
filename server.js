@@ -13,9 +13,67 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const nodemailer = require('nodemailer');
 
 const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'clinic-data.json');
+
+// ─── Email Configuration (Gmail SMTP via Nodemailer) ─────────────
+const EMAIL_CONFIG = {
+  clinicName: 'SHANTHI WELLNESS AYURVEDIC MEDICAL CENTRE LLC',
+  clinicPhone: '+97142255133',
+  fromEmail: 'jubyjohnparappallil@gmail.com'
+};
+
+const emailTransporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'jubyjohnparappallil@gmail.com',
+    pass: 'mukiezppmtjitgwn'
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+console.log('✉️  Email ready (Gmail SMTP)');
+
+async function sendAppointmentEmail(patientEmail, patientName, appointmentDate, appointmentTime, doctorName) {
+  if (!patientEmail) return { success: false, error: 'No email provided' };
+  console.log('Sending email to:', patientEmail);
+  try {
+    const mailOptions = {
+      from: EMAIL_CONFIG.clinicName + ' <' + EMAIL_CONFIG.fromEmail + '>',
+      to: patientEmail,
+      subject: 'Appointment Confirmation - ' + EMAIL_CONFIG.clinicName,
+      html: '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:2px solid #43a047;border-radius:8px;overflow:hidden">' +
+        '<div style="background:#43a047;color:#fff;padding:15px 20px;text-align:center">' +
+          '<h2 style="margin:0;font-size:18px">' + EMAIL_CONFIG.clinicName + '</h2>' +
+          '<p style="margin:5px 0 0;font-size:12px">Appointment Confirmation</p>' +
+        '</div>' +
+        '<div style="padding:20px">' +
+          '<p style="font-size:14px">Dear <strong>' + patientName + '</strong>,</p>' +
+          '<p style="font-size:14px">Your appointment has been confirmed:</p>' +
+          '<table style="width:100%;border-collapse:collapse;margin:15px 0">' +
+            '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#f9f9f9;width:120px">Date</td><td style="padding:8px;border:1px solid #ddd">' + appointmentDate + '</td></tr>' +
+            '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#f9f9f9">Time</td><td style="padding:8px;border:1px solid #ddd">' + appointmentTime + '</td></tr>' +
+            '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#f9f9f9">Doctor</td><td style="padding:8px;border:1px solid #ddd">' + (doctorName || 'Assigned Doctor') + '</td></tr>' +
+          '</table>' +
+          '<p style="font-size:13px;color:#666">Please arrive 10 minutes before your appointment time.</p>' +
+          '<p style="font-size:13px;color:#666">For any changes, please call: <strong>' + EMAIL_CONFIG.clinicPhone + '</strong></p>' +
+        '</div>' +
+        '<div style="background:#f5f5f5;padding:10px 20px;text-align:center;font-size:11px;color:#888">' +
+          EMAIL_CONFIG.clinicName + ' | Tel: ' + EMAIL_CONFIG.clinicPhone +
+        '</div>' +
+      '</div>'
+    };
+    const result = await emailTransporter.sendMail(mailOptions);
+    console.log('📧 Email sent! ID:', result.messageId);
+    return { success: true };
+  } catch(e) {
+    console.log('Email error:', e.message);
+    return { success: false, error: e.message };
+  }
+}
 
 // ─── Database (JSON file) ────────────────────────────────────────
 
@@ -222,6 +280,18 @@ async function handleAPI(req, res) {
     saveDatabase();
     return sendJSON(res, { success: true, consultationId: id, claimId });
   }
+  if (url.startsWith('/api/consultations/') && method === 'DELETE') {
+    const mrNo = decodeURIComponent(url.split('/')[3]);
+    db.consultations = (db.consultations || []).filter(c => c.mrNo !== mrNo);
+    // Also remove related claims and logsheet entries
+    const relatedClaims = (db.claims || []).filter(c => c.mrNo === mrNo);
+    relatedClaims.forEach(claim => {
+      db.logsheetEntries = (db.logsheetEntries || []).filter(e => e.claimId !== claim.claimId);
+    });
+    db.claims = (db.claims || []).filter(c => c.mrNo !== mrNo);
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
 
   // ── Claims ──
   if (url === '/api/claims' && method === 'GET') {
@@ -268,6 +338,12 @@ async function handleAPI(req, res) {
     saveDatabase();
     return sendJSON(res, { success: true, data: body });
   }
+  if (url.startsWith('/api/insurance/') && method === 'DELETE') {
+    const code = decodeURIComponent(url.split('/')[3]);
+    db.insuranceCompanies = db.insuranceCompanies.filter(c => c.code !== code);
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
   if (url === '/api/insurance-mappings' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.insuranceMappings });
   }
@@ -281,6 +357,108 @@ async function handleAPI(req, res) {
   // ── Database info ──
   if (url === '/api/db-path' && method === 'GET') {
     return sendJSON(res, { success: true, path: DATA_FILE });
+  }
+
+  // ── Appointments ──
+  if (url === '/api/appointments' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.appointments || [] });
+  }
+  if (url === '/api/appointments' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.appointments) db.appointments = [];
+    // Delete appointment
+    if (body._delete) {
+      db.appointments = db.appointments.filter(a => !(a.doctor === body.doctor && a.time === body.time && a.date === body.date));
+      saveDatabase();
+      return sendJSON(res, { success: true });
+    }
+    // Remove duplicate (same doctor + time)
+    db.appointments = db.appointments.filter(a => !(a.doctor === body.doctor && a.time === body.time && a.date === body.date));
+    db.appointments.push(body);
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+
+  // ── Doctors ──
+  if (url === '/api/doctors' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.doctors || [] });
+  }
+  if (url === '/api/doctors' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.doctors) db.doctors = [];
+    const existing = db.doctors.find(d => d.name === body.name);
+    if (existing) {
+      Object.assign(existing, body);
+    } else {
+      db.doctors.push(body);
+    }
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+  if (url.startsWith('/api/doctors/') && method === 'DELETE') {
+    const name = decodeURIComponent(url.split('/')[3]);
+    if (!db.doctors) db.doctors = [];
+    db.doctors = db.doctors.filter(d => d.name !== name);
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  // Doctor signature/seal
+  if (url === '/api/doctor-sign' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.doctorSignatures) db.doctorSignatures = {};
+    // body = { doctor: "DOCTOR NAME", type: "signature"|"seal", data: "base64" }
+    if (body.doctor && body.type && body.data) {
+      var key = body.doctor + '_' + body.type;
+      db.doctorSignatures[key] = body.data;
+      saveDatabase();
+      return sendJSON(res, { success: true });
+    }
+    return sendJSON(res, { success: false, error: 'Missing fields' }, 400);
+  }
+  if (url === '/api/doctor-sign' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.doctorSignatures || {} });
+  }
+
+  // ── Drugs ──
+  if (url === '/api/drugs' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.drugs || [] });
+  }
+  if (url === '/api/drugs' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.drugs) db.drugs = [];
+    // Update if same tradeName exists, else add
+    const existing = db.drugs.find(d => d.tradeName === body.tradeName && d.ddcCode === body.ddcCode);
+    if (existing) {
+      Object.assign(existing, body);
+    } else {
+      db.drugs.unshift(body);
+    }
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+  if (url.startsWith('/api/drugs/') && method === 'DELETE') {
+    const tradeName = decodeURIComponent(url.split('/')[3]);
+    if (!db.drugs) db.drugs = [];
+    db.drugs = db.drugs.filter(d => d.tradeName !== tradeName);
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/drugs/bulk' && method === 'POST') {
+    const body = await parseBody(req);
+    if (body.drugs && Array.isArray(body.drugs)) {
+      db.drugs = body.drugs;
+      saveDatabase();
+      return sendJSON(res, { success: true, count: db.drugs.length });
+    }
+    return sendJSON(res, { success: false, error: 'Invalid data' }, 400);
+  }
+
+  // ── Send Appointment Email ──
+  if (url === '/api/send-email' && method === 'POST') {
+    const body = await parseBody(req);
+    console.log('Email body received:', JSON.stringify(body));
+    const result = await sendAppointmentEmail(body.email, body.patientName, body.date, body.time, body.doctor);
+    return sendJSON(res, result);
   }
 
   // ── Signatures ──
