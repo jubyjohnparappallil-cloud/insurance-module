@@ -1,31 +1,35 @@
 {
-  "name": "clinic",
+  "name": "shanthi-wellness-emr",
   "version": "1.0.0",
-  "description": "Clinic EMR Desktop Application",
+  "description": "Shanthi Wellness Ayurvedic Medical Centre - Clinic EMR",
   "main": "main.js",
-  "author": "Clinic",
+  "author": "Shanthi Wellness",
   "scripts": {
     "start": "electron .",
-    "start:insurance": "electron . --insurance",
     "server": "node server.js",
     "build": "electron-builder --win",
-    "build:portable": "electron-builder --win portable",
-    "pack": "electron-builder --dir"
+    "build:portable": "electron-builder --win portable"
   },
   "build": {
-    "appId": "com.clinic.emr",
-    "productName": "Clinic EMR",
+    "appId": "com.shanthiwellness.emr",
+    "productName": "Shanthi Wellness EMR",
     "directories": {
       "output": "dist"
     },
     "files": [
       "main.js",
-      "preload.js",
-      "database.js",
-      "index.html",
+      "server.js",
       "insurance-only.html",
-      "clinic-emr.html",
-      "vercel.json"
+      "icd-codes.js",
+      "clinic-data.json",
+      "logo.png",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "clinic-data.json",
+        "to": "clinic-data.json"
+      }
     ],
     "win": {
       "target": [
@@ -36,26 +40,25 @@
           ]
         }
       ],
-      "icon": null
+      "icon": "logo.png"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Clinic EMR"
+      "shortcutName": "Shanthi Wellness EMR"
     },
     "portable": {
-      "artifactName": "ClinicEMR-Portable.exe"
+      "artifactName": "ShanthiWellness-EMR-Portable.exe"
     }
   },
   "devDependencies": {
-    "electron": "*",
-    "electron-builder": "*"
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
   },
   "dependencies": {
-    "mysql2": "^3.22.4",
-    "nodemailer": "^8.0.10",
-    "resend": "^6.12.4"
+    "nodemailer": "^6.9.7"
   }
 }

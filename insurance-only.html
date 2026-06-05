@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,7 +24,7 @@
       --selected: #f2db63;
       --selected-border: #c49815;
       --shadow: 0 12px 34px rgba(20, 39, 55, 0.22);
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif; 
     }
 
     * {
@@ -287,7 +288,6 @@
       font-weight: 800;
       color: var(--green);
       -webkit-text-stroke: 1px currentColor;
-      text-stroke: 1px currentColor;
     }
 
     .g-gift {
@@ -3200,9 +3200,9 @@ function inheritFromEMR() {
           <!-- Top title bar -->
           <div class="consult-title-bar">Doctors Consultation</div>
           <!-- Date nav -->
-          <div class="consult-date-bar">
-            <button class="small-button" type="button" id="consultPrevDate">&lt;</button>
-            <input type="text" id="consultDate" value="12-05-2026">
+          <div class="consult-date-bar" style="display:flex;align-items:center;gap:0;flex-wrap:wrap">
+            <div id="consultDateTabs" style="display:flex;gap:2px;flex-wrap:wrap"></div>
+            <input type="text" id="consultDate" value="05-06-2026" style="display:none">
           </div>
           <!-- Main content -->
           <div class="consult-body">
@@ -3221,6 +3221,7 @@ function inheritFromEMR() {
                 <div class="consult-patient-detail" id="consultNationality" style="background:#e8f5e9;padding:1px 4px">Philippines</div>
               </div>
               <div class="consult-sidebar-date" id="consultSidebarDate">12-05-2026</div>
+              <div id="consultPreviousVisits" style="max-height:60px;overflow-y:auto;background:#e8f5e9;border-bottom:1px solid #388e3c"></div>
               <div class="consult-sidebar-links">
                 <button type="button">Medical Report</button>
                 <button type="button">Refferal Letter</button>
@@ -3831,9 +3832,20 @@ podi kizhi + lepanam x 5 days.</textarea>
               <label class="appt-label">Doctor</label>
               <select name="doctor" id="apptDoctor" style="flex:1">
                 <option>AMARNATH</option><option>ASHISH</option><option>ANEESH</option>
-                <option>RESHMI</option><option>LINTU RAJAN</option><option>LINTU</option><option>NEETHU</option>
+                <option>RESHMI</option><option>LINTU</option><option>NEETHU</option>
+                <option>LINTU RAJAN</option><option>NEETHU DEEPAK</option><option>HISNA UVAISI</option>
+                <option>KEERTHI PURUSHOT</option><option>NOORA</option>
               </select>
               <button class="appt-del-btn" type="button">&#128465;</button>
+            </div>
+
+            <!-- Consulting Doctor (for reports) -->
+            <div class="appt-form-row">
+              <label class="appt-label">Consult Dr</label>
+              <select name="consultDoctor" id="apptConsultDoctor" style="flex:1">
+                <option value="">-- Same as Doctor --</option>
+                <option>NEETHU DEEPAK</option><option>LINTU RAJAN</option><option>ANJNA NADAKKAVIL CHANDRAN</option><option>HISNA UVAISI</option>
+              </select>
             </div>
 
             <!-- Room -->
@@ -4088,7 +4100,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             <label>First Visit</label><input name="claimFirstVisit" style="height:26px;font-size:11px">
             <button class="tool-button" type="button" style="height:26px;min-width:60px;font-size:11px">Select</button>
             <button class="tool-button" type="button" id="insClaimConsultBtn" style="height:26px;min-width:90px;font-size:11px">Consultation</button>
-            <div style="grid-column:1/5;border:1px solid #ccc;min-height:60px;background:#fff;margin-top:4px"></div>
+            <div style="grid-column:1/5;border:1px solid #ccc;min-height:60px;background:#fff;margin-top:4px" id="insClaimVisitHistory"><div style="padding:4px;color:#888;font-size:10px">Select a patient to see visit history</div></div>
           </div>
         </div>
         <!-- Claims items table -->
@@ -4551,7 +4563,12 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Radiology", "g-inventory", "tariffMaster"]
     ];
 
-    const doctors = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "NOORA"];
+    const allStaff = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "NOORA"];
+    const staffRooms = ["ROOM NUMBER 1", "ROOM NUMBER 2", "ROOM NUMBER 3", "ROOM NUMBER 4"];
+    const staffTherapists = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "KEERTHI PURUSHOT"];
+    const staffDoctors = ["LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "NOORA"];
+    var doctors = allStaff.slice();
+    var currentApptView = "all";
     const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM","5:15 PM","5:30 PM","5:45 PM","6:00 PM","6:15 PM","6:30 PM","6:45 PM","7:00 PM","7:15 PM","7:30 PM","7:45 PM","8:00 PM","8:15 PM","8:30 PM","8:45 PM","9:00 PM","9:15 PM","9:30 PM","9:45 PM"];
 
     let activeView = "insurance";
@@ -4869,7 +4886,13 @@ podi kizhi + lepanam x 5 days.</textarea>
       // Track which doctor columns have appointments
       const doctorHasAppt = {};
       doctors.forEach(d => { doctorHasAppt[d] = false; });
-      appointments.forEach(a => { if (doctors.includes(a.doctor)) doctorHasAppt[a.doctor] = true; });
+      appointments.forEach(a => {
+        if (currentApptView === "rooms") {
+          if (doctors.includes(a.room)) doctorHasAppt[a.room] = true;
+        } else {
+          if (doctors.includes(a.doctor)) doctorHasAppt[a.doctor] = true;
+        }
+      });
 
       // Build column index map
       const doctorColIndex = {};
@@ -4882,10 +4905,19 @@ podi kizhi + lepanam x 5 days.</textarea>
         html += `<div class="time-cell${hourClass}">${time}</div>`;
 
         doctors.forEach((doctor) => {
-          const apptIndex = appointments.findIndex(item =>
-            item.doctor === doctor && item.time === time &&
-            (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query))
-          );
+          var apptIndex;
+          var currentDateStr = fmtDateInput(selectedDate);
+          if (currentApptView === "rooms") {
+            apptIndex = appointments.findIndex(item =>
+              item.room === doctor && item.time === time && item.date === currentDateStr &&
+              (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query))
+            );
+          } else {
+            apptIndex = appointments.findIndex(item =>
+              item.doctor === doctor && item.time === time && item.date === currentDateStr &&
+              (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query))
+            );
+          }
           const appt = apptIndex >= 0 ? appointments[apptIndex] : null;
 
           html += `<div class="slot${hourClass}" data-doctor="${escapeHtml(doctor)}" data-time="${escapeHtml(time)}">`;
@@ -4960,8 +4992,17 @@ podi kizhi + lepanam x 5 days.</textarea>
         const startMins = apptTimeToMinutes(time || "9:00 AM");
         byId("apptEndTime").value = minutesToApptTime(startMins + 15);
       }
-      if (byId("apptDoctor") && doctor) byId("apptDoctor").value = doctor;
+      if (currentApptView === "rooms" && doctor) {
+        // In rooms view, set the room instead of doctor
+        var roomSel = byId("appointmentForm").elements.room;
+        if (roomSel) roomSel.value = doctor;
+        // Set doctor to first in allStaff
+        if (byId("apptDoctor")) byId("apptDoctor").value = allStaff[0];
+      } else if (byId("apptDoctor") && doctor) {
+        byId("apptDoctor").value = doctor;
+      }
       byId("appointmentDialogTitle").textContent = "New Appointment";
+      refreshPatientSelects();
       openModal("appointmentModal");
     }
 
@@ -5023,12 +5064,174 @@ podi kizhi + lepanam x 5 days.</textarea>
         byId("consultMrNo").textContent = appt.mrNo || "";
       }
       // Store the doctor from the appointment for this consultation
+      var reportDoctor = appt.consultDoctor || appt.doctor || "";
       if (byId("consultDoctorName")) {
-        byId("consultDoctorName").textContent = appt.doctor || "";
+        byId("consultDoctorName").textContent = reportDoctor;
       }
-      // Store doctor in a hidden field for saving
-      window._consultDoctor = appt.doctor || "";
+      window._consultDoctor = reportDoctor;
       activateView("consultation");
+
+      // Try to load saved consultation for this patient
+      if (appt.mrNo) {
+        fetch("/api/consultations/" + appt.mrNo).then(function(r){return r.json()}).then(function(d) {
+          if (!d.success || !d.data || d.data.length === 0) {
+            window._patientConsultations = [];
+            window._currentConsultIdx = -1;
+            return;
+          }
+
+          // Store all consultations for this patient
+          window._patientConsultations = d.data;
+          window._currentConsultIdx = d.data.length - 1;
+
+          // Build date tabs at the top
+          var tabsDiv = byId("consultDateTabs");
+          if (tabsDiv) {
+            var html = '';
+            d.data.forEach(function(c, i) {
+              var isActive = (i === d.data.length - 1);
+              html += '<button type="button" class="consult-date-tab' + (isActive ? ' active' : '') + '" data-tab-idx="' + i + '" style="padding:3px 10px;font-size:11px;font-weight:700;border:1px solid #388e3c;border-radius:3px 3px 0 0;cursor:pointer;background:' + (isActive ? '#fff' : '#4caf50') + ';color:' + (isActive ? '#1b5e20' : '#fff') + ';border-bottom:' + (isActive ? '2px solid #fff' : '1px solid #388e3c') + '">' + (c.consultDate || 'N/A') + '</button>';
+            });
+            html += '<button type="button" id="consultNewTabBtn" style="padding:3px 10px;font-size:11px;font-weight:700;border:1px solid #1b5e20;border-radius:3px 3px 0 0;cursor:pointer;background:#e8f5e9;color:#1b5e20">+ New</button>';
+            tabsDiv.innerHTML = html;
+
+            // Tab click handlers
+            tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(tab) {
+              tab.addEventListener("click", function() {
+                var idx = parseInt(this.dataset.tabIdx);
+                window._currentConsultIdx = idx;
+                loadConsultIntoForm(window._patientConsultations[idx]);
+                // Update active tab style
+                tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(t) { t.style.background = '#4caf50'; t.style.color = '#fff'; t.style.borderBottom = '1px solid #388e3c'; });
+                this.style.background = '#fff';
+                this.style.color = '#1b5e20';
+                this.style.borderBottom = '2px solid #fff';
+              });
+            });
+            // New tab button
+            byId("consultNewTabBtn")?.addEventListener("click", function() {
+              window._currentConsultIdx = -1;
+              byId("consultChiefComplaints").value = "";
+              byId("consultPastHistory").value = "";
+              byId("consultPresentIllness").value = "";
+              byId("consultExamination").value = "";
+              byId("consultTreatmentPlan").value = "";
+              byId("consultDisposition").value = "";
+              var today = new Date();
+              byId("consultDate").value = String(today.getDate()).padStart(2,"0") + "-" + String(today.getMonth()+1).padStart(2,"0") + "-" + today.getFullYear();
+              var dTbody = byId("diagTbody");
+              if (dTbody) dTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input" value="" placeholder="Type..."></td><td><input class="ct-input" value="" placeholder=""></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td></tr>';
+              var pTbody = byId("procTbody");
+              if (pTbody) pTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input proc-price-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-sess-input" value="1.00" placeholder="1"></td><td><input class="ct-input proc-amt-input" value="" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input" value="" placeholder="0"></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-net-input" value="" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td></tr>';
+              var rTbody = byId("rxTbody");
+              if (rTbody) rTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input" value="" placeholder="Instructions..."></td><td><input class="ct-input" value="" placeholder="Frequency..."></td><td><input class="ct-input" value="" placeholder="Duration..."></td></tr>';
+              var totalEl2 = byId("procTotalAmt");
+              if (totalEl2) totalEl2.textContent = "0.00";
+              tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(t) { t.style.background = '#4caf50'; t.style.color = '#fff'; t.style.borderBottom = '1px solid #388e3c'; });
+            });
+          }
+
+          // Show previous visits in sidebar
+          var visitsDiv = byId("consultPreviousVisits");
+          if (visitsDiv && d.data.length > 0) {
+            var html = '';
+            d.data.forEach(function(c, i) {
+              html += '<div class="consult-visit-item" data-visit-idx="' + i + '" style="padding:2px 6px;font-size:10px;font-weight:700;color:#1b5e20;cursor:pointer;border-bottom:1px solid #c8e6c9' + (i === d.data.length - 1 ? ';background:#c8e6c9' : '') + '">' + (c.consultDate || 'N/A') + ' - ' + (c.doctor || '') + '</div>';
+            });
+            visitsDiv.innerHTML = html;
+
+            // Click to load a specific consultation
+            visitsDiv.querySelectorAll(".consult-visit-item").forEach(function(item) {
+              item.addEventListener("click", function() {
+                var idx = parseInt(this.dataset.visitIdx);
+                window._currentConsultIdx = idx;
+                loadConsultIntoForm(window._patientConsultations[idx]);
+                visitsDiv.querySelectorAll(".consult-visit-item").forEach(function(v) { v.style.background = ''; });
+                this.style.background = '#c8e6c9';
+              });
+            });
+          }
+
+          // Load the latest consultation into form
+          loadConsultIntoForm(d.data[d.data.length - 1]);
+        }).catch(function(){
+          window._patientConsultations = [];
+          window._currentConsultIdx = -1;
+        });
+      }
+    }
+
+    function loadConsultIntoForm(consult) {
+      if (!consult) return;
+      var diagTbody = byId("diagTbody");
+      var procTbody = byId("procTbody");
+      var rxTbody = byId("rxTbody");
+      var totalEl = byId("procTotalAmt");
+
+      if (consult.chiefComplaints) byId("consultChiefComplaints").value = consult.chiefComplaints;
+      else byId("consultChiefComplaints").value = "";
+      if (consult.pastHistory) byId("consultPastHistory").value = consult.pastHistory;
+      else byId("consultPastHistory").value = "";
+      if (consult.presentIllness) byId("consultPresentIllness").value = consult.presentIllness;
+      else byId("consultPresentIllness").value = "";
+      if (consult.examination) byId("consultExamination").value = consult.examination;
+      else byId("consultExamination").value = "";
+      if (consult.treatmentPlan) byId("consultTreatmentPlan").value = consult.treatmentPlan;
+      else byId("consultTreatmentPlan").value = "";
+      if (consult.disposition) byId("consultDisposition").value = consult.disposition;
+      else byId("consultDisposition").value = "";
+      if (consult.consultDate) byId("consultDate").value = consult.consultDate;
+      if (consult.doctor) window._consultDoctor = consult.doctor;
+
+      // Update sidebar date
+      byId("consultSidebarDate").textContent = consult.consultDate || "";
+
+      // Load diagnoses
+      if (diagTbody) {
+        if (consult.diagnoses && consult.diagnoses.length > 0) {
+          diagTbody.innerHTML = "";
+          consult.diagnoses.forEach(function(diag) {
+            var row = document.createElement("tr");
+            row.innerHTML = '<td class="ac-cell"><input class="ac-input diag-code-input" value="' + (diag.code || '') + '" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input diag-desc-input" value="' + (diag.description || '') + '" placeholder="Description..."></td><td><input class="ct-input" value="" placeholder="Type..."></td><td><input class="ct-input" value="" placeholder=""></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+            diagTbody.appendChild(row);
+          });
+        } else {
+          diagTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input" value="" placeholder="Type..."></td><td><input class="ct-input" value="" placeholder=""></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td></tr>';
+        }
+      }
+
+      // Load procedures
+      if (procTbody) {
+        if (consult.procedures && consult.procedures.length > 0) {
+          procTbody.innerHTML = "";
+          var total = 0;
+          consult.procedures.forEach(function(proc) {
+            var amt = (parseFloat(proc.price) || 0) * (parseInt(proc.sessions) || 1);
+            total += amt;
+            var row = document.createElement("tr");
+            row.innerHTML = '<td class="ac-cell"><input class="ac-input proc-code-input" value="' + (proc.medCode || '') + '" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input proc-desc-input" value="' + (proc.description || '') + '" placeholder="Description..."></td><td><input class="ct-input proc-price-input" value="' + (proc.price || '0') + '" placeholder="0.00"></td><td><input class="ct-input proc-sess-input" value="' + (proc.sessions || '1') + '" placeholder="1"></td><td><input class="ct-input proc-amt-input" value="' + amt.toFixed(2) + '" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input" value="" placeholder="0"></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-net-input" value="' + amt.toFixed(2) + '" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+            procTbody.appendChild(row);
+          });
+          if (totalEl) totalEl.textContent = total.toFixed(2);
+        } else {
+          procTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input proc-price-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-sess-input" value="1.00" placeholder="1"></td><td><input class="ct-input proc-amt-input" value="" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input" value="" placeholder="0"></td><td><input class="ct-input" value="" placeholder="0.00"></td><td><input class="ct-input proc-net-input" value="" placeholder="0.00" readonly></td><td><input class="ct-input" value="" placeholder="0.00"></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td></tr>';
+          if (totalEl) totalEl.textContent = "0.00";
+        }
+      }
+
+      // Load prescriptions
+      if (rxTbody) {
+        if (consult.prescriptions && consult.prescriptions.length > 0) {
+          rxTbody.innerHTML = "";
+          consult.prescriptions.forEach(function(rx) {
+            var row = document.createElement("tr");
+            row.innerHTML = '<td class="ac-cell"><input class="ac-input rx-med-input" value="' + (rx.medicine || '') + '" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input" value="' + (rx.instructions || '') + '" placeholder="Instructions..."></td><td><input class="ct-input" value="' + (rx.frequency || '') + '" placeholder="Frequency..."></td><td><input class="ct-input" value="' + (rx.duration || '') + '" placeholder="Duration..."></td>';
+            rxTbody.appendChild(row);
+          });
+        } else {
+          rxTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input" value="" placeholder="Instructions..."></td><td><input class="ct-input" value="" placeholder="Frequency..."></td><td><input class="ct-input" value="" placeholder="Duration..."></td></tr>';
+        }
+      }
     }
 
     function showAppointmentMenu(event, card) {
@@ -5068,6 +5271,13 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (["Arrived", "NoShow", "Confirmed", "Confirmed By Call", "Cancelled"].includes(action)) {
         appointments[selectedAppointmentIndex].status = action === "Confirmed By Call" ? "Confirmed" : action;
         renderSchedule();
+        // Save status to server
+        var appt = appointments[selectedAppointmentIndex];
+        fetch("/api/appointments", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(appt)
+        }).catch(function(){});
       }
       if (action === "delete") {
         var apptToDelete = appointments[selectedAppointmentIndex];
@@ -5646,6 +5856,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       const patient = patients.find((item) => item.mrNo === data.mrNo);
       const time = byId("apptStartTime") ? byId("apptStartTime").value : (data.time || "9:00 AM");
       const doctor = byId("apptDoctor") ? byId("apptDoctor").value : data.doctor;
+      const consultDoctor = byId("apptConsultDoctor") ? byId("apptConsultDoctor").value : "";
       const room = data.room || "ROOM NUMBER 4";
       const apptDate = data.date || byId("apptDate")?.value || "";
       appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time && item.date === apptDate));
@@ -5654,6 +5865,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         patient: patient ? fullName(patient) : "",
         mobile: patient?.mobile || "",
         doctor: doctor,
+        consultDoctor: consultDoctor || doctor,
         time: time,
         date: apptDate,
         status: "Booked",
@@ -5769,6 +5981,23 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("receiptByPatient").addEventListener("change", renderReceipts);
       document.querySelectorAll("input[name='receiptType']").forEach((radio) => radio.addEventListener("change", renderReceipts));
       byId("appointmentSearch").addEventListener("input", renderSchedule);
+
+      // ── View radio buttons (All/Rooms/Therapist/Doctors) ──
+      document.querySelectorAll("input[name='apptView']").forEach(function(radio) {
+        radio.addEventListener("change", function() {
+          currentApptView = this.value;
+          if (currentApptView === "rooms") {
+            doctors = staffRooms.slice();
+          } else if (currentApptView === "therapist") {
+            doctors = staffTherapists.slice();
+          } else if (currentApptView === "doctors") {
+            doctors = staffDoctors.slice();
+          } else {
+            doctors = allStaff.slice();
+          }
+          renderSchedule();
+        });
+      });
 
       // ── Calendar navigation ──────────────────────────────────────────────
       // Click a day in the mini calendar
@@ -6054,6 +6283,12 @@ podi kizhi + lepanam x 5 days.</textarea>
           if (selectedAppointmentIndex != null) {
             appointments[selectedAppointmentIndex].status = "CheckOut";
             renderSchedule();
+            // Save to server
+            fetch("/api/appointments", {
+              method: "POST",
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify(appointments[selectedAppointmentIndex])
+            }).catch(function(){});
           }
         } else if (action === "doctorsConsultation") {
           if (selectedAppointmentIndex != null) {
@@ -7086,108 +7321,110 @@ podi kizhi + lepanam x 5 days.</textarea>
           var cpat = consultedPatients.find(function(c){return c.mrNo===insClaimSelectedMr;});
           byId("insClaimPatientSearch").value = insClaimSelectedMr + " - " + (p ? fullName(p) : (cpat ? cpat.name : ""));
           byId("insClaimPatientDD").style.display = "none";
+
+          // Load visit history for this patient
+          loadPatientVisitHistory(insClaimSelectedMr);
         }
       });
 
-      // Load Bills button - fetches patient's consultation data from server
+      // Load Bills button - loads procedures from patient's latest consultation
       byId("insClaimLoadBills")?.addEventListener("click", function() {
         if (!insClaimSelectedMr) { alert("Select a patient first"); return; }
 
-        // First try to load from server (saved consultations)
-        fetch("/api/claims").then(function(r){return r.json()}).then(function(d) {
-          if (!d.success || !d.data) throw new Error("No data");
+        // Load from saved consultations
+        fetch("/api/consultations/" + insClaimSelectedMr).then(function(r){return r.json()}).then(function(d) {
+          if (!d.success || !d.data || d.data.length === 0) {
+            alert("No consultations found for this patient. Save a consultation first.");
+            return;
+          }
 
-          // Find claims for this patient
-          var patientClaims = d.data.filter(function(c) { return c.mrNo === insClaimSelectedMr; });
-          if (patientClaims.length === 0) throw new Error("No claims for this patient");
+          // Use the latest consultation
+          var consult = d.data[d.data.length - 1];
+          var procedures = consult.procedures || [];
+          if (procedures.length === 0) {
+            alert("No procedures found in the latest consultation.");
+            return;
+          }
 
-          // Get the latest claim
-          var latestClaim = patientClaims[0];
-
-          // Load logsheet entries for this claim
-          return fetch("/api/logsheet/" + latestClaim.claimId).then(function(r2){return r2.json()}).then(function(d2) {
-            if (!d2.success || !d2.data) throw new Error("No logsheet data");
-
-            var tbody = byId("claimsTableBody");
-            tbody.innerHTML = "";
-            var total = 0;
-            var entries = d2.data.entries || [];
-            var procedures = d2.data.procedures || [];
-
-            // Fill from logsheet entries
-            if (entries.length > 0) {
-              entries.forEach(function(entry) {
-                var proc = procedures.find(function(p) { return entry.treatmentDone.toUpperCase().includes(p.description.toUpperCase().substring(0,10)); });
-                var rate = proc ? (parseFloat(proc.price) || 0) : 0;
-                total += rate;
-                var newRow = document.createElement("tr");
-                newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent" value="' + (entry.entryDate ? convertDateToISO(entry.entryDate) : "") + '"></td><td contenteditable="true">' + escapeHtml(entry.treatmentDone) + '</td><td contenteditable="true">' + (entry.progress || "") + '</td><td contenteditable="true">' + (entry.inTime || "") + '</td><td contenteditable="true">' + (entry.outTime || "") + '</td><td contenteditable="true">' + rate.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + rate.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
-                tbody.appendChild(newRow);
-              });
-            } else if (procedures.length > 0) {
-              // Fallback: use procedures directly
-              procedures.forEach(function(proc) {
-                var price = parseFloat(proc.price) || 0;
-                var sessions = parseInt(proc.sessions) || 1;
-                for (var i = 0; i < sessions; i++) {
-                  total += price;
-                  var newRow = document.createElement("tr");
-                  newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent"></td><td contenteditable="true">' + escapeHtml(proc.description || "") + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
-                  tbody.appendChild(newRow);
-                }
-              });
-            }
-
-            byId("insClaimAmount").value = total.toFixed(2);
-            byId("insClaimNet").value = total.toFixed(2);
-
-            // Set dates from claim
-            if (latestClaim.fromDate) {
-              var billFrom = byId("claimsForm")?.elements["claimBillFrom"];
-              var billTo = byId("claimsForm")?.elements["claimBillTo"];
-              if (billFrom) billFrom.value = latestClaim.fromDate;
-              if (billTo) billTo.value = latestClaim.toDate || latestClaim.fromDate;
-            }
-
-            alert("Loaded " + tbody.rows.length + " entries for patient " + insClaimSelectedMr + "\nTotal: AED " + total.toFixed(2));
-          });
-        }).catch(function() {
-          // Fallback: try loading from current consultation form
-          const procRows = document.querySelectorAll("#procTbody tr");
-          const tbody = byId("claimsTableBody");
+          var tbody = byId("claimsTableBody");
           tbody.innerHTML = "";
-          let total = 0;
-          let count = 0;
-          procRows.forEach(function(row) {
-            var descInput = row.querySelector(".proc-desc-input");
-            var priceInput = row.querySelector(".proc-price-input");
-            var sessInput = row.querySelector(".proc-sess-input");
-            const desc = descInput ? descInput.value.trim() : "";
-            if (!desc) return;
-            const price = parseFloat(priceInput ? priceInput.value : "0") || 0;
-            const sessions = parseInt(sessInput ? sessInput.value : "1") || 1;
-            for (let i = 0; i < sessions; i++) {
+          var total = 0;
+          var startParts = (consult.consultDate || "").split("-");
+          var startDt = startParts.length === 3 ? new Date(startParts[2] + "-" + startParts[1] + "-" + startParts[0]) : new Date();
+          var dayOffset = 0;
+
+          // Add consultation fee
+          total += 100;
+          var consultDateISO = startParts.length === 3 ? startParts[2] + "-" + startParts[1] + "-" + startParts[0] : "";
+          var consultRow = document.createElement("tr");
+          consultRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent" value="' + consultDateISO + '"></td><td contenteditable="true">CONSULTATION FEE</td><td contenteditable="true">' + (consult.examination || "").substring(0, 50) + '</td><td contenteditable="true">10:30 AM</td><td contenteditable="true">11:00 AM</td><td contenteditable="true">100.00</td><td contenteditable="true">1</td><td contenteditable="true">100.00</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+          tbody.appendChild(consultRow);
+          dayOffset++;
+
+          // Add procedures
+          procedures.forEach(function(proc) {
+            var price = parseFloat(proc.price) || 0;
+            var sessions = parseInt(proc.sessions) || 1;
+            for (var i = 0; i < sessions; i++) {
+              var dt = new Date(startDt);
+              dt.setDate(dt.getDate() + dayOffset);
+              dayOffset++;
               total += price;
-              count++;
-              const newRow = document.createElement("tr");
-              newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent"></td><td contenteditable="true">' + escapeHtml(desc) + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">1</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+              var dateVal = dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0") + "-" + String(dt.getDate()).padStart(2,"0");
+              var newRow = document.createElement("tr");
+              newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent" value="' + dateVal + '"></td><td contenteditable="true">' + escapeHtml(proc.description || "") + '</td><td contenteditable="true"></td><td contenteditable="true">10:00 AM</td><td contenteditable="true">11:00 AM</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">' + sessions + '</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
               tbody.appendChild(newRow);
             }
           });
-          if (count > 0) {
-            byId("insClaimAmount").value = total.toFixed(2);
-            byId("insClaimNet").value = total.toFixed(2);
-            alert("Bills loaded from current consultation: " + count + " entries");
-          } else {
-            alert("No bills found. Save a consultation for this patient first.");
-          }
+
+          byId("insClaimAmount").value = total.toFixed(2);
+          byId("insClaimNet").value = total.toFixed(2);
+
+          // Set dates
+          var billFrom = byId("claimsForm")?.elements["claimBillFrom"];
+          var billTo = byId("claimsForm")?.elements["claimBillTo"];
+          if (billFrom) billFrom.value = consult.consultDate || "";
+          var endDt = new Date(startDt);
+          endDt.setDate(endDt.getDate() + dayOffset);
+          if (billTo) billTo.value = String(endDt.getDate()).padStart(2,"0") + "-" + String(endDt.getMonth()+1).padStart(2,"0") + "-" + endDt.getFullYear();
+
+        }).catch(function() {
+          alert("Error loading consultations. Please try again.");
         });
       });
 
-      // Consultation button
+      // Consultation button - show list of consultations to choose from
       byId("insClaimConsultBtn")?.addEventListener("click", function() {
         if (!insClaimSelectedMr) { alert("Select a patient first"); return; }
-        byId("insClaimLoadBills")?.click();
+        fetch("/api/consultations/" + insClaimSelectedMr).then(function(r){return r.json()}).then(function(d) {
+          if (!d.success || !d.data || d.data.length === 0) {
+            alert("No consultations found for this patient. Save a consultation first.");
+            return;
+          }
+          // Show consultations in the visit history area as clickable list
+          var historyDiv = byId("insClaimVisitHistory");
+          if (historyDiv) {
+            var html = '<div style="padding:4px;font-size:10px;max-height:100px;overflow-y:auto"><div style="font-weight:700;margin-bottom:3px;color:#1b5e20">Click a visit to load bills:</div>';
+            d.data.forEach(function(c, i) {
+              var total = 0;
+              (c.procedures || []).forEach(function(p) { total += (parseFloat(p.price) || 0) * (parseInt(p.sessions) || 1); });
+              html += '<div class="ins-consult-pick" data-consult-idx="' + i + '" style="padding:3px 6px;border-bottom:1px solid #eee;cursor:pointer;display:flex;justify-content:space-between" onmouseover="this.style.background=\'#e8f5e9\'" onmouseout="this.style.background=\'\'"><span>' + (c.consultDate || '') + ' | Dr: ' + (c.doctor || '') + ' | ' + (c.chiefComplaints || '').substring(0,25) + '</span><span style="font-weight:700">AED ' + total.toFixed(2) + '</span></div>';
+            });
+            html += '</div>';
+            historyDiv.innerHTML = html;
+
+            // Add click handlers to each consultation item
+            historyDiv.querySelectorAll(".ins-consult-pick").forEach(function(item) {
+              item.addEventListener("click", function() {
+                var idx = parseInt(this.dataset.consultIdx);
+                var consult = d.data[idx];
+                loadConsultIntoClaims(consult);
+              });
+            });
+          }
+        }).catch(function() {
+          alert("Error loading consultations.");
+        });
       });
       byId("claimsForm")?.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -7219,16 +7456,18 @@ podi kizhi + lepanam x 5 days.</textarea>
         });
 
         // Save locally for reports
-        savedClaimsData.push({ claimId, mrNo, patientName, fromDate, toDate, amount: total.toFixed(2), entries });
+        var claimRecord = { claimId: claimId, mrNo: mrNo, patientName: patientName, fromDate: fromDate, toDate: toDate, amount: total.toFixed(2), receivedAmount: "0.00", savedByUser: true, entries: entries };
+        savedClaimsData.unshift(claimRecord);
 
-        // Add to claims list table
-        const claimsBody = document.querySelector("#claimsListScreen tbody");
-        if (claimsBody) {
-          const actionsHtml = '<div class="claims-actions"><button class="claims-act-btn medical" title="Medical Report">M</button><button class="claims-act-btn treatment" title="Treatment Report">T</button><button class="claims-act-btn medicine" title="Medicine Report">Rx</button><button class="claims-act-btn logsheet" title="Logsheet">L</button><button class="claims-act-btn edit" title="Edit">&#9998;</button><button class="claims-act-btn delete" title="Delete">&#10005;</button></div>';
-          const newRow = document.createElement("tr");
-          newRow.innerHTML = '<td style="color:#4caf50;font-weight:900">' + claimId + '</td><td>' + fromDate + '</td><td>' + toDate + '</td><td>' + mrNo + '</td><td>' + escapeHtml(patientName) + '</td><td>' + total.toFixed(2) + '</td><td>0.00</td><td>' + actionsHtml + '</td>';
-          claimsBody.insertBefore(newRow, claimsBody.firstChild);
-        }
+        // Save to server
+        fetch("/api/claims/save", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(claimRecord)
+        }).catch(function(){});
+
+        // Re-render claims list
+        renderClaimsList();
 
         alert("Claim " + claimId + " saved!\n\nPatient: " + patientName + "\nAmount: AED " + total.toFixed(2));
         closeModal("claimsModal");
@@ -7524,7 +7763,16 @@ podi kizhi + lepanam x 5 days.</textarea>
           openModal("claimsModal");
         } else if (btn.classList.contains("delete")) {
           if (confirm("Delete claim " + claimId + "?")) {
-            row.remove();
+            // Remove from local data
+            savedClaimsData = savedClaimsData.filter(function(c) { return c.claimId !== claimId; });
+            // Remove from server permanently
+            fetch("/api/claims/delete", {
+              method: "POST",
+              headers: {"Content-Type": "application/json"},
+              body: JSON.stringify({claimId: claimId})
+            }).catch(function(){});
+            // Re-render
+            renderClaimsList();
           }
         }
       });
@@ -7631,11 +7879,22 @@ podi kizhi + lepanam x 5 days.</textarea>
       fetch("/api/doctors").then(function(r){return r.json()}).then(function(d) {
         if (d.success && d.data) doctorProfiles = d.data;
         renderDoctorMgmt();
+        populateConsultDoctorDropdown();
       }).catch(function(){});
       fetch("/api/doctor-sign").then(function(r){return r.json()}).then(function(d) {
         if (d.success && d.data) doctorSignatures = d.data;
         renderDoctorMgmt();
       }).catch(function(){});
+    }
+
+    function populateConsultDoctorDropdown() {
+      var sel = byId("apptConsultDoctor");
+      if (!sel) return;
+      var html = '<option value="">-- Same as Doctor --</option>';
+      doctorProfiles.forEach(function(doc) {
+        html += '<option value="' + escapeHtml(doc.name) + '">' + escapeHtml(doc.name) + '</option>';
+      });
+      sel.innerHTML = html;
     }
 
     function renderDoctorMgmt() {
@@ -8141,7 +8400,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       var tbody = byId("claimsRows");
       if (!tbody) return;
       var search = (byId("claimsPatientSearch")?.value || "").toLowerCase();
-      var allClaims = savedClaimsData.length ? savedClaimsData : defaultClaims;
+      // Only show claims explicitly saved by user from claims form
+      var allClaims = savedClaimsData;
       var filtered = allClaims.filter(function(c) {
         if (!search) return true;
         return (c.patientName || "").toLowerCase().includes(search) || (c.mrNo || "").includes(search) || (c.claimId || "").toLowerCase().includes(search);
@@ -8155,8 +8415,8 @@ podi kizhi + lepanam x 5 days.</textarea>
         '<button class="claims-act-btn delete" title="Delete">&#10005;</button>' +
         '</div>';
       var html = filtered.map(function(c, i) {
-        return '<tr data-claim-id="' + escapeHtml(c.claimId) + '">' +
-          '<td style="color:#d00;font-weight:700">' + escapeHtml(c.claimId) + '</td>' +
+        return '<tr data-claim-id="' + escapeHtml(c.claimId || '') + '">' +
+          '<td style="color:#d00;font-weight:700">' + escapeHtml(c.claimId || '') + '</td>' +
           '<td>' + escapeHtml(c.fromDate || '') + '</td>' +
           '<td>' + escapeHtml(c.toDate || '') + '</td>' +
           '<td>' + escapeHtml(c.mrNo || '') + '</td>' +
@@ -8168,6 +8428,81 @@ podi kizhi + lepanam x 5 days.</textarea>
       }).join('');
       tbody.innerHTML = html;
       byId("claimsEmpty").style.display = filtered.length ? "none" : "block";
+    }
+
+    function loadConsultIntoClaims(consult) {
+      var tbody = byId("claimsTableBody");
+      tbody.innerHTML = "";
+      var total = 0;
+      var procedures = consult.procedures || [];
+      var startParts = (consult.consultDate || "").split("-");
+      var startDt = startParts.length === 3 ? new Date(startParts[2] + "-" + startParts[1] + "-" + startParts[0]) : new Date();
+      var dayOffset = 0;
+
+      // Add consultation fee
+      total += 100;
+      var consultDateISO = startParts.length === 3 ? startParts[2] + "-" + startParts[1] + "-" + startParts[0] : "";
+      var consultRow = document.createElement("tr");
+      consultRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent" value="' + consultDateISO + '"></td><td contenteditable="true">CONSULTATION FEE</td><td contenteditable="true">' + (consult.examination || "").substring(0,50) + '</td><td contenteditable="true">10:30 AM</td><td contenteditable="true">11:00 AM</td><td contenteditable="true">100.00</td><td contenteditable="true">1</td><td contenteditable="true">100.00</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+      tbody.appendChild(consultRow);
+      dayOffset++;
+
+      // Add procedures
+      procedures.forEach(function(proc) {
+        var price = parseFloat(proc.price) || 0;
+        var sessions = parseInt(proc.sessions) || 1;
+        for (var i = 0; i < sessions; i++) {
+          var dt = new Date(startDt);
+          dt.setDate(dt.getDate() + dayOffset);
+          dayOffset++;
+          total += price;
+          var dateVal = dt.getFullYear() + "-" + String(dt.getMonth()+1).padStart(2,"0") + "-" + String(dt.getDate()).padStart(2,"0");
+          var newRow = document.createElement("tr");
+          newRow.innerHTML = '<td><input type="date" class="claim-date-input" style="width:85px;height:18px;font-size:9px;border:none;background:transparent" value="' + dateVal + '"></td><td contenteditable="true">' + escapeHtml(proc.description || "") + '</td><td contenteditable="true"></td><td contenteditable="true">10:00 AM</td><td contenteditable="true">11:00 AM</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">' + sessions + '</td><td contenteditable="true">' + price.toFixed(2) + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+          tbody.appendChild(newRow);
+        }
+      });
+
+      byId("insClaimAmount").value = total.toFixed(2);
+      byId("insClaimNet").value = total.toFixed(2);
+
+      // Set dates
+      var billFrom = byId("claimsForm")?.elements["claimBillFrom"];
+      var billTo = byId("claimsForm")?.elements["claimBillTo"];
+      if (billFrom) billFrom.value = consult.consultDate || "";
+      var endDt = new Date(startDt);
+      endDt.setDate(endDt.getDate() + dayOffset);
+      if (billTo) billTo.value = String(endDt.getDate()).padStart(2,"0") + "-" + String(endDt.getMonth()+1).padStart(2,"0") + "-" + endDt.getFullYear();
+      if (byId("claimsForm")?.elements["claimFirstVisit"]) byId("claimsForm").elements["claimFirstVisit"].value = consult.consultDate || "";
+    }
+
+    function loadPatientVisitHistory(mrNo) {
+      var historyDiv = byId("insClaimVisitHistory");
+      if (!historyDiv) return;
+      historyDiv.innerHTML = '<div style="padding:4px;color:#888;font-size:10px">Loading...</div>';
+      fetch("/api/consultations/" + mrNo).then(function(r){return r.json()}).then(function(d) {
+        if (!d.success || !d.data || d.data.length === 0) {
+          historyDiv.innerHTML = '<div style="padding:4px;color:#888;font-size:10px">No visit history for this patient</div>';
+          return;
+        }
+        var html = '<div style="padding:4px;font-size:10px;max-height:80px;overflow-y:auto"><table style="width:100%;border-collapse:collapse;font-size:9px"><thead><tr style="background:#e8f5e9"><th style="padding:2px 4px;text-align:left">Date</th><th style="padding:2px 4px;text-align:left">Doctor</th><th style="padding:2px 4px;text-align:left">Complaints</th><th style="padding:2px 4px;text-align:right">Amount</th></tr></thead><tbody>';
+        d.data.forEach(function(c) {
+          var total = 0;
+          (c.procedures || []).forEach(function(p) { total += (parseFloat(p.price) || 0) * (parseInt(p.sessions) || 1); });
+          html += '<tr style="border-bottom:1px solid #eee"><td style="padding:2px 4px">' + (c.consultDate || '') + '</td><td style="padding:2px 4px">' + (c.doctor || '') + '</td><td style="padding:2px 4px">' + (c.chiefComplaints || '').substring(0,30) + '</td><td style="padding:2px 4px;text-align:right">' + total.toFixed(2) + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+        historyDiv.innerHTML = html;
+
+        // Set first visit date
+        var firstVisit = byId("claimsForm")?.elements["claimFirstVisit"];
+        if (firstVisit && d.data.length > 0) {
+          var oldest = d.data[d.data.length - 1];
+          firstVisit.value = oldest.consultDate || "";
+        }
+      }).catch(function() {
+        historyDiv.innerHTML = '<div style="padding:4px;color:#888;font-size:10px">Could not load history</div>';
+      });
     }
 
     function loadClaimsFromServer() {

@@ -295,7 +295,26 @@ async function handleAPI(req, res) {
 
   // ── Claims ──
   if (url === '/api/claims' && method === 'GET') {
-    return sendJSON(res, { success: true, data: db.claims });
+    // Return only user-saved claims (NOT auto-generated from consultations)
+    const userClaims = (db.claims || []).filter(c => c.savedByUser === true);
+    return sendJSON(res, { success: true, data: userClaims });
+  }
+  if (url === '/api/claims/save' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.claims) db.claims = [];
+    body.savedByUser = true;
+    // Remove existing claim with same ID if any
+    db.claims = db.claims.filter(c => c.claimId !== body.claimId);
+    db.claims.unshift(body);
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+  if (url === '/api/claims/delete' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.claims) db.claims = [];
+    db.claims = db.claims.filter(c => c.claimId !== body.claimId);
+    saveDatabase();
+    return sendJSON(res, { success: true });
   }
 
   // ── Logsheet ──
