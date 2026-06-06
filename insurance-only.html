@@ -5396,26 +5396,72 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function simulateReadEID() {
-      // Simulate reading an EID card and populating key fields
-      const form = byId("patientForm");
-      const sample = {
-        mrNo: nextPatientMr(),
-        firstName: "SURAJ",
-        middleName: "KUMAR",
-        lastName: "PATEL",
-        mobile: "971501234567",
-        dob: "15/Mar/1990",
-        nationality: "India",
-        eid: "784-1990-1234567-8",
-      };
-      Object.entries(sample).forEach(([name, value]) => {
-        if (form.elements[name]) form.elements[name].value = value;
-      });
-      updateAgeFields();
-      // mark fields that were filled
-      ["pMr","pFirst","pLast","pMobile","pDob","pEid","pNationality"].forEach(id => {
-        const el = byId(id);
-        if (el) el.classList.remove("invalid");
+      // Try to read from physical card reader first
+      const readBtn = document.querySelector(".read-eid");
+      if (readBtn) { readBtn.textContent = "Reading..."; readBtn.disabled = true; }
+
+      fetch("/api/read-eid").then(function(r) { return r.json(); }).then(function(result) {
+        if (readBtn) { readBtn.textContent = "Read EID"; readBtn.disabled = false; }
+
+        if (result.success && result.data) {
+          if (result.partial) {
+            // Card detected but couldn't read full data
+            alert("Card detected!\n\nReader: " + (result.data.readerName || "Unknown") + "\nATR: " + (result.data.atr || "N/A") + "\n\n" + (result.data.message || ""));
+          } else {
+            // Full data read
+            alert("Card data read!\n\n" + (result.data.rawText || result.data.message || "Data received"));
+            // Try to parse and fill form if data available
+            if (result.data.rawText) {
+              // Attempt to extract info from raw text
+              var text = result.data.rawText;
+              var form = byId("patientForm");
+              // Look for patterns in the text
+              var eidMatch = text.match(/784[\-\s]?\d{4}[\-\s]?\d{7}[\-\s]?\d/);
+              if (eidMatch && form.elements.eid) form.elements.eid.value = eidMatch[0];
+            }
+          }
+        } else {
+          // Card reader not available - use simulated data for testing
+          var useSimulate = confirm("Card reader not available.\n\n" + (result.error || "No reader detected") + "\n\nDo you want to use SIMULATED data for testing?");
+          if (useSimulate) {
+            var form = byId("patientForm");
+            var sample = {
+              mrNo: nextPatientMr(),
+              firstName: "SURAJ",
+              middleName: "KUMAR",
+              lastName: "PATEL",
+              mobile: "971501234567",
+              dob: "15/Mar/1990",
+              nationality: "India",
+              eid: "784-1990-1234567-8",
+            };
+            Object.entries(sample).forEach(function(entry) {
+              if (form.elements[entry[0]]) form.elements[entry[0]].value = entry[1];
+            });
+            updateAgeFields();
+          }
+        }
+      }).catch(function(err) {
+        if (readBtn) { readBtn.textContent = "Read EID"; readBtn.disabled = false; }
+        // Network error - simulate for testing
+        var useSimulate = confirm("Cannot connect to card reader service.\n\nDo you want to use SIMULATED data for testing?");
+        if (useSimulate) {
+          var form = byId("patientForm");
+          var sample = {
+            mrNo: nextPatientMr(),
+            firstName: "SURAJ",
+            middleName: "KUMAR",
+            lastName: "PATEL",
+            mobile: "971501234567",
+            dob: "15/Mar/1990",
+            nationality: "India",
+            eid: "784-1990-1234567-8",
+          };
+          Object.entries(sample).forEach(function(entry) {
+            if (form.elements[entry[0]]) form.elements[entry[0]].value = entry[1];
+          });
+          updateAgeFields();
+        }
       });
     }
 

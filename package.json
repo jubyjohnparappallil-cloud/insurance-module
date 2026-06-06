@@ -59,6 +59,7 @@
     "electron-packager": "^17.1.2"
   },
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "nodemailer": "^6.9.7",
+    "pcsclite": "^1.0.1"
   }
 }

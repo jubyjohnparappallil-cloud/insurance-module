@@ -438,6 +438,104 @@ async function handleAPI(req, res) {
     return sendJSON(res, { success: true, data: db.doctorSignatures || {} });
   }
 
+  // ── Read Emirates ID Card ──
+  if (url === '/api/read-eid' && method === 'GET') {
+    try {
+      const pcsclite = require('pcsclite');
+      const pcsc = pcsclite();
+      
+      return new Promise((resolve) => {
+        let timeout = setTimeout(() => {
+          pcsc.close();
+          sendJSON(res, { success: false, error: 'No card reader found or no card inserted. Please insert Emirates ID card and try again.' });
+          resolve();
+        }, 5000);
+
+        pcsc.on('reader', (reader) => {
+          reader.on('status', (status) => {
+            const changes = reader.state ^ status.state;
+            if (changes && (status.state & reader.SCARD_STATE_PRESENT)) {
+              // Card is present - try to read
+              reader.connect({ share_mode: reader.SCARD_SHARE_SHARED }, (err, protocol) => {
+                if (err) {
+                  clearTimeout(timeout);
+                  pcsc.close();
+                  sendJSON(res, { success: false, error: 'Cannot connect to card: ' + err.message });
+                  resolve();
+                  return;
+                }
+
+                // Send SELECT command for Emirates ID applet
+                // UAE ID card AID: A0 00 00 00 77 01 08 00 07 00 00 FE 00 00 01 00
+                const selectCmd = Buffer.from([0x00, 0xA4, 0x04, 0x00, 0x10, 0xA0, 0x00, 0x00, 0x00, 0x77, 0x01, 0x08, 0x00, 0x07, 0x00, 0x00, 0xFE, 0x00, 0x00, 0x01, 0x00]);
+                
+                reader.transmit(selectCmd, 256, protocol, (err2, data) => {
+                  if (err2 || !data || data.length < 2) {
+                    // Try alternative: read card UID/ATR as fallback
+                    clearTimeout(timeout);
+                    var atr = status.atr ? status.atr.toString('hex').toUpperCase() : '';
+                    pcsc.close();
+                    sendJSON(res, { 
+                      success: true, 
+                      partial: true,
+                      data: { 
+                        cardType: 'Smart Card Detected',
+                        atr: atr,
+                        readerName: reader.name,
+                        message: 'Card detected but could not read Emirates ID data. Card ATR: ' + atr
+                      }
+                    });
+                    resolve();
+                    return;
+                  }
+
+                  // Try to read personal data (simplified)
+                  // READ BINARY command for basic data
+                  const readCmd = Buffer.from([0x00, 0xB0, 0x00, 0x00, 0x00]);
+                  reader.transmit(readCmd, 1024, protocol, (err3, personalData) => {
+                    clearTimeout(timeout);
+                    reader.disconnect(reader.SCARD_LEAVE_CARD, () => {});
+                    pcsc.close();
+
+                    if (personalData && personalData.length > 2) {
+                      // Parse the response (simplified - actual parsing depends on card format)
+                      var rawHex = personalData.toString('hex');
+                      var rawText = '';
+                      for (var i = 0; i < personalData.length - 2; i++) {
+                        if (personalData[i] >= 32 && personalData[i] <= 126) rawText += String.fromCharCode(personalData[i]);
+                      }
+                      sendJSON(res, { 
+                        success: true, 
+                        data: { 
+                          rawHex: rawHex,
+                          rawText: rawText,
+                          readerName: reader.name,
+                          message: 'Card data read successfully'
+                        }
+                      });
+                    } else {
+                      sendJSON(res, { success: true, partial: true, data: { readerName: reader.name, message: 'Card detected, limited data available' } });
+                    }
+                    resolve();
+                  });
+                });
+              });
+            }
+          });
+          reader.on('error', () => {});
+        });
+
+        pcsc.on('error', (err) => {
+          clearTimeout(timeout);
+          sendJSON(res, { success: false, error: 'Smart Card service not available. Please ensure the card reader is plugged in and drivers are installed. Error: ' + err.message });
+          resolve();
+        });
+      });
+    } catch(e) {
+      return sendJSON(res, { success: false, error: 'Card reader module not available: ' + e.message });
+    }
+  }
+
   // ── Drugs ──
   if (url === '/api/drugs' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.drugs || [] });
