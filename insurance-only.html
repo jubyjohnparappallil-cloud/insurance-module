@@ -5404,22 +5404,8 @@ podi kizhi + lepanam x 5 days.</textarea>
         if (readBtn) { readBtn.textContent = "Read EID"; readBtn.disabled = false; }
 
         if (result.success && result.data) {
-          if (result.partial) {
-            // Card detected but couldn't read full data
-            alert("Card detected!\n\nReader: " + (result.data.readerName || "Unknown") + "\nATR: " + (result.data.atr || "N/A") + "\n\n" + (result.data.message || ""));
-          } else {
-            // Full data read
-            alert("Card data read!\n\n" + (result.data.rawText || result.data.message || "Data received"));
-            // Try to parse and fill form if data available
-            if (result.data.rawText) {
-              // Attempt to extract info from raw text
-              var text = result.data.rawText;
-              var form = byId("patientForm");
-              // Look for patterns in the text
-              var eidMatch = text.match(/784[\-\s]?\d{4}[\-\s]?\d{7}[\-\s]?\d/);
-              if (eidMatch && form.elements.eid) form.elements.eid.value = eidMatch[0];
-            }
-          }
+          // Card detected but Emirates ID needs ICA toolkit to read data
+          alert("Card Reader: " + (result.data.readerName || "OMNIKEY") + "\n\nCard is detected but Emirates ID data cannot be read without ICA Toolkit license.\n\nPlease enter patient details manually.");
         } else {
           // Card reader not available - use simulated data for testing
           var useSimulate = confirm("Card reader not available.\n\n" + (result.error || "No reader detected") + "\n\nDo you want to use SIMULATED data for testing?");
