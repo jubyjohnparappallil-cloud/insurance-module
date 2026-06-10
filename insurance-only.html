@@ -6336,6 +6336,12 @@ podi kizhi + lepanam x 5 days.</textarea>
           }
         } else if (action === "createReceipt") {
           openModal("receiptModal");
+        } else if (action === "generateConsent") {
+          if (selectedAppointmentIndex != null) {
+            var appt = appointments[selectedAppointmentIndex];
+            var pat = patients.find(function(p) { return p.mrNo === appt.mrNo; });
+            generateConsentForm(appt, pat);
+          }
         } else {
           alert(button.textContent.trim() + " - Feature coming soon");
         }
@@ -8123,6 +8129,178 @@ podi kizhi + lepanam x 5 days.</textarea>
         '<\/script></body></html>';
 
       var win = window.open("", "_blank", "width=700,height=900");
+      win.document.write(html);
+      win.document.close();
+    }
+
+    // ─── Patient Consent Form Generator ─────────────────────────────
+    function generateConsentForm(appt, pat) {
+      var patientName = pat ? fullName(pat) : (appt.patient || "");
+      var fileNo = pat ? pat.mrNo : (appt.mrNo || "");
+      var age = "";
+      if (pat && pat.dob) {
+        var dob = parseAnyDate(pat.dob);
+        if (dob) age = String(new Date().getFullYear() - dob.getFullYear());
+      }
+      var doctorName = appt.consultDoctor || appt.doctor || "";
+      var today = new Date();
+      var dateStr = String(today.getDate()).padStart(2,"0") + "/" + String(today.getMonth()+1).padStart(2,"0") + "/" + String(today.getFullYear()).slice(2);
+
+      var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Patient Consent Form</title>';
+      html += '<style>';
+      html += '@page{size:A4;margin:6mm 10mm}';
+      html += 'body{margin:0;padding:10px 16px;font-family:Arial,sans-serif;font-size:9.5px;color:#000;line-height:1.35}';
+      html += '.hdr{text-align:center;padding-bottom:6px;border-bottom:2px solid #000;margin-bottom:6px}';
+      html += '.hdr .ar{float:right;font-family:"Traditional Arabic",Arial;font-size:13px;font-weight:700;direction:rtl;text-align:right;line-height:1.3}';
+      html += '.hdr .logo{font-family:"Brush Script MT",cursive;font-size:26px;font-weight:700;color:#1a237e}';
+      html += '.hdr .sub{font-size:10px;font-weight:700}';
+      html += '.hdr .adr{font-size:8.5px;color:#000;margin-top:2px;font-weight:700}';
+      html += '.main{display:flex}';
+      html += '.left{flex:1;padding-right:6px;border-right:1.5px solid #000}';
+      html += '.right{flex:0.85;padding-left:6px;direction:rtl;text-align:right;font-family:"Traditional Arabic",Arial;font-size:10px;line-height:1.4}';
+      html += '.fld{margin:2px 0;font-size:9.5px}';
+      html += '.fld b{font-weight:700}';
+      html += '.ul{border-bottom:1px solid #000;min-width:100px;display:inline-block;padding:0 2px;cursor:text}';
+      html += '.ul2{border-bottom:1px solid #000;min-width:180px;display:inline-block;padding:0 2px;cursor:text}';
+      html += '[contenteditable]{outline:none;border-bottom:1px solid #000;min-width:80px;display:inline-block;padding:0 2px}';
+      html += '.sh{font-size:9.5px;font-weight:700;text-decoration:underline;margin:5px 0 2px;padding:1px 4px;background:#333;color:#fff;display:inline-block}';
+      html += '.sh2{font-size:9px;font-weight:700;text-decoration:underline;margin:4px 0 1px}';
+      html += '.bt{font-size:8.5px;margin:0 0 3px;line-height:1.35}';
+      html += '.cb{background:#999;border:1px solid #000;text-align:center;font-weight:700;font-size:10px;padding:2px;margin:6px 0 3px;color:#fff}';
+      html += '.sl{margin:3px 0;font-size:9.5px}';
+      html += '.sl .ln{border-bottom:1px solid #000;min-width:130px;display:inline-block}';
+      html += '.db{border-top:1.5px solid #000;margin-top:5px;padding-top:3px}';
+      html += '.rsh{font-weight:700;margin:4px 0 1px;font-size:10px}';
+      html += '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:32px;background:#e0e0e0;border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:6px;z-index:1000}';
+      html += '.cr-toolbar button{height:24px;padding:0 12px;border:1px solid #999;background:#fff;font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}';
+      html += '.cr-toolbar button.g{background:#2e7d32;color:#fff;border-color:#2e7d32}';
+      html += '.rb{margin-top:36px}';
+      html += '@media print{.cr-toolbar{display:none!important}.rb{margin-top:0}}';
+      html += '</style></head><body>';
+      html += '<div class="cr-toolbar"><button class="g" onclick="window.print()">&#128424; Print</button> <button onclick="window.print()">&#128190; Save as PDF</button> <span style="margin-left:15px;font-size:9px;color:#555">&#9998; Click any underlined field to edit</span></div>';
+      html += '<div class="rb">';
+
+      // HEADER
+      html += '<div class="hdr">';
+      html += '<div class="ar">مركز شانتي ويلنس<br>ايروفيديك الطبي خ.م.م</div>';
+      html += '<img src="logo.png" style="height:60px" onerror="this.style.display=\'none\'"><br>';
+      html += '<span class="sub">Ayurvedic Medical Centre LLC &#9830;</span><br>';
+      html += '<span class="adr">Suite M19, Royal House, Al Wuheida Street, Hor Al Anz East, Dubai, United Arab Emirates<br>';
+      html += 'Tel.: +971 4 225 5133, Mob.: +971 56 912 1844, Email: info@ayurvedauae.com, Web: www.ayurvedauae.com</span><br>';
+      html += '<span style="font-size:8px;font-weight:700;margin-top:2px;display:inline-block"><span style="background:#3b5998;color:#fff;padding:1px 4px;border-radius:2px">f</span> ayurvedadubai &nbsp;&nbsp; <span style="background:#c13584;color:#fff;padding:1px 4px;border-radius:2px">&#9679;</span> ayurvedauae &nbsp;&nbsp; <span style="background:#1da1f2;color:#fff;padding:1px 4px;border-radius:2px">&#9679;</span> ayurvedauae</span>';
+      html += '</div>';
+
+      // MAIN TWO COLUMNS
+      html += '<div class="main"><div class="left">';
+
+      // Info fields
+      html += '<div class="fld"><b>Name of Healthcare Professional:</b> <span class="ul2" contenteditable="true">' + doctorName + '</span></div>';
+      html += '<div class="fld"><b>Name of Health Facility:</b> <span class="ul2" contenteditable="true">SHANTHI WELLNESS AYURVED MEDICAL CENTRE LLC</span></div>';
+      html += '<div class="fld"><b>Name of Patient:</b> <span class="ul2" contenteditable="true">' + patientName + '</span> &nbsp; <b>File No:</b> <span class="ul" contenteditable="true">' + fileNo + '</span></div>';
+      html += '<div class="fld"><span class="sh">Introduction:</span> <span class="ul" contenteditable="true">' + doctorName + '</span></div>';
+      html += '<div class="fld">with License No: <span class="ul" contenteditable="true">02548615-004</span> should be performing the</div>';
+      html += '<div class="fld">treatment / procedure on Miss/Mrs./Mr. <span class="ul" contenteditable="true">' + patientName + '</span></div>';
+      html += '<div class="fld">aged <span class="ul" contenteditable="true">' + age + '</span> years, on date <span class="ul" contenteditable="true">' + dateStr + '</span></div>';
+
+      // Description
+      html += '<div class="sh2" style="font-style:italic"><span class="sh">Description of the Procedure and Process:</span></div>';
+      html += '<div class="bt" contenteditable="true">I, Mr./Mrs. <b>' + patientName + '</b><br>after being explained thoroughly the entire procedure, I understand and agreed for the treatment. The benefits and risks involved in this treatment are explained to me and I am accepting the treatment.<br>Risks and benefits includes but not limited to:</div>';
+
+      // Side Effects
+      html += '<div class="sh">Side Effects</div>';
+      html += '<div class="bt">&bull; It is a natural treatment that does not involve the use of any harmful chemicals. Hence it is free from side effects.<br>&bull; Skin allergies<br>&bull; Superficial burns on skin.<br>&bull; Some persons may be allergic to some internal herbal medicines. They can have skin rashes breathing problems and stomach upset</div>';
+
+      // Complications
+      html += '<div class="sh">Complications</div>';
+      html += '<div class="bt">&bull; Rashes<br>&bull; Dizziness &amp; fainting</div>';
+
+      // Benefits
+      html += '<div class="sh">Benefits</div>';
+      html += '<div class="bt">&bull; Relieves pain, stiffness &amp; swelling associated with arthritis or other painful conditions.<br>&bull; Increases blood circulation<br>&bull; Improves range of motion.<br>&bull; Delays age related degeneration.<br>&bull; Strengthens and rejuvenates bones, muscles, tissues and nerves.<br>&bull; Relieves other systemic ailments</div>';
+
+      // Confidentiality
+      html += '<div class="sh">Confidentiality</div>';
+      html += '<div class="bt">We will maintain the confidentiality of data related with the patient.</div>';
+
+      // Right to refuse
+      html += '<div class="sh">Right to refuse treatment/ procedure</div>';
+      html += '<div class="bt">This is a reconfirmation that the patient has the right to refuse the treatment.</div>';
+
+      // Financial
+      html += '<div class="sh">Financial Implications</div>';
+      html += '<div class="bt">All procedures / treatments provided that are not covered by insurance or which may require the patient\'s full payment or co-payment.</div>';
+
+      html += '</div>'; // end left
+
+      // RIGHT COLUMN (Arabic)
+      html += '<div class="right">';
+      html += '<div class="rsh">اسم المعالج الرعاية الصحية .........................</div>';
+      html += '<div class="rsh">اسم المنشأة الصحية .........................</div>';
+      html += '<div style="margin:2px 0"><b>اسم المريض</b> ................... &nbsp; <b>رقم الملف</b> ............</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">المقدمة</div> <span>رقم الملف ............</span>';
+      html += '<div>يحمل رقم الرخصة الطبية .........................</div>';
+      html += '<div>العمر / الإجراء على السيد / السيدة / الآنسة .........................</div>';
+      html += '<div>في التاريخ .........................</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block;margin-top:4px">الوصف</div>';
+      html += '<div style="font-size:9px">بعد شرح الإجراء بالكامل فهمت ووافقت على العلاج. تم شرح الفوائد والمخاطر التي ينطوي عليها هذا العلاج لي وأنا أقبل العلاج</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">الآثار الجانبية</div>';
+      html += '<div style="font-size:9px">إنه علاج طبيعي لا يتضمن استخدام أي مواد كيميائية ضارة وبالتالي فهو خالٍ من الآثار الجانبية<br>حساسية الجلد<br>حروق سطحية على الجلد<br>قد يكون بعض الأشخاص لديهم حساسية من بعض الأدوية العشبية. يمكن أن يعانوا من طفح جلدي ومشاكل في التنفس واضطراب في المعدة</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">المضاعفات</div>';
+      html += '<div style="font-size:9px">طفح جلدي<br>دوخة وإغماء</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">الفوائد</div>';
+      html += '<div style="font-size:9px">يخفف الألم والتصلب والتورم المصاحب لالتهاب المفاصل أو غيرها من الحالات المؤلمة<br>يزيد من الدورة الدموية<br>يحسن نطاق الحركة<br>يؤخر التنكس المرتبط بالعمر<br>يقوي ويجدد العظام والعضلات والأنسجة والأعصاب<br>يخفف الأمراض الجهازية الأخرى</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">السرية</div>';
+      html += '<div style="font-size:9px">سنحافظ على سرية البيانات المتعلقة بالمريض</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">الحق في رفض العلاج / الإجراء</div>';
+      html += '<div style="font-size:9px">هذا تأكيد على أن للمريض الحق في رفض العلاج</div>';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">الآثار المالية</div>';
+      html += '<div style="font-size:9px">جميع الإجراءات / العلاجات المقدمة غير المغطاة بالتأمين أو التي قد تتطلب الدفع الكامل من المريض</div>';
+      html += '</div></div>'; // end right + main
+
+      // CERTIFICATE OF CONSENT
+      html += '<div class="cb">CERTIFICATE OF CONSENT &nbsp;&nbsp;&nbsp; شهادة الموافقة</div>';
+
+      html += '<div class="main"><div class="left">';
+      html += '<div class="sh">Patient Consent Statement</div>';
+      html += '<div class="bt">I have read the foregoing information, or it has been read to me. I have had the opportunity to ask the questions about it and any questions that I have asked have been answered to my satisfaction. I consent voluntarily to undergo this treatment and understand that I have the right to withdraw from the procedure or treatment at any time without in any way affecting my medical care.</div>';
+      html += '<div class="sl">Name of Patient: <span class="ln" contenteditable="true">' + patientName + '</span></div>';
+      html += '<div class="sl">Signature of Patient: <span class="ln" contenteditable="true"></span> Date: <span class="ln" contenteditable="true">' + dateStr + '</span></div>';
+      html += '</div><div class="right">';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">بيان موافقة المريض</div>';
+      html += '<div style="font-size:9px">لقد قرأت المعلومات السابقة أو تمت قراءتها لي. وأتيحت لي الفرصة لطرح الأسئلة وتمت الإجابة على جميع أسئلتي بما يرضيني. أوافق طوعاً على الخضوع لهذا العلاج وأفهم أن لي الحق في الانسحاب من الإجراء أو العلاج في أي وقت دون التأثير بأي شكل من الأشكال على رعايتي الصحية.</div>';
+      html += '<div style="margin-top:3px">اسم المريض: .........................</div>';
+      html += '<div>التوقيع: ................... التاريخ: ............</div>';
+      html += '</div></div>';
+
+      // WITNESS
+      html += '<div class="main" style="margin-top:4px"><div class="left">';
+      html += '<div class="sh">Witness Statement</div>';
+      html += '<div class="bt">I have accurately read or witnessed the accurate reading of the consent form to the potential patient, and the individual has had the opportunity to ask questions. I confirm that the individual has given consent freely.</div>';
+      html += '<div class="sl">Name of Witness: <span class="ln"></span></div>';
+      html += '<div class="sl">Signature of Witness: <span class="ln"></span> Date: <span class="ln">' + dateStr + '</span></div>';
+      html += '</div><div class="right">';
+      html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">إقرار شاهد</div>';
+      html += '<div style="font-size:9px">لقد قرأت بدقة أو شهدت القراءة الدقيقة لنموذج الموافقة للمريض المحتمل، وأتيحت للفرد الفرصة لطرح الأسئلة. أؤكد أن الفرد قد أعطى موافقته بحرية.</div>';
+      html += '<div style="margin-top:3px">اسم الشاهد: ..........................</div>';
+      html += '<div>التوقيع: ................... التاريخ: ............</div>';
+      html += '</div></div>';
+
+      // HEALTHCARE PROFESSIONAL DECLARATION
+      html += '<div class="db"><div class="main"><div class="left">';
+      html += '<div class="sh" style="background:#600">Healthcare Professional Declaration</div>';
+      html += '<div class="bt">I have adequately explained to the patient about the procedure along with the risks, adverse effects and the standard alternatives that are available for the procedure. I have permitted time and opportunity the patient to ask questions and all questions have been answered to my knowledge.</div>';
+      html += '<div class="sl">Name of healthcare professional: <span class="ln">' + doctorName + '</span></div>';
+      html += '<div class="sl" style="margin-top:10px">Signature of healthcare professional: <span class="ln"></span> Date: <span class="ln">' + dateStr + '</span></div>';
+      html += '</div><div class="right">';
+      html += '<div class="rsh" style="background:#600;color:#fff;padding:1px 4px;display:inline-block">إقرار الاختصاصي الرعاية الصحية</div>';
+      html += '<div style="font-size:9px">لقد شرحت للمريض بشكل كافٍ حول الإجراء مع المخاطر والآثار الضارة والبدائل القياسية المتاحة للإجراء. لقد منحت المريض الوقت والفرصة لطرح الأسئلة وتمت الإجابة على جميع الأسئلة على حد علمي.</div>';
+      html += '<div style="margin-top:3px">اسم الاختصاصي: .........................</div>';
+      html += '<div>التوقيع: ................... التاريخ: ............</div>';
+      html += '</div></div></div>';
+
+      html += '</div></body></html>';
+
+      var win = window.open("", "_blank", "width=800,height=1100");
       win.document.write(html);
       win.document.close();
     }
