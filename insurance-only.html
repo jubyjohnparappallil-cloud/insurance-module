@@ -5396,59 +5396,62 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function simulateReadEID() {
-      // Try to read from physical card reader first
-      const readBtn = document.querySelector(".read-eid");
-      if (readBtn) { readBtn.textContent = "Reading..."; readBtn.disabled = true; }
+      // MRZ-based card reading - ask for card details
+      var mrzLine1 = prompt("Enter LINE 1 from card back (starts with ILARE...):\n\nExample: ILARE1502508993784199518246626");
+      if (!mrzLine1) return;
+      
+      var mrzLine2 = prompt("Enter LINE 2 from card back:\n\nExample: 9504109F2711069IND<<<<<<<<<<6");
+      if (!mrzLine2) return;
 
-      fetch("/api/read-eid").then(function(r) { return r.json(); }).then(function(result) {
-        if (readBtn) { readBtn.textContent = "Read EID"; readBtn.disabled = false; }
+      var mrzLine3 = prompt("Enter LINE 3 from card back (NAME):\n\nExample: VADAKETHIL<<JUBY<JOHN<YOHANNAN");
+      if (!mrzLine3) return;
 
-        if (result.success && result.data) {
-          // Card detected but Emirates ID needs ICA toolkit to read data
-          alert("Card Reader: " + (result.data.readerName || "OMNIKEY") + "\n\nCard is detected but Emirates ID data cannot be read without ICA Toolkit license.\n\nPlease enter patient details manually.");
-        } else {
-          // Card reader not available - use simulated data for testing
-          var useSimulate = confirm("Card reader not available.\n\n" + (result.error || "No reader detected") + "\n\nDo you want to use SIMULATED data for testing?");
-          if (useSimulate) {
-            var form = byId("patientForm");
-            var sample = {
-              mrNo: nextPatientMr(),
-              firstName: "SURAJ",
-              middleName: "KUMAR",
-              lastName: "PATEL",
-              mobile: "971501234567",
-              dob: "15/Mar/1990",
-              nationality: "India",
-              eid: "784-1990-1234567-8",
-            };
-            Object.entries(sample).forEach(function(entry) {
-              if (form.elements[entry[0]]) form.elements[entry[0]].value = entry[1];
-            });
-            updateAgeFields();
-          }
-        }
-      }).catch(function(err) {
-        if (readBtn) { readBtn.textContent = "Read EID"; readBtn.disabled = false; }
-        // Network error - simulate for testing
-        var useSimulate = confirm("Cannot connect to card reader service.\n\nDo you want to use SIMULATED data for testing?");
-        if (useSimulate) {
-          var form = byId("patientForm");
-          var sample = {
-            mrNo: nextPatientMr(),
-            firstName: "SURAJ",
-            middleName: "KUMAR",
-            lastName: "PATEL",
-            mobile: "971501234567",
-            dob: "15/Mar/1990",
-            nationality: "India",
-            eid: "784-1990-1234567-8",
-          };
-          Object.entries(sample).forEach(function(entry) {
-            if (form.elements[entry[0]]) form.elements[entry[0]].value = entry[1];
-          });
-          updateAgeFields();
-        }
-      });
+      // Parse MRZ data
+      var form = byId("patientForm");
+      
+      // Line 1: I<ARE + doc number(9) + check + EID(15) + check
+      var docNum = mrzLine1.substring(5, 14);
+      var eidNum = mrzLine1.substring(15, 30).replace(/</g, '');
+      // Format as 784-XXXX-XXXXXXX-X
+      if (eidNum.length >= 15) {
+        var formatted = eidNum.substring(0,3) + '-' + eidNum.substring(3,7) + '-' + eidNum.substring(7,14) + '-' + eidNum.substring(14);
+        if (form.elements.eid) form.elements.eid.value = formatted;
+      }
+
+      // Line 2: DOB(6) + check + gender(1) + expiry(6) + check + nationality(3) + filler
+      var dobStr = mrzLine2.substring(0, 6); // YYMMDD
+      var gender = mrzLine2.substring(7, 8);
+      var expiryStr = mrzLine2.substring(8, 14);
+      var nationality = mrzLine2.substring(15, 18).replace(/</g, '');
+
+      // Parse DOB
+      var yy = parseInt(dobStr.substring(0,2));
+      var mm = parseInt(dobStr.substring(2,4));
+      var dd = parseInt(dobStr.substring(4,6));
+      var year = yy > 50 ? 1900 + yy : 2000 + yy;
+      var months = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      if (form.elements.dob) form.elements.dob.value = String(dd).padStart(2,'0') + '/' + months[mm] + '/' + year;
+
+      // Set gender
+      if (form.elements.gender) form.elements.gender.value = gender === 'F' ? 'Female' : 'Male';
+
+      // Set nationality
+      var natMap = {IND:'India',PAK:'Pakistan',PHL:'Philippines',BGD:'Bangladesh',LKA:'Sri Lanka',NPL:'Nepal',EGY:'Egypt',JOR:'Jordan',ARE:'UAE',GBR:'United Kingdom',USA:'United States'};
+      if (form.elements.nationality) form.elements.nationality.value = natMap[nationality] || nationality;
+
+      // Line 3: LASTNAME<<FIRSTNAME<MIDDLENAME
+      var nameParts = mrzLine3.replace(/</g, ' ').trim().split(/\s+/);
+      // First part before << is last name, rest is first/middle
+      var nameStr = mrzLine3.split('<<');
+      var lastName = (nameStr[0] || '').replace(/</g, ' ').trim();
+      var firstNames = (nameStr[1] || '').replace(/</g, ' ').trim().split(/\s+/);
+      
+      if (form.elements.lastName) form.elements.lastName.value = lastName;
+      if (form.elements.firstName && firstNames[0]) form.elements.firstName.value = firstNames[0];
+      if (form.elements.middleName && firstNames.length > 1) form.elements.middleName.value = firstNames.slice(1).join(' ');
+
+      updateAgeFields();
+      alert("✓ Patient details filled from Emirates ID!\n\nName: " + firstNames.join(' ') + ' ' + lastName + "\nDOB: " + form.elements.dob.value + "\nGender: " + form.elements.gender.value + "\nNationality: " + (natMap[nationality] || nationality) + "\nEmirates ID: " + (form.elements.eid?.value || eidNum));
     }
 
     function validatePatientForm() {
@@ -8168,7 +8171,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '.bt{font-size:8.5px;margin:0 0 3px;line-height:1.35}';
       html += '.cb{background:#999;border:1px solid #000;text-align:center;font-weight:700;font-size:10px;padding:2px;margin:6px 0 3px;color:#fff}';
       html += '.sl{margin:3px 0;font-size:9.5px}';
-      html += '.sl .ln{border-bottom:1px solid #000;min-width:130px;display:inline-block}';
+      html += '.sl .ln{border-bottom:1px solid #000;min-width:130px;display:inline-block;cursor:text}';
+      html += '.ul:hover,.ul2:hover,.sl .ln:hover{background:#fffde7}';
+      html += '[contenteditable]:focus{outline:1px dashed #2e7d32;background:#fffde7}';
       html += '.db{border-top:1.5px solid #000;margin-top:5px;padding-top:3px}';
       html += '.rsh{font-weight:700;margin:4px 0 1px;font-size:10px}';
       html += '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:32px;background:#e0e0e0;border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:6px;z-index:1000}';
@@ -8276,8 +8281,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '<div class="main" style="margin-top:4px"><div class="left">';
       html += '<div class="sh">Witness Statement</div>';
       html += '<div class="bt">I have accurately read or witnessed the accurate reading of the consent form to the potential patient, and the individual has had the opportunity to ask questions. I confirm that the individual has given consent freely.</div>';
-      html += '<div class="sl">Name of Witness: <span class="ln"></span></div>';
-      html += '<div class="sl">Signature of Witness: <span class="ln"></span> Date: <span class="ln">' + dateStr + '</span></div>';
+      html += '<div class="sl">Name of Witness: <span class="ln" contenteditable="true"></span></div>';
+      html += '<div class="sl">Signature of Witness: <span class="ln" contenteditable="true"></span> Date: <span class="ln" contenteditable="true">' + dateStr + '</span></div>';
       html += '</div><div class="right">';
       html += '<div class="rsh" style="background:#333;color:#fff;padding:1px 4px;display:inline-block">إقرار شاهد</div>';
       html += '<div style="font-size:9px">لقد قرأت بدقة أو شهدت القراءة الدقيقة لنموذج الموافقة للمريض المحتمل، وأتيحت للفرد الفرصة لطرح الأسئلة. أؤكد أن الفرد قد أعطى موافقته بحرية.</div>';
@@ -8289,8 +8294,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '<div class="db"><div class="main"><div class="left">';
       html += '<div class="sh" style="background:#600">Healthcare Professional Declaration</div>';
       html += '<div class="bt">I have adequately explained to the patient about the procedure along with the risks, adverse effects and the standard alternatives that are available for the procedure. I have permitted time and opportunity the patient to ask questions and all questions have been answered to my knowledge.</div>';
-      html += '<div class="sl">Name of healthcare professional: <span class="ln">' + doctorName + '</span></div>';
-      html += '<div class="sl" style="margin-top:10px">Signature of healthcare professional: <span class="ln"></span> Date: <span class="ln">' + dateStr + '</span></div>';
+      html += '<div class="sl">Name of healthcare professional: <span class="ln" contenteditable="true">' + doctorName + '</span></div>';
+      html += '<div class="sl" style="margin-top:10px">Signature of healthcare professional: <span class="ln" contenteditable="true"></span> Date: <span class="ln" contenteditable="true">' + dateStr + '</span></div>';
       html += '</div><div class="right">';
       html += '<div class="rsh" style="background:#600;color:#fff;padding:1px 4px;display:inline-block">إقرار الاختصاصي الرعاية الصحية</div>';
       html += '<div style="font-size:9px">لقد شرحت للمريض بشكل كافٍ حول الإجراء مع المخاطر والآثار الضارة والبدائل القياسية المتاحة للإجراء. لقد منحت المريض الوقت والفرصة لطرح الأسئلة وتمت الإجابة على جميع الأسئلة على حد علمي.</div>';
