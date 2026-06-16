@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0000FF">
+  <link rel="manifest" href="/manifest.json">
+  <title>Shanthi Wellness - Book Appointment</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #E6E6FF; color: #333; min-height: 100vh; display: flex; justify-content: center; }
+    
+    /* Mobile container - looks like a phone on desktop */
+    .app-container { width: 100%; max-width: 420px; min-height: 100vh; background: #F8F8FF; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.15); }
+    
+    .header { background: linear-gradient(135deg, #0000AA, #0000CC); color: #fff; padding: 16px 18px; position: sticky; top: 0; z-index: 100; box-shadow: 0 3px 12px rgba(27,94,32,0.3); display: flex; align-items: center; gap: 12px; }
+    .header-logo { width: 42px; height: 42px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .header-text h1 { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; }
+    .header-text p { font-size: 10px; opacity: 0.8; }
+    .header-actions { margin-left: auto; display: flex; gap: 8px; }
+    .header-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.3); color: #fff; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .header-btn:hover { background: rgba(255,255,255,0.3); }
+    
+    .notification-bar { position: fixed; top: 0; left: 50%; transform: translateX(-50%) translateY(-100%); width: 100%; max-width: 420px; z-index: 200; transition: transform 0.3s; }
+    .notification-bar.show { transform: translateX(-50%) translateY(0); }
+    .notification-item { background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; padding: 14px 16px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+    .notification-item .notif-icon { font-size: 26px; }
+    .notification-item .notif-text { flex: 1; font-size: 12px; line-height: 1.4; }
+    .notification-item .notif-text strong { display: block; font-size: 13px; margin-bottom: 2px; }
+    .notification-item .notif-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; padding: 4px; }
+    
+    .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: #fff; border-top: 1px solid #e0e0e0; display: flex; z-index: 100; box-shadow: 0 -3px 12px rgba(0,0,0,0.08); padding-bottom: env(safe-area-inset-bottom); border-radius: 16px 16px 0 0; }
+    .nav-item { flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
+    .nav-item.active { color: #0000CC; }
+    .nav-item.active .nav-icon { transform: scale(1.15); }
+    .nav-item:not(.active) { color: #aaa; }
+    .nav-item .nav-icon { font-size: 21px; display: block; transition: transform 0.2s; }
+    .nav-item .nav-label { font-size: 9px; font-weight: 700; margin-top: 3px; }
+    .nav-badge { position: absolute; top: 4px; right: 50%; transform: translateX(14px); width: 16px; height: 16px; background: #f44336; color: #fff; font-size: 9px; font-weight: 700; border-radius: 50%; display: none; align-items: center; justify-content: center; }
+    
+    .page { display: none; padding: 16px; padding-bottom: 80px; }
+    .page.active { display: block; animation: pageIn 0.25s ease; }
+    @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .card { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.04); }
+    .card-title { font-size: 15px; font-weight: 800; color: #0000CC; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; color: #666; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 15px; background: #fff; transition: all 0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0000DD; background: #fff; box-shadow: 0 0 0 3px rgba(67,160,71,0.1); }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    
+    .btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; }
+    .btn-primary { background: linear-gradient(135deg, #0000DD, #0000CC); color: #fff; box-shadow: 0 4px 12px rgba(46,125,50,0.3); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(46,125,50,0.4); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { background: #ccc; color: #999; box-shadow: none; }
+    .btn-outline { background: #fff; border: 2px solid #0000DD; color: #0000CC; }
+    .btn-outline:hover { background: #F0F0FF; }
+    .btn-danger { background: linear-gradient(135deg, #e53935, #c62828); color: #fff; box-shadow: 0 4px 12px rgba(198,40,40,0.3); }
+    .btn-small { padding: 8px 16px; font-size: 12px; width: auto; display: inline-block; border-radius: 8px; }
+    
+    /* Contact Buttons */
+    .contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+    .contact-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 14px 10px; border-radius: 12px; font-size: 13px; font-weight: 700; text-decoration: none; color: #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition: transform 0.2s; }
+    .contact-btn:hover { transform: translateY(-2px); }
+    .contact-btn.call { background: linear-gradient(135deg, #1976d2, #0d47a1); }
+    .contact-btn.whatsapp { background: linear-gradient(135deg, #25d366, #128c7e); }
+    .contact-btn.website { background: linear-gradient(135deg, #ff8f00, #e65100); }
+    .contact-btn.location { background: linear-gradient(135deg, #e53935, #b71c1c); }
+    
+    /* Hero banner */
+    .hero-banner { background: linear-gradient(135deg, #0000AA, #0000FF); border-radius: 14px; padding: 20px; margin-bottom: 14px; color: #fff; position: relative; overflow: hidden; }
+    .hero-banner::after { content: ''; position: absolute; right: -20px; top: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+    .hero-banner h2 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+    .hero-banner p { font-size: 12px; opacity: 0.9; margin-bottom: 14px; }
+    .hero-banner .btn { background: #fff; color: #0000CC; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+    
+    /* Quick Actions Grid */
+    .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .quick-card { background: #fff; border-radius: 14px; padding: 16px 12px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.04); cursor: pointer; transition: all 0.2s; }
+    .quick-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+    .quick-card .qc-icon { font-size: 28px; margin-bottom: 6px; }
+    .quick-card .qc-title { font-size: 12px; font-weight: 700; color: #333; }
+    .quick-card .qc-sub { font-size: 10px; color: #888; margin-top: 2px; }
+
+    /* Package Cards */
+    .pkg-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 12px; border-left: 4px solid #ff9800; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .pkg-card .pkg-name { font-size: 14px; font-weight: 700; color: #333; }
+    .pkg-card .pkg-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .pkg-card .pkg-info .pkg-stat { background: #f8f9fa; padding: 8px; border-radius: 8px; text-align: center; }
+    .pkg-card .pkg-info .pkg-stat span { display: block; font-size: 9px; color: #888; text-transform: uppercase; font-weight: 600; }
+    .pkg-card .pkg-info .pkg-stat strong { color: #0000CC; font-size: 16px; }
+    .pkg-card .pkg-progress { height: 6px; background: #e8e8e8; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+    .pkg-card .pkg-progress-fill { height: 100%; background: linear-gradient(90deg, #0000DD, #6666FF); border-radius: 3px; transition: width 0.5s; }
+    
+    .slots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+    .slot-btn { padding: 10px 4px; border: 1.5px solid #e0e0e0; border-radius: 10px; background: #fff; font-size: 11px; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .slot-btn:hover { border-color: #0000DD; background: #F0F0FF; }
+    .slot-btn.selected { background: linear-gradient(135deg, #0000DD, #4444FF); color: #fff; border-color: transparent; box-shadow: 0 3px 8px rgba(67,160,71,0.3); }
+    .slot-btn.booked { background: #fafafa; color: #bbb; border-color: #f0f0f0; cursor: not-allowed; text-decoration: line-through; }
+    
+    .appt-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 10px; border-left: 4px solid #0000DD; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .appt-card.cancelled { border-left-color: #e53935; opacity: 0.7; }
+    .appt-card.confirmed { border-left-color: #1565c0; }
+    .appt-card .appt-doctor { font-size: 14px; font-weight: 700; color: #0000CC; }
+    .appt-card .appt-datetime { font-size: 12px; color: #555; margin: 4px 0; }
+    .appt-card .appt-service { font-size: 11px; color: #888; }
+    .appt-card .appt-status { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 6px; }
+    .appt-status.booked { background: #E6E6FF; color: #0000CC; }
+    .appt-status.cancelled { background: #ffebee; color: #c62828; }
+    .appt-status.confirmed { background: #e3f2fd; color: #1565c0; }
+    
+    .doctor-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+    .doctor-card:hover, .doctor-card.selected { border-color: #0000DD; background: #F0F0FF; box-shadow: 0 3px 12px rgba(67,160,71,0.15); }
+    .doctor-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #4444FF, #0000CC); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; font-weight: 700; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+    .doctor-name { font-size: 14px; font-weight: 700; color: #333; }
+    .doctor-specialty { font-size: 11px; color: #888; }
+    
+    .steps { display: flex; align-items: center; justify-content: center; gap: 4px; margin-bottom: 16px; }
+    .step { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 2px solid #e0e0e0; color: #bbb; transition: all 0.3s; }
+    .step.active { background: linear-gradient(135deg, #0000DD, #4444FF); color: #fff; border-color: transparent; box-shadow: 0 2px 8px rgba(67,160,71,0.3); }
+    .step.done { background: #E6E6FF; color: #0000CC; border-color: #0000DD; }
+    .step-line { width: 20px; height: 2px; background: #e0e0e0; border-radius: 1px; }
+    .step-line.done { background: #0000DD; }
+    
+    .stars { display: flex; gap: 8px; margin: 10px 0; }
+    .star { font-size: 34px; cursor: pointer; color: #e0e0e0; transition: all 0.2s; }
+    .star.active { color: #ffc107; transform: scale(1.1); }
+    
+    .loading { text-align: center; padding: 30px; color: #999; }
+    .spinner { display: inline-block; width: 30px; height: 30px; border: 3px solid #e0e0e0; border-top-color: #0000DD; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .empty { text-align: center; padding: 40px 20px; color: #aaa; }
+    .empty .empty-icon { font-size: 44px; margin-bottom: 12px; }
+    
+    .toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 600; z-index: 999; display: none; box-shadow: 0 6px 20px rgba(0,0,0,0.3); max-width: 85%; text-align: center; }
+    .toast.show { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(-10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+    
+    .branch-card { background: linear-gradient(135deg, #F0F0FF, #E6E6FF); border: 1px solid #CCCCFF; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .branch-name { font-size: 13px; font-weight: 700; color: #0000CC; }
+    .branch-address { font-size: 11px; color: #555; margin: 4px 0; }
+    .branch-phone { font-size: 12px; font-weight: 600; color: #333; }
+    
+    .info-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .info-row:last-child { border: none; }
+    .info-icon { font-size: 20px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: #F0F0FF; border-radius: 8px; }
+    .info-text { font-size: 13px; color: #333; font-weight: 600; }
+    .info-label { font-size: 10px; color: #999; display: block; font-weight: 500; }
+
+    .install-banner { background: linear-gradient(135deg, #0000AA, #0000CC); color: #fff; padding: 12px 16px; margin-bottom: 12px; border-radius: 12px; display: none; align-items: center; gap: 10px; }
+    .install-banner .install-text { flex: 1; font-size: 11px; }
+    .install-banner .install-btn { background: #fff; color: #0000CC; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
+    
+    .notif-card { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 10px; border-left: 3px solid #1565c0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .notif-card.unread { background: #e3f2fd; }
+    .notif-card .notif-title { font-size: 13px; font-weight: 700; color: #333; }
+    .notif-card .notif-msg { font-size: 12px; color: #555; margin: 4px 0; }
+    .notif-card .notif-time { font-size: 10px; color: #999; }
+    
+    /* Login page special */
+    .login-hero { background: linear-gradient(135deg, #0000AA, #0000FF); padding: 40px 24px; text-align: center; color: #fff; border-radius: 0 0 30px 30px; margin: -16px -16px 20px; }
+    .login-hero .logo-big { font-size: 56px; margin-bottom: 10px; }
+    .login-hero h2 { font-size: 22px; font-weight: 800; }
+    .login-hero p { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+
+<div class="header">
+  <div class="header-logo">&#127807;</div>
+  <div class="header-text">
+    <h1>Shanthi Wellness</h1>
+    <p>Ayurvedic Medical Centre LLC</p>
+  </div>
+  <div class="header-actions">
+    <button class="header-btn" onclick="showPage('profilePage')" id="profileHeaderBtn">&#128100;</button>
+    <button class="header-btn" onclick="showPage('notificationsPage')" id="notifHeaderBtn">&#128276;</button>
+  </div>
+</div>
+
+<!-- Notification Bar (push-style) -->
+<div class="notification-bar" id="notifBar">
+  <div class="notification-item">
+    <span class="notif-icon">&#9989;</span>
+    <div class="notif-text" id="notifBarText"><strong>Appointment Confirmed!</strong>Your appointment has been confirmed by the clinic.</div>
+    <button class="notif-close" onclick="hideNotifBar()">&#10005;</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN PAGE -->
+<div class="page active" id="loginPage">
+  <div class="login-hero">
+    <div class="logo-big">&#127807;</div>
+    <h2>Shanthi Wellness</h2>
+    <p>Ayurvedic Medical Centre LLC, Dubai</p>
+  </div>
+  <div class="card">
+    <div class="card-title">&#128274; Login to your account</div>
+    <div class="form-group"><label>Mobile Number</label><input type="tel" id="loginMobile" placeholder="+971 XX XXX XXXX"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="Enter your password"></div>
+    <button class="btn btn-primary" onclick="doLogin()">Login</button>
+    <p style="text-align:center;margin-top:16px;font-size:13px;color:#555">Don't have an account? <a href="#" onclick="showPage('registerPage');return false" style="color:#0000CC;font-weight:700;text-decoration:none">Create Account</a></p>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div class="page" id="registerPage">
+  <div class="card">
+    <div class="card-title">&#128221; Create Account</div>
+    <div class="form-group"><label>Full Name *</label><input type="text" id="regName" placeholder="Your full name"></div>
+    <div class="form-group"><label>Mobile Number *</label><input type="tel" id="regMobile" placeholder="+971 XX XXX XXXX"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com"></div>
+    <div class="form-group"><label>Password *</label><input type="password" id="regPass" placeholder="Create a password (min 4 chars)"></div>
+    <div class="form-group"><label>Confirm Password *</label><input type="password" id="regPass2" placeholder="Confirm password"></div>
+    <div class="form-group"><label>Emirates ID Number</label><input type="text" id="regEid" placeholder="784-XXXX-XXXXXXX-X"></div>
+    <div class="form-group"><label>Nationality</label><input type="text" id="regNationality" placeholder="e.g. India, Pakistan, Philippines"></div>
+    <div class="form-group"><label>Date of Birth</label><input type="date" id="regDob"></div>
+    <div class="form-group"><label>Gender</label><select id="regGender"><option value="">Select</option><option>Male</option><option>Female</option></select></div>
+    <div class="form-group">
+      <label>Emirates ID Front (Photo)</label>
+      <input type="file" id="regEidFront" accept="image/*" style="font-size:12px">
+    </div>
+    <div class="form-group">
+      <label>Emirates ID Back (Photo)</label>
+      <input type="file" id="regEidBack" accept="image/*" style="font-size:12px">
+    </div>
+    <button class="btn btn-primary" onclick="doRegister()">Create Account</button>
+    <p style="text-align:center;margin-top:14px;font-size:13px;color:#555">Already have an account? <a href="#" onclick="showPage('loginPage');return false" style="color:#0000CC;font-weight:700">Login</a></p>
+  </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div class="page" id="profilePage">
+  <div class="card" style="text-align:center">
+    <div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#4444FF,#0000CC);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700" id="profileAvatar">?</div>
+    <div style="font-size:16px;font-weight:700" id="profileName">-</div>
+    <div style="font-size:12px;color:#777" id="profileMobile">-</div>
+  </div>
+  <div class="card">
+    <div class="card-title">&#128179; Emirates ID</div>
+    <div class="form-group"><label>Emirates ID Number</label><input type="text" id="profEid" placeholder="784-XXXX-XXXXXXX-X"></div>
+    <div class="form-group">
+      <label>Upload Emirates ID Front</label>
+      <input type="file" id="profEidFront" accept="image/*" style="font-size:12px">
+      <img id="profEidFrontPreview" style="width:100%;max-height:150px;object-fit:contain;margin-top:6px;border:1px solid #ddd;border-radius:6px;display:none">
+    </div>
+    <div class="form-group">
+      <label>Upload Emirates ID Back</label>
+      <input type="file" id="profEidBack" accept="image/*" style="font-size:12px">
+      <img id="profEidBackPreview" style="width:100%;max-height:150px;object-fit:contain;margin-top:6px;border:1px solid #ddd;border-radius:6px;display:none">
+    </div>
+    <button class="btn btn-primary" onclick="saveProfile()">Save Emirates ID</button>
+  </div>
+  <div class="card">
+    <div class="card-title">&#128100; Personal Info</div>
+    <div class="form-group"><label>Email</label><input type="email" id="profEmail"></div>
+    <div class="form-group"><label>Nationality</label><input type="text" id="profNationality"></div>
+    <div class="form-group"><label>Date of Birth</label><input type="date" id="profDob"></div>
+    <div class="form-group"><label>Gender</label><select id="profGender"><option value="">Select</option><option>Male</option><option>Female</option></select></div>
+    <button class="btn btn-outline" onclick="saveProfile()">Update Profile</button>
+  </div>
+  <div class="card">
+    <button class="btn btn-danger" onclick="doLogout()">Logout</button>
+  </div>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page" id="homePage">
+  <div class="install-banner" id="installBanner">
+    <span style="font-size:20px">&#128242;</span>
+    <div class="install-text"><strong>Install App</strong><br>Add to home screen for quick access</div>
+    <button class="install-btn" id="installBtn">Install</button>
+  </div>
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <h2>&#128197; Book Appointment</h2>
+    <p>Book your consultation with our expert Ayurveda doctors</p>
+    <button class="btn" onclick="showPage('bookPage');startBooking()">Book Now</button>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-grid">
+    <div class="quick-card" onclick="showPage('packagesPage');loadMyPackages()">
+      <div class="qc-icon">&#128230;</div>
+      <div class="qc-title">My Packages</div>
+      <div class="qc-sub">View sessions</div>
+    </div>
+    <div class="quick-card" onclick="showPage('appointmentsPage');loadMyAppointments()">
+      <div class="qc-icon">&#128203;</div>
+      <div class="qc-title">Appointments</div>
+      <div class="qc-sub">View bookings</div>
+    </div>
+    <div class="quick-card" onclick="showPage('profilePage')">
+      <div class="qc-icon">&#128179;</div>
+      <div class="qc-title">Emirates ID</div>
+      <div class="qc-sub">Upload / manage</div>
+    </div>
+    <div class="quick-card" onclick="showPage('feedbackPage')">
+      <div class="qc-icon">&#11088;</div>
+      <div class="qc-title">Feedback</div>
+      <div class="qc-sub">Rate us</div>
+    </div>
+  </div>
+
+  <!-- Quick Contact Buttons -->
+  <div class="contact-row">
+    <a href="tel:+97142255133" class="contact-btn call">&#128222; Call</a>
+    <a href="https://wa.me/97142255133" target="_blank" class="contact-btn whatsapp">&#128172; WhatsApp</a>
+  </div>
+  <div class="contact-row">
+    <a href="https://www.shanthiwellness.com" target="_blank" class="contact-btn website">&#127760; Website</a>
+    <a href="https://maps.google.com/?q=Shanthi+Wellness+Dubai" target="_blank" class="contact-btn location">&#128205; Location</a>
+  </div>
+
+  <div class="card">
+    <div class="card-title">&#127973; Clinic Information</div>
+    <div class="info-row"><span class="info-icon">&#127973;</span><div><span class="info-label">Clinic Name</span><span class="info-text"><strong>Shanthi Wellness Ayurvedic Medical Centre LLC</strong></span></div></div>
+    <div class="info-row"><span class="info-icon">&#128222;</span><div><span class="info-label">Phone</span><span class="info-text">+971 42 255 133</span></div></div>
+    <div class="info-row"><span class="info-icon">&#128241;</span><div><span class="info-label">WhatsApp</span><span class="info-text">+971 42 255 133</span></div></div>
+    <div class="info-row"><span class="info-icon">&#127760;</span><div><span class="info-label">Website</span><span class="info-text">www.shanthiwellness.com</span></div></div>
+    <div class="info-row"><span class="info-icon">&#128336;</span><div><span class="info-label">Working Hours</span><span class="info-text">9:00 AM - 9:00 PM (Sun - Sat)</span></div></div>
+    <div class="info-row"><span class="info-icon">&#128205;</span><div><span class="info-label">Address</span><span class="info-text">Dubai, UAE</span></div></div>
+  </div>
+
+  <!-- Branches -->
+  <div class="card">
+    <div class="card-title">&#127970; Our Branches</div>
+    <div class="branch-card">
+      <div class="branch-name">Shanthi Wellness - Main Branch (Dubai)</div>
+      <div class="branch-address">Dubai, UAE</div>
+      <div class="branch-phone">&#128222; +971 42 255 133</div>
+      <div class="contact-row" style="margin-top:8px;margin-bottom:0">
+        <a href="tel:+97142255133" class="contact-btn call" style="padding:8px;font-size:11px">&#128222; Call</a>
+        <a href="https://wa.me/97142255133" target="_blank" class="contact-btn whatsapp" style="padding:8px;font-size:11px">&#128172; WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">&#9734; Give Feedback</div>
+    <button class="btn btn-outline" onclick="showPage('feedbackPage')">Submit Feedback</button>
+  </div>
+</div>
+
+<!-- BOOKING PAGE -->
+<div class="page" id="bookPage">
+  <div class="steps" id="bookingSteps">
+    <span class="step active" id="step1">1</span><span class="step-line" id="line1"></span>
+    <span class="step" id="step2">2</span><span class="step-line" id="line2"></span>
+    <span class="step" id="step3">3</span><span class="step-line" id="line3"></span>
+    <span class="step" id="step4">4</span>
+  </div>
+  <div class="card" id="bookStep1">
+    <div class="card-title">&#128100; Your Details</div>
+    <div class="form-group"><label>Full Name *</label><input type="text" id="bkName" placeholder="Enter your full name"></div>
+    <div class="form-group"><label>Mobile Number *</label><input type="tel" id="bkMobile" placeholder="+971 XX XXX XXXX"></div>
+    <div class="form-group"><label>Email (for confirmation)</label><input type="email" id="bkEmail" placeholder="your@email.com"></div>
+    <div class="form-group"><label>Service</label><select id="bkService"><option>Consultation</option><option>Panchakarma</option><option>Physiotherapy</option><option>Ayurveda Treatment</option><option>Steam Therapy</option><option>Massage Therapy</option><option>Wellness Package</option></select></div>
+    <button class="btn btn-primary" onclick="bookStep(2)">Next: Choose Doctor &#9654;</button>
+  </div>
+  <div class="card" id="bookStep2" style="display:none">
+    <div class="card-title">&#129658; Select Doctor</div>
+    <div id="doctorsList"></div>
+    <button class="btn btn-primary" onclick="bookStep(3)" style="margin-top:8px">Next: Date & Time &#9654;</button>
+  </div>
+  <div class="card" id="bookStep3" style="display:none">
+    <div class="card-title">&#128197; Select Date & Time</div>
+    <div class="form-group"><label>Appointment Date</label><input type="date" id="bkDate" min=""></div>
+    <div id="slotsContainer" style="display:none"><label style="font-size:11px;font-weight:700;color:#555;margin-bottom:6px;display:block">Available Time Slots:</label><div class="slots-grid" id="slotsGrid"></div></div>
+    <div id="slotsLoading" style="display:none" class="loading"><div class="spinner"></div><p style="margin-top:6px;font-size:11px">Loading slots...</p></div>
+    <button class="btn btn-primary" onclick="bookStep(4)" style="margin-top:8px">Next: Confirm &#9654;</button>
+  </div>
+  <div class="card" id="bookStep4" style="display:none">
+    <div class="card-title">&#9989; Confirm Appointment</div>
+    <div id="bookingSummary" style="font-size:12px;line-height:1.8"></div>
+    <button class="btn btn-primary" onclick="submitBooking()" style="margin-top:12px" id="confirmBtn">&#10004; Confirm Booking</button>
+    <button class="btn btn-outline" onclick="bookStep(1)" style="margin-top:8px">&#9664; Start Over</button>
+  </div>
+</div>
+
+<!-- PACKAGES PAGE -->
+<div class="page" id="packagesPage">
+  <div class="card">
+    <div class="card-title">&#128230; My Packages & Sessions</div>
+    <div class="form-group">
+      <label>Enter your mobile number</label>
+      <div style="display:flex;gap:6px">
+        <input type="tel" id="pkgMobile" placeholder="+971 XX XXX XXXX" style="flex:1">
+        <button class="btn btn-primary btn-small" onclick="loadMyPackages()">Search</button>
+      </div>
+    </div>
+  </div>
+  <div id="packagesList"></div>
+</div>
+
+<!-- MY APPOINTMENTS PAGE -->
+<div class="page" id="appointmentsPage">
+  <div class="card">
+    <div class="card-title">&#128203; My Appointments</div>
+    <div class="form-group">
+      <label>Enter your mobile number</label>
+      <div style="display:flex;gap:6px">
+        <input type="tel" id="myMobile" placeholder="+971 XX XXX XXXX" style="flex:1">
+        <button class="btn btn-primary btn-small" onclick="loadMyAppointments()">Search</button>
+      </div>
+    </div>
+  </div>
+  <div id="myAppointmentsList"></div>
+</div>
+
+<!-- NOTIFICATIONS PAGE -->
+<div class="page" id="notificationsPage">
+  <div class="card">
+    <div class="card-title">&#128276; Notifications</div>
+  </div>
+  <div id="notificationsList"></div>
+</div>
+
+<!-- FEEDBACK PAGE -->
+<div class="page" id="feedbackPage">
+  <div class="card">
+    <div class="card-title">&#9734; Your Feedback</div>
+    <div class="form-group"><label>Your Name</label><input type="text" id="fbName" placeholder="Your name"></div>
+    <div class="form-group"><label>Rating</label><div class="stars" id="starsContainer"><span class="star" data-val="1" onclick="setRating(1)">&#9733;</span><span class="star" data-val="2" onclick="setRating(2)">&#9733;</span><span class="star" data-val="3" onclick="setRating(3)">&#9733;</span><span class="star" data-val="4" onclick="setRating(4)">&#9733;</span><span class="star" data-val="5" onclick="setRating(5)">&#9733;</span></div></div>
+    <div class="form-group"><label>Comments</label><textarea id="fbComments" placeholder="Tell us about your experience..."></textarea></div>
+    <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showPage('homePage')"><span class="nav-icon">&#127968;</span><span class="nav-label">Home</span></div>
+  <div class="nav-item" onclick="showPage('bookPage');startBooking()"><span class="nav-icon">&#128197;</span><span class="nav-label">Book</span></div>
+  <div class="nav-item" onclick="showPage('packagesPage');loadMyPackages()"><span class="nav-icon">&#128230;</span><span class="nav-label">Packages</span></div>
+  <div class="nav-item" onclick="showPage('appointmentsPage');loadMyAppointments()"><span class="nav-icon">&#128203;</span><span class="nav-label">Appts</span></div>
+  <div class="nav-item" onclick="showPage('notificationsPage');loadNotifications()"><span class="nav-icon">&#128276;</span><span class="nav-label">Alerts</span><span class="nav-badge" id="notifBadge">0</span></div>
+</div>
+
+<script>
+var API = window.location.origin;
+var selectedDoctor = '';
+var selectedSlot = '';
+var currentRating = 0;
+var deferredPrompt = null;
+var notifications = [];
+var currentUser = null;
+
+// Check if user is logged in
+function checkAuth() {
+  var saved = localStorage.getItem('sw_user');
+  if (saved) {
+    try { currentUser = JSON.parse(saved); } catch(e) { currentUser = null; }
+  }
+  if (currentUser) {
+    showPage('homePage');
+    document.querySelector('.bottom-nav').style.display = 'flex';
+    document.querySelector('.header').style.display = 'flex';
+    updateProfileUI();
+  } else {
+    showPage('loginPage');
+    document.querySelector('.bottom-nav').style.display = 'none';
+  }
+}
+
+function doLogin() {
+  var mobile = document.getElementById('loginMobile').value.trim();
+  var pass = document.getElementById('loginPass').value;
+  if (!mobile || !pass) { showToast('Enter mobile and password'); return; }
+  fetch(API + '/api/auth/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({mobile:mobile, password:pass}) })
+    .then(function(r){return r.json()}).then(function(data) {
+      if (data.success) {
+        currentUser = data.data;
+        localStorage.setItem('sw_user', JSON.stringify(currentUser));
+        saveMobile(currentUser.mobile);
+        saveName(currentUser.name);
+        showToast('Welcome back, ' + currentUser.name + '!');
+        checkAuth();
+      } else { showToast(data.error || 'Login failed'); }
+    }).catch(function() { showToast('Network error'); });
+}
+
+function doRegister() {
+  var name = document.getElementById('regName').value.trim();
+  var mobile = document.getElementById('regMobile').value.trim();
+  var email = document.getElementById('regEmail').value.trim();
+  var pass = document.getElementById('regPass').value;
+  var pass2 = document.getElementById('regPass2').value;
+  var eid = document.getElementById('regEid').value.trim();
+  var nationality = document.getElementById('regNationality').value.trim();
+  var dob = document.getElementById('regDob').value;
+  var gender = document.getElementById('regGender').value;
+  if (!name) { showToast('Enter your name'); return; }
+  if (!mobile || mobile.length < 7) { showToast('Enter valid mobile number'); return; }
+  if (!pass || pass.length < 4) { showToast('Password must be at least 4 characters'); return; }
+  if (pass !== pass2) { showToast('Passwords do not match'); return; }
+  fetch(API + '/api/auth/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name:name, mobile:mobile, email:email, password:pass, emiratesId:eid, nationality:nationality, dob:dob, gender:gender}) })
+    .then(function(r){return r.json()}).then(function(data) {
+      if (data.success) {
+        showToast('Account created! Please login with your credentials.');
+        showPage('loginPage');
+        document.getElementById('loginMobile').value = mobile;
+      } else { showToast(data.error || 'Registration failed'); }
+    }).catch(function() { showToast('Network error'); });
+}
+
+function doLogout() {
+  if (!confirm('Are you sure you want to logout?')) return;
+  currentUser = null;
+  localStorage.removeItem('sw_user');
+  checkAuth();
+}
+
+function updateProfileUI() {
+  if (!currentUser) return;
+  document.getElementById('profileName').textContent = currentUser.name || '-';
+  document.getElementById('profileMobile').textContent = currentUser.mobile || '-';
+  document.getElementById('profileAvatar').textContent = (currentUser.name || '?')[0].toUpperCase();
+  document.getElementById('profEid').value = currentUser.emiratesId || '';
+  document.getElementById('profEmail').value = currentUser.email || '';
+  document.getElementById('profNationality').value = currentUser.nationality || '';
+  document.getElementById('profDob').value = currentUser.dob || '';
+  document.getElementById('profGender').value = currentUser.gender || '';
+}
+
+function saveProfile() {
+  if (!currentUser) return;
+  var body = { mobile: currentUser.mobile };
+  body.emiratesId = document.getElementById('profEid').value.trim();
+  body.email = document.getElementById('profEmail').value.trim();
+  body.nationality = document.getElementById('profNationality').value.trim();
+  body.dob = document.getElementById('profDob').value;
+  body.gender = document.getElementById('profGender').value;
+  // Handle file uploads (convert to base64)
+  var frontFile = document.getElementById('profEidFront').files[0];
+  var backFile = document.getElementById('profEidBack').files[0];
+  function sendUpdate(b) {
+    fetch(API + '/api/auth/update-profile', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(b) })
+      .then(function(r){return r.json()}).then(function(data) {
+        if (data.success) {
+          showToast('Profile saved!');
+          currentUser.emiratesId = b.emiratesId || currentUser.emiratesId;
+          currentUser.email = b.email || currentUser.email;
+          currentUser.nationality = b.nationality || currentUser.nationality;
+          currentUser.dob = b.dob || currentUser.dob;
+          currentUser.gender = b.gender || currentUser.gender;
+          localStorage.setItem('sw_user', JSON.stringify(currentUser));
+          updateProfileUI();
+        } else { showToast(data.error || 'Failed to save'); }
+      }).catch(function() { showToast('Network error'); });
+  }
+  if (frontFile) {
+    var reader = new FileReader(); reader.onload = function(e) { body.emiratesIdFront = e.target.result;
+      if (backFile) { var r2 = new FileReader(); r2.onload = function(e2) { body.emiratesIdBack = e2.target.result; sendUpdate(body); }; r2.readAsDataURL(backFile); }
+      else { sendUpdate(body); }
+    }; reader.readAsDataURL(frontFile);
+  } else if (backFile) {
+    var reader2 = new FileReader(); reader2.onload = function(e) { body.emiratesIdBack = e.target.result; sendUpdate(body); }; reader2.readAsDataURL(backFile);
+  } else { sendUpdate(body); }
+}
+
+// Preview EID images
+document.getElementById('profEidFront').addEventListener('change', function(e) {
+  if (e.target.files[0]) { var r = new FileReader(); r.onload = function(ev) { var img = document.getElementById('profEidFrontPreview'); img.src = ev.target.result; img.style.display = 'block'; }; r.readAsDataURL(e.target.files[0]); }
+});
+document.getElementById('profEidBack').addEventListener('change', function(e) {
+  if (e.target.files[0]) { var r = new FileReader(); r.onload = function(ev) { var img = document.getElementById('profEidBackPreview'); img.src = ev.target.result; img.style.display = 'block'; }; r.readAsDataURL(e.target.files[0]); }
+});
+
+// PWA Install
+window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); deferredPrompt = e; document.getElementById('installBanner').style.display = 'flex'; });
+document.getElementById('installBtn').addEventListener('click', function() { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function() { deferredPrompt = null; document.getElementById('installBanner').style.display = 'none'; }); } });
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(function(){}); }
+
+// Notification permission
+if ('Notification' in window && Notification.permission === 'default') { Notification.requestPermission(); }
+
+function getSavedMobile() { return currentUser ? currentUser.mobile : (localStorage.getItem('sw_mobile') || ''); }
+function saveMobile(m) { localStorage.setItem('sw_mobile', m); }
+function getSavedName() { return currentUser ? currentUser.name : (localStorage.getItem('sw_name') || ''); }
+function saveName(n) { localStorage.setItem('sw_name', n); }
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  var navMap = { homePage: 0, bookPage: 1, packagesPage: 2, appointmentsPage: 3, notificationsPage: 4 };
+  if (navMap[id] !== undefined) document.querySelectorAll('.nav-item')[navMap[id]].classList.add('active');
+}
+
+function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function() { t.classList.remove('show'); }, 3000); }
+
+// Notification Bar
+function showNotifBar(title, msg) {
+  document.getElementById('notifBarText').innerHTML = '<strong>' + title + '</strong>' + msg;
+  document.getElementById('notifBar').classList.add('show');
+  setTimeout(hideNotifBar, 6000);
+  // Also push to notifications list
+  addNotification(title, msg);
+  // Browser notification
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification(title, { body: msg, icon: '/logo.png' });
+  }
+}
+function hideNotifBar() { document.getElementById('notifBar').classList.remove('show'); }
+
+function addNotification(title, msg) {
+  notifications.unshift({ title: title, msg: msg, time: new Date().toLocaleString(), unread: true });
+  localStorage.setItem('sw_notifications', JSON.stringify(notifications));
+  updateNotifBadge();
+}
+function updateNotifBadge() {
+  var unread = notifications.filter(function(n) { return n.unread; }).length;
+  var badge = document.getElementById('notifBadge');
+  if (unread > 0) { badge.style.display = 'flex'; badge.textContent = unread; }
+  else { badge.style.display = 'none'; }
+}
+function loadNotifications() {
+  notifications.forEach(function(n) { n.unread = false; });
+  localStorage.setItem('sw_notifications', JSON.stringify(notifications));
+  updateNotifBadge();
+  var el = document.getElementById('notificationsList');
+  if (!notifications.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">&#128276;</div><p>No notifications yet</p></div>'; return; }
+  var html = '';
+  notifications.forEach(function(n) {
+    html += '<div class="notif-card"><div class="notif-title">' + n.title + '</div><div class="notif-msg">' + n.msg + '</div><div class="notif-time">' + n.time + '</div></div>';
+  });
+  el.innerHTML = html;
+}
+
+// Load saved notifications
+try { notifications = JSON.parse(localStorage.getItem('sw_notifications') || '[]'); } catch(e) { notifications = []; }
+updateNotifBadge();
+
+// Poll for appointment status changes (every 30 seconds)
+function pollAppointmentStatus() {
+  var mobile = getSavedMobile();
+  if (!mobile) return;
+  fetch(API + '/api/booking/my-appointments?mobile=' + encodeURIComponent(mobile))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.success) return;
+      data.data.forEach(function(a) {
+        var key = 'notified_' + a.bookingId + '_' + a.status;
+        if (!localStorage.getItem(key) && a.status === 'Confirmed') {
+          localStorage.setItem(key, '1');
+          showNotifBar('&#9989; Appointment Confirmed!', 'Your appointment with Dr. ' + a.doctor + ' on ' + a.date + ' at ' + a.time + ' has been confirmed.');
+        }
+      });
+    }).catch(function() {});
+}
+setInterval(pollAppointmentStatus, 30000);
+setTimeout(pollAppointmentStatus, 3000);
+
+// ===== BOOKING =====
+function startBooking() {
+  var saved = getSavedMobile();
+  var savedName = getSavedName();
+  if (saved) document.getElementById('bkMobile').value = saved;
+  if (savedName) document.getElementById('bkName').value = savedName;
+  bookStep(1);
+}
+function bookStep(step) {
+  if (step === 2) { var name = document.getElementById('bkName').value.trim(); var mobile = document.getElementById('bkMobile').value.trim(); if (!name) { showToast('Please enter your name'); return; } if (!mobile || mobile.length < 7) { showToast('Please enter valid mobile number'); return; } saveMobile(mobile); saveName(name); loadDoctors(); }
+  if (step === 3) { if (!selectedDoctor) { showToast('Please select a doctor'); return; } var today = new Date(); document.getElementById('bkDate').min = today.toISOString().split('T')[0]; document.getElementById('bkDate').value = today.toISOString().split('T')[0]; loadSlots(); }
+  if (step === 4) { if (!selectedSlot) { showToast('Please select a time slot'); return; } showBookingSummary(); }
+  document.getElementById('bookStep1').style.display = step === 1 ? 'block' : 'none';
+  document.getElementById('bookStep2').style.display = step === 2 ? 'block' : 'none';
+  document.getElementById('bookStep3').style.display = step === 3 ? 'block' : 'none';
+  document.getElementById('bookStep4').style.display = step === 4 ? 'block' : 'none';
+  for (var i = 1; i <= 4; i++) { var s = document.getElementById('step' + i); s.className = 'step' + (i < step ? ' done' : i === step ? ' active' : ''); if (i < step) s.innerHTML = '&#10003;'; else s.textContent = i; }
+  for (var j = 1; j <= 3; j++) { document.getElementById('line' + j).className = 'step-line' + (j < step ? ' done' : ''); }
+}
+function loadDoctors() {
+  fetch(API + '/api/booking/doctors').then(function(r) { return r.json(); }).then(function(data) {
+    if (!data.success) return;
+    var html = '';
+    data.data.forEach(function(doc) {
+      var initials = doc.name.split(' ').map(function(w) { return w[0]; }).join('').substring(0,2);
+      html += '<div class="doctor-card' + (selectedDoctor === doc.name ? ' selected' : '') + '" onclick="selectDoctor(\'' + doc.name.replace(/'/g, "\\'") + '\')"><div class="doctor-avatar">' + initials + '</div><div><div class="doctor-name">Dr. ' + doc.name + '</div><div class="doctor-specialty">' + (doc.specialty || 'Ayurveda') + '</div></div></div>';
+    });
+    document.getElementById('doctorsList').innerHTML = html;
+  }).catch(function() { document.getElementById('doctorsList').innerHTML = '<p style="color:#999;font-size:12px">Could not load doctors</p>'; });
+}
+function selectDoctor(name) { selectedDoctor = name; loadDoctors(); }
+function loadSlots() {
+  var date = document.getElementById('bkDate').value;
+  if (!date || !selectedDoctor) return;
+  var parts = date.split('-'); var formattedDate = parts[2] + '-' + parts[1] + '-' + parts[0];
+  document.getElementById('slotsLoading').style.display = 'block'; document.getElementById('slotsContainer').style.display = 'none'; selectedSlot = '';
+  fetch(API + '/api/booking/slots?date=' + encodeURIComponent(formattedDate) + '&doctor=' + encodeURIComponent(selectedDoctor))
+    .then(function(r) { return r.json(); }).then(function(data) {
+      document.getElementById('slotsLoading').style.display = 'none';
+      if (!data.success) return;
+      var html = '';
+      data.data.available.forEach(function(slot) { html += '<div class="slot-btn" onclick="selectSlot(this,\'' + slot + '\')">' + slot + '</div>'; });
+      data.data.booked.forEach(function(slot) { html += '<div class="slot-btn booked">' + slot + '</div>'; });
+      if (!html) html = '<p style="color:#999;text-align:center;padding:16px;font-size:12px">No slots available for this date</p>';
+      document.getElementById('slotsGrid').innerHTML = html; document.getElementById('slotsContainer').style.display = 'block';
+    }).catch(function() { document.getElementById('slotsLoading').style.display = 'none'; document.getElementById('slotsGrid').innerHTML = '<p style="color:#f44336;font-size:12px">Error loading slots</p>'; document.getElementById('slotsContainer').style.display = 'block'; });
+}
+document.getElementById('bkDate').addEventListener('change', loadSlots);
+function selectSlot(el, slot) { selectedSlot = slot; document.querySelectorAll('.slot-btn').forEach(function(b) { b.classList.remove('selected'); }); el.classList.add('selected'); }
+function showBookingSummary() {
+  var date = document.getElementById('bkDate').value; var parts = date.split('-'); var displayDate = parts[2] + '/' + parts[1] + '/' + parts[0];
+  document.getElementById('bookingSummary').innerHTML = '<div style="background:#F0F0FF;padding:12px;border-radius:8px;border:1px solid #CCCCFF">' +
+    '<div style="margin:4px 0"><strong>&#128100;</strong> ' + document.getElementById('bkName').value + '</div>' +
+    '<div style="margin:4px 0"><strong>&#128222;</strong> ' + document.getElementById('bkMobile').value + '</div>' +
+    '<div style="margin:4px 0"><strong>&#129658;</strong> Dr. ' + selectedDoctor + '</div>' +
+    '<div style="margin:4px 0"><strong>&#128197;</strong> ' + displayDate + '</div>' +
+    '<div style="margin:4px 0"><strong>&#128336;</strong> ' + selectedSlot + '</div>' +
+    '<div style="margin:4px 0"><strong>&#127973;</strong> ' + document.getElementById('bkService').value + '</div></div>';
+}
+function submitBooking() {
+  var btn = document.getElementById('confirmBtn'); btn.disabled = true; btn.textContent = 'Booking...';
+  var date = document.getElementById('bkDate').value; var parts = date.split('-'); var formattedDate = parts[2] + '-' + parts[1] + '-' + parts[0];
+  var body = { patientName: document.getElementById('bkName').value.trim(), mobile: document.getElementById('bkMobile').value.trim(), email: document.getElementById('bkEmail').value.trim(), doctor: selectedDoctor, date: formattedDate, time: selectedSlot, service: document.getElementById('bkService').value };
+  fetch(API + '/api/booking/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(function(r) { return r.json(); }).then(function(data) {
+      btn.disabled = false; btn.textContent = '✔ Confirm Booking';
+      if (data.success) {
+        showToast('✔ Appointment Booked!');
+        showNotifBar('&#128197; Booking Confirmed!', 'Your appointment with Dr. ' + selectedDoctor + ' on ' + formattedDate + ' at ' + selectedSlot + ' is booked. Waiting for clinic confirmation.');
+        setTimeout(function() { showPage('homePage'); }, 2000);
+      } else {
+        // Show slot conflict popup with nearest available slots
+        var msg = data.error || 'Booking failed';
+        if (data.nearestAvailable && data.nearestAvailable.length > 0) {
+          showSlotConflictPopup(msg, data.nearestAvailable);
+        } else {
+          showToast(msg);
+        }
+      }
+    }).catch(function() { btn.disabled = false; btn.textContent = '✔ Confirm Booking'; showToast('Network error'); });
+}
+
+function showSlotConflictPopup(errorMsg, nearestSlots) {
+  // Remove existing popup if any
+  var existing = document.getElementById('slotConflictPopup');
+  if (existing) existing.remove();
+
+  var overlay = document.createElement('div');
+  overlay.id = 'slotConflictPopup';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px';
+
+  var html = '<div style="background:#fff;border-radius:12px;max-width:380px;width:100%;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.3)">';
+  html += '<div style="background:#f44336;color:#fff;padding:14px 16px;font-weight:700;font-size:14px">&#9888; Slot Not Available</div>';
+  html += '<div style="padding:16px">';
+  html += '<p style="font-size:13px;color:#333;margin-bottom:12px">' + errorMsg + '</p>';
+  html += '<div style="background:#E6E6FF;border:1px solid #CCCCFF;border-radius:8px;padding:12px;margin-bottom:12px">';
+  html += '<p style="font-size:12px;font-weight:700;color:#0000CC;margin-bottom:8px">&#128161; Nearest available slots:</p>';
+  html += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+  nearestSlots.forEach(function(slot) {
+    html += '<button onclick="pickSuggestedSlot(\'' + slot + '\')" style="padding:8px 12px;border:1.5px solid #0000DD;border-radius:6px;background:#fff;font-size:12px;font-weight:700;color:#0000CC;cursor:pointer">' + slot + '</button>';
+  });
+  html += '</div></div>';
+  html += '<button onclick="document.getElementById(\'slotConflictPopup\').remove()" style="width:100%;padding:12px;background:#f5f5f5;border:1px solid #ddd;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">Close</button>';
+  html += '</div></div>';
+
+  overlay.innerHTML = html;
+  document.body.appendChild(overlay);
+}
+
+function pickSuggestedSlot(slot) {
+  document.getElementById('slotConflictPopup').remove();
+  selectedSlot = slot;
+  // Go back to step 3 and highlight the new slot
+  bookStep(3);
+  showToast('Selected: ' + slot + ' - Now confirm again');
+  // Auto-advance to step 4 after a moment
+  setTimeout(function() {
+    // Update slot highlight
+    document.querySelectorAll('.slot-btn').forEach(function(b) {
+      b.classList.toggle('selected', b.textContent === slot);
+    });
+    showBookingSummary();
+    bookStep(4);
+  }, 500);
+}
+
+// ===== MY APPOINTMENTS =====
+function loadMyAppointments() {
+  var mobile = document.getElementById('myMobile').value.trim() || getSavedMobile();
+  if (mobile) document.getElementById('myMobile').value = mobile;
+  if (!mobile) { document.getElementById('myAppointmentsList').innerHTML = '<div class="empty"><div class="empty-icon">&#128203;</div><p style="font-size:13px">Enter your mobile number</p></div>'; return; }
+  document.getElementById('myAppointmentsList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  fetch(API + '/api/booking/my-appointments?mobile=' + encodeURIComponent(mobile)).then(function(r) { return r.json(); }).then(function(data) {
+    if (!data.success || !data.data.length) { document.getElementById('myAppointmentsList').innerHTML = '<div class="empty"><div class="empty-icon">&#128197;</div><p style="font-size:13px">No appointments found</p></div>'; return; }
+    var html = '';
+    data.data.forEach(function(a) {
+      var statusClass = (a.status || 'Booked').toLowerCase();
+      html += '<div class="appt-card ' + statusClass + '"><div class="appt-doctor">Dr. ' + a.doctor + '</div><div class="appt-datetime">&#128197; ' + a.date + ' &nbsp; &#128336; ' + a.time + '</div><div class="appt-service">' + (a.service || 'Consultation') + '</div><br><span class="appt-status ' + statusClass + '">' + (a.status || 'Booked') + '</span>';
+      if (a.status !== 'Cancelled') html += ' <button class="btn btn-danger btn-small" style="margin-left:6px" onclick="cancelBooking(\'' + a.bookingId + '\',\'' + a.mobile + '\')">Cancel</button>';
+      html += '</div>';
+    });
+    document.getElementById('myAppointmentsList').innerHTML = html;
+  }).catch(function() { document.getElementById('myAppointmentsList').innerHTML = '<div class="empty"><p style="color:#f44336;font-size:12px">Error loading</p></div>'; });
+}
+function cancelBooking(bookingId, mobile) {
+  if (!confirm('Cancel this appointment?')) return;
+  fetch(API + '/api/booking/cancel', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ bookingId: bookingId, mobile: mobile }) })
+    .then(function(r) { return r.json(); }).then(function(data) { if (data.success) { showToast('Appointment cancelled'); loadMyAppointments(); } else showToast(data.error || 'Error'); })
+    .catch(function() { showToast('Network error'); });
+}
+
+// ===== PACKAGES =====
+function loadMyPackages() {
+  var mobile = document.getElementById('pkgMobile').value.trim() || getSavedMobile();
+  if (mobile) document.getElementById('pkgMobile').value = mobile;
+  if (!mobile) { document.getElementById('packagesList').innerHTML = '<div class="empty"><div class="empty-icon">&#128230;</div><p style="font-size:13px">Enter your mobile number</p></div>'; return; }
+  document.getElementById('packagesList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  fetch(API + '/api/booking/my-packages?mobile=' + encodeURIComponent(mobile)).then(function(r) { return r.json(); }).then(function(data) {
+    if (!data.success || !data.data || !data.data.length) {
+      document.getElementById('packagesList').innerHTML = '<div class="empty"><div class="empty-icon">&#128230;</div><p style="font-size:13px">No active packages found</p></div>';
+      return;
+    }
+    var html = '';
+    data.data.forEach(function(pkg) {
+      var total = parseInt(pkg.totalSessions) || 0;
+      var consumed = parseInt(pkg.consumedSessions) || 0;
+      var balance = total - consumed;
+      var pct = total > 0 ? Math.round((consumed / total) * 100) : 0;
+      html += '<div class="pkg-card"><div class="pkg-name">' + pkg.packageName + '</div>' +
+        '<div class="pkg-info"><div class="pkg-stat"><span>Total</span><strong>' + total + '</strong></div><div class="pkg-stat"><span>Used</span><strong>' + consumed + '</strong></div><div class="pkg-stat"><span>Balance</span><strong style="color:#0000DD">' + balance + '</strong></div><div class="pkg-stat"><span>Expiry</span><strong style="font-size:11px">' + (pkg.expiryDate || 'N/A') + '</strong></div></div>' +
+        '<div class="pkg-progress"><div class="pkg-progress-fill" style="width:' + pct + '%"></div></div>' +
+        '<p style="font-size:10px;color:#999;margin-top:4px">' + pct + '% used</p></div>';
+    });
+    document.getElementById('packagesList').innerHTML = html;
+  }).catch(function() { document.getElementById('packagesList').innerHTML = '<div class="empty"><p style="color:#f44336;font-size:12px">Error loading packages</p></div>'; });
+}
+
+// ===== FEEDBACK =====
+function setRating(val) { currentRating = val; document.querySelectorAll('.star').forEach(function(s) { s.classList.toggle('active', parseInt(s.dataset.val) <= val); }); }
+function submitFeedback() {
+  var name = document.getElementById('fbName').value.trim(); var comments = document.getElementById('fbComments').value.trim();
+  if (!currentRating) { showToast('Please select a rating'); return; }
+  fetch(API + '/api/booking/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name, rating: currentRating, comments: comments }) })
+    .then(function(r) { return r.json(); }).then(function(data) { if (data.success) { showToast('Thank you! ⭐'); document.getElementById('fbName').value = ''; document.getElementById('fbComments').value = ''; setRating(0); setTimeout(function() { showPage('homePage'); }, 1500); } })
+    .catch(function() { showToast('Error submitting'); });
+}
+
+// Initialize - check if user is logged in
+checkAuth();
+</script>
+</div><!-- end app-container -->
+</body>
+</html>

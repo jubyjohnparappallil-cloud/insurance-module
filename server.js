@@ -683,6 +683,297 @@ async function handleAPI(req, res) {
     return sendJSON(res, { error: 'Missing type or data' }, 400);
   }
 
+  // ── Customer Booking API (for mobile app) ──
+  
+  // Get available doctors and services
+  if (url === '/api/booking/doctors' && method === 'GET') {
+    const doctors = db.doctors || [
+      {name:'LINTU RAJAN', specialty:'Ayurveda'},
+      {name:'NEETHU DEEPAK', specialty:'Ayurveda'},
+      {name:'HISNA UVAISI', specialty:'General'},
+      {name:'NOORA', specialty:'General'}
+    ];
+    return sendJSON(res, { success: true, data: doctors });
+  }
+
+  // Get available slots for a date and doctor
+  if (url.startsWith('/api/booking/slots') && method === 'GET') {
+    const urlObj = new URL(req.url, 'http://localhost');
+    const date = urlObj.searchParams.get('date');
+    const doctor = urlObj.searchParams.get('doctor');
+    if (!date || !doctor) return sendJSON(res, { success: false, error: 'date and doctor required' }, 400);
+    
+    if (!db.appointments) db.appointments = [];
+    
+    // Convert incoming DD-MM-YYYY to DD/Mon/YYYY for matching with EMR format
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let emrDate = date;
+    const dp = date.split('-');
+    if (dp.length === 3 && dp[1].length <= 2) {
+      emrDate = dp[0] + '/' + months[parseInt(dp[1]) - 1] + '/' + dp[2];
+    }
+    
+    // Check both date formats to find booked slots
+    const bookedSlots = db.appointments.filter(a => (a.date === date || a.date === emrDate) && a.doctor === doctor && a.status !== 'Cancelled').map(a => a.time);
+    
+    const allSlots = ["9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM","5:15 PM","5:30 PM","5:45 PM","6:00 PM","6:15 PM","6:30 PM","6:45 PM","7:00 PM","7:15 PM","7:30 PM","7:45 PM","8:00 PM"];
+    const available = allSlots.filter(s => !bookedSlots.includes(s));
+    return sendJSON(res, { success: true, data: { date, doctor, available, booked: bookedSlots } });
+  }
+
+  // Customer creates a booking
+  if (url === '/api/booking/create' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!body.patientName || !body.mobile || !body.doctor || !body.date || !body.time) {
+      return sendJSON(res, { success: false, error: 'Missing required fields: patientName, mobile, doctor, date, time' }, 400);
+    }
+    if (!db.appointments) db.appointments = [];
+    
+    // Convert date from DD-MM-YYYY to DD/Mon/YYYY format (EMR format)
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let emrDate = body.date;
+    const dateParts = body.date.split('-');
+    if (dateParts.length === 3 && dateParts[1].length <= 2) {
+      const monthIdx = parseInt(dateParts[1]) - 1;
+      emrDate = dateParts[0] + '/' + months[monthIdx] + '/' + dateParts[2];
+    }
+    
+    // Check if slot is still available (check both date formats)
+    const allSlots = ["9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM","5:15 PM","5:30 PM","5:45 PM","6:00 PM","6:15 PM","6:30 PM","6:45 PM","7:00 PM","7:15 PM","7:30 PM","7:45 PM","8:00 PM"];
+    const existing = db.appointments.find(a => a.doctor === body.doctor && (a.date === emrDate || a.date === body.date) && a.time === body.time && a.status !== 'Cancelled');
+    if (existing) {
+      // Find nearest available slots
+      const bookedSlots = db.appointments.filter(a => a.doctor === body.doctor && (a.date === emrDate || a.date === body.date) && a.status !== 'Cancelled').map(a => a.time);
+      const availableSlots = allSlots.filter(s => !bookedSlots.includes(s));
+      // Find nearest to the requested time
+      const requestedIdx = allSlots.indexOf(body.time);
+      let nearestSlots = [];
+      if (requestedIdx >= 0 && availableSlots.length > 0) {
+        nearestSlots = availableSlots.map(s => ({ slot: s, distance: Math.abs(allSlots.indexOf(s) - requestedIdx) }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 5)
+          .map(s => s.slot);
+      }
+      return sendJSON(res, { 
+        success: false, 
+        error: 'This slot (' + body.time + ') is already booked for Dr. ' + body.doctor + ' on this date.',
+        nearestAvailable: nearestSlots,
+        message: nearestSlots.length > 0 ? 'Nearest available slots: ' + nearestSlots.join(', ') : 'No slots available for this doctor on this date.'
+      }, 409);
+    }
+    
+    // Save in EMR-compatible format (field "patient" not "patientName")
+    const booking = {
+      patient: body.patientName,
+      patientName: body.patientName,
+      mrNo: '',
+      mobile: body.mobile,
+      email: body.email || '',
+      doctor: body.doctor,
+      consultDoctor: body.doctor,
+      date: emrDate,
+      time: body.time,
+      room: '',
+      service: body.service || 'Consultation',
+      notes: 'Booked via Customer App',
+      status: 'Booked',
+      source: 'CustomerApp',
+      bookedAt: new Date().toISOString(),
+      bookingId: 'BK-' + Date.now()
+    };
+    db.appointments.push(booking);
+    saveDatabase();
+    // Send confirmation email if provided
+    if (body.email) {
+      sendAppointmentEmail(body.email, body.patientName, body.date, body.time, body.doctor).catch(()=>{});
+    }
+    return sendJSON(res, { success: true, data: booking, message: 'Appointment booked successfully!' });
+  }
+
+  // Customer checks their bookings by mobile number
+  if (url.startsWith('/api/booking/my-appointments') && method === 'GET') {
+    const urlObj = new URL(req.url, 'http://localhost');
+    const mobile = urlObj.searchParams.get('mobile');
+    if (!mobile) return sendJSON(res, { success: false, error: 'mobile required' }, 400);
+    if (!db.appointments) db.appointments = [];
+    const myAppts = db.appointments.filter(a => a.mobile === mobile).sort((a,b) => new Date(b.bookedAt||0) - new Date(a.bookedAt||0));
+    return sendJSON(res, { success: true, data: myAppts });
+  }
+
+  // Customer cancels a booking
+  if (url === '/api/booking/cancel' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!body.bookingId || !body.mobile) return sendJSON(res, { success: false, error: 'bookingId and mobile required' }, 400);
+    if (!db.appointments) db.appointments = [];
+    const appt = db.appointments.find(a => a.bookingId === body.bookingId && a.mobile === body.mobile);
+    if (!appt) return sendJSON(res, { success: false, error: 'Booking not found' }, 404);
+    appt.status = 'Cancelled';
+    saveDatabase();
+    return sendJSON(res, { success: true, message: 'Booking cancelled' });
+  }
+
+  // Customer submits feedback
+  if (url === '/api/booking/feedback' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.feedback) db.feedback = [];
+    db.feedback.push({ ...body, submittedAt: new Date().toISOString() });
+    saveDatabase();
+    return sendJSON(res, { success: true, message: 'Thank you for your feedback!' });
+  }
+
+  // Get clinic info (for customer app)
+  if (url === '/api/booking/clinic-info' && method === 'GET') {
+    return sendJSON(res, { success: true, data: {
+      name: 'Shanthi Wellness Ayurvedic Medical Centre LLC',
+      phone: '+971 42 255 133',
+      whatsapp: '+971 42 255 133',
+      website: 'www.shanthiwellness.com',
+      address: 'Dubai, UAE',
+      workingHours: '9:00 AM - 9:00 PM',
+      workingDays: 'Sunday - Saturday',
+      branches: [
+        { name: 'Main Branch - Dubai', phone: '+971 42 255 133', address: 'Dubai, UAE' }
+      ],
+      services: ['Consultation', 'Panchakarma', 'Physiotherapy', 'Ayurveda Treatment', 'Steam Therapy', 'Massage Therapy', 'Wellness Package']
+    }});
+  }
+
+  // Customer views their packages/sessions
+  if (url.startsWith('/api/booking/my-packages') && method === 'GET') {
+    const urlObj = new URL(req.url, 'http://localhost');
+    const mobile = urlObj.searchParams.get('mobile');
+    if (!mobile) return sendJSON(res, { success: false, error: 'mobile required' }, 400);
+    // Find patient by mobile and return their package info
+    const patient = (db.patients || []).find(p => p.mobile === mobile || p.whatsapp === mobile);
+    if (!patient || !patient.packageName || patient.packageName === 'None') {
+      return sendJSON(res, { success: true, data: [] });
+    }
+    const pkgData = [{
+      packageName: patient.packageName,
+      totalSessions: parseInt(patient.packageVisits) || 0,
+      consumedSessions: Math.max(0, (parseInt(patient.packageVisits) || 0) - (parseInt(patient.packageBalance) || 0)),
+      balanceSessions: parseInt(patient.packageBalance) || 0,
+      startDate: patient.packageStart || '',
+      expiryDate: patient.policyExpiry || '',
+      status: 'Active'
+    }];
+    return sendJSON(res, { success: true, data: pkgData });
+  }
+
+  // Admin confirms an appointment (from EMR side)
+  if (url === '/api/booking/confirm' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!body.bookingId) return sendJSON(res, { success: false, error: 'bookingId required' }, 400);
+    if (!db.appointments) db.appointments = [];
+    const appt = db.appointments.find(a => a.bookingId === body.bookingId);
+    if (!appt) return sendJSON(res, { success: false, error: 'Booking not found' }, 404);
+    appt.status = 'Confirmed';
+    appt.confirmedAt = new Date().toISOString();
+    appt.confirmedBy = body.confirmedBy || 'Receptionist';
+    saveDatabase();
+    // Send confirmation email
+    if (appt.email) {
+      sendAppointmentEmail(appt.email, appt.patientName, appt.date, appt.time, appt.doctor).catch(()=>{});
+    }
+    return sendJSON(res, { success: true, message: 'Appointment confirmed', data: appt });
+  }
+
+  // ── Patient Auth (Register / Login) ──
+  if (url === '/api/auth/register' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!body.name || !body.mobile || !body.password) {
+      return sendJSON(res, { success: false, error: 'Name, mobile and password are required' }, 400);
+    }
+    if (!db.appUsers) db.appUsers = [];
+    const existingUser = db.appUsers.find(u => u.mobile === body.mobile);
+    if (existingUser) {
+      return sendJSON(res, { success: false, error: 'This mobile number is already registered. Please login.' }, 409);
+    }
+    const user = {
+      userId: 'USR-' + Date.now(),
+      name: body.name,
+      mobile: body.mobile,
+      email: body.email || '',
+      password: body.password,
+      emiratesId: body.emiratesId || '',
+      emiratesIdFront: body.emiratesIdFront || '',
+      emiratesIdBack: body.emiratesIdBack || '',
+      nationality: body.nationality || '',
+      dob: body.dob || '',
+      gender: body.gender || '',
+      registeredAt: new Date().toISOString()
+    };
+    db.appUsers.push(user);
+    if (!db.patients) db.patients = [];
+    const existingPatient = db.patients.find(p => p.mobile === body.mobile);
+    if (!existingPatient) {
+      const nameParts = body.name.trim().split(/\s+/);
+      db.patients.push({
+        mrNo: String(db.nextIds.patient++),
+        firstName: nameParts[0] || '',
+        lastName: nameParts.slice(1).join(' ') || '',
+        mobile: body.mobile,
+        email: body.email || '',
+        gender: body.gender || '',
+        dob: body.dob || '',
+        nationality: body.nationality || '',
+        eid: body.emiratesId || '',
+        regDate: formatDate(new Date()),
+        status: 'Active',
+        category: 'General',
+        source: 'CustomerApp'
+      });
+    }
+    saveDatabase();
+    const safeUser = { userId: user.userId, name: user.name, mobile: user.mobile, email: user.email, emiratesId: user.emiratesId };
+    return sendJSON(res, { success: true, message: 'Registration successful!', data: safeUser });
+  }
+
+  if (url === '/api/auth/login' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!body.mobile || !body.password) {
+      return sendJSON(res, { success: false, error: 'Mobile and password are required' }, 400);
+    }
+    if (!db.appUsers) db.appUsers = [];
+    // Normalize mobile - strip spaces, +, leading 0, country code
+    const normMobile = body.mobile.replace(/[\s\-\+]/g, '').replace(/^00/, '').replace(/^971/, '');
+    const user = db.appUsers.find(u => {
+      const uMobile = u.mobile.replace(/[\s\-\+]/g, '').replace(/^00/, '').replace(/^971/, '');
+      return (uMobile === normMobile || u.mobile === body.mobile) && u.password === body.password;
+    });
+    if (!user) {
+      return sendJSON(res, { success: false, error: 'Invalid mobile number or password. Check your credentials.' }, 401);
+    }
+    const safeUser = { userId: user.userId, name: user.name, mobile: user.mobile, email: user.email, emiratesId: user.emiratesId, nationality: user.nationality, dob: user.dob, gender: user.gender };
+    return sendJSON(res, { success: true, message: 'Login successful!', data: safeUser });
+  }
+
+  if (url === '/api/auth/update-profile' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!body.mobile) return sendJSON(res, { success: false, error: 'mobile required' }, 400);
+    if (!db.appUsers) db.appUsers = [];
+    const user = db.appUsers.find(u => u.mobile === body.mobile);
+    if (!user) return sendJSON(res, { success: false, error: 'User not found' }, 404);
+    if (body.name) user.name = body.name;
+    if (body.email) user.email = body.email;
+    if (body.emiratesId) user.emiratesId = body.emiratesId;
+    if (body.emiratesIdFront) user.emiratesIdFront = body.emiratesIdFront;
+    if (body.emiratesIdBack) user.emiratesIdBack = body.emiratesIdBack;
+    if (body.nationality) user.nationality = body.nationality;
+    if (body.dob) user.dob = body.dob;
+    if (body.gender) user.gender = body.gender;
+    const patient = (db.patients || []).find(p => p.mobile === body.mobile);
+    if (patient) {
+      if (body.emiratesId) patient.eid = body.emiratesId;
+      if (body.nationality) patient.nationality = body.nationality;
+      if (body.dob) patient.dob = body.dob;
+      if (body.gender) patient.gender = body.gender;
+      if (body.name) { const np = body.name.trim().split(/\s+/); patient.firstName = np[0]; patient.lastName = np.slice(1).join(' '); }
+    }
+    saveDatabase();
+    return sendJSON(res, { success: true, message: 'Profile updated' });
+  }
+
   // ── Sign page (link-based signing) ──
   if (url.startsWith('/sign') && method === 'GET') {
     const signPage = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -746,6 +1037,21 @@ const server = http.createServer((req, res) => {
   // Sign page (link-based signing)
   if (req.url.startsWith('/sign')) {
     return handleAPI(req, res);
+  }
+
+  // Customer Booking App
+  if (req.url === '/book' || req.url === '/book/' || req.url.startsWith('/book?')) {
+    serveFile(res, path.join(__dirname, 'customer-app.html'));
+    return;
+  }
+  // PWA manifest and service worker for customer app
+  if (req.url === '/manifest.json') {
+    serveFile(res, path.join(__dirname, 'manifest.json'));
+    return;
+  }
+  if (req.url === '/sw.js') {
+    serveFile(res, path.join(__dirname, 'sw.js'));
+    return;
   }
 
   // Serve static files
