@@ -7,6 +7,11 @@
   "scripts": {
     "start": "electron .",
     "server": "node server.js",
+    "server:wellness": "node server.js --wellness",
+    "import:medical": "node import-medical.js",
+    "import:wellness": "node import-wellness.js",
+    "import:medical:preview": "node import-medical.js --dry-run",
+    "import:wellness:preview": "node import-wellness.js --dry-run",
     "build": "electron-builder --win",
     "build:portable": "electron-builder --win portable"
   },
@@ -56,7 +61,8 @@
   "devDependencies": {
     "electron": "^28.3.3",
     "electron-builder": "^24.13.3",
-    "electron-packager": "^17.1.2"
+    "electron-packager": "^17.1.2",
+    "xlsx": "^0.18.5"
   },
   "dependencies": {
     "nodemailer": "^6.9.7",

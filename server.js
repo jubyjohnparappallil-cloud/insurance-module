@@ -15,8 +15,25 @@ const path = require('path');
 const os = require('os');
 const nodemailer = require('nodemailer');
 
-const PORT = 3000;
-const DATA_FILE = path.join(__dirname, 'clinic-data.json');
+// ── Branch Mode ───────────────────────────────────────────────────
+// Run as Medical Center:  node server.js
+// Run as Wellness:        node server.js --wellness
+const IS_WELLNESS = process.argv.includes('--wellness');
+const PORT        = IS_WELLNESS ? 3001 : 3000;
+const DATA_FILE   = IS_WELLNESS
+  ? path.join(__dirname, 'wellness-data.json')
+  : path.join(__dirname, 'clinic-data.json');
+
+console.log('══════════════════════════════════════════════════');
+if (IS_WELLNESS) {
+  console.log('🌿  Branch : Shanthi Wellness Ayurvedic LLC');
+  console.log('📁  DB     : wellness-data.json');
+} else {
+  console.log('🏥  Branch : Shanthi Medical Center');
+  console.log('📁  DB     : clinic-data.json');
+}
+console.log('🌐  Port   :', PORT);
+console.log('══════════════════════════════════════════════════');
 
 // ─── Email Configuration (Gmail SMTP via Nodemailer) ─────────────
 const EMAIL_CONFIG = {
@@ -1055,7 +1072,10 @@ const server = http.createServer((req, res) => {
   }
 
   // Serve static files
-  let filePath = req.url === '/' ? '/insurance-only.html' : req.url.split('?')[0];
+  // Root '/' serves the appropriate HTML for each branch
+  let filePath = req.url === '/'
+    ? (IS_WELLNESS ? '/clinic-emr.html' : '/insurance-only.html')
+    : req.url.split('?')[0];
   filePath = path.join(__dirname, filePath);
   serveFile(res, filePath);
 });

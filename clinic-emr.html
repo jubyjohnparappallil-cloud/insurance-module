@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,17 +6,17 @@
   <title>Clinic EMR Desktop</title>
   <style>
     :root {
-      --green: #10bf18;
-      --green-dark: #078a0d;
-      --blue: #086ed5;
-      --blue-dark: #034f9f;
-      --chrome: #dbe5ee;
-      --chrome-light: #f7fbff;
-      --line: #aebbc5;
-      --line-dark: #8496a6;
-      --panel: #eef3f7;
-      --paper: #f8fbfd;
-      --field: #eff9bd;
+      --green: #0d3b2e;
+      --green-dark: #082a20;
+      --blue: #0d3b2e;
+      --blue-dark: #0f4c3a;
+      --chrome: #d6e8e3;
+      --chrome-light: #f2f9f7;
+      --line: #8eb8aa;
+      --line-dark: #5a9485;
+      --panel: #e8f3ef;
+      --paper: #f5faf8;
+      --field: #c8f7a0;
       --text: #172533;
       --muted: #60707d;
       --danger: #bb1022;
@@ -102,19 +102,19 @@
       grid-template-columns: 54px 1fr auto;
       align-items: center;
       height: 28px;
-      background: linear-gradient(#f9fcff, #d7e2ec);
-      border-bottom: 1px solid var(--line-dark);
+      background: linear-gradient(#0d3b2e, #082a20);
+      border-bottom: 1px solid #061f17;
       font-size: 12px;
       font-weight: 700;
-      color: #1d3448;
+      color: #ffffff;
     }
 
     .window-mark {
       width: 40px;
       height: 20px;
       margin-left: 6px;
-      border: 1px solid #075693;
-      background: linear-gradient(#127fca, #044d82);
+      border: 1px solid #082a20;
+      background: linear-gradient(#0d3b2e, #0f4c3a);
       border-radius: 2px;
       box-shadow: inset 0 1px rgba(255,255,255,0.4);
     }
@@ -134,8 +134,8 @@
       height: 28px;
       padding-left: 10px;
       margin: 0;
-      background: linear-gradient(#fbfdff, #dfe9f2);
-      border-bottom: 1px solid var(--line-dark);
+      background: linear-gradient(#0f4c3a, #0d3b2e);
+      border-bottom: 1px solid #082a20;
       gap: 1px;
     }
 
@@ -146,16 +146,17 @@
       border: 1px solid transparent;
       border-bottom: 0;
       background: transparent;
-      color: #22384b;
+      color: #c8e6dc;
       font-size: 11px;
       font-weight: 700;
     }
 
     .top-tab.active {
-      background: linear-gradient(#fff, #e9f0f5);
-      border-color: #a5b4c0;
+      background: linear-gradient(#fff, #e0f2ef);
+      border-color: #4a9080;
       border-radius: 5px 5px 0 0;
       box-shadow: inset 0 1px #fff;
+      color: #082a20;
     }
 
     .ribbon {
@@ -165,8 +166,8 @@
       max-height: 50px;
       margin: 0;
       padding: 0 8px 0;
-      background: linear-gradient(#fbfdff, #d9e6ef);
-      border-bottom: 1px solid var(--line-dark);
+      background: linear-gradient(#e0f2ef, #b8d8d0);
+      border-bottom: 1px solid #4a9080;
       overflow-x: auto;
       gap: 6px;
     }
@@ -202,15 +203,15 @@
       place-items: center;
       width: 38px;
       height: 30px;
-      border: 1px solid #8cd28f;
-      background: linear-gradient(#22d22d, #0daf16);
+      border: 1px solid #082a20;
+      background: linear-gradient(#0d3b2e, #0f4c3a);
       box-shadow: inset 0 1px rgba(255,255,255,0.35), 0 1px 3px rgba(32, 57, 75, 0.22);
     }
 
     .module:hover .module-icon,
     .module.active .module-icon {
-      outline: 2px solid rgba(8, 110, 213, 0.24);
-      background: linear-gradient(#31d938, #0d9c13);
+      outline: 2px solid rgba(21, 101, 192, 0.40);
+      background: linear-gradient(#4a9080, #082a20);
     }
 
     .module-label {
@@ -224,7 +225,7 @@
       position: relative;
       width: 38px;
       height: 38px;
-      color: #e9ffe8;
+      color: #ffffff;
     }
 
     .glyph::before,
@@ -275,7 +276,7 @@
       bottom: -7px;
       border: 4px solid currentColor;
       border-radius: 50%;
-      background: var(--green);
+      background: var(--blue);
     }
 
     .g-doc {
@@ -477,16 +478,16 @@
       align-items: center;
       padding: 0 8px;
       margin: 0;
-      background: linear-gradient(90deg, var(--blue), #0067d3);
+      background: linear-gradient(90deg, var(--blue), #4a9080);
       color: #fff;
       font-size: 14px;
       font-weight: 800;
-      border-bottom: 1px solid #004f9d;
+      border-bottom: 1px solid #082a20;
     }
 
     .screen-title.green {
-      background: linear-gradient(90deg, var(--green-dark), var(--green));
-      border-bottom-color: #087d0f;
+      background: linear-gradient(90deg, #082a20, #0d3b2e);
+      border-bottom-color: #0a3880;
     }
 
     .toolbar {
@@ -531,8 +532,8 @@
     }
 
     .tool-button.primary {
-      border-color: #078d0f;
-      background: linear-gradient(#20d62a, #0ba713);
+      border-color: #082a20;
+      background: linear-gradient(#1a6fd4, #0f4c3a);
       color: #fff;
     }
 
@@ -554,11 +555,11 @@
     }
 
     .i-new {
-      background: var(--green);
+      background: var(--blue);
     }
 
     .i-edit {
-      background: #12738b;
+      background: #0d3b2e;
     }
 
     .i-delete {
@@ -593,8 +594,8 @@
     input:focus,
     select:focus,
     textarea:focus {
-      outline: 2px solid rgba(8, 110, 213, 0.18);
-      border-color: #5c8fbd;
+      outline: 2px solid rgba(21, 101, 192, 0.40);
+      border-color: #0d3b2e;
     }
 
     .check-radio {
@@ -633,21 +634,21 @@
       top: 0;
       z-index: 1;
       height: 29px;
-      border: 1px solid #bdc9d2;
-      background: linear-gradient(#e9f0f6, #d0dce6);
-      color: #203747;
+      border: 1px solid #0f4c3a;
+      background: linear-gradient(#0d3b2e, #082a20);
+      color: #ffffff;
       text-align: left;
       padding: 0 7px;
     }
 
     td {
       height: 25px;
-      border: 1px solid #ccd6de;
+      border: 1px solid #b8d8d0;
       padding: 0 7px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      background: #f8fbfd;
+      background: #f5faf8;
     }
 
     tr:nth-child(even) td {
@@ -672,8 +673,8 @@
       place-items: center;
       width: 19px;
       height: 19px;
-      border: 1px solid #78bf7b;
-      background: linear-gradient(#28d530, #0cac14);
+      border: 1px solid #0d3b2e;
+      background: linear-gradient(#1a6fd4, #0f4c3a);
       color: #fff;
       font-size: 11px;
       font-weight: 900;
@@ -715,9 +716,9 @@
       height: 18px;
       padding: 0 6px;
       border-radius: 2px;
-      background: #ddf4df;
-      color: #087315;
-      border: 1px solid #91d392;
+      background: #e0f2ef;
+      color: #082a20;
+      border: 1px solid #8ec4b8;
       font-size: 11px;
     }
 
@@ -867,14 +868,14 @@
       width: 26px;
       height: 19px;
       border-radius: 5px 5px 3px 3px;
-      background: #71c928;
+      background: #4a9080;
     }
 
     .android-mark::before,
     .android-mark::after {
       content: "";
       position: absolute;
-      background: #71c928;
+      background: #4a9080;
     }
 
     .android-mark::before {
@@ -883,7 +884,7 @@
       left: -6px;
       top: 4px;
       border-radius: 4px;
-      box-shadow: 34px 0 #71c928;
+      box-shadow: 34px 0 #4a9080;
     }
 
     .android-mark::after {
@@ -893,7 +894,7 @@
       top: -6px;
       border-radius: 3px;
       transform: rotate(-30deg);
-      box-shadow: 13px 8px #71c928;
+      box-shadow: 13px 8px #4a9080;
     }
 
     .schedule-close {
@@ -920,9 +921,9 @@
     .legend.booked { background: #515b69; }
     .legend.confirmed { background: #f1e300; color: #111; }
     .legend.called { background: #c6009f; }
-    .legend.arrived { background: #10a621; }
+    .legend.arrived { background: #0d3b2e; }
     .legend.consulted { background: #0174cf; }
-    .legend.billed { background: #00a3d8; }
+    .legend.billed { background: #0d3b2e; }
     .legend.cancelled { background: #d00000; }
 
     .day-grid {
@@ -997,8 +998,8 @@
     }
 
     .appointment-card.arrived {
-      border-right-color: #0da818;
-      background: #c8e6c9;
+      border-right-color: #0d3b2e;
+      background: #b8d8d0;
     }
 
     .appointment-card.consulted {
@@ -1063,7 +1064,7 @@
     }
 
     .appointment-menu .menu-green {
-      color: #168027;
+      color: #0d3b2e;
     }
 
     .appointment-menu .menu-danger {
@@ -1086,7 +1087,7 @@
     .appointment-menu .info,
     .appointment-menu .call,
     .appointment-menu .reminder,
-    .appointment-menu .thanks { background: #05d0a8; }
+    .appointment-menu .thanks { background: #4a9080; }
     .appointment-menu .trash { background: #e01b36; }
 
     /* Arrived menu styles */
@@ -1119,17 +1120,17 @@
     }
 
     .arr-green-dark {
-      background: #2e7d32;
+      background: #082a20;
       color: #fff;
     }
 
     .arr-green-olive {
-      background: #689f38;
+      background: #0d3b2e;
       color: #fff;
     }
 
     .arr-green {
-      background: #43a047;
+      background: #0d3b2e;
       color: #fff;
     }
 
@@ -1185,7 +1186,7 @@
       padding: 3px 6px;
       font-size: 11px;
       font-weight: 800;
-      background: #0d9e17;
+      background: #0d3b2e;
       color: #fff;
     }
 
@@ -1231,7 +1232,7 @@
       align-items: center;
       height: 31px;
       padding-left: 8px;
-      background: linear-gradient(90deg, var(--green-dark), var(--green));
+      background: linear-gradient(90deg, #0d3b2e, #4a9080);
       color: #fff;
       font-size: 17px;
       font-weight: 900;
@@ -1252,22 +1253,24 @@
       align-items: end;
       padding-left: 12px;
       gap: 1px;
-      border-bottom: 1px solid var(--line);
-      background: #e6edf3;
+      border-bottom: 1px solid #0d3b2e;
+      background: #f5f5f5;
     }
 
     .dialog-tab {
       height: 35px;
       min-width: 120px;
-      border: 1px solid #a9b8c4;
+      border: 1px solid #bbb;
       border-bottom: 0;
       border-radius: 5px 5px 0 0;
-      background: linear-gradient(#f9fbfd, #dce6ee);
+      background: #e8e8e8;
+      color: #333;
       font-weight: 800;
     }
 
     .dialog-tab.active {
-      background: #edf2f6;
+      background: #ffffff;
+      color: #082a20;
     }
 
     .dialog-body {
@@ -1278,19 +1281,46 @@
 
     .patient-form-grid {
       display: grid;
-      grid-template-columns: minmax(280px, 1fr) minmax(380px, 1.3fr) 260px;
+      grid-template-columns: 1fr 1fr 180px;
       gap: 18px;
       align-items: start;
+    }
+
+    .patient-form-grid .photo-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+    }
+
+    #patientPhotoPreview {
+      width: 150px;
+      height: 180px;
+      border: 2px solid #4a9080;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #edf7f5, #e0f2ef);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    #patientPhotoPreview:hover {
+      border-color: #0d3b2e;
+      background: linear-gradient(135deg, #e0f2ef, #b8d8d0);
+    }
+
+    #patientPhotoPlaceholder {
+      font-size: 60px;
+      color: #a5d6a7;
     }
 
     .form-col {
       display: grid;
       gap: 10px;
       align-content: start;
-    }
-
-    .form-col:last-child {
-      grid-row: 1 / span 1;
     }
 
     .field-row {
@@ -1319,7 +1349,8 @@
     }
 
     .field-row .readonly {
-      background: linear-gradient(90deg, #31e15a, #18d430);
+      background: linear-gradient(90deg, #4a9080, #0d3b2e);
+      color: #fff;
       font-weight: 900;
     }
 
@@ -1366,18 +1397,27 @@
       border: 2px solid #7f929f;
       background: linear-gradient(#f8fafc, #e9eef3);
       margin-bottom: 10px;
+      display: none;
     }
 
     .patient-info-button {
       display: grid;
-      place-items: center;
+      grid-template-columns: 24px 1fr;
+      align-items: center;
       height: 50px;
-      border: 1px solid #9aaab7;
-      background: linear-gradient(#fff, #dce5ec);
+      padding: 0 14px;
+      border: 1px solid #4a9080;
+      border-radius: 25px;
+      background: linear-gradient(#fff, #e0f2ef);
       font-size: 14px;
       font-weight: 900;
-      color: #173248;
-      padding: 0 10px;
+      color: #0d3b2e;
+      cursor: pointer;
+    }
+
+    .patient-info-button::before {
+      content: "\1F464";
+      font-size: 18px;
     }
 
     .read-eid {
@@ -1446,8 +1486,8 @@
     .status-light {
       width: 55px;
       height: 13px;
-      border: 1px solid #78a85c;
-      background: linear-gradient(90deg, #80cc2a, #e7f8db);
+      border: 1px solid #5C8ED4;
+      background: linear-gradient(90deg, #42A5F5, #e7f8db);
     }
 
     .red-text {
@@ -1456,7 +1496,7 @@
     }
 
     .green-text {
-      color: #169b26;
+      color: #0d3b2e;
       font-weight: 900;
     }
   </style>
@@ -1614,7 +1654,7 @@
               <button class="menu-text-only" type="button" data-arrived-action="invoice">CreateInvoice</button>
               <button class="menu-text-only" type="button" data-arrived-action="checkout">CheckOut</button>
               <button type="button" data-arrived-action="visitNotes"><span class="menu-icon arr-green-dark">&#9998;</span>Visit Notes</button>
-              <button type="button" data-arrived-action="attachment"><span class="menu-icon arr-green-olive">&#128206;</span>Attachment</button>
+              <button type="button" data-arrived-action="attachment"><span class="menu-icon arr-green-olive">&#0d3b2e;</span>Attachment</button>
               <button type="button" data-arrived-action="doctorsConsultation"><span class="menu-icon arr-green">&#9679;</span>Doctors Consultation</button>
               <button type="button" data-arrived-action="nutritionConsultation"><span class="menu-icon arr-green">&#9679;</span>Nutrition Consultation</button>
               <button type="button" data-arrived-action="generateConsent"><span class="menu-icon arr-green">&#9679;</span>Generate Patient Consent</button>
@@ -1827,9 +1867,12 @@
               <div class="field-row"><label for="pKnow">Know About Us</label><select id="pKnow" name="know" class="required"><option>GOOGLE</option><option>FRIEND</option><option>SIGN BOARD</option><option>INSTAGRAM</option></select></div>
             </div>
 
-            <div class="form-col">
-              <div class="photo-box" aria-label="Patient photo placeholder"></div>
-              <button class="patient-info-button" type="button">Patient Info</button>
+            <div class="form-col photo-col">
+              <div id="patientPhotoPreview" title="Click to upload patient photo">
+                <span id="patientPhotoPlaceholder">&#128100;</span>
+              </div>
+              <input type="file" id="patientPhotoInput" accept="image/*" style="display:none">
+              <button class="patient-info-button" type="button" id="patientPhotoBox" title="Click to upload photo">Patient Info</button>
             </div>
           </div>
         </section>
@@ -2413,6 +2456,28 @@
       form.elements.vip.checked = Boolean(data.vip);
       form.elements.pregnant.checked = Boolean(data.pregnant);
       form.elements.medication.checked = Boolean(data.medication);
+      // Restore patient photo
+      // Store and display patient photo
+      const photoBox = byId("patientPhotoBox");
+      const photoPreview = byId("patientPhotoPreview");
+      const photoPlaceholder = byId("patientPhotoPlaceholder");
+      if (photoBox) {
+        if (data.photo) {
+          photoBox.setAttribute("data-photo", data.photo);
+          if (photoPreview) {
+            photoPreview.style.backgroundImage = "url(" + data.photo + ")";
+            photoPreview.style.backgroundSize = "cover";
+            photoPreview.style.backgroundPosition = "center";
+            if (photoPlaceholder) photoPlaceholder.style.display = "none";
+          }
+        } else {
+          photoBox.removeAttribute("data-photo");
+          if (photoPreview) {
+            photoPreview.style.backgroundImage = "";
+            if (photoPlaceholder) photoPlaceholder.style.display = "";
+          }
+        }
+      }
       updateAgeFields();
     }
 
@@ -2426,6 +2491,11 @@
       data.dob = data.dob || "22/May/2026";
       data.nationality = data.nationality || "India";
       data.status = data.status || "Active";
+      // Read photo from photo box
+      const photoBox = byId("patientPhotoBox");
+      if (photoBox && photoBox.getAttribute("data-photo")) {
+        data.photo = photoBox.getAttribute("data-photo");
+      }
       return data;
     }
 
@@ -2642,6 +2712,42 @@
       byId("appointmentSearch").addEventListener("input", renderSchedule);
       byId("patientNew").addEventListener("click", () => openPatientDialog("new"));
       byId("patientEdit").addEventListener("click", () => openPatientDialog("edit"));
+
+      // Patient photo upload handler
+      (function() {
+        var photoBox = byId("patientPhotoBox");
+        var photoInput = byId("patientPhotoInput");
+        var photoPreview = byId("patientPhotoPreview");
+        var photoPlaceholder = byId("patientPhotoPlaceholder");
+
+        function showPhoto(url) {
+          photoBox.setAttribute("data-photo", url);
+          if (photoPreview) {
+            photoPreview.style.backgroundImage = "url(" + url + ")";
+            photoPreview.style.backgroundSize = "cover";
+            photoPreview.style.backgroundPosition = "center";
+            if (photoPlaceholder) photoPlaceholder.style.display = "none";
+          }
+        }
+
+        if (photoPreview && photoInput) {
+          photoPreview.addEventListener("click", function() { photoInput.click(); });
+        }
+        if (photoBox && photoInput) {
+          photoBox.addEventListener("click", function() { photoInput.click(); });
+        }
+        if (photoInput) {
+          photoInput.addEventListener("change", function(e) {
+            var file = e.target.files && e.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(evt) { showPhoto(evt.target.result); };
+            reader.readAsDataURL(file);
+            e.target.value = "";
+          });
+        }
+        window._showPatientPhoto = showPhoto;
+      })();
       byId("patientDelete").addEventListener("click", deletePatient);
       byId("editVisit").addEventListener("click", () => openPatientDialog("edit"));
       byId("patientAppointmentInfo").addEventListener("click", () => activateView("appointments"));
@@ -2807,3 +2913,11 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
