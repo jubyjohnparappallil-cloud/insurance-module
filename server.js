@@ -312,9 +312,20 @@ async function handleAPI(req, res) {
 
   // ── Claims ──
   if (url === '/api/claims' && method === 'GET') {
-    // Return only user-saved claims (NOT auto-generated from consultations)
+    // Return user-saved claims + imported insurance claims
     const userClaims = (db.claims || []).filter(c => c.savedByUser === true);
-    return sendJSON(res, { success: true, data: userClaims });
+    const importedClaims = (db.insuranceClaims || []).map(c => ({
+      claimId: c.claimId,
+      fromDate: c.startDate,
+      toDate: c.endDate,
+      mrNo: c.mrNo,
+      patientName: (db.patients || []).find(p => p.mrNo === c.mrNo)?.firstName || c.mrNo,
+      amount: c.amount,
+      receivedAmount: c.receivedAmount || '0.00',
+      notes: c.notes || '',
+      savedByUser: true
+    }));
+    return sendJSON(res, { success: true, data: [...userClaims, ...importedClaims] });
   }
   if (url === '/api/claims/save' && method === 'POST') {
     const body = await parseBody(req);
@@ -673,6 +684,26 @@ async function handleAPI(req, res) {
       return sendJSON(res, { success: true, count: db.drugs.length });
     }
     return sendJSON(res, { success: false, error: 'Invalid data' }, 400);
+  }
+
+  // ── Diagnosis Master (ICD Codes) ──
+  if (url === '/api/diagnosis-master' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.diagnosisMaster || [] });
+  }
+
+  // ── Procedures Master ──
+  if (url === '/api/procedures-master' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.proceduresMaster || [] });
+  }
+
+  // ── Invoices ──
+  if (url === '/api/invoices' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.invoices || [] });
+  }
+
+  // ── Receipts ──
+  if (url === '/api/receipts' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.receipts || [] });
   }
 
   // ── Send Appointment Email ──

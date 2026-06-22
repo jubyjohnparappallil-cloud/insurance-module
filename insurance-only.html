@@ -7,16 +7,16 @@
   <title>Clinic EMR - Insurance</title>
   <style>
     :root {
-      --green: #0d3b2e;
-      --green-dark: #082a20;
-      --blue: #0d3b2e;
-      --blue-dark: #0f4c3a;
-      --chrome: #d6e8e3;
+      --green: #2e7d32;
+      --green-dark: #1b5e20;
+      --blue: #2e7d32;
+      --blue-dark: #388e3c;
+      --chrome: #e8f5e9;
       --chrome-light: #f2f9f7;
-      --line: #8eb8aa;
-      --line-dark: #5a9485;
-      --panel: #e8f3ef;
-      --paper: #f5faf8;
+      --line: #a5d6a7;
+      --line-dark: #388e3c;
+      --panel: #e8f5e9;
+      --paper: #f1f8e9;
       --field: #c8f7a0;
       --text: #172533;
       --muted: #60707d;
@@ -90,8 +90,8 @@
       grid-template-columns: 54px 1fr auto;
       align-items: center;
       height: 31px;
-      background: linear-gradient(#0d3b2e, #082a20);
-      border-bottom: 1px solid #061f17;
+      background: linear-gradient(#2e7d32, #1b5e20);
+      border-bottom: 1px solid #1b5e20;
       font-size: 13px;
       font-weight: 700;
       color: #ffffff;
@@ -101,8 +101,8 @@
       width: 44px;
       height: 23px;
       margin-left: 6px;
-      border: 1px solid #082a20;
-      background: linear-gradient(#0d3b2e, #0f4c3a);
+      border: 1px solid #1b5e20;
+      background: linear-gradient(#2e7d32, #388e3c);
       border-radius: 2px;
       box-shadow: inset 0 1px rgba(255,255,255,0.4);
     }
@@ -121,8 +121,8 @@
       align-items: flex-end;
       height: 42px;
       padding-left: 74px;
-      background: linear-gradient(#0f4c3a, #0d3b2e);
-      border-bottom: 1px solid #082a20;
+      background: linear-gradient(#388e3c, #2e7d32);
+      border-bottom: 1px solid #1b5e20;
       gap: 1px;
     }
 
@@ -139,11 +139,11 @@
     }
 
     .top-tab.active {
-      background: linear-gradient(#fff, #e0f2ef);
-      border-color: #4a9080;
+      background: linear-gradient(#fff, #e8f5e9);
+      border-color: #43a047;
       border-radius: 5px 5px 0 0;
       box-shadow: inset 0 1px #fff;
-      color: #082a20;
+      color: #1b5e20;
     }
 
     .ribbon {
@@ -151,8 +151,8 @@
       align-items: stretch;
       min-height: 111px;
       padding: 10px 11px 7px;
-      background: linear-gradient(#e0f2ef, #b8d8d0);
-      border-bottom: 1px solid #4a9080;
+      background: linear-gradient(#e8f5e9, #c8e6c9);
+      border-bottom: 1px solid #43a047;
       overflow-x: auto;
       gap: 9px;
     }
@@ -178,15 +178,15 @@
       place-items: center;
       width: 78px;
       height: 60px;
-      border: 1px solid #0d3b2e;
-      background: linear-gradient(#0d3b2e, #082a20);
+      border: 1px solid #2e7d32;
+      background: linear-gradient(#2e7d32, #1b5e20);
       box-shadow: inset 0 1px rgba(255,255,255,0.35), 0 1px 3px rgba(32, 57, 75, 0.22);
     }
 
     .module:hover .module-icon,
     .module.active .module-icon {
       outline: 2px solid rgba(21, 101, 192, 0.4);
-      background: linear-gradient(#0d3b2e, #0f4c3a);
+      background: linear-gradient(#2e7d32, #388e3c);
     }
 
     .module-label {
@@ -394,8 +394,8 @@
       align-items: flex-end;
       height: 29px;
       padding-left: 12px;
-      background: #4a9080;
-      border-bottom: 1px solid #0f4c3a;
+      background: #43a047;
+      border-bottom: 1px solid #388e3c;
       gap: 1px;
     }
 
@@ -404,35 +404,35 @@
       display: flex;
       align-items: center;
       padding: 0 14px;
-      background: linear-gradient(90deg, #082a20, #0d3b2e);
+      background: linear-gradient(90deg, #1b5e20, #2e7d32);
       color: #fff;
       font-size: 15px;
       font-weight: 800;
-      border-bottom: 1px solid #061f17;
+      border-bottom: 1px solid #1b5e20;
     }
 
     .sub-tab {
       min-width: 110px;
       height: 27px;
       padding: 0 12px;
-      border: 1px solid #0f4c3a;
+      border: 1px solid #388e3c;
       border-bottom: 0;
       border-radius: 4px 12px 0 0;
-      background: linear-gradient(#5ba898, #4a9080);
+      background: linear-gradient(#66bb6a, #43a047);
       color: #ffffff;
       font-size: 12px;
       font-weight: 650;
     }
 
     .sub-tab.active {
-      background: linear-gradient(#fff, #e0f2ef);
-      color: #082a20;
+      background: linear-gradient(#fff, #e8f5e9);
+      color: #1b5e20;
     }
 
     .content {
       position: relative;
       overflow: hidden;
-      background: #e8f3ef;
+      background: #e8f5e9;
       height: 100%;
     }
 
@@ -460,7 +460,7 @@
       gap: 5px;
       min-height: 34px;
       padding: 3px 8px;
-      background: linear-gradient(#f8fbfd, #c8e0da);
+      background: linear-gradient(#f8fbfd, #c8e6c9);
       border-bottom: 1px solid var(--line);
       overflow-x: auto;
       white-space: nowrap;
@@ -526,8 +526,8 @@
     }
 
     .view-tab.active {
-      background: linear-gradient(#0d3b2e, #0f4c3a);
-      border-color: #082a20;
+      background: linear-gradient(#2e7d32, #388e3c);
+      border-color: #1b5e20;
       color: #fff;
     }
 
@@ -539,12 +539,12 @@
       border-radius: 2px;
     }
 
-    .band-pill.consultation { background: #0f4c3a; }
-    .band-pill.package      { background: #082a20; }
+    .band-pill.consultation { background: #388e3c; }
+    .band-pill.package      { background: #1b5e20; }
     .band-pill.treatment    { background: #c8a800; }
     .band-pill.others       { background: #8b1a8b; }
 
-    .legend.checkout { background: #0d3b2e; }
+    .legend.checkout { background: #2e7d32; }
     .legend.triage   { background: #e65100; }
     .legend.blocked  { background: #2c3e50; }
 
@@ -556,7 +556,7 @@
     }
 
     .appt-dialog-title {
-      background: linear-gradient(90deg, #082a20, #0d3b2e);
+      background: linear-gradient(90deg, #1b5e20, #2e7d32);
     }
 
     .appt-dialog-body {
@@ -585,8 +585,8 @@
     .appt-duration-btn {
       height: 24px;
       padding: 0 8px;
-      border: 1px solid #082a20;
-      background: linear-gradient(#0d3b2e, #082a20);
+      border: 1px solid #1b5e20;
+      background: linear-gradient(#2e7d32, #1b5e20);
       color: #fff;
       font-size: 11px;
       font-weight: 800;
@@ -642,8 +642,8 @@
     }
 
     .appt-new-btn {
-      background: linear-gradient(#0d3b2e, #0f4c3a);
-      border-color: #082a20;
+      background: linear-gradient(#2e7d32, #388e3c);
+      border-color: #1b5e20;
       color: #fff;
       font-weight: 800;
     }
@@ -681,10 +681,10 @@
       border: 1px solid #b4c2cc;
       border-bottom: 0;
       border-radius: 4px 4px 0 0;
-      background: linear-gradient(#e0f2ef, #b8d8d0);
+      background: linear-gradient(#e8f5e9, #c8e6c9);
       font-size: 12px;
       font-weight: 700;
-      color: #1a3d32;
+      color: #1b5e20;
     }
 
     .appt-tab.active {
@@ -714,8 +714,8 @@
     }
 
     .appt-add-btn {
-      background: linear-gradient(#0d3b2e, #0f4c3a);
-      border-color: #082a20;
+      background: linear-gradient(#2e7d32, #388e3c);
+      border-color: #1b5e20;
       color: #fff;
       font-weight: 800;
     }
@@ -725,16 +725,16 @@
       display: flex;
       align-items: center;
       padding: 0 9px;
-      background: linear-gradient(90deg, #082a20, #0d3b2e);
+      background: linear-gradient(90deg, #1b5e20, #2e7d32);
       color: #fff;
       font-size: 18px;
       font-weight: 800;
-      border-bottom: 1px solid #061f17;
+      border-bottom: 1px solid #1b5e20;
     }
 
     .screen-title.green {
-      background: linear-gradient(90deg, #082a20, #0d3b2e);
-      border-bottom-color: #061f17;
+      background: linear-gradient(90deg, #1b5e20, #2e7d32);
+      border-bottom-color: #1b5e20;
     }
 
     .toolbar {
@@ -743,8 +743,8 @@
       gap: 6px;
       min-height: 48px;
       padding: 7px 9px;
-      background: linear-gradient(#e0f2ef, #c8e0da);
-      border-bottom: 1px solid #4a9080;
+      background: linear-gradient(#e8f5e9, #c8e6c9);
+      border-bottom: 1px solid #43a047;
       overflow-x: auto;
       white-space: nowrap;
     }
@@ -778,8 +778,8 @@
     }
 
     .tool-button.primary {
-      border-color: #082a20;
-      background: linear-gradient(#0d3b2e, #082a20);
+      border-color: #1b5e20;
+      background: linear-gradient(#2e7d32, #1b5e20);
       color: #fff;
     }
 
@@ -805,7 +805,7 @@
     }
 
     .i-edit {
-      background: #0d3b2e;
+      background: #2e7d32;
     }
 
     .i-delete {
@@ -841,7 +841,7 @@
     select:focus,
     textarea:focus {
       outline: 2px solid rgba(21, 101, 192, 0.40);
-      border-color: #0d3b2e;
+      border-color: #2e7d32;
     }
 
     .check-radio {
@@ -880,8 +880,8 @@
       top: 0;
       z-index: 1;
       height: 29px;
-      border: 1px solid #0f4c3a;
-      background: linear-gradient(#0d3b2e, #082a20);
+      border: 1px solid #388e3c;
+      background: linear-gradient(#2e7d32, #1b5e20);
       color: #ffffff;
       text-align: left;
       padding: 0 7px;
@@ -889,12 +889,12 @@
 
     td {
       height: 25px;
-      border: 1px solid #b8d8d0;
+      border: 1px solid #c8e6c9;
       padding: 0 7px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      background: #f5faf8;
+      background: #f1f8e9;
     }
 
     tr:nth-child(even) td {
@@ -902,8 +902,8 @@
     }
 
     tr.selected td {
-      background: #b8d8d0;
-      border-top-color: var(--selected-border);
+      background: #a5d6a7;
+      border-top-color: #4caf50;
       border-bottom-color: var(--selected-border);
     }
 
@@ -919,8 +919,8 @@
       place-items: center;
       width: 19px;
       height: 19px;
-      border: 1px solid #0d3b2e;
-      background: linear-gradient(#0d3b2e, #0f4c3a);
+      border: 1px solid #2e7d32;
+      background: linear-gradient(#2e7d32, #388e3c);
       color: #fff;
       font-size: 11px;
       font-weight: 900;
@@ -928,12 +928,15 @@
     }
 
     .claims-actions { display:flex;gap:3px;align-items:center;justify-content:center; }
-    .claims-act-btn { display:inline-grid;place-items:center;width:24px;height:20px;border:1px solid #0d3b2e;background:linear-gradient(#4a9080,#0f4c3a);color:#fff;font-size:10px;font-weight:900;border-radius:3px;cursor:pointer;padding:0; }
-    .claims-act-btn.medical { background:linear-gradient(#0d3b2e,#0f4c3a);border-color:#0f4c3a; }
-    .claims-act-btn.treatment { background:linear-gradient(#0d3b2e,#082a20);border-color:#082a20; }
+    .pat-actions { display:flex;gap:1px;align-items:center;justify-content:center;padding:0 2px; }
+    .pat-act-btn { display:inline-grid;place-items:center;width:24px;height:22px;border:1px solid #2e7d32;background:linear-gradient(135deg,#6dd400,#4caf50,#2e9e30);color:#fff;font-size:12px;font-weight:900;border-radius:4px;cursor:pointer;padding:0;min-width:0;box-shadow:inset 0 1px rgba(255,255,255,0.5),0 1px 2px rgba(0,0,0,0.15); }
+    .pat-act-btn:hover { background:linear-gradient(135deg,#4caf50,#388e3c,#2e7d32);box-shadow:inset 0 1px rgba(255,255,255,0.3); }
+    .claims-act-btn { display:inline-grid;place-items:center;width:24px;height:20px;border:1px solid #2e7d32;background:linear-gradient(#43a047,#388e3c);color:#fff;font-size:10px;font-weight:900;border-radius:3px;cursor:pointer;padding:0; }
+    .claims-act-btn.medical { background:linear-gradient(#2e7d32,#388e3c);border-color:#388e3c; }
+    .claims-act-btn.treatment { background:linear-gradient(#2e7d32,#1b5e20);border-color:#1b5e20; }
     .claims-act-btn.medicine { background:linear-gradient(#ff9800,#e65100);border-color:#e65100; }
     .claims-act-btn.logsheet { background:linear-gradient(#9c27b0,#6a1b9a);border-color:#6a1b9a; }
-    .claims-act-btn.edit { background:linear-gradient(#0d3b2e,#0d3b2e);border-color:#0d3b2e; }
+    .claims-act-btn.edit { background:linear-gradient(#2e7d32,#2e7d32);border-color:#2e7d32; }
     .claims-act-btn.delete { background:linear-gradient(#f44336,#c62828);border-color:#c62828; }
 
     .gender {
@@ -943,7 +946,7 @@
       border-radius: 50% 50% 4px 4px;
       vertical-align: -4px;
       margin-right: 5px;
-      background: #082a20;
+      background: #1b5e20;
       position: relative;
     }
 
@@ -971,9 +974,9 @@
       height: 18px;
       padding: 0 6px;
       border-radius: 2px;
-      background: #e0f2ef;
-      color: #082a20;
-      border: 1px solid #8ec4b8;
+      background: #e8f5e9;
+      color: #1b5e20;
+      border: 1px solid #a5d6a7;
       font-size: 11px;
     }
 
@@ -1074,16 +1077,16 @@
     }
 
     .month-grid .today {
-      background: #b8d8d0;
+      background: #c8e6c9;
       border-color: #c99c14;
       font-weight: 900;
     }
 
     .month-grid .cal-selected {
-      background: #0f4c3a;
+      background: #388e3c;
       color: #fff;
       font-weight: 900;
-      border-color: #082a20;
+      border-color: #1b5e20;
     }
 
     .appointment-side {
@@ -1164,14 +1167,14 @@
       width: 26px;
       height: 19px;
       border-radius: 5px 5px 3px 3px;
-      background: #5ba898;
+      background: #66bb6a;
     }
 
     .android-mark::before,
     .android-mark::after {
       content: "";
       position: absolute;
-      background: #5ba898;
+      background: #66bb6a;
     }
 
     .android-mark::before {
@@ -1180,7 +1183,7 @@
       left: -6px;
       top: 4px;
       border-radius: 4px;
-      box-shadow: 34px 0 #5ba898;
+      box-shadow: 34px 0 #66bb6a;
     }
 
     .android-mark::after {
@@ -1190,7 +1193,7 @@
       top: -6px;
       border-radius: 3px;
       transform: rotate(-30deg);
-      box-shadow: 13px 8px #5ba898;
+      box-shadow: 13px 8px #66bb6a;
     }
 
     .schedule-close {
@@ -1217,9 +1220,9 @@
     .legend.booked { background: #515b69; }
     .legend.confirmed { background: #f1e300; color: #111; }
     .legend.called { background: #c6009f; }
-    .legend.arrived { background: #0d3b2e; }
-    .legend.consulted { background: #0f4c3a; }
-    .legend.billed { background: #0d3b2e; }
+    .legend.arrived { background: #2e7d32; }
+    .legend.consulted { background: #388e3c; }
+    .legend.billed { background: #2e7d32; }
     .legend.cancelled { background: #d00000; }
 
     .day-grid {
@@ -1330,8 +1333,8 @@
       right: 0;
       min-height: 25px;
       padding: 2px 3px;
-      border-left: 4px solid #082a20;
-      background: #d0ebe5;
+      border-left: 4px solid #1b5e20;
+      background: #c8e6c9;
       color: #0a2540;
       font-size: 8px;
       line-height: 1.2;
@@ -1357,12 +1360,12 @@
     }
 
     .appointment-card.arrived {
-      border-left-color: #0d3b2e;
-      background: #b8d8d0;
+      border-left-color: #2e7d32;
+      background: #c8e6c9;
     }
 
     .appointment-card.consulted {
-      border-left-color: #0f4c3a;
+      border-left-color: #388e3c;
       background: #d6eaf8;
     }
 
@@ -1423,7 +1426,7 @@
     }
 
     .appointment-menu .menu-green {
-      color: #0f4c3a;
+      color: #388e3c;
     }
 
     .appointment-menu .menu-danger {
@@ -1446,7 +1449,7 @@
     .appointment-menu .info,
     .appointment-menu .call,
     .appointment-menu .reminder,
-    .appointment-menu .thanks { background: #4a9080; }
+    .appointment-menu .thanks { background: #43a047; }
     .appointment-menu .trash { background: #e01b36; }
 
     /* Arrived menu styles */
@@ -1479,17 +1482,17 @@
     }
 
     .arr-green-dark {
-      background: #082a20;
+      background: #1b5e20;
       color: #fff;
     }
 
     .arr-green-olive {
-      background: #0d3b2e;
+      background: #2e7d32;
       color: #fff;
     }
 
     .arr-green {
-      background: #0f4c3a;
+      background: #388e3c;
       color: #fff;
     }
 
@@ -1545,12 +1548,12 @@
       padding: 3px 6px;
       font-size: 11px;
       font-weight: 800;
-      background: #0d3b2e;
+      background: #2e7d32;
       color: #fff;
     }
 
     .band.package {
-      background: #082a20;
+      background: #1b5e20;
     }
 
     .band.treatment {
@@ -1591,15 +1594,15 @@
       align-items: center;
       height: 36px;
       padding-left: 12px;
-      background: linear-gradient(90deg, #0d3b2e, #4a9080);
+      background: linear-gradient(90deg, #2e7d32, #43a047);
       color: #fff;
       font-size: 18px;
       font-weight: 900;
     }
 
     #patientModal .dialog-title {
-      background: linear-gradient(90deg, #0d3b2e, #4a9080);
-      border-bottom: 1px solid #082a20;
+      background: linear-gradient(90deg, #2e7d32, #43a047);
+      border-bottom: 1px solid #1b5e20;
     }
 
     #patientModal .dialog-body {
@@ -1622,7 +1625,7 @@
       align-items: flex-end;
       padding-left: 12px;
       gap: 2px;
-      border-bottom: 1px solid #0d3b2e;
+      border-bottom: 1px solid #2e7d32;
       background: #f5f5f5;
     }
 
@@ -1640,7 +1643,7 @@
 
     .dialog-tab.active {
       background: #ffffff;
-      color: #082a20;
+      color: #1b5e20;
       border-color: #999;
       box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
     }
@@ -1674,9 +1677,9 @@
     #patientPhotoPreview {
       width: 130px;
       height: 155px;
-      border: 2px solid #4a9080;
+      border: 2px solid #43a047;
       border-radius: 6px;
-      background: linear-gradient(135deg, #edf7f5, #e0f2ef);
+      background: linear-gradient(135deg, #f1f8e9, #e8f5e9);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1685,8 +1688,8 @@
     }
 
     #patientPhotoPreview:hover {
-      border-color: #0d3b2e;
-      background: linear-gradient(135deg, #e0f2ef, #b8d8d0);
+      border-color: #2e7d32;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
     }
 
     #patientPhotoPlaceholder {
@@ -1710,12 +1713,12 @@
       grid-template-columns: 20px 1fr;
       align-items: center;
       padding: 0 8px;
-      border: 1px solid #4a9080;
+      border: 1px solid #43a047;
       border-radius: 16px;
-      background: linear-gradient(#fff, #e0f2ef);
+      background: linear-gradient(#fff, #e8f5e9);
       font-size: 11px;
       font-weight: 900;
-      color: #0d3b2e;
+      color: #2e7d32;
       cursor: pointer;
     }
 
@@ -1768,7 +1771,7 @@
     }
 
     .field-row .readonly {
-      background: linear-gradient(90deg, #4a9080, #0d3b2e);
+      background: linear-gradient(90deg, #43a047, #2e7d32);
       color: #fff;
       font-weight: 900;
     }
@@ -1811,7 +1814,7 @@
     .field-row input:focus,
     .field-row select:focus,
     .field-row textarea:focus {
-      border-bottom-color: #0d3b2e;
+      border-bottom-color: #2e7d32;
       outline: none;
       background: #fff;
     }
@@ -1823,10 +1826,10 @@
     }
 
     .field-row .readonly {
-      background: linear-gradient(90deg, #4a9080, #0d3b2e) !important;
+      background: linear-gradient(90deg, #43a047, #2e7d32) !important;
       color: #fff;
       font-weight: 900;
-      border-bottom: 1px solid #082a20;
+      border-bottom: 1px solid #1b5e20;
     }
 
     .field-row input.required,
@@ -1869,12 +1872,12 @@
 
     /* MR badge style */
     #pMr.readonly {
-      background: linear-gradient(90deg, #0d3b2e, #082a20) !important;
+      background: linear-gradient(90deg, #2e7d32, #1b5e20) !important;
       color: #fff !important;
       font-weight: 900 !important;
       padding: 6px 10px !important;
       border-radius: 3px !important;
-      border: 1px solid #061f17 !important;
+      border: 1px solid #1b5e20 !important;
       box-shadow: inset 0 1px rgba(255,255,255,0.18);
     }
 
@@ -1899,8 +1902,8 @@
     }
 
     .dialog-actions .tool-button.primary {
-      background: linear-gradient(#0d3b2e, #0f4c3a);
-      border-color: #0f4c3a;
+      background: linear-gradient(#2e7d32, #388e3c);
+      border-color: #388e3c;
       color: #fff;
       font-weight: 900;
       padding: 10px 20px;
@@ -2022,8 +2025,8 @@
     .status-light {
       width: 55px;
       height: 13px;
-      border: 1px solid #0d3b2e;
-      background: linear-gradient(90deg, #5ba898, #e0f2ef);
+      border: 1px solid #2e7d32;
+      background: linear-gradient(90deg, #66bb6a, #e8f5e9);
     }
 
     .red-text {
@@ -2032,7 +2035,7 @@
     }
 
     .green-text {
-      color: #0f4c3a;
+      color: #388e3c;
       font-weight: 900;
     }
     .invalid {
@@ -2048,7 +2051,7 @@
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 40;
-      background: #d6e8e3;
+      background: #e8f5e9;
     }
 
     .consult-layout {
@@ -2059,15 +2062,15 @@
     }
 
     .consult-title-bar {
-      background:linear-gradient(90deg,#061f17,#0f4c3a); color:#fff;
+      background:linear-gradient(90deg,#1b5e20,#388e3c); color:#fff;
       padding:0 14px; font-size:13px; font-weight:900;
-      border-bottom:2px solid #061f17; height:26px;
+      border-bottom:2px solid #1b5e20; height:26px;
       display:flex; align-items:center;
     }
 
     .consult-date-bar {
       display:flex; align-items:center; gap:4px; padding:2px 8px;
-      background:#e8e8e8; border-bottom:2px solid #0d3b2e; height:26px;
+      background:#e8e8e8; border-bottom:2px solid #2e7d32; height:26px;
     }
 
     .consult-date-bar input {
@@ -2081,43 +2084,43 @@
 
     /* Sidebar */
     .consult-sidebar {
-      display:flex; flex-direction:column; border-right:3px solid #0d3b2e;
+      display:flex; flex-direction:column; border-right:3px solid #2e7d32;
       background:#f5f5f5; overflow-y:auto; font-size:11px;
     }
 
     .consult-patient-card {
-      padding:4px 5px; border-bottom:2px solid #0d3b2e;
+      padding:4px 5px; border-bottom:2px solid #2e7d32;
       display:flex; flex-direction:column; gap:1px; background:#fff;
     }
 
     .consult-patient-photo {
       width:108px; height:85px;
-      background:linear-gradient(135deg,#e0f2ef,#b8d8d0);
-      border:2px solid #0d3b2e; margin-bottom:2px; align-self:center;
+      background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+      border:2px solid #2e7d32; margin-bottom:2px; align-self:center;
     }
 
-    .consult-patient-name { font-weight:900; font-size:10px; color:#082a20; word-break:break-word; line-height:1.2; }
+    .consult-patient-name { font-weight:900; font-size:10px; color:#1b5e20; word-break:break-word; line-height:1.2; }
 
     .consult-patient-detail { font-size:10px; font-weight:700; color:#333; display:flex; align-items:center; gap:3px; line-height:1.4; }
 
-    .consult-patient-detail strong { color:#082a20; font-size:10px; }
+    .consult-patient-detail strong { color:#1b5e20; font-size:10px; }
 
-    .consult-mr-badge     { background:#0d3b2e; color:#fff; padding:1px 5px; font-weight:900; font-size:10px; }
-    .consult-gender-badge { background:#5ba898; color:#fff; padding:1px 4px; font-size:10px; }
+    .consult-mr-badge     { background:#2e7d32; color:#fff; padding:1px 5px; font-weight:900; font-size:10px; }
+    .consult-gender-badge { background:#66bb6a; color:#fff; padding:1px 4px; font-size:10px; }
     .consult-dob-badge    { background:#ffeb3b; color:#333; padding:1px 4px; font-size:10px; font-weight:800; }
 
-    .consult-sidebar-date { padding:3px 6px; background:#0d3b2e; font-weight:900; font-size:11px; color:#fff; border-bottom:1px solid #0f4c3a; }
+    .consult-sidebar-date { padding:3px 6px; background:#2e7d32; font-weight:900; font-size:11px; color:#fff; border-bottom:1px solid #388e3c; }
 
     .consult-sidebar-links { display:flex; flex-direction:column; }
 
     .consult-sidebar-links button {
-      text-align:left; padding:3px 7px; border:none; border-bottom:1px solid #b8d8d0;
-      background:transparent; font-size:10px; font-weight:700; color:#082a20;
+      text-align:left; padding:3px 7px; border:none; border-bottom:1px solid #c8e6c9;
+      background:transparent; font-size:10px; font-weight:700; color:#1b5e20;
       cursor:pointer; min-height:0; height:auto; line-height:1.5;
     }
 
     .consult-sidebar-links button:hover,
-    .consult-sidebar-links button.active { background:#b8d8d0; font-weight:900; }
+    .consult-sidebar-links button.active { background:#c8e6c9; font-weight:900; }
 
     /* Main content area - full width */
     .consult-main {
@@ -2129,46 +2132,46 @@
     /* Vitals + Allergies/Habits/Tabs in one row */
     .consult-vitals {
       display:grid; grid-template-columns:300px 1fr;
-      background:#fff; border-bottom:2px solid #0d3b2e; flex-shrink:0;
+      background:#fff; border-bottom:2px solid #2e7d32; flex-shrink:0;
     }
 
     .consult-vitals-left {
       display:grid; grid-template-rows:repeat(4,24px);
-      border-right:2px solid #0d3b2e;
+      border-right:2px solid #2e7d32;
     }
 
-    .vital-row { display:flex; align-items:center; border-bottom:1px solid #b8d8d0; }
+    .vital-row { display:flex; align-items:center; border-bottom:1px solid #c8e6c9; }
     .vital-row:last-child { border-bottom:none; }
 
     .vital-row label {
-      font-size:9px; font-weight:800; color:#082a20; white-space:nowrap;
+      font-size:9px; font-weight:800; color:#1b5e20; white-space:nowrap;
       width:56px; min-width:56px; padding:0 3px;
-      border-right:1px solid #b8d8d0; height:100%; display:flex; align-items:center;
+      border-right:1px solid #c8e6c9; height:100%; display:flex; align-items:center;
     }
 
     .vital-row input {
       height:23px; width:44px; font-size:10px; font-weight:700;
       text-align:center; padding:0 2px; border:none;
-      border-right:1px solid #b8d8d0; border-radius:0;
+      border-right:1px solid #c8e6c9; border-radius:0;
       min-height:0; box-shadow:none; background:#fff;
     }
 
-    .vital-row input:focus { outline:none; background:#e0f2ef; }
+    .vital-row input:focus { outline:none; background:#e8f5e9; }
 
     /* Right side: Allergies + Habits + Tabs */
     .consult-vitals-right { display:flex; flex-direction:column; }
 
     .consult-allergy-habits { display:grid; grid-template-columns:1fr 1fr 1fr; flex:1; }
 
-    .consult-allergy-box { border-right:2px solid #0d3b2e; display:flex; flex-direction:column; }
+    .consult-allergy-box { border-right:2px solid #2e7d32; display:flex; flex-direction:column; }
 
     .consult-box-title {
       padding:1px 4px; font-size:9px; font-weight:900; color:#fff;
       display:flex; align-items:center; gap:2px; height:18px; min-height:18px;
     }
 
-    .allergy-title { background: #0f4c3a; }
-    .habits-title { background: #0f4c3a; }
+    .allergy-title { background: #388e3c; }
+    .habits-title { background: #388e3c; }
 
     .consult-box-content { flex:1; padding:2px 4px; font-size:10px; background:#fff; }
 
@@ -2182,19 +2185,19 @@
       cursor:pointer; min-height:0; height:21px; color:#333;
     }
 
-    .consult-extra-tabs-row button:hover { background:#e0f2ef; }
+    .consult-extra-tabs-row button:hover { background:#e8f5e9; }
 
     .consult-extra-tabs-green { display:flex; gap:0; }
 
     .consult-extra-tabs-green button {
-      flex:1; padding:1px 5px; border:none; background:#0f4c3a;
+      flex:1; padding:1px 5px; border:none; background:#388e3c;
       font-size:10px; font-weight:800; cursor:pointer;
-      min-height:0; height:20px; color:#fff; border-right:1px solid #082a20;
+      min-height:0; height:20px; color:#fff; border-right:1px solid #1b5e20;
     }
 
     .consult-extra-tabs-green button:last-child { border-right:none; }
 
-    .consult-extra-tabs-green button:hover { background:#082a20; }
+    .consult-extra-tabs-green button:hover { background:#1b5e20; }
 
     .consult-extra-tabs-content {
       flex:1; display:grid; grid-template-columns:1fr 1fr; background:#fff;
@@ -2209,12 +2212,12 @@
     /* Clinical notes - 6 columns in one row */
     .consult-clinical-grid {
       display:grid; grid-template-columns:repeat(6,1fr);
-      border-bottom:2px solid #0d3b2e;
+      border-bottom:2px solid #2e7d32;
       min-height:0; height:100%; overflow:hidden;
     }
 
     .clinical-box {
-      border-right:1px solid #0d3b2e; background:#fff;
+      border-right:1px solid #2e7d32; background:#fff;
       display:flex; flex-direction:column; min-height:0; overflow:hidden;
     }
 
@@ -2222,7 +2225,7 @@
 
     .clinical-box-title {
       padding:1px 5px; font-size:9px; font-weight:900;
-      background:#fff9c4; color:#333; border-bottom:1px solid #0d3b2e;
+      background:#fff9c4; color:#333; border-bottom:1px solid #2e7d32;
       height:18px; min-height:18px; display:flex; align-items:center; flex-shrink:0;
     }
 
@@ -2238,12 +2241,12 @@
     /* Diagnosis + Procedure side by side */
     .consult-diag-proc {
       display:grid; grid-template-columns:2fr 3fr;
-      border-bottom:2px solid #0d3b2e; overflow:hidden;
+      border-bottom:2px solid #2e7d32; overflow:hidden;
       min-height:0; height:100%;
     }
 
     .consult-diagnosis {
-      border-right:2px solid #0d3b2e; background:#fff;
+      border-right:2px solid #2e7d32; background:#fff;
       display:flex; flex-direction:column; overflow:hidden; min-height:0;
       position:relative;
     }
@@ -2283,9 +2286,9 @@
       height:20px; min-height:20px; flex-shrink:0;
     }
 
-    .diag-title  { background:#0f4c3a; }
-    .proc-title  { background:#0f4c3a; }
-    .presc-title { background:#0f4c3a; }
+    .diag-title  { background:#388e3c; }
+    .proc-title  { background:#388e3c; }
+    .presc-title { background:#388e3c; }
 
     .consult-table {
       width:100%; border-collapse:collapse; font-size:10px; table-layout:fixed;
@@ -2293,26 +2296,26 @@
     }
 
     .consult-table th {
-      height:18px; background:linear-gradient(#e0f2ef,#b8d8d0);
-      border:1px solid #0d3b2e; padding:0 4px; font-size:10px;
-      font-weight:800; color:#082a20; white-space:nowrap;
+      height:18px; background:linear-gradient(#e8f5e9,#c8e6c9);
+      border:1px solid #2e7d32; padding:0 4px; font-size:10px;
+      font-weight:800; color:#1b5e20; white-space:nowrap;
       overflow:hidden; text-align:left;
     }
 
     .consult-table td {
-      height:18px; border:1px solid #b8d8d0;
+      height:18px; border:1px solid #c8e6c9;
       padding:0 4px; font-size:10px; background:#fff;
       white-space:nowrap; overflow:hidden;
     }
 
     .consult-table tr:nth-child(even) td { background:#F0F0FF; }
-    .consult-table tr.ct-selected td    { background:#b8d8d0 !important; border-color:#0d3b2e !important; }
+    .consult-table tr.ct-selected td    { background:#c8e6c9 !important; border-color:#2e7d32 !important; }
 
     /* ── Input-based table cells (replaces old contenteditable/picker) ── */
 
     .consult-table td[contenteditable="true"] { cursor:text; }
-    .consult-table td[contenteditable="true"]:focus { outline:none; background:#e0f2ef; }
-    [contenteditable="true"]:focus { outline:1px solid #0d3b2e; background:#F0F0FF; }
+    .consult-table td[contenteditable="true"]:focus { outline:none; background:#e8f5e9; }
+    [contenteditable="true"]:focus { outline:1px solid #2e7d32; background:#F0F0FF; }
 
     /* ── Input-based table cells ──────────────────────────────────── */
     .ac-cell { position:relative; padding:0 !important; overflow:visible !important; }
@@ -2324,7 +2327,7 @@
     }
 
     .ac-input:focus, .ct-input:focus {
-      outline:none; background:#e0f2ef;
+      outline:none; background:#e8f5e9;
     }
 
     .ct-del-cell { padding:1px 2px !important; text-align:center; }
@@ -2337,13 +2340,13 @@
 
     .ct-add-row {
       display:flex; align-items:center; padding:1px 6px;
-      background:#F0F0FF; border-top:1px solid #b8d8d0;
+      background:#F0F0FF; border-top:1px solid #c8e6c9;
       flex-shrink:0; height:20px;
     }
 
     .ct-add-btn {
-      height:16px; padding:0 6px; border:1px solid #0f4c3a;
-      background:linear-gradient(#0f4c3a,#082a20); color:#fff;
+      height:16px; padding:0 6px; border:1px solid #388e3c;
+      background:linear-gradient(#388e3c,#1b5e20); color:#fff;
       font-size:9px; font-weight:800; border-radius:2px; cursor:pointer;
     }
 
@@ -2361,7 +2364,7 @@
     .side-search-panel {
       position:absolute; top:20px; right:0; bottom:0;
       width:200px; z-index:100;
-      background:#fff; border-left:2px solid #0d3b2e;
+      background:#fff; border-left:2px solid #2e7d32;
       box-shadow:-3px 0 10px rgba(20,39,55,0.18);
       display:flex; flex-direction:column;
     }
@@ -2380,7 +2383,7 @@
     }
 
     .rx-form-header {
-      background:linear-gradient(90deg,#082a20,#0f4c3a);
+      background:linear-gradient(90deg,#1b5e20,#388e3c);
       color:#fff; padding:0 4px 0 6px; font-size:11px; font-weight:700;
       display:flex; align-items:center; height:22px;
     }
@@ -2428,7 +2431,7 @@
     }
 
     .rx-drug-list tr:hover td { background:#e8f0f8; }
-    .rx-drug-list tr.rx-selected td { background:#b8d8d0; }
+    .rx-drug-list tr.rx-selected td { background:#c8e6c9; }
 
     .rx-form-inputs {
       display:flex; align-items:flex-end; gap:8px; flex-shrink:0;
@@ -2474,7 +2477,7 @@
 
     .side-search-header {
       display:flex; align-items:center; justify-content:space-between;
-      padding:4px 8px; background:linear-gradient(90deg,#1a6b9a,#061f17);
+      padding:4px 8px; background:linear-gradient(90deg,#1a6b9a,#1b5e20);
       color:#fff; font-size:11px; font-weight:800; flex-shrink:0;
     }
 
@@ -2498,10 +2501,10 @@
       border-bottom:1px solid #e8eff4;
     }
 
-    .side-search-item:hover { background:#e0f2ef; color:#082a20; }
+    .side-search-item:hover { background:#e8f5e9; color:#1b5e20; }
 
-    .side-search-item .ssi-code { color:#061f17; font-weight:900; font-size:10px; margin-right:4px; }
-    .side-search-item .ssi-price { float:right; color:#082a20; font-weight:800; font-size:10px; }
+    .side-search-item .ssi-code { color:#1b5e20; font-weight:900; font-size:10px; margin-right:4px; }
+    .side-search-item .ssi-price { float:right; color:#1b5e20; font-weight:800; font-size:10px; }
 
     /* ── Inline autocomplete dropdown ───────────────────────────── */
     .ac-drop {
@@ -2519,14 +2522,14 @@
       font-weight:700; color:#142a3b;
     }
 
-    .ac-drop-item:hover, .ac-drop-item.ac-hl { background:#e0f2ef; color:#082a20; }
+    .ac-drop-item:hover, .ac-drop-item.ac-hl { background:#e8f5e9; color:#1b5e20; }
 
-    .ac-drop-item .ac-code { color:#061f17; font-weight:900; margin-right:6px; }
-    .ac-drop-item .ac-price { float:right; color:#082a20; font-weight:800; }
+    .ac-drop-item .ac-code { color:#1b5e20; font-weight:900; margin-right:6px; }
+    .ac-drop-item .ac-price { float:right; color:#1b5e20; font-weight:800; }
 
     .consult-total {
       text-align:right; padding:3px 10px; font-size:11px; font-weight:900;
-      color:#082a20; border-top:1px solid #b8d8d0; background:#F0F0FF; flex-shrink:0;
+      color:#1b5e20; border-top:1px solid #c8e6c9; background:#F0F0FF; flex-shrink:0;
     }
 
     /* Footer with Save/Cancel */
@@ -2539,8 +2542,8 @@
       font-size:13px; font-weight:900; box-shadow:none;
     }
 
-    .consult-footer .tool-button.primary { background:#0d3b2e; color:#fff; }
-    .consult-footer .consult-cancel-btn  { background:#0f4c3a; color:#fff; }
+    .consult-footer .tool-button.primary { background:#2e7d32; color:#fff; }
+    .consult-footer .consult-cancel-btn  { background:#388e3c; color:#fff; }
 
     /* ══════════════════════════════════════════════════════════════════
        INSURANCE MODULE — Modern Blue & White Theme
@@ -2551,8 +2554,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 16px 24px;
-      background: linear-gradient(135deg, #082a20, #0f4c3a, #0d3b2e);
-      border-bottom: 1px solid #061f17;
+      background: linear-gradient(135deg, #1b5e20, #388e3c, #2e7d32);
+      border-bottom: 1px solid #1b5e20;
     }
 
     .ins-header-left {
@@ -2656,26 +2659,26 @@
     }
 
     .ins-btn-primary {
-      background: #0f4c3a;
+      background: #388e3c;
       color: #fff;
       box-shadow: 0 2px 4px rgba(21,101,192,0.3);
     }
 
     .ins-btn-primary:hover {
-      background: #082a20;
+      background: #1b5e20;
       box-shadow: 0 4px 8px rgba(21,101,192,0.4);
       transform: translateY(-1px);
     }
 
     .ins-btn-secondary {
       background: #fff;
-      color: #0d3b2e;
-      border: 1px solid #b8d8d0;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
 
     .ins-btn-secondary:hover {
-      background: #e0f2ef;
+      background: #e8f5e9;
       border-color: #9999FF;
     }
 
@@ -2722,9 +2725,9 @@
     }
 
     .ins-btn-icon:hover {
-      background: #e0f2ef;
+      background: #e8f5e9;
       border-color: #9999FF;
-      color: #0d3b2e;
+      color: #2e7d32;
     }
 
     .ins-filter-bar {
@@ -2750,7 +2753,7 @@
       width: 16px;
       height: 16px;
       min-height: 16px;
-      accent-color: #0d3b2e;
+      accent-color: #2e7d32;
       border-radius: 3px;
     }
 
@@ -2769,7 +2772,7 @@
 
     .ins-filter-input:focus {
       outline: none;
-      border-color: #5ba898;
+      border-color: #66bb6a;
       box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
     }
 
@@ -2796,7 +2799,7 @@
 
     .ins-date-input:focus {
       outline: none;
-      border-color: #5ba898;
+      border-color: #66bb6a;
       box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
     }
 
@@ -2853,8 +2856,8 @@
     }
 
     .ins-table tr.selected td {
-      background: #e0f2ef;
-      border-bottom-color: #b8d8d0;
+      background: #e8f5e9;
+      border-bottom-color: #c8e6c9;
     }
 
     .ins-empty-state {
@@ -2896,7 +2899,7 @@
       align-items: center;
       gap: 10px;
       padding: 16px 20px;
-      background: linear-gradient(135deg, #082a20, #0f4c3a);
+      background: linear-gradient(135deg, #1b5e20, #388e3c);
       color: #fff;
       font-size: 16px;
       font-weight: 700;
@@ -2970,7 +2973,7 @@
 
     .ins-input:focus {
       outline: none;
-      border-color: #5ba898;
+      border-color: #66bb6a;
       box-shadow: 0 0 0 3px rgba(21,101,192,0.15);
       background: #fafeff;
     }
@@ -3100,7 +3103,7 @@
       padding: 0 10px;
       font-size: 12px;
       font-weight: 700;
-      color: #0f4c3a;
+      color: #388e3c;
       text-align: right;
     }
 
@@ -3197,15 +3200,15 @@ function inheritFromEMR() {
         <div class="grid-shell">
           <table aria-label="Patients list">
             <colgroup>
-              <col style="width: 70px">
-              <col style="width: 105px">
-              <col style="width: 44%">
-              <col style="width: 130px">
-              <col style="width: 110px">
+              <col style="width: 60px">
+              <col style="width: 90px">
+              <col style="width: 30%">
               <col style="width: 120px">
-              <col style="width: 120px">
+              <col style="width: 80px">
+              <col style="width: 100px">
+              <col style="width: 100px">
               <col style="width: 155px">
-              <col style="width: 126px">
+              <col style="width: 240px">
             </colgroup>
             <thead>
               <tr>
@@ -3217,7 +3220,7 @@ function inheritFromEMR() {
                 <th>Nationality</th>
                 <th>DOB</th>
                 <th>Emirates ID No</th>
-                <th></th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="patientRows"></tbody>
@@ -3338,7 +3341,7 @@ function inheritFromEMR() {
               <button class="menu-text-only" type="button" data-arrived-action="invoice">CreateInvoice</button>
               <button class="menu-text-only" type="button" data-arrived-action="checkout">CheckOut</button>
               <button type="button" data-arrived-action="visitNotes"><span class="menu-icon arr-green-dark">&#9998;</span>Visit Notes</button>
-              <button type="button" data-arrived-action="attachment"><span class="menu-icon arr-green-olive">&#0d3b2e;</span>Attachment</button>
+              <button type="button" data-arrived-action="attachment"><span class="menu-icon arr-green-olive">&#2e7d32;</span>Attachment</button>
               <button type="button" data-arrived-action="doctorsConsultation"><span class="menu-icon arr-green">&#9679;</span>Doctors Consultation</button>
               <button type="button" data-arrived-action="nutritionConsultation"><span class="menu-icon arr-green">&#9679;</span>Nutrition Consultation</button>
               <button type="button" data-arrived-action="generateConsent"><span class="menu-icon arr-green">&#9679;</span>Generate Patient Consent</button>
@@ -3357,6 +3360,84 @@ function inheritFromEMR() {
           </div>
         </div>
       </section>
+
+      <!-- DOCTOR DESK SCREEN -->
+      <section class="screen" id="doctorDeskScreen" aria-label="Doctor Desk">
+        <div class="screen-title" style="background:linear-gradient(90deg,#2e7d32,#43a047)">Patient waiting for Doctor</div>
+        <div class="toolbar" style="gap:8px;flex-wrap:wrap">
+          <label style="font-size:11px;font-weight:700">Doctor:</label>
+          <select id="ddDoctor" style="height:28px;font-size:11px;min-width:140px">
+            <option value="">All</option>
+          </select>
+          <input type="text" id="ddSearch" placeholder="Press enter key after enter fileno" style="height:28px;width:200px;font-size:11px;padding:0 6px">
+          <span style="font-size:11px;font-weight:700">From Date</span>
+          <input type="text" id="ddFromDate" style="height:28px;width:100px;font-size:11px;padding:0 6px">
+          <span style="font-size:11px;font-weight:700">To</span>
+          <input type="text" id="ddToDate" style="height:28px;width:100px;font-size:11px;padding:0 6px">
+          <button class="tool-button primary" type="button" onclick="renderDoctorDesk()" style="height:28px;font-size:11px">Search</button>
+          <span style="flex:1"></span>
+          <label style="font-size:11px"><input type="radio" name="ddType" value="All" checked> <b style="background:#4caf50;color:#fff;padding:1px 6px;border-radius:3px">All</b></label>
+          <label style="font-size:11px"><input type="radio" name="ddType" value="Consultation"> <b style="background:#4caf50;color:#fff;padding:1px 6px;border-radius:3px">Consultations</b></label>
+          <label style="font-size:11px"><input type="radio" name="ddType" value="Treatment"> <b style="background:#4caf50;color:#fff;padding:1px 6px;border-radius:3px">Treatments</b></label>
+          <label style="font-size:11px"><input type="radio" name="ddType" value="Package"> <b style="background:#4caf50;color:#fff;padding:1px 6px;border-radius:3px">Packages</b></label>
+          <label style="font-size:11px"><input type="radio" name="ddType" value="Others"> <b style="background:#4caf50;color:#fff;padding:1px 6px;border-radius:3px">Others</b></label>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Doctor desk waiting list">
+            <colgroup>
+              <col style="width:90px"><col style="width:75px"><col style="width:70px"><col style="width:30%"><col style="width:18%"><col style="width:80px"><col style="width:90px"><col style="width:180px">
+            </colgroup>
+            <thead>
+              <tr><th>Date</th><th>Time</th><th>Patient File</th><th>Patient Name</th><th>Doctor Name</th><th>Status</th><th>Visit Type</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="ddRows"></tbody>
+          </table>
+          <div class="empty-message" id="ddEmpty">No patients found.</div>
+        </div>
+      </section>
+
+      <!-- Document Attachment Modal -->
+      <dialog id="docAttachModal" style="width:500px;border:2px solid #2e7d32;border-radius:8px;padding:0">
+        <div style="background:linear-gradient(90deg,#4caf50,#2e7d32);color:#fff;padding:8px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+          Visit Document Attachment
+          <button onclick="byId('docAttachModal').close()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="padding:14px">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px">
+            <thead><tr style="background:#e8f5e9"><th style="padding:5px;border:1px solid #ccc;text-align:left">File Type</th><th style="padding:5px;border:1px solid #ccc;text-align:left">File Name</th><th style="padding:5px;border:1px solid #ccc;text-align:left">Remark</th><th style="width:30px">--</th></tr></thead>
+            <tbody id="docAttachList"></tbody>
+          </table>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="tool-button primary" type="button" onclick="addDocAttachment()">Add</button>
+            <button class="tool-button" type="button" onclick="scanDocument()">Scan Document</button>
+            <button class="tool-button" type="button" onclick="byId('docAttachModal').close()">Cancel</button>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- Add Document Dialog -->
+      <dialog id="addDocModal" style="width:420px;border:2px solid #2e7d32;border-radius:8px;padding:0">
+        <div style="background:linear-gradient(90deg,#4caf50,#2e7d32);color:#fff;padding:6px 14px;font-weight:700;font-size:12px">FrmCreateVisitDocAttachment</div>
+        <div style="padding:14px">
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px">
+            <label style="width:70px;font-size:11px;font-weight:700">Doc Type</label>
+            <input type="text" id="addDocType" style="flex:1;height:26px;font-size:11px;padding:0 6px;border:1px solid #ccc">
+            <span style="font-size:11px;font-weight:700">Name</span>
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px">
+            <label style="width:70px;font-size:11px;font-weight:700">File Name</label>
+            <input type="file" id="addDocFile" style="flex:1;font-size:11px">
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:flex-start;gap:8px">
+            <label style="width:70px;font-size:11px;font-weight:700;padding-top:4px">Remark</label>
+            <textarea id="addDocRemark" rows="3" style="flex:1;font-size:11px;padding:4px 6px;border:1px solid #ccc;resize:vertical"></textarea>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+            <button class="tool-button primary" type="button" onclick="saveDocAttachment()">Save</button>
+            <button class="tool-button" type="button" onclick="byId('addDocModal').close()">Cancel</button>
+          </div>
+        </div>
+      </dialog>
 
       <section class="screen" id="packagesScreen" aria-label="Defined Packages">
         <div class="screen-title green">Defind Packages</div>
@@ -3593,7 +3674,7 @@ function inheritFromEMR() {
       </section>
 
       <section class="screen" id="diagnosisListScreen" aria-label="Diagnosis List">
-        <div class="screen-title" style="background:linear-gradient(90deg,#082a20,#0f4c3a)">Diagnosis List</div>
+        <div class="screen-title" style="background:linear-gradient(90deg,#1b5e20,#388e3c)">Diagnosis List</div>
         <div class="toolbar">
           <button class="tool-button primary" type="button" id="diagNew"><span class="mini-icon i-new">+</span>New</button>
           <button class="tool-button" type="button" id="diagEdit"><span class="mini-icon i-edit">/</span>Edit</button>
@@ -3733,21 +3814,21 @@ function inheritFromEMR() {
               <tr><th>Emp. Code</th><th>Employee Name</th><th>Description</th><th>DHA Code</th><th>DHA UserName</th><th>Licen...</th></tr>
             </thead>
             <tbody>
-              <tr class="selected"><td style="color:#0d3b2e;font-weight:900">EM0057</td><td><strong>LINTU RAJAN</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0058</td><td><strong>NEETHU DEEPAK</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0059</td><td><strong>MISNA UVATSE</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0060</td><td><strong>KEERTHI PURUSHOTHAMAN</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0061</td><td><strong>AMARNATH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0062</td><td><strong>ASHISH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0063</td><td><strong>ANEESH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0064</td><td><strong>RESHMI</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0065</td><td><strong>LINTU</strong></td><td>RECEPTIONIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0066</td><td><strong>NEETHU</strong></td><td>ADMIN</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0067</td><td><strong>SHILPA</strong></td><td>Physiotherapist</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0068</td><td><strong>RENJU</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0069</td><td><strong>NOORA HOSBET UMMER</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0071</td><td><strong>ANJNA NADAKKAVIL CHANDRAN</strong></td><td>therapist</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#0d3b2e;font-weight:900">EM0073</td><td><strong>anjana</strong></td><td></td><td></td><td></td><td></td></tr>
+              <tr class="selected"><td style="color:#2e7d32;font-weight:900">EM0057</td><td><strong>LINTU RAJAN</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0058</td><td><strong>NEETHU DEEPAK</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0059</td><td><strong>MISNA UVATSE</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0060</td><td><strong>KEERTHI PURUSHOTHAMAN</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0061</td><td><strong>AMARNATH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0062</td><td><strong>ASHISH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0063</td><td><strong>ANEESH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0064</td><td><strong>RESHMI</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0065</td><td><strong>LINTU</strong></td><td>RECEPTIONIST</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0066</td><td><strong>NEETHU</strong></td><td>ADMIN</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0067</td><td><strong>SHILPA</strong></td><td>Physiotherapist</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0068</td><td><strong>RENJU</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0069</td><td><strong>NOORA HOSBET UMMER</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0071</td><td><strong>ANJNA NADAKKAVIL CHANDRAN</strong></td><td>therapist</td><td></td><td></td><td></td></tr>
+              <tr><td style="color:#2e7d32;font-weight:900">EM0073</td><td><strong>anjana</strong></td><td></td><td></td><td></td><td></td></tr>
             </tbody>
           </table>
         </div>
@@ -3768,12 +3849,12 @@ function inheritFromEMR() {
               <tr><th>Name</th><th>Description</th></tr>
             </thead>
             <tbody>
-              <tr><td colspan="2" style="background:#e0f2ef;font-weight:900;color:#082a20;padding-left:6px">Patients</td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">Patients</td></tr>
               <tr><td style="padding-left:16px">Disable Patient</td><td>Disabling Patient</td></tr>
               <tr><td style="padding-left:16px">Edit Patient</td><td>Patient Editing</td></tr>
               <tr><td style="padding-left:16px">Delete Patient</td><td>Deleting Patients</td></tr>
               <tr><td style="padding-left:16px">Access to Patients</td><td>Access on Patient Details/Lists</td></tr>
-              <tr><td colspan="2" style="background:#e0f2ef;font-weight:900;color:#082a20;padding-left:6px">&#9662; Reception</td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">&#9662; Reception</td></tr>
               <tr><td style="padding-left:24px">Doctor Desk Access</td><td>Allow Access to Doctor Consultation</td></tr>
               <tr><td style="padding-left:24px">Enable Pending Bills</td><td>Access to Pending Bills</td></tr>
               <tr><td style="padding-left:24px">Invoice Access</td><td>Access to All Invoice List</td></tr>
@@ -3784,7 +3865,7 @@ function inheritFromEMR() {
               <tr><td style="padding-left:24px">Access to Consent</td><td>Access to Consents in Home</td></tr>
               <tr><td style="padding-left:24px">Access to Credit Note</td><td>Accessing Credit Notes</td></tr>
               <tr><td style="padding-left:24px">Access to Duty Roster</td><td></td></tr>
-              <tr><td colspan="2" style="background:#e0f2ef;font-weight:900;color:#082a20;padding-left:6px">&#9662; Reports</td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">&#9662; Reports</td></tr>
               <tr><td style="padding-left:24px">Appointment</td><td></td></tr>
               <tr><td style="padding-left:24px">Patients</td><td></td></tr>
               <tr><td style="padding-left:24px">Financial</td><td></td></tr>
@@ -3793,7 +3874,7 @@ function inheritFromEMR() {
               <tr><td style="padding-left:24px">Treatment</td><td></td></tr>
               <tr><td style="padding-left:24px">HR</td><td></td></tr>
               <tr><td style="padding-left:24px">MIS</td><td></td></tr>
-              <tr><td colspan="2" style="background:#e0f2ef;font-weight:900;color:#082a20;padding-left:6px">&#9662; Settings</td></tr>
+              <tr><td colspan="2" style="background:#e8f5e9;font-weight:900;color:#1b5e20;padding-left:6px">&#9662; Settings</td></tr>
               <tr><td style="padding-left:24px">Allow Source Document</td><td></td></tr>
               <tr><td style="padding-left:24px">Allow Set Document</td><td></td></tr>
               <tr><td style="padding-left:24px">Allow SMS Settings</td><td></td></tr>
@@ -3827,16 +3908,45 @@ function inheritFromEMR() {
         </div>
         <div id="doctorSignPad" style="display:none;margin-top:10px;padding:10px;border:1px solid #ccc;background:#fff;border-radius:6px">
           <div style="font-weight:700;margin-bottom:5px" id="signPadTitle">Draw Signature</div>
-          <canvas id="doctorCanvas" width="400" height="150" style="border:2px solid #0f4c3a;border-radius:4px;cursor:crosshair;touch-action:none"></canvas>
+          <canvas id="doctorCanvas" width="400" height="150" style="border:2px solid #388e3c;border-radius:4px;cursor:crosshair;touch-action:none"></canvas>
           <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
             <button class="tool-button" type="button" id="signPadClear">Clear</button>
             <button class="tool-button primary" type="button" id="signPadSave">Save Drawing</button>
             <span style="margin:0 8px;color:#888">OR</span>
-            <button class="tool-button" type="button" id="signPadUpload" style="background:#e0f2ef;border-color:#0f4c3a;color:#0f4c3a">&#8593; Upload Image</button>
+            <button class="tool-button" type="button" id="signPadUpload" style="background:#e8f5e9;border-color:#388e3c;color:#388e3c">&#8593; Upload Image</button>
             <input type="file" id="signPadFileInput" accept="image/*" style="display:none">
             <span style="flex:1"></span>
             <button class="tool-button" type="button" id="signPadCancel">Cancel</button>
           </div>
+        </div>
+      </section>
+
+      <!-- APPOINTMENT REPORTS SCREEN -->
+      <section class="screen" id="appointmentReportsScreen" aria-label="Appointment Reports">
+        <div class="screen-title green">Appointment Reports</div>
+        <div class="toolbar">
+          <label style="font-weight:700;font-size:12px">Report Type:</label>
+          <select id="rptType" style="height:30px;font-size:12px;padding:0 8px;min-width:200px">
+            <option value="daily">Daily Appointment Report</option>
+            <option value="monthly">Monthly Summary (Doctor-wise)</option>
+            <option value="doctor">Doctor-wise Appointment List</option>
+            <option value="patient">Patient Appointment History</option>
+          </select>
+          <label style="font-weight:700;font-size:12px;margin-left:12px">From:</label>
+          <input type="text" id="rptFrom" style="height:28px;width:110px;font-size:12px;padding:0 6px" placeholder="DD/Mon/YYYY">
+          <label style="font-weight:700;font-size:12px">To:</label>
+          <input type="text" id="rptTo" style="height:28px;width:110px;font-size:12px;padding:0 6px" placeholder="DD/Mon/YYYY">
+          <label style="font-weight:700;font-size:12px;margin-left:12px">Doctor:</label>
+          <select id="rptDoctor" style="height:30px;font-size:12px;padding:0 8px;min-width:160px">
+            <option value="">All Doctors</option>
+          </select>
+          <label style="font-weight:700;font-size:12px;margin-left:12px">MR No:</label>
+          <input type="text" id="rptMrNo" style="height:28px;width:80px;font-size:12px;padding:0 6px" placeholder="MR No">
+          <span style="flex:1"></span>
+          <button class="tool-button primary" type="button" onclick="generateAppointmentReport()">Generate Report</button>
+        </div>
+        <div id="rptPreview" style="flex:1;overflow:auto;padding:10px;background:#fff;font-size:12px">
+          <p style="color:#666;padding:20px">Select report type and click "Generate Report" to view.</p>
         </div>
       </section>
 
@@ -3863,10 +3973,10 @@ function inheritFromEMR() {
                 <div class="consult-patient-detail"><strong>Emirates Id No</strong></div>
                 <div class="consult-patient-detail" id="consultEid">784-1987-0073045-8</div>
                 <div class="consult-patient-detail"><strong>Nationality</strong></div>
-                <div class="consult-patient-detail" id="consultNationality" style="background:#e0f2ef;padding:1px 4px">Philippines</div>
+                <div class="consult-patient-detail" id="consultNationality" style="background:#e8f5e9;padding:1px 4px">Philippines</div>
               </div>
               <div class="consult-sidebar-date" id="consultSidebarDate">12-05-2026</div>
-              <div id="consultPreviousVisits" style="max-height:60px;overflow-y:auto;background:#e0f2ef;border-bottom:1px solid #0f4c3a"></div>
+              <div id="consultPreviousVisits" style="max-height:60px;overflow-y:auto;background:#e8f5e9;border-bottom:1px solid #388e3c"></div>
               <div class="consult-sidebar-links">
                 <button type="button">Medical Report</button>
                 <button type="button">Refferal Letter</button>
@@ -4072,7 +4182,7 @@ podi kizhi + lepanam x 5 days.</textarea>
                   </table>
                   <div class="ct-add-row" style="justify-content:space-between">
                     <button class="ct-add-btn" type="button" id="procAddRow">+ Add Row</button>
-                    <span style="font-size:13px;font-weight:900;color:#082a20">Total Amount: <strong id="procTotalAmt" style="font-size:14px">2,250.00</strong></span>
+                    <span style="font-size:13px;font-weight:900;color:#1b5e20">Total Amount: <strong id="procTotalAmt" style="font-size:14px">2,250.00</strong></span>
                   </div>
                   </div><!-- end diag-proc-wrap -->
                   <!-- Procedure search panel (right side) -->
@@ -4124,7 +4234,7 @@ podi kizhi + lepanam x 5 days.</textarea>
                 </div><!-- end diag-proc-wrap -->
                 <!-- Medicine search panel (right side) -->
                 <div class="side-search-panel" id="rxSearchPanel" style="display:none">
-                  <div class="side-search-header" style="background:linear-gradient(90deg,#0f4c3a,#082a20)">
+                  <div class="side-search-header" style="background:linear-gradient(90deg,#388e3c,#1b5e20)">
                     <span>Medicine Search</span>
                     <button type="button" class="side-search-close" id="rxSearchClose">&#10005;</button>
                   </div>
@@ -4208,7 +4318,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     <!-- Notification Panel -->
     <div id="notifPanel" style="display:none;position:fixed;top:32px;right:60px;width:360px;max-height:420px;background:#fff;border:1px solid #ccc;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.18);z-index:9999;overflow:hidden">
-      <div style="padding:12px 16px;background:#0d3b2e;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between">
+      <div style="padding:12px 16px;background:#2e7d32;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between">
         <span>&#128276; Notifications</span>
         <button onclick="clearAllNotifs()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:10px;padding:4px 10px;border-radius:4px;cursor:pointer;font-weight:700">Clear All</button>
       </div>
@@ -4619,7 +4729,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
   <div class="modal-layer" id="rvModal" role="dialog" aria-modal="true" aria-labelledby="rvDialogTitle">
     <form class="dialog" id="rvForm" style="width:min(95vw,750px)">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#0f4c3a,#0d3b2e)"><span id="rvDialogTitle">Receipt Voucher</span><button class="close-modal" type="button" data-close="rvModal">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#388e3c,#2e7d32)"><span id="rvDialogTitle">Receipt Voucher</span><button class="close-modal" type="button" data-close="rvModal">&#x2715;</button></div>
       <div class="dialog-body" style="padding:14px 18px">
         <div style="display:grid;grid-template-columns:100px 1fr 100px 1fr;gap:8px 12px;align-items:center;font-size:12px;font-weight:700">
           <label>Voucher No</label><input name="voucherNo" style="height:28px">
@@ -4640,7 +4750,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               <tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
             </tbody>
           </table>
-          <button type="button" class="small-button" id="rvAddRow" style="margin:6px;font-size:11px;font-weight:800;color:#082a20">+ Add Row</button>
+          <button type="button" class="small-button" id="rvAddRow" style="margin:6px;font-size:11px;font-weight:800;color:#1b5e20">+ Add Row</button>
         </div>
         <div style="display:grid;grid-template-columns:100px 1fr 120px 1fr;gap:8px 12px;align-items:center;font-size:12px;font-weight:700;margin-top:12px">
           <label>Received By</label><input name="receivedBy" style="height:28px">
@@ -4659,12 +4769,12 @@ podi kizhi + lepanam x 5 days.</textarea>
 
   <div class="modal-layer" id="invoiceModal" role="dialog" aria-modal="true" aria-labelledby="invoiceDialogTitle">
     <form class="dialog" id="invoiceForm" style="width:min(98vw,960px);max-height:96vh">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0d3b2e)"><span id="invoiceDialogTitle">INVOICE</span><button class="close-modal" type="button" data-close="invoiceModal">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)"><span id="invoiceDialogTitle">INVOICE</span><button class="close-modal" type="button" data-close="invoiceModal">&#x2715;</button></div>
       <div class="dialog-body" style="padding:10px 14px;overflow-y:auto">
         <!-- Top section: Invoice info + Patient info -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
           <div style="border:1px solid #ccc;padding:8px;background:#fff">
-            <div style="text-align:center;font-weight:900;color:#082a20;font-size:13px;margin-bottom:6px">INVOICE</div>
+            <div style="text-align:center;font-weight:900;color:#1b5e20;font-size:13px;margin-bottom:6px">INVOICE</div>
             <div style="display:grid;grid-template-columns:90px 1fr 50px 1fr;gap:4px 8px;font-size:11px;font-weight:700;align-items:center">
               <label>Invoice No</label><input name="invoiceNo" id="invNo" value="12065" style="height:24px;font-size:11px">
               <label>Date</label><input name="invoiceDate" value="12-05-2026" style="height:24px;font-size:11px;width:100px">
@@ -4675,7 +4785,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           <div style="border:1px solid #ccc;padding:8px;background:#fff">
             <div style="display:grid;grid-template-columns:1fr 60px;gap:8px">
               <div style="display:grid;grid-template-columns:90px 1fr 60px 1fr;gap:3px 8px;font-size:11px;font-weight:700;align-items:center">
-                <span style="grid-column:1/5;font-weight:900;font-size:12px;color:#082a20" id="invPatientName">JENNEL BAAYA AGREGADO</span>
+                <span style="grid-column:1/5;font-weight:900;font-size:12px;color:#1b5e20" id="invPatientName">JENNEL BAAYA AGREGADO</span>
                 <label>MR NO</label><span id="invMrNo" style="font-weight:900">4734</span>
                 <label>Gender</label><span id="invGender">Male</span>
                 <label>Date Of Birth</label><span id="invDob">01-02-1987</span>
@@ -4683,12 +4793,12 @@ podi kizhi + lepanam x 5 days.</textarea>
                 <label>Insurance</label><span id="invInsurance"></span>
                 <label>Plan</label><span id="invPlan"></span>
               </div>
-              <div style="width:55px;height:55px;border:1px solid #0d3b2e;background:linear-gradient(135deg,#e0f2ef,#b8d8d0)"></div>
+              <div style="width:55px;height:55px;border:1px solid #2e7d32;background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"></div>
             </div>
           </div>
         </div>
         <!-- Inherit from EMR -->
-        <div style="margin-bottom:8px"><button class="small-button" type="button" id="invInheritEmr" style="font-weight:800;color:#082a20">+ Inherit From EMR</button></div>
+        <div style="margin-bottom:8px"><button class="small-button" type="button" id="invInheritEmr" style="font-weight:800;color:#1b5e20">+ Inherit From EMR</button></div>
         <!-- Items table -->
         <div style="border:1px solid #ccc;min-height:120px;margin-bottom:10px;overflow-x:auto">
           <table class="consult-table" style="font-size:10px" id="invTable">
@@ -4697,7 +4807,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               <tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><button type="button" class="inv-del-row" style="width:20px;height:20px;border:1px solid #c00;background:#e01b36;color:#fff;font-size:10px;padding:0;cursor:pointer">&#128465;</button></td></tr>
             </tbody>
           </table>
-          <button type="button" class="small-button" id="invAddRow" style="margin:4px;font-size:10px;font-weight:800;color:#082a20">+ Add New</button>
+          <button type="button" class="small-button" id="invAddRow" style="margin:4px;font-size:10px;font-weight:800;color:#1b5e20">+ Add New</button>
         </div>
         <!-- Bottom section: Previous Dues + Tendered + Total -->
         <div style="display:grid;grid-template-columns:140px 1fr 200px;gap:10px;font-size:10px;font-weight:700">
@@ -4710,12 +4820,12 @@ podi kizhi + lepanam x 5 days.</textarea>
             <div style="font-weight:900;font-size:11px;border-bottom:1px solid #ddd;padding:4px 0 2px;margin-bottom:4px">Current Dues</div>
             <div style="text-align:center;font-size:13px;font-weight:900">0.00</div>
             <div style="font-weight:900;font-size:11px;border-bottom:1px solid #ddd;padding:4px 0 2px;margin-bottom:4px">Current Balance</div>
-            <div style="text-align:center;font-size:13px;font-weight:900;color:#082a20">0.00</div>
+            <div style="text-align:center;font-size:13px;font-weight:900;color:#1b5e20">0.00</div>
             <button class="small-button" type="button" style="margin-top:6px;width:100%;font-size:10px;background:#7b1fa2;color:#fff;border-color:#6a1b9a">Due Pay</button>
           </div>
           <!-- Tendered -->
           <div style="border:1px solid #ccc;padding:6px;background:#fff">
-            <div style="text-align:center;font-weight:900;font-size:11px;color:#082a20;margin-bottom:6px">TENDERED</div>
+            <div style="text-align:center;font-weight:900;font-size:11px;color:#1b5e20;margin-bottom:6px">TENDERED</div>
             <div style="display:grid;grid-template-columns:auto 1fr auto 1fr auto 1fr;gap:3px 6px;align-items:center;font-size:10px">
               <label>Cash</label><input value="0.00" style="height:22px;width:55px;font-size:10px">
               <label>Card</label><input value="0.00" style="height:22px;width:55px;font-size:10px">
@@ -4837,14 +4947,14 @@ podi kizhi + lepanam x 5 days.</textarea>
   <!-- Reimbursement Form (Medical Part) Modal -->
   <div class="modal-layer" id="reimburseMedicalModal" role="dialog" aria-modal="true" aria-labelledby="reimburseMedTitle">
     <form class="dialog" id="reimburseMedicalForm" style="width:min(98vw,820px);max-height:96vh">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0f4c3a)"><span id="reimburseMedTitle">Reimbursement Form (Medical Part)</span><button class="close-modal" type="button" data-close="reimburseMedicalModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#388e3c)"><span id="reimburseMedTitle">Reimbursement Form (Medical Part)</span><button class="close-modal" type="button" data-close="reimburseMedicalModal" style="color:#fff">&#x2715;</button></div>
       <div class="dialog-body" style="padding:16px 20px;overflow-y:auto;font-size:12px">
 
         <p style="font-size:10px;color:#555;margin-bottom:12px;text-align:center">&#9745; wishes to fill this form and ensure that all sections are completed.</p>
 
         <!-- Section 1 - Member Information -->
         <div style="margin-bottom:18px">
-          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 10px;color:#082a20">Section 1 - Member Information</h3>
+          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 10px;color:#1b5e20">Section 1 - Member Information</h3>
           <table style="width:100%;border-collapse:collapse;font-size:12px;border:1px solid #333">
             <tr>
               <td style="border:1px solid #333;padding:8px;width:180px;font-weight:700;background:#f5f5f5">Name (as printed on card)</td>
@@ -4870,7 +4980,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
         <!-- Section 2 - Medical Information -->
         <div style="margin-bottom:18px">
-          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 4px;color:#082a20">Section 2 - Medical Information</h3>
+          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 4px;color:#1b5e20">Section 2 - Medical Information</h3>
           <p style="text-align:center;font-size:9px;color:#555;margin-bottom:10px">(To be fully completed by patient's medical practitioner - all boxes must be completed in BLOCK letters.)</p>
           <table style="width:100%;border-collapse:collapse;font-size:12px;border:1px solid #333">
             <tr>
@@ -4949,7 +5059,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
         <!-- Clinic Stamp -->
         <div style="text-align:center;padding:10px">
-          <div style="display:inline-block;border:2px solid #082a20;border-radius:50%;width:100px;height:100px;line-height:1.2;padding-top:28px;font-size:8px;font-weight:700;color:#082a20;text-align:center">
+          <div style="display:inline-block;border:2px solid #1b5e20;border-radius:50%;width:100px;height:100px;line-height:1.2;padding-top:28px;font-size:8px;font-weight:700;color:#1b5e20;text-align:center">
             DUBAI - U.A.E.<br>
             <span style="font-size:7px">SHANTHI WELLNESS<br>AYURVEDIC MEDICAL<br>CENTRE LLC</span>
           </div>
@@ -4974,7 +5084,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
         <!-- Header / Clinic Info -->
         <div style="text-align:center;margin-bottom:12px;border-bottom:1px solid #ddd;padding-bottom:10px">
-          <div style="font-size:16px;font-weight:900;color:#082a20;font-family:serif">Shanthi Wellness</div>
+          <div style="font-size:16px;font-weight:900;color:#1b5e20;font-family:serif">Shanthi Wellness</div>
           <div style="font-size:10px;color:#555">Ayurvedic Medical Centre LLC</div>
         </div>
 
@@ -5109,15 +5219,15 @@ podi kizhi + lepanam x 5 days.</textarea>
   <!-- Reimbursement Form (Financial Part) Modal -->
   <div class="modal-layer" id="reimburseModal" role="dialog" aria-modal="true" aria-labelledby="reimburseTitle">
     <form class="dialog" id="reimburseForm" style="width:min(98vw,820px);max-height:96vh">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0f4c3a)"><span id="reimburseTitle">Reimbursement Form (Financial Part)</span><button class="close-modal" type="button" data-close="reimburseModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#388e3c)"><span id="reimburseTitle">Reimbursement Form (Financial Part)</span><button class="close-modal" type="button" data-close="reimburseModal" style="color:#fff">&#x2715;</button></div>
       <div class="dialog-body" style="padding:16px 20px;overflow-y:auto;font-size:12px">
 
         <!-- Section 3 - Claimed Invoices -->
         <div style="margin-bottom:18px">
-          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 10px;color:#082a20">Section 3 - Claimed Invoices</h3>
+          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 10px;color:#1b5e20">Section 3 - Claimed Invoices</h3>
           <table style="width:100%;border-collapse:collapse;font-size:12px;border:1px solid #333">
             <thead>
-              <tr style="background:#e0f2ef">
+              <tr style="background:#e8f5e9">
                 <th style="border:1px solid #333;padding:6px;width:120px">Invoice number</th>
                 <th style="border:1px solid #333;padding:6px;width:130px">Claimed amount</th>
                 <th style="border:1px solid #333;padding:6px;width:80px">Currency</th>
@@ -5157,14 +5267,14 @@ podi kizhi + lepanam x 5 days.</textarea>
               </tr>
             </tbody>
           </table>
-          <div style="margin-top:8px;padding:6px 10px;background:#e0f2ef;border:1px solid #333;font-weight:800;font-size:13px">
-            Total claimed amount per currency: <span id="reimburseTotalAmt" style="font-size:15px;color:#082a20">0.00</span> <span id="reimburseTotalCurr">AED</span>
+          <div style="margin-top:8px;padding:6px 10px;background:#e8f5e9;border:1px solid #333;font-weight:800;font-size:13px">
+            Total claimed amount per currency: <span id="reimburseTotalAmt" style="font-size:15px;color:#1b5e20">0.00</span> <span id="reimburseTotalCurr">AED</span>
           </div>
         </div>
 
         <!-- Section 4 - Settlement -->
         <div style="margin-bottom:18px">
-          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 4px;color:#082a20">Section 4 - Settlement</h3>
+          <h3 style="text-align:center;font-size:14px;font-weight:900;margin:0 0 4px;color:#1b5e20">Section 4 - Settlement</h3>
           <p style="text-align:center;font-size:10px;color:#555;margin-bottom:10px">(Kindly ensure bank details are in print form)</p>
           <table style="width:100%;border-collapse:collapse;font-size:12px;border:1px solid #333">
             <tr>
@@ -5239,8 +5349,8 @@ podi kizhi + lepanam x 5 days.</textarea>
 
         <!-- Clinic Stamp -->
         <div style="text-align:center;padding:10px">
-          <div style="display:inline-block;border:2px solid #082a20;border-radius:50%;width:100px;height:100px;display:flex;align-items:center;justify-content:center;margin:0 auto">
-            <div style="text-align:center;font-size:8px;font-weight:700;color:#082a20;line-height:1.3">
+          <div style="display:inline-block;border:2px solid #1b5e20;border-radius:50%;width:100px;height:100px;display:flex;align-items:center;justify-content:center;margin:0 auto">
+            <div style="text-align:center;font-size:8px;font-weight:700;color:#1b5e20;line-height:1.3">
               DUBAI - U.A.E.<br>
               <span style="font-size:7px">SHANTHI WELLNESS<br>AYURVEDIC MEDICAL<br>CENTRE LLC</span>
             </div>
@@ -5259,12 +5369,12 @@ podi kizhi + lepanam x 5 days.</textarea>
 
   <div class="modal-layer" id="tariffDetailModal" role="dialog" aria-modal="true" aria-labelledby="tariffDetailTitle">
     <form class="dialog" id="tariffDetailForm" style="width:min(98vw,1050px);max-height:96vh">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0d3b2e)"><span id="tariffDetailTitle">Tariff Master</span><button class="close-modal" type="button" data-close="tariffDetailModal">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)"><span id="tariffDetailTitle">Tariff Master</span><button class="close-modal" type="button" data-close="tariffDetailModal">&#x2715;</button></div>
       <div class="dialog-body" style="padding:10px 14px;overflow-y:auto">
         <!-- Top fields -->
         <div style="display:grid;grid-template-columns:80px 1fr;gap:5px 10px;font-size:12px;font-weight:700;align-items:center;margin-bottom:8px">
           <label>Code</label><input id="tariffCode" value="0041" style="height:26px;width:120px;font-size:12px" readonly>
-          <label>Name</label><input id="tariffName" value="AYURVEDHA PRICE LIST" style="height:26px;width:300px;font-size:12px;background:#082a20;color:#fff;font-weight:900">
+          <label>Name</label><input id="tariffName" value="AYURVEDHA PRICE LIST" style="height:26px;width:300px;font-size:12px;background:#1b5e20;color:#fff;font-weight:900">
           <label>Description</label><input id="tariffDesc" value="AYURVEDHA PRICE LIST" style="height:26px;font-size:12px">
           <label>Type</label>
           <div style="display:flex;gap:8px;align-items:center">
@@ -5279,7 +5389,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           <button class="tool-button" type="button" style="height:28px;font-size:11px">Delete All</button>
           <span style="flex:1"></span>
           <button class="tool-button" type="button" style="height:28px;font-size:11px">Upload Format</button>
-          <button class="tool-button" type="button" style="height:28px;font-size:11px;background:#082a20;color:#fff;border-color:#082a20">&#128462; Import</button>
+          <button class="tool-button" type="button" style="height:28px;font-size:11px;background:#1b5e20;color:#fff;border-color:#1b5e20">&#128462; Import</button>
           <button class="tool-button primary" type="submit" style="height:28px;font-size:11px">Save</button>
           <button class="tool-button" type="button" data-close="tariffDetailModal" style="height:28px;font-size:11px">Cancel</button>
         </div>
@@ -5287,7 +5397,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           <button class="tool-button primary" type="button" id="tariffItemNew" style="height:26px;font-size:10px;min-width:50px"><span class="mini-icon i-new" style="margin-right:2px">+</span>New</button>
           <button class="tool-button" type="button" style="height:26px;font-size:10px;min-width:50px"><span class="mini-icon i-edit" style="margin-right:2px">/</span>Edit</button>
           <button class="tool-button delete" type="button" style="height:26px;font-size:10px;min-width:55px"><span class="mini-icon i-delete" style="margin-right:2px">x</span>Delete</button>
-          <button class="tool-button" type="button" style="height:26px;font-size:10px;background:#082a20;color:#fff;border-color:#082a20">&#128462; Export</button>
+          <button class="tool-button" type="button" style="height:26px;font-size:10px;background:#1b5e20;color:#fff;border-color:#1b5e20">&#128462; Export</button>
           <span style="flex:1"></span>
           <input type="search" placeholder="Search" style="height:26px;width:180px;font-size:11px">
         </div>
@@ -5296,7 +5406,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           <table class="consult-table" style="font-size:10px;min-width:900px">
             <thead><tr><th style="width:80px">IntCodeValue</th><th style="width:70px">IntCode</th><th>Description</th><th style="width:80px">ActivityCode</th><th style="width:80px">ServiceCode</th><th style="width:70px">CostPrice</th><th style="width:75px">GroupCode</th><th style="width:50px">Disc%</th><th style="width:60px">DiscAmt</th><th style="width:50px">Vat%</th><th style="width:60px">VatAmt</th></tr></thead>
             <tbody>
-              <tr class="selected"><td style="color:#0d3b2e;font-weight:900">1001</td><td>CLINIC</td><td>PODIKIZHI(CPS) - 1 HR</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+              <tr class="selected"><td style="color:#2e7d32;font-weight:900">1001</td><td>CLINIC</td><td>PODIKIZHI(CPS) - 1 HR</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
               <tr><td>1002</td><td>CLINIC</td><td>ELAKIZHI(PPS) - FULL B...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
               <tr><td>1003</td><td>CLINIC</td><td>KADI KIZHI - FULL BODY...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
               <tr><td>1004</td><td>CLINIC</td><td>NARANGAKIZHI (JPS) - F...</td><td>NA</td><td></td><td>280.00</td><td>NA</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
@@ -5321,7 +5431,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
   <div class="modal-layer" id="diagnosisModal" role="dialog" aria-modal="true" aria-labelledby="diagnosisDialogTitle">
     <form class="dialog narrow" id="diagnosisForm">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0d3b2e)"><span id="diagnosisDialogTitle">Diagnosis</span><button class="close-modal" type="button" data-close="diagnosisModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)"><span id="diagnosisDialogTitle">Diagnosis</span><button class="close-modal" type="button" data-close="diagnosisModal" style="color:#fff">&#x2715;</button></div>
       <div class="dialog-body" style="padding:16px 20px">
         <div style="display:grid;grid-template-columns:90px 1fr;gap:10px 12px;font-size:12px;font-weight:700;align-items:center">
           <label>Code</label><input name="diagCode" style="height:28px;width:100px;font-size:12px">
@@ -5345,12 +5455,12 @@ podi kizhi + lepanam x 5 days.</textarea>
 
   <div class="modal-layer" id="tariffItemModal" role="dialog" aria-modal="true" aria-labelledby="tariffItemTitle" style="z-index:60">
     <form class="dialog narrow" id="tariffItemForm">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0f4c3a)"><span id="tariffItemTitle">Tariff Details</span><button class="close-modal" type="button" data-close="tariffItemModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#388e3c)"><span id="tariffItemTitle">Tariff Details</span><button class="close-modal" type="button" data-close="tariffItemModal" style="color:#fff">&#x2715;</button></div>
       <div class="dialog-body" style="padding:14px 18px">
         <!-- Navigation arrows -->
         <div style="display:flex;gap:4px;margin-bottom:10px">
-          <button type="button" class="small-button" id="tariffItemPrev" style="width:30px;height:28px;font-size:14px;background:#0d3b2e;color:#fff;border-color:#0f4c3a">&#9664;</button>
-          <button type="button" class="small-button" id="tariffItemNext" style="width:30px;height:28px;font-size:14px;background:#0d3b2e;color:#fff;border-color:#0f4c3a">&#9654;</button>
+          <button type="button" class="small-button" id="tariffItemPrev" style="width:30px;height:28px;font-size:14px;background:#2e7d32;color:#fff;border-color:#388e3c">&#9664;</button>
+          <button type="button" class="small-button" id="tariffItemNext" style="width:30px;height:28px;font-size:14px;background:#2e7d32;color:#fff;border-color:#388e3c">&#9654;</button>
         </div>
         <div style="display:grid;grid-template-columns:95px 1fr 80px 1fr;gap:8px 12px;font-size:12px;font-weight:700;align-items:center">
           <label>Code</label><input name="tiCode" value="2682" style="height:28px;font-size:12px">
@@ -5386,14 +5496,14 @@ podi kizhi + lepanam x 5 days.</textarea>
   <!-- Signature Settings Modal -->
   <div class="modal-layer" id="signatureModal" role="dialog" aria-modal="true" aria-labelledby="signatureModalTitle" style="z-index:60">
     <div class="dialog" style="width:min(92vw,700px);max-height:90vh">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0d3b2e)">
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)">
         <span id="signatureModalTitle" style="color:#fff">Signature & Seal Settings</span>
         <button class="close-modal" type="button" data-close="signatureModal" style="color:#fff">&#x2715;</button>
       </div>
       <div class="dialog-body" style="padding:12px;overflow-y:auto">
         <!-- Doctor Signature -->
         <div style="margin-bottom:16px">
-          <div style="font-size:12px;font-weight:900;color:#082a20;margin-bottom:6px;border-bottom:2px solid #0f4c3a;padding-bottom:3px">Doctor Signature</div>
+          <div style="font-size:12px;font-weight:900;color:#1b5e20;margin-bottom:6px;border-bottom:2px solid #388e3c;padding-bottom:3px">Doctor Signature</div>
           <div style="display:flex;gap:12px;align-items:flex-start">
             <div>
               <div style="font-size:10px;font-weight:700;margin-bottom:3px">Option 1: Draw Signature</div>
@@ -5408,7 +5518,7 @@ podi kizhi + lepanam x 5 days.</textarea>
                 <button type="button" class="tool-button primary" style="height:24px;font-size:10px;min-width:80px" onclick="uploadSignature('doctor')">Upload & Save</button>
               </div>
               <div style="font-size:10px;font-weight:700;margin-top:10px;margin-bottom:3px">Option 3: Send Sign Link (for remote signing)</div>
-              <button type="button" class="tool-button" style="height:24px;font-size:10px;background:#0f4c3a;color:#fff;border-color:#061f17" onclick="copySignLink('doctor')">&#128279; Copy Doctor Sign Link</button>
+              <button type="button" class="tool-button" style="height:24px;font-size:10px;background:#388e3c;color:#fff;border-color:#1b5e20" onclick="copySignLink('doctor')">&#128279; Copy Doctor Sign Link</button>
             </div>
             <div style="text-align:center">
               <div style="font-size:10px;font-weight:700;margin-bottom:4px">Current Saved:</div>
@@ -5418,7 +5528,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         </div>
         <!-- Clinic Seal -->
         <div style="margin-bottom:16px">
-          <div style="font-size:12px;font-weight:900;color:#082a20;margin-bottom:6px;border-bottom:2px solid #0f4c3a;padding-bottom:3px">Clinic Seal (Upload Image)</div>
+          <div style="font-size:12px;font-weight:900;color:#1b5e20;margin-bottom:6px;border-bottom:2px solid #388e3c;padding-bottom:3px">Clinic Seal (Upload Image)</div>
           <div style="display:flex;gap:12px;align-items:flex-start">
             <div>
               <input type="file" id="sealUpload" accept="image/*" style="font-size:11px">
@@ -5432,12 +5542,12 @@ podi kizhi + lepanam x 5 days.</textarea>
         </div>
         <!-- Patient Signature -->
         <div>
-          <div style="font-size:12px;font-weight:900;color:#082a20;margin-bottom:6px;border-bottom:2px solid #0f4c3a;padding-bottom:3px">Patient Signature (for consent forms)</div>
+          <div style="font-size:12px;font-weight:900;color:#1b5e20;margin-bottom:6px;border-bottom:2px solid #388e3c;padding-bottom:3px">Patient Signature (for consent forms)</div>
           <canvas id="sigCanvasPatient" width="400" height="120" style="border:1px solid #999;background:#fff;cursor:crosshair;display:block"></canvas>
           <div style="display:flex;gap:4px;margin-top:4px">
             <button type="button" class="tool-button" style="height:24px;font-size:10px;min-width:50px" onclick="clearCanvas('sigCanvasPatient')">Clear</button>
             <button type="button" class="tool-button primary" style="height:24px;font-size:10px;min-width:80px" onclick="saveSignature('patient')">Save Patient Signature</button>
-            <button type="button" class="tool-button" style="height:24px;font-size:10px;background:#0f4c3a;color:#fff;border-color:#061f17" onclick="copySignLink('patient')">&#128279; Copy Patient Sign Link</button>
+            <button type="button" class="tool-button" style="height:24px;font-size:10px;background:#388e3c;color:#fff;border-color:#1b5e20" onclick="copySignLink('patient')">&#128279; Copy Patient Sign Link</button>
           </div>
         </div>
       </div>
@@ -5450,7 +5560,7 @@ podi kizhi + lepanam x 5 days.</textarea>
   <!-- Package Consumption Modal -->
   <div class="modal-layer" id="packageConsumptionModal" role="dialog" aria-modal="true" aria-labelledby="pkgConsTitle">
     <form class="dialog" id="packageConsumptionForm" style="width:min(95vw,680px);max-height:92vh">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#082a20,#0d3b2e)"><span id="pkgConsTitle">Package Consumption</span><button class="close-modal" type="button" data-close="packageConsumptionModal" style="color:#fff">&#x2715;</button></div>
+      <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)"><span id="pkgConsTitle">Package Consumption</span><button class="close-modal" type="button" data-close="packageConsumptionModal" style="color:#fff">&#x2715;</button></div>
       <div class="dialog-body" style="padding:12px;overflow-y:auto">
         <!-- Package Selection Row -->
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
@@ -5462,42 +5572,42 @@ podi kizhi + lepanam x 5 days.</textarea>
             <option>Wellness Consultation</option>
           </select>
           <label style="font-size:12px;font-weight:800;margin-left:12px">Package Type</label>
-          <span id="pkgConsType" style="font-size:12px;font-weight:900;color:#082a20;background:#e0f2ef;padding:2px 10px;border:1px solid #0d3b2e;border-radius:3px">DEFINED</span>
+          <span id="pkgConsType" style="font-size:12px;font-weight:900;color:#1b5e20;background:#e8f5e9;padding:2px 10px;border:1px solid #2e7d32;border-radius:3px">DEFINED</span>
         </div>
         <!-- Session Info & Validity Info Side by Side -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
           <!-- Session Info -->
-          <div style="border:2px solid #0d3b2e;border-radius:4px;overflow:hidden">
-            <div style="background:linear-gradient(#0f4c3a,#082a20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Session Info</div>
+          <div style="border:2px solid #2e7d32;border-radius:4px;overflow:hidden">
+            <div style="background:linear-gradient(#388e3c,#1b5e20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Session Info</div>
             <div style="padding:8px;display:grid;grid-template-columns:80px 1fr;gap:4px 8px;font-size:12px;font-weight:700;align-items:center">
-              <label>Total</label><input id="pkgConsTotal" value="40" readonly style="height:26px;font-size:12px;font-weight:800;background:#e0f2ef;border-color:#0d3b2e">
+              <label>Total</label><input id="pkgConsTotal" value="40" readonly style="height:26px;font-size:12px;font-weight:800;background:#e8f5e9;border-color:#2e7d32">
               <label>Consumed</label><input id="pkgConsConsumed" value="15" readonly style="height:26px;font-size:12px;font-weight:800;background:#fff9c4;border-color:#fdd835">
-              <label>Balance</label><input id="pkgConsBalance" value="25" readonly style="height:26px;font-size:12px;font-weight:900;color:#082a20;background:#b8d8d0;border-color:#5ba898">
+              <label>Balance</label><input id="pkgConsBalance" value="25" readonly style="height:26px;font-size:12px;font-weight:900;color:#1b5e20;background:#c8e6c9;border-color:#66bb6a">
             </div>
           </div>
           <!-- Cash Deduction & Validity -->
           <div style="display:grid;grid-template-rows:auto auto;gap:8px">
-            <div style="border:2px solid #0d3b2e;border-radius:4px;overflow:hidden">
-              <div style="background:linear-gradient(#0f4c3a,#082a20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Cash Deduction status</div>
+            <div style="border:2px solid #2e7d32;border-radius:4px;overflow:hidden">
+              <div style="background:linear-gradient(#388e3c,#1b5e20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Cash Deduction status</div>
               <div style="padding:6px 8px;display:grid;grid-template-columns:80px 1fr;gap:3px 8px;font-size:12px;font-weight:700;align-items:center">
-                <label>Total</label><input id="pkgConsCashTotal" value="4,100" readonly style="height:24px;font-size:12px;font-weight:800;background:#e0f2ef">
+                <label>Total</label><input id="pkgConsCashTotal" value="4,100" readonly style="height:24px;font-size:12px;font-weight:800;background:#e8f5e9">
                 <label>Consumed Amt.</label><input id="pkgConsCashConsumed" value="410" readonly style="height:24px;font-size:12px;font-weight:800;background:#fff9c4">
-                <label>Balance</label><input id="pkgConsCashBalance" value="3,690" readonly style="height:24px;font-size:12px;font-weight:900;color:#082a20;background:#b8d8d0">
+                <label>Balance</label><input id="pkgConsCashBalance" value="3,690" readonly style="height:24px;font-size:12px;font-weight:900;color:#1b5e20;background:#c8e6c9">
               </div>
             </div>
-            <div style="border:2px solid #0d3b2e;border-radius:4px;overflow:hidden">
-              <div style="background:linear-gradient(#0f4c3a,#082a20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Package Validity Info</div>
+            <div style="border:2px solid #2e7d32;border-radius:4px;overflow:hidden">
+              <div style="background:linear-gradient(#388e3c,#1b5e20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Package Validity Info</div>
               <div style="padding:6px 8px;display:grid;grid-template-columns:70px 1fr;gap:3px 8px;font-size:12px;font-weight:700;align-items:center">
                 <label>Start Date</label><input id="pkgConsStart" value="31-01-2025" readonly style="height:24px;font-size:12px;font-weight:700;background:#f5f5f5">
                 <label>Exp. Date</label><input id="pkgConsExpiry" value="30-06-2026" readonly style="height:24px;font-size:12px;font-weight:700;background:#f5f5f5">
-                <label>Status</label><span id="pkgConsStatus" style="font-size:12px;font-weight:900;color:#082a20;background:#b8d8d0;padding:2px 8px;border-radius:3px;display:inline-block">VALID</span>
+                <label>Status</label><span id="pkgConsStatus" style="font-size:12px;font-weight:900;color:#1b5e20;background:#c8e6c9;padding:2px 8px;border-radius:3px;display:inline-block">VALID</span>
               </div>
             </div>
           </div>
         </div>
         <!-- Treatment Section -->
-        <div style="border:2px solid #0d3b2e;border-radius:4px;overflow:hidden;margin-bottom:10px">
-          <div style="background:linear-gradient(#0f4c3a,#082a20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Treatment</div>
+        <div style="border:2px solid #2e7d32;border-radius:4px;overflow:hidden;margin-bottom:10px">
+          <div style="background:linear-gradient(#388e3c,#1b5e20);color:#fff;font-size:11px;font-weight:900;padding:4px 8px">Treatment</div>
           <div style="padding:10px">
             <div style="display:grid;grid-template-columns:55px 80px 1fr 110px 1fr;gap:6px 10px;font-size:12px;font-weight:700;align-items:center">
               <label>Code</label>
@@ -5517,12 +5627,12 @@ podi kizhi + lepanam x 5 days.</textarea>
           </div>
         </div>
         <!-- Current Balance -->
-        <div style="display:flex;align-items:center;gap:12px;padding:8px;background:#F0F0FF;border:1px solid #0d3b2e;border-radius:4px">
+        <div style="display:flex;align-items:center;gap:12px;padding:8px;background:#F0F0FF;border:1px solid #2e7d32;border-radius:4px">
           <label style="font-size:12px;font-weight:900">Current Balance Sessions</label>
-          <input id="pkgConsBalanceSessions" value="24" readonly style="width:50px;height:28px;font-size:14px;font-weight:900;text-align:center;color:#082a20;background:#b8d8d0;border:2px solid #0d3b2e">
+          <input id="pkgConsBalanceSessions" value="24" readonly style="width:50px;height:28px;font-size:14px;font-weight:900;text-align:center;color:#1b5e20;background:#c8e6c9;border:2px solid #2e7d32">
           <span style="flex:1"></span>
           <label style="font-size:12px;font-weight:900">Current Balance Amount</label>
-          <input id="pkgConsBalanceAmt" value="3,587.50" readonly style="width:100px;height:28px;font-size:14px;font-weight:900;text-align:center;color:#082a20;background:#b8d8d0;border:2px solid #0d3b2e">
+          <input id="pkgConsBalanceAmt" value="3,587.50" readonly style="width:100px;height:28px;font-size:14px;font-weight:900;text-align:center;color:#1b5e20;background:#c8e6c9;border:2px solid #2e7d32">
         </div>
       </div>
       <div class="dialog-actions" style="gap:6px">
@@ -5701,7 +5811,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Patients", "g-patient", "patients"],
       ["Appointments", "g-calendar", "appointments"],
       ["Consent", "g-doc", "patients"],
-      ["DoctorDesk", "g-doctor", "appointments"],
+      ["DoctorDesk", "g-doctor", "doctorDesk"],
       ["Pending Bills", "g-bill", "receipts"],
       ["Invoices", "g-bill", "receipts"],
       ["Pay. Voucher", "g-gift", "receipts"],
@@ -5855,6 +5965,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (menu === "Inventory") return inventoryModules;
       if (menu === "HR") return userManModules;
       if (menu === "Masters") return mastersModules;
+      if (menu === "Reports") return [{label:"Appointment Reports",view:"appointmentReports",icon:"📋"}];
       return homeModules;
     }
 
@@ -5871,6 +5982,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "tariffMaster") return ["Tariff Master", "Main Page"];
       if (view === "diagnosisList") return ["Diagnosis Master", "Appointments", "Tariff Master", "Main Page"];
       if (view === "claimsList") return ["Complaints Details", "Drug Master", "Diagnosis Master", "Patients", "Insurance Claims", "Appointments", "Main Page"];
+      if (view === "appointmentReports") return ["Appointment Reports", "Main Page"];
       return ["Main Page"];
     }
 
@@ -5882,6 +5994,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (menu === "EMR Masters") activeView = "tariffMaster";
       if (menu === "Insurance") activeView = "insurance";
       if (menu === "Inventory") activeView = "inventory";
+      if (menu === "Reports") activeView = "appointmentReports";
       if (menu === "Home" && !["patients", "appointments", "receipts", "packages"].includes(activeView)) activeView = "patients";
       renderChrome();
     }
@@ -5903,6 +6016,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       document.querySelectorAll(".screen").forEach((screen) => screen.classList.remove("active"));
       const target = byId(`${view}Screen`);
       if (target) target.classList.add("active");
+      if (view === "doctorDesk") renderDoctorDesk();
       renderChrome();
     }
 
@@ -5959,7 +6073,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           <td>${escapeHtml(patient.nationality)}</td>
           <td>${escapeHtml(patient.dob)}</td>
           <td>${escapeHtml(patient.eid)}</td>
-          <td><span class="row-actions"><span class="grid-action">i</span><span class="grid-action">p</span><span class="grid-action">r</span><span class="grid-action">e</span><span class="grid-action">v</span></span></td>
+          <td class="pat-actions"><button class="pat-act-btn" title="Voice Note" data-action="voice">&#127908;</button><button class="pat-act-btn" title="SMS" data-action="sms">&#128172;</button><button class="pat-act-btn" title="Info" data-action="info">&#8505;</button><button class="pat-act-btn" title="Prescription" data-action="rx">&#128221;</button><button class="pat-act-btn" title="Upload/Attach" data-action="attach">&#128206;</button><button class="pat-act-btn" title="Print" data-action="print">&#128424;</button><button class="pat-act-btn" title="Email" data-action="email">&#128231;</button><button class="pat-act-btn" title="Appointment" data-action="appt">&#128197;</button><button class="pat-act-btn" title="Call" data-action="call">&#128222;</button></td>
         </tr>
       `).join("");
       byId("patientEmpty").classList.toggle("show", filtered.length === 0);
@@ -6139,10 +6253,11 @@ podi kizhi + lepanam x 5 days.</textarea>
               (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query))
             );
           } else {
-            apptIndex = appointments.findIndex(item =>
-              item.doctor === doctor && item.time === time && item.date === currentDateStr &&
-              (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query))
-            );
+            apptIndex = appointments.findIndex(item => {
+              var docMatch = item.doctor === doctor || (!item.doctor && doctor === doctors[0]);
+              return docMatch && item.time === time && item.date === currentDateStr &&
+              (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query));
+            });
           }
           const appt = apptIndex >= 0 ? appointments[apptIndex] : null;
 
@@ -6327,9 +6442,9 @@ podi kizhi + lepanam x 5 days.</textarea>
             var html = '';
             d.data.forEach(function(c, i) {
               var isActive = (i === d.data.length - 1);
-              html += '<button type="button" class="consult-date-tab' + (isActive ? ' active' : '') + '" data-tab-idx="' + i + '" style="padding:3px 10px;font-size:11px;font-weight:700;border:1px solid #0f4c3a;border-radius:3px 3px 0 0;cursor:pointer;background:' + (isActive ? '#fff' : '#0d3b2e') + ';color:' + (isActive ? '#082a20' : '#fff') + ';border-bottom:' + (isActive ? '2px solid #fff' : '1px solid #0f4c3a') + '">' + (c.consultDate || 'N/A') + '</button>';
+              html += '<button type="button" class="consult-date-tab' + (isActive ? ' active' : '') + '" data-tab-idx="' + i + '" style="padding:3px 10px;font-size:11px;font-weight:700;border:1px solid #388e3c;border-radius:3px 3px 0 0;cursor:pointer;background:' + (isActive ? '#fff' : '#2e7d32') + ';color:' + (isActive ? '#1b5e20' : '#fff') + ';border-bottom:' + (isActive ? '2px solid #fff' : '1px solid #388e3c') + '">' + (c.consultDate || 'N/A') + '</button>';
             });
-            html += '<button type="button" id="consultNewTabBtn" style="padding:3px 10px;font-size:11px;font-weight:700;border:1px solid #082a20;border-radius:3px 3px 0 0;cursor:pointer;background:#e0f2ef;color:#082a20">+ New</button>';
+            html += '<button type="button" id="consultNewTabBtn" style="padding:3px 10px;font-size:11px;font-weight:700;border:1px solid #1b5e20;border-radius:3px 3px 0 0;cursor:pointer;background:#e8f5e9;color:#1b5e20">+ New</button>';
             tabsDiv.innerHTML = html;
 
             // Tab click handlers
@@ -6339,9 +6454,9 @@ podi kizhi + lepanam x 5 days.</textarea>
                 window._currentConsultIdx = idx;
                 loadConsultIntoForm(window._patientConsultations[idx]);
                 // Update active tab style
-                tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(t) { t.style.background = '#0d3b2e'; t.style.color = '#fff'; t.style.borderBottom = '1px solid #0f4c3a'; });
+                tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(t) { t.style.background = '#2e7d32'; t.style.color = '#fff'; t.style.borderBottom = '1px solid #388e3c'; });
                 this.style.background = '#fff';
-                this.style.color = '#082a20';
+                this.style.color = '#1b5e20';
                 this.style.borderBottom = '2px solid #fff';
               });
             });
@@ -6364,7 +6479,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               if (rTbody) rTbody.innerHTML = '<tr><td class="ac-cell"><input class="ac-input rx-med-input" value="" placeholder="Medicine name..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input" value="" placeholder="Instructions..."></td><td><input class="ct-input" value="" placeholder="Frequency..."></td><td><input class="ct-input" value="" placeholder="Duration..."></td></tr>';
               var totalEl2 = byId("procTotalAmt");
               if (totalEl2) totalEl2.textContent = "0.00";
-              tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(t) { t.style.background = '#0d3b2e'; t.style.color = '#fff'; t.style.borderBottom = '1px solid #0f4c3a'; });
+              tabsDiv.querySelectorAll(".consult-date-tab").forEach(function(t) { t.style.background = '#2e7d32'; t.style.color = '#fff'; t.style.borderBottom = '1px solid #388e3c'; });
             });
           }
 
@@ -6373,7 +6488,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           if (visitsDiv && d.data.length > 0) {
             var html = '';
             d.data.forEach(function(c, i) {
-              html += '<div class="consult-visit-item" data-visit-idx="' + i + '" style="padding:2px 6px;font-size:10px;font-weight:700;color:#082a20;cursor:pointer;border-bottom:1px solid #b8d8d0' + (i === d.data.length - 1 ? ';background:#b8d8d0' : '') + '">' + (c.consultDate || 'N/A') + ' - ' + (c.doctor || '') + '</div>';
+              html += '<div class="consult-visit-item" data-visit-idx="' + i + '" style="padding:2px 6px;font-size:10px;font-weight:700;color:#1b5e20;cursor:pointer;border-bottom:1px solid #c8e6c9' + (i === d.data.length - 1 ? ';background:#c8e6c9' : '') + '">' + (c.consultDate || 'N/A') + ' - ' + (c.doctor || '') + '</div>';
             });
             visitsDiv.innerHTML = html;
 
@@ -6384,7 +6499,7 @@ podi kizhi + lepanam x 5 days.</textarea>
                 window._currentConsultIdx = idx;
                 loadConsultIntoForm(window._patientConsultations[idx]);
                 visitsDiv.querySelectorAll(".consult-visit-item").forEach(function(v) { v.style.background = ''; });
-                this.style.background = '#b8d8d0';
+                this.style.background = '#c8e6c9';
               });
             });
           }
@@ -6665,13 +6780,13 @@ podi kizhi + lepanam x 5 days.</textarea>
         '<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"><\/script>' +
         '<style>' +
         '*{box-sizing:border-box}' +
-        'body{margin:0;font-family:Arial,sans-serif;background:#082a20;color:#fff;padding:15px}' +
+        'body{margin:0;font-family:Arial,sans-serif;background:#1b5e20;color:#fff;padding:15px}' +
         'h2{margin:0 0 8px;text-align:center;font-size:20px}' +
         '.tabs{display:flex;gap:2px;margin-bottom:12px}' +
         '.tab{flex:1;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px 6px 0 0;cursor:pointer;text-align:center}' +
-        '.tab.active{background:#fff;color:#082a20}.tab:not(.active){background:rgba(255,255,255,0.2);color:#fff}' +
+        '.tab.active{background:#fff;color:#1b5e20}.tab:not(.active){background:rgba(255,255,255,0.2);color:#fff}' +
         '.tab-badge{display:inline-block;width:20px;height:20px;border-radius:50%;font-size:11px;line-height:20px;margin-left:6px}' +
-        '.tab-badge.done{background:#0d3b2e;color:#fff}.tab-badge.pending{background:#ff9800;color:#fff}' +
+        '.tab-badge.done{background:#2e7d32;color:#fff}.tab-badge.pending{background:#ff9800;color:#fff}' +
         '.panel{background:rgba(255,255,255,0.08);border-radius:0 0 8px 8px;padding:15px;display:none}' +
         '.panel.active{display:block}' +
         '.upload-area{width:100%;min-height:180px;border:3px dashed rgba(255,255,255,0.6);border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);cursor:pointer;position:relative;overflow:hidden;margin:8px 0}' +
@@ -6681,22 +6796,22 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.upload-area .ph span{font-size:40px;display:block;margin-bottom:8px}' +
         '.btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}' +
         '.btn{padding:10px 20px;font-size:14px;font-weight:700;border:none;border-radius:6px;cursor:pointer}' +
-        '.btn-upload{background:#0d3b2e;color:#fff;font-size:16px;padding:12px 28px}' +
+        '.btn-upload{background:#2e7d32;color:#fff;font-size:16px;padding:12px 28px}' +
         '.btn-next{background:#ff9800;color:#fff;font-size:16px;padding:12px 28px;display:none}' +
-        '.btn-use{background:#0d3b2e;color:#fff;font-size:16px;padding:12px 28px;display:none}' +
+        '.btn-use{background:#2e7d32;color:#fff;font-size:16px;padding:12px 28px;display:none}' +
         '.btn-retry{background:#ff5722;color:#fff;display:none}' +
         '.status{margin:8px 0;font-size:13px;text-align:center;min-height:18px}' +
         '.progress{margin:8px auto;max-width:400px;display:none}' +
         '.progress-bar{height:6px;background:#333;border-radius:3px;overflow:hidden}' +
-        '.progress-fill{height:100%;background:#0d3b2e;width:0%;transition:width 0.3s}' +
+        '.progress-fill{height:100%;background:#2e7d32;width:0%;transition:width 0.3s}' +
         '.progress-text{font-size:11px;margin-top:3px;text-align:center}' +
         '.result{background:#fff;color:#000;padding:10px;border-radius:6px;text-align:left;margin:8px 0;font-size:12px}' +
-        '.result .field{margin:3px 0;padding:3px 6px;background:#e0f2ef;border-radius:3px}' +
-        '.result .field b{color:#082a20}' +
+        '.result .field{margin:3px 0;padding:3px 6px;background:#e8f5e9;border-radius:3px}' +
+        '.result .field b{color:#1b5e20}' +
         '.result .error{color:#d32f2f;font-weight:700;padding:8px}' +
-        '.photo-preview{width:120px;height:150px;border:2px solid #0d3b2e;border-radius:4px;object-fit:cover;margin:8px auto;display:none}' +
+        '.photo-preview{width:120px;height:150px;border:2px solid #2e7d32;border-radius:4px;object-fit:cover;margin:8px auto;display:none}' +
         '.summary{background:#fff;color:#000;padding:12px;border-radius:8px;margin:10px 0}' +
-        '.summary h3{margin:0 0 8px;color:#082a20}' +
+        '.summary h3{margin:0 0 8px;color:#1b5e20}' +
         '.summary .row{display:flex;align-items:center;gap:10px;margin:4px 0;padding:4px;background:#f5f5f5;border-radius:3px}' +
         '.summary .row label{font-weight:700;min-width:100px;font-size:12px;color:#555}' +
         '.summary .row span{font-size:13px;color:#000}' +
@@ -6713,7 +6828,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '</div>' +
         '<!-- FRONT SIDE PANEL -->' +
         '<div class="panel active" id="panel0">' +
-        '<p style="text-align:center;font-size:12px;margin:0 0 8px;color:#b8d8d0">Upload the <b>FRONT side</b> of Emirates ID (side with photo, name, ID number)</p>' +
+        '<p style="text-align:center;font-size:12px;margin:0 0 8px;color:#c8e6c9">Upload the <b>FRONT side</b> of Emirates ID (side with photo, name, ID number)</p>' +
         '<div class="upload-area" id="frontArea">' +
         '<div class="ph" id="frontPh"><span>&#128179;</span>Click to upload FRONT side<br><small>Photo + Name + ID Number side</small></div>' +
         '<img id="frontImg" style="display:none">' +
@@ -6731,7 +6846,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '</div>' +
         '<!-- BACK SIDE PANEL -->' +
         '<div class="panel" id="panel1">' +
-        '<p style="text-align:center;font-size:12px;margin:0 0 8px;color:#b8d8d0">Upload the <b>BACK side</b> of Emirates ID (side with MRZ machine-readable text lines)</p>' +
+        '<p style="text-align:center;font-size:12px;margin:0 0 8px;color:#c8e6c9">Upload the <b>BACK side</b> of Emirates ID (side with MRZ machine-readable text lines)</p>' +
         '<div class="upload-area" id="backArea">' +
         '<div class="ph" id="backPh"><span>&#128196;</span>Click to upload BACK side<br><small>Side with 3 lines of small text at bottom</small></div>' +
         '<img id="backImg" style="display:none">' +
@@ -6827,13 +6942,13 @@ podi kizhi + lepanam x 5 days.</textarea>
         'else if(/\\bF\\b/.test(raw)&&raw.indexOf("Sex")>-1)d.gender="Female";' +
         'return d}' +
         'function showFrontResult(d,raw){var el=document.getElementById("frontRes");el.style.display="block";var h="";var found=false;' +
-        'if(d.photoDataUrl){h+="<div class=field style=text-align:center><b>Extracted Photo:</b><br><img src=\\""+d.photoDataUrl+"\\" style=\\"width:100px;height:125px;object-fit:cover;border:2px solid #0d3b2e;border-radius:4px;margin-top:6px\\"></div>"}' +
+        'if(d.photoDataUrl){h+="<div class=field style=text-align:center><b>Extracted Photo:</b><br><img src=\\""+d.photoDataUrl+"\\" style=\\"width:100px;height:125px;object-fit:cover;border:2px solid #2e7d32;border-radius:4px;margin-top:6px\\"></div>"}' +
         'if(d.emiratesId){h+="<div class=field>Emirates ID: <b>"+d.emiratesId+"</b></div>";found=true}' +
         'if(d.firstName||d.lastName){h+="<div class=field>Name: <b>"+(d.firstName||"")+" "+(d.lastName||"")+"</b></div>";found=true}' +
         'if(d.dob){h+="<div class=field>DOB: <b>"+d.dob+"</b></div>";found=true}' +
         'if(d.gender){h+="<div class=field>Gender: <b>"+d.gender+"</b></div>";found=true}' +
         'if(d.nationality){h+="<div class=field>Nationality: <b>"+d.nationality+"</b></div>";found=true}' +
-        'if(found){h="<b style=color:#082a20>&#10004; Front side read:</b><br>"+h}else{h="<div class=field style=text-align:center><b>Extracted Photo:</b><br><img src=\\""+d.photoDataUrl+"\\" style=\\"width:100px;height:125px;object-fit:cover;border:2px solid #0d3b2e;border-radius:4px;margin-top:6px\\"></div><div style=color:#ff9800;padding:4px>Could not read text clearly. Proceed to Back side for MRZ data.</div>"}' +
+        'if(found){h="<b style=color:#1b5e20>&#10004; Front side read:</b><br>"+h}else{h="<div class=field style=text-align:center><b>Extracted Photo:</b><br><img src=\\""+d.photoDataUrl+"\\" style=\\"width:100px;height:125px;object-fit:cover;border:2px solid #2e7d32;border-radius:4px;margin-top:6px\\"></div><div style=color:#ff9800;padding:4px>Could not read text clearly. Proceed to Back side for MRZ data.</div>"}' +
         'el.innerHTML=h}' +
         '/* ===== BACK SIDE PROCESSING ===== */' +
         'function processBack(input){if(!input.files||!input.files[0])return;' +
@@ -6891,7 +7006,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         'if(d.gender){h+="<div class=field>Gender: <b>"+d.gender+"</b></div>";found=true}' +
         'if(d.nationality){h+="<div class=field>Nationality: <b>"+d.nationality+"</b></div>";found=true}' +
         'if(d.eidExpiry){h+="<div class=field>ID Expiry: <b>"+d.eidExpiry+"</b></div>";found=true}' +
-        'if(found){h="<b style=color:#082a20>&#10004; Back side MRZ read:</b><br>"+h}else{h="<div class=error>&#10060; Could not read MRZ. Try a clearer photo with good lighting.</div>"}' +
+        'if(found){h="<b style=color:#1b5e20>&#10004; Back side MRZ read:</b><br>"+h}else{h="<div class=error>&#10060; Could not read MRZ. Try a clearer photo with good lighting.</div>"}' +
         'el.innerHTML=h}' +
         '/* ===== COMBINE & SUMMARY ===== */' +
         'function buildSummary(){' +
@@ -8069,15 +8184,15 @@ podi kizhi + lepanam x 5 days.</textarea>
         var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Patient Clinical Summary Consolidated</title><style>' +
           '@page{size:A4;margin:8mm 12mm}' +
           'body{margin:0;padding:8px 25px;font-family:"Times New Roman",Georgia,serif;font-size:12px;color:#000;line-height:1.3;background:#fff}' +
-          '.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-bottom:4px;border-bottom:3px solid #082a20}' +
+          '.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-bottom:4px;border-bottom:3px solid #1b5e20}' +
           '.clinic-info{font-size:11px;line-height:1.4;color:#000;font-weight:700}' +
           '.clinic-logo img{height:55px}' +
-          '.title{text-align:center;font-size:12px;font-weight:bold;font-style:italic;margin:4px 0;padding:2px 0;background:#9999FF;border-top:2px solid #082a20;border-bottom:1px solid #082a20;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+          '.title{text-align:center;font-size:12px;font-weight:bold;font-style:italic;margin:4px 0;padding:2px 0;background:#9999FF;border-top:2px solid #1b5e20;border-bottom:1px solid #1b5e20;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
           '.patient-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;font-size:11px;margin-bottom:2px;font-weight:bold}' +
           '.patient-grid div{display:flex;gap:4px}' +
           '.patient-grid strong{min-width:70px;font-weight:900}' +
-          '.visit-row{display:flex;gap:40px;margin:2px 0;font-size:11px;padding:2px 4px;border-top:1px solid #082a20;border-bottom:1px solid #082a20;background:#9999FF;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-weight:bold}' +
-          '.section-title{font-weight:bold;font-size:11px;margin:4px 0 1px;padding:1px 4px;color:#000;border-bottom:1px solid #082a20;background:#9999FF;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+          '.visit-row{display:flex;gap:40px;margin:2px 0;font-size:11px;padding:2px 4px;border-top:1px solid #1b5e20;border-bottom:1px solid #1b5e20;background:#9999FF;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-weight:bold}' +
+          '.section-title{font-weight:bold;font-size:11px;margin:4px 0 1px;padding:1px 4px;color:#000;border-bottom:1px solid #1b5e20;background:#9999FF;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
           '.section-title.shaded{background:#9999FF}' +
           '.section-content{margin:0 0 1px;padding:1px 4px;white-space:pre-wrap;font-size:10px}' +
           '@media print{body{margin:0;padding:8mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cr-toolbar{display:none !important}.report-body{margin-top:0}*{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;page-break-inside:avoid}}' +
@@ -8088,12 +8203,12 @@ podi kizhi + lepanam x 5 days.</textarea>
           '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:34px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:3px;z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,0.1)}' +
           '.cr-toolbar button{height:24px;padding:0 8px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:10px;font-weight:700;cursor:pointer;border-radius:2px;color:#333}' +
           '.cr-toolbar button:hover{background:linear-gradient(#eee,#ddd)}' +
-          '.cr-toolbar button.green{background:linear-gradient(#0f4c3a,#082a20);color:#fff;border-color:#082a20}' +
-          '.cr-toolbar button.green:hover{background:linear-gradient(#082a20,#082a20)}' +
+          '.cr-toolbar button.green{background:linear-gradient(#388e3c,#1b5e20);color:#fff;border-color:#1b5e20}' +
+          '.cr-toolbar button.green:hover{background:linear-gradient(#1b5e20,#1b5e20)}' +
           '.cr-toolbar .cr-sep{width:1px;height:20px;background:#ccc;margin:0 4px}' +
           '.cr-toolbar select{height:24px;font-size:10px;border:1px solid #bbb;border-radius:2px;padding:0 4px}' +
           '.cr-toolbar .cr-page{font-size:10px;font-weight:700;color:#333;margin:0 6px}' +
-          '.cr-toolbar .cr-title{font-size:11px;font-weight:800;color:#082a20;margin-right:8px}' +
+          '.cr-toolbar .cr-title{font-size:11px;font-weight:800;color:#1b5e20;margin-right:8px}' +
           '.report-body{margin-top:40px}' +
           '</style></head><body>' +
           '<div class="cr-toolbar">' +
@@ -8895,7 +9010,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           }).slice(0, 15);
           dd.innerHTML = filtered.map(function(p) {
             var isClaimed = consultedPatients.find(function(c){return c.mrNo===p.mrNo;});
-            var badge = isClaimed ? '<span style="color:#0f4c3a;font-size:9px;margin-left:4px">&#10004; Consulted</span>' : '';
+            var badge = isClaimed ? '<span style="color:#388e3c;font-size:9px;margin-left:4px">&#10004; Consulted</span>' : '';
             return '<div class="ins-pat-item" data-mr="' + p.mrNo + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center"><strong>' + p.mrNo + '</strong><span>' + escapeHtml(p.name) + '</span>' + badge + '</div>';
           }).join("");
           dd.style.display = filtered.length > 0 ? "block" : "none";
@@ -8914,7 +9029,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           }).slice(0, 15);
           dd.innerHTML = filtered.map(function(p) {
             var isClaimed = consultedPatients.find(function(c){return c.mrNo===p.mrNo;});
-            var badge = isClaimed ? '<span style="color:#0f4c3a;font-size:9px;margin-left:4px">&#10004; Consulted</span>' : '';
+            var badge = isClaimed ? '<span style="color:#388e3c;font-size:9px;margin-left:4px">&#10004; Consulted</span>' : '';
             return '<div class="ins-pat-item" data-mr="' + p.mrNo + '" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center"><strong>' + p.mrNo + '</strong><span>' + escapeHtml(p.name) + '</span>' + badge + '</div>';
           }).join("");
           dd.style.display = filtered.length > 0 ? "block" : "none";
@@ -9013,11 +9128,11 @@ podi kizhi + lepanam x 5 days.</textarea>
           // Show consultations in the visit history area as clickable list
           var historyDiv = byId("insClaimVisitHistory");
           if (historyDiv) {
-            var html = '<div style="padding:4px;font-size:10px;max-height:100px;overflow-y:auto"><div style="font-weight:700;margin-bottom:3px;color:#082a20">Click a visit to load bills:</div>';
+            var html = '<div style="padding:4px;font-size:10px;max-height:100px;overflow-y:auto"><div style="font-weight:700;margin-bottom:3px;color:#1b5e20">Click a visit to load bills:</div>';
             d.data.forEach(function(c, i) {
               var total = 0;
               (c.procedures || []).forEach(function(p) { total += (parseFloat(p.price) || 0) * (parseInt(p.sessions) || 1); });
-              html += '<div class="ins-consult-pick" data-consult-idx="' + i + '" style="padding:3px 6px;border-bottom:1px solid #eee;cursor:pointer;display:flex;justify-content:space-between" onmouseover="this.style.background=\'#e0f2ef\'" onmouseout="this.style.background=\'\'"><span>' + (c.consultDate || '') + ' | Dr: ' + (c.doctor || '') + ' | ' + (c.chiefComplaints || '').substring(0,25) + '</span><span style="font-weight:700">AED ' + total.toFixed(2) + '</span></div>';
+              html += '<div class="ins-consult-pick" data-consult-idx="' + i + '" style="padding:3px 6px;border-bottom:1px solid #eee;cursor:pointer;display:flex;justify-content:space-between" onmouseover="this.style.background=\'#e8f5e9\'" onmouseout="this.style.background=\'\'"><span>' + (c.consultDate || '') + ' | Dr: ' + (c.doctor || '') + ' | ' + (c.chiefComplaints || '').substring(0,25) + '</span><span style="font-weight:700">AED ' + total.toFixed(2) + '</span></div>';
             });
             html += '</div>';
             historyDiv.innerHTML = html;
@@ -9356,15 +9471,15 @@ podi kizhi + lepanam x 5 days.</textarea>
         'h3{text-align:center;font-size:14px;margin:10px 0 8px}' +
         'table{width:100%;border-collapse:collapse;margin:8px 0}' +
         'th,td{border:1px solid #333;padding:6px;text-align:left}' +
-        'th{background:#e0f2ef;font-weight:700}' +
-        '.total-row{background:#e0f2ef;font-weight:800;font-size:13px;padding:8px}' +
+        'th{background:#e8f5e9;font-weight:700}' +
+        '.total-row{background:#e8f5e9;font-weight:800;font-size:13px;padding:8px}' +
         '.notes{font-size:10px;line-height:1.6;margin:12px 0}' +
         '.notes ul{padding-left:16px}' +
         '.declaration{border:1px solid #333;padding:10px;margin:12px 0;display:grid;grid-template-columns:1fr 200px;gap:10px}' +
         '.declaration .text{font-size:10px;line-height:1.5}' +
         '.declaration .sig{border:1px solid #999;padding:8px;text-align:center;min-height:60px}' +
         '.stamp{text-align:center;margin-top:16px}' +
-        '.stamp-circle{display:inline-block;border:2px solid #082a20;border-radius:50%;width:90px;height:90px;line-height:1.2;padding-top:25px;font-size:8px;font-weight:700;color:#082a20}' +
+        '.stamp-circle{display:inline-block;border:2px solid #1b5e20;border-radius:50%;width:90px;height:90px;line-height:1.2;padding-top:25px;font-size:8px;font-weight:700;color:#1b5e20}' +
         '@media print{body{padding:10px}button{display:none}}' +
         '</style></head><body>';
       html += '<h2>Reimbursement Form (Financial Part)</h2>';
@@ -9399,7 +9514,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '<div class="declaration"><div class="text">I, the undersigned, confirm that I am the patient/patient\'s spouse or guardian (if patient is under 18 years of age) and I wish to claim benefits and declare that all the particulars given above are to the best of my knowledge true and correct.</div>';
       html += '<div class="sig">Signature<br><br><br>Date: ' + (form.elements.signatureDate?.value || "___/___/20__") + '</div></div>';
       html += '<div class="stamp"><div class="stamp-circle">DUBAI - U.A.E.<br>SHANTHI WELLNESS<br>AYURVEDIC MEDICAL<br>CENTRE LLC</div></div>';
-      html += '<br><button onclick="window.print()" style="padding:10px 30px;font-size:14px;font-weight:700;background:#0f4c3a;color:#fff;border:none;border-radius:4px;cursor:pointer">Print</button>';
+      html += '<br><button onclick="window.print()" style="padding:10px 30px;font-size:14px;font-weight:700;background:#388e3c;color:#fff;border:none;border-radius:4px;cursor:pointer">Print</button>';
       html += '</body></html>';
       printWin.document.write(html);
       printWin.document.close();
@@ -9428,7 +9543,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.label{font-weight:700;font-size:10px;color:#555;margin-bottom:2px}' +
         '.value{font-size:13px;font-weight:700}' +
         '.stamp{text-align:center;margin-top:16px}' +
-        '.stamp-circle{display:inline-block;border:2px solid #082a20;border-radius:50%;width:90px;height:90px;line-height:1.2;padding-top:25px;font-size:8px;font-weight:700;color:#082a20}' +
+        '.stamp-circle{display:inline-block;border:2px solid #1b5e20;border-radius:50%;width:90px;height:90px;line-height:1.2;padding-top:25px;font-size:8px;font-weight:700;color:#1b5e20}' +
         '@media print{button{display:none}}' +
         '</style></head><body>';
       html += '<h2>Reimbursement Form (Medical Part)</h2>';
@@ -9458,7 +9573,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '<table style="margin-top:10px"><tr><td><div class="label">Patient name:</div><div class="value">' + (form.elements.patientNameFooter?.value || form.elements.memberName?.value || '') + '</div></td>';
       html += '<td><div class="label">Card number:</div><div class="value">' + (form.elements.cardNumberFooter?.value || form.elements.cardNumber?.value || '') + '</div></td></tr></table>';
       html += '<div class="stamp"><div class="stamp-circle">DUBAI - U.A.E.<br>SHANTHI WELLNESS<br>AYURVEDIC MEDICAL<br>CENTRE LLC</div></div>';
-      html += '<br><button onclick="window.print()" style="padding:10px 30px;font-size:14px;font-weight:700;background:#0f4c3a;color:#fff;border:none;border-radius:4px;cursor:pointer">Print</button>';
+      html += '<br><button onclick="window.print()" style="padding:10px 30px;font-size:14px;font-weight:700;background:#388e3c;color:#fff;border:none;border-radius:4px;cursor:pointer">Print</button>';
       html += '</body></html>';
       printWin.document.write(html);
       printWin.document.close();
@@ -9480,7 +9595,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       var symNames = ['Acute Respiratory distress syndrome','Severe Cough','Diarrhea','Fatigue','Fever','Headache','Nausea','Shortness of Breath','Sore Throat','Vomitting'];
       var html = '<!DOCTYPE html><html><head><title>COVID-19 Assessment Form</title><style>' +
         'body{font-family:Arial,sans-serif;padding:20px;font-size:12px;color:#000}' +
-        'h1{text-align:center;font-size:18px;font-family:serif;color:#082a20;margin:0}' +
+        'h1{text-align:center;font-size:18px;font-family:serif;color:#1b5e20;margin:0}' +
         '.subtitle{text-align:center;font-size:10px;color:#555;margin-bottom:12px}' +
         '.badge{display:inline-block;border:2px solid #333;padding:4px 12px;font-weight:900;font-size:13px;margin:8px auto;text-align:center}' +
         'table{width:100%;border-collapse:collapse;margin:8px 0}' +
@@ -9563,6 +9678,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       loadInsuranceFromServer();
       loadDrugs();
       loadDoctorProfiles();
+      loadMasterData();
+      loadReceiptsFromServer();
+      loadInvoicesFromServer();
       initDoctorSignPad();
     }
 
@@ -9607,8 +9725,8 @@ podi kizhi + lepanam x 5 days.</textarea>
           '<td style="font-weight:700">' + escapeHtml(doc.name) + '</td>' +
           '<td>' + escapeHtml(doc.licenceId || '') + '</td>' +
           '<td>' + escapeHtml(doc.dhaNo || '') + '</td>' +
-          '<td><button class="tool-button" type="button" data-doc-sign="signature" data-doc-name="' + escapeHtml(doc.name) + '" style="font-size:9px;padding:2px 6px;background:' + (hasSig ? '#b8d8d0' : '#fff') + '">' + (hasSig ? '&#10003; Captured' : 'Capture') + '</button></td>' +
-          '<td><button class="tool-button" type="button" data-doc-sign="seal" data-doc-name="' + escapeHtml(doc.name) + '" style="font-size:9px;padding:2px 6px;background:' + (hasSeal ? '#b8d8d0' : '#fff') + '">' + (hasSeal ? '&#10003; Captured' : 'Capture') + '</button></td>' +
+          '<td><button class="tool-button" type="button" data-doc-sign="signature" data-doc-name="' + escapeHtml(doc.name) + '" style="font-size:9px;padding:2px 6px;background:' + (hasSig ? '#c8e6c9' : '#fff') + '">' + (hasSig ? '&#10003; Captured' : 'Capture') + '</button></td>' +
+          '<td><button class="tool-button" type="button" data-doc-sign="seal" data-doc-name="' + escapeHtml(doc.name) + '" style="font-size:9px;padding:2px 6px;background:' + (hasSeal ? '#c8e6c9' : '#fff') + '">' + (hasSeal ? '&#10003; Captured' : 'Capture') + '</button></td>' +
           '</tr>';
       }).join('');
       tbody.innerHTML = html;
@@ -9618,7 +9736,7 @@ podi kizhi + lepanam x 5 days.</textarea>
     var DUMMY_SIGNATURE = "data:image/svg+xml;base64," + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="80" viewBox="0 0 200 80"><path d="M10 60 C20 20, 40 20, 50 45 C55 55, 60 58, 65 50 C70 40, 75 35, 85 40 C95 45, 100 55, 110 50 C115 47, 118 42, 125 45 C135 50, 140 55, 150 48 C155 44, 160 40, 170 45 C175 48, 180 52, 190 48" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round"/><path d="M60 62 C70 60, 90 58, 110 60 C130 62, 140 61, 155 59" fill="none" stroke="#000" stroke-width="1" stroke-linecap="round"/></svg>');
 
     // Dummy seal (circular clinic stamp SVG as data URI)
-    var DUMMY_SEAL = "data:image/svg+xml;base64," + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="55" fill="none" stroke="#061f17" stroke-width="3"/><circle cx="60" cy="60" r="45" fill="none" stroke="#061f17" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" font-size="6" font-weight="bold" fill="#061f17" font-family="Arial">SHANTHI WELLNESS AYURVEDIC</text><text x="60" y="48" text-anchor="middle" font-size="6" font-weight="bold" fill="#061f17" font-family="Arial">MEDICAL CENTRE LLC</text><text x="60" y="63" text-anchor="middle" font-size="8" font-weight="bold" fill="#061f17" font-family="Arial">DUBAI - U.A.E</text><text x="60" y="78" text-anchor="middle" font-size="5.5" fill="#061f17" font-family="Arial">DHA Lic. No: 02548615-004</text><path d="M25 60 Q40 50, 60 60 Q80 70, 95 60" fill="none" stroke="#061f17" stroke-width="0.8"/></svg>');
+    var DUMMY_SEAL = "data:image/svg+xml;base64," + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="55" fill="none" stroke="#1b5e20" stroke-width="3"/><circle cx="60" cy="60" r="45" fill="none" stroke="#1b5e20" stroke-width="1.5"/><text x="60" y="38" text-anchor="middle" font-size="6" font-weight="bold" fill="#1b5e20" font-family="Arial">SHANTHI WELLNESS AYURVEDIC</text><text x="60" y="48" text-anchor="middle" font-size="6" font-weight="bold" fill="#1b5e20" font-family="Arial">MEDICAL CENTRE LLC</text><text x="60" y="63" text-anchor="middle" font-size="8" font-weight="bold" fill="#1b5e20" font-family="Arial">DUBAI - U.A.E</text><text x="60" y="78" text-anchor="middle" font-size="5.5" fill="#1b5e20" font-family="Arial">DHA Lic. No: 02548615-004</text><path d="M25 60 Q40 50, 60 60 Q80 70, 95 60" fill="none" stroke="#1b5e20" stroke-width="0.8"/></svg>');
 
     function getDoctorSignature(doctorName) {
       var key = doctorName + '_signature';
@@ -9732,7 +9850,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.sign-seal-hidden .sign-section,.sign-seal-hidden .clinic-seal-bottom{display:none !important}' +
         '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:38px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 12px;gap:6px;z-index:1000}' +
         '.cr-toolbar button{height:26px;padding:0 12px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:11px;font-weight:700;cursor:pointer;border-radius:3px}' +
-        '.cr-toolbar button.green{background:linear-gradient(#0f4c3a,#082a20);color:#fff;border-color:#082a20}' +
+        '.cr-toolbar button.green{background:linear-gradient(#388e3c,#1b5e20);color:#fff;border-color:#1b5e20}' +
         '.cr-toolbar .sep{width:1px;height:22px;background:#ccc;margin:0 4px}' +
         '.report-body{margin-top:44px}' +
         '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
@@ -9852,12 +9970,12 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '.sl{margin:3px 0;font-size:9.5px}';
       html += '.sl .ln{border-bottom:1px solid #000;min-width:130px;display:inline-block;cursor:text}';
       html += '.ul:hover,.ul2:hover,.sl .ln:hover{background:#fffde7}';
-      html += '[contenteditable]:focus{outline:1px dashed #082a20;background:#fffde7}';
+      html += '[contenteditable]:focus{outline:1px dashed #1b5e20;background:#fffde7}';
       html += '.db{border-top:1.5px solid #000;margin-top:5px;padding-top:3px}';
       html += '.rsh{font-weight:700;margin:4px 0 1px;font-size:10px}';
       html += '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:32px;background:#e0e0e0;border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 10px;gap:6px;z-index:1000}';
       html += '.cr-toolbar button{height:24px;padding:0 12px;border:1px solid #999;background:#fff;font-size:10px;font-weight:700;cursor:pointer;border-radius:2px}';
-      html += '.cr-toolbar button.g{background:#082a20;color:#fff;border-color:#082a20}';
+      html += '.cr-toolbar button.g{background:#1b5e20;color:#fff;border-color:#1b5e20}';
       html += '.rb{margin-top:36px}';
       html += '@media print{.cr-toolbar{display:none!important}.rb{margin-top:0}}';
       html += '</style></head><body>';
@@ -10049,7 +10167,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.sign-seal-hidden .sign-section{display:none !important}' +
         '.cr-toolbar{position:fixed;top:0;left:0;right:0;height:38px;background:linear-gradient(#f8f8f8,#e0e0e0);border-bottom:1px solid #aaa;display:flex;align-items:center;padding:0 12px;gap:6px;z-index:1000}' +
         '.cr-toolbar button{height:26px;padding:0 12px;border:1px solid #bbb;background:linear-gradient(#fff,#eee);font-size:11px;font-weight:700;cursor:pointer;border-radius:3px}' +
-        '.cr-toolbar button.green{background:linear-gradient(#0f4c3a,#082a20);color:#fff;border-color:#082a20}' +
+        '.cr-toolbar button.green{background:linear-gradient(#388e3c,#1b5e20);color:#fff;border-color:#1b5e20}' +
         '.cr-toolbar .sep{width:1px;height:22px;background:#ccc;margin:0 4px}' +
         '.report-body{margin-top:44px}' +
         '@media print{.cr-toolbar{display:none !important}.report-body{margin-top:0}}' +
@@ -10140,10 +10258,10 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.sign-box .sig-label{font-size:9px;font-weight:700;line-height:1.4;text-align:center;margin-top:2px}' +
         '.seal-box img{height:65px}' +
         '.no-sign .sign-row,.no-sign .header-sign-box{display:none !important}' +
-        '.toolbar{position:fixed;top:0;left:0;right:0;height:40px;background:#fff;border-bottom:2px solid #0d3b2e;display:flex;align-items:center;padding:0 15px;gap:8px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.1)}' +
+        '.toolbar{position:fixed;top:0;left:0;right:0;height:40px;background:#fff;border-bottom:2px solid #2e7d32;display:flex;align-items:center;padding:0 15px;gap:8px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.1)}' +
         '.toolbar button{height:28px;padding:0 14px;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer}' +
-        '.toolbar .btn-sign{background:#0d3b2e;color:#fff}' +
-        '.toolbar .btn-nosign{background:#fff;color:#0d3b2e;border:1.5px solid #0d3b2e}' +
+        '.toolbar .btn-sign{background:#2e7d32;color:#fff}' +
+        '.toolbar .btn-nosign{background:#fff;color:#2e7d32;border:1.5px solid #2e7d32}' +
         '.toolbar .btn-pdf{background:#555;color:#fff}' +
         '@media print{.toolbar{display:none !important}.page{padding:0}}' +
         '</style></head><body>' +
@@ -10233,10 +10351,10 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.clinic-round-seal{position:absolute;right:0;top:-10px;height:80px;width:80px;opacity:0.85}' +
         '.doctor-label{text-align:center;font-size:10px;font-weight:700;margin-top:3px;line-height:1.4}' +
         '.no-sign .sign-block{display:none !important}.no-sign .clinic-round-seal{display:none !important}' +
-        '.toolbar{position:fixed;top:0;left:0;right:0;height:40px;background:#fff;border-bottom:2px solid #0d3b2e;display:flex;align-items:center;padding:0 15px;gap:8px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.1)}' +
+        '.toolbar{position:fixed;top:0;left:0;right:0;height:40px;background:#fff;border-bottom:2px solid #2e7d32;display:flex;align-items:center;padding:0 15px;gap:8px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.1)}' +
         '.toolbar button{height:28px;padding:0 14px;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer}' +
-        '.toolbar .btn-sign{background:#0d3b2e;color:#fff}' +
-        '.toolbar .btn-nosign{background:#fff;color:#0d3b2e;border:1.5px solid #0d3b2e}' +
+        '.toolbar .btn-sign{background:#2e7d32;color:#fff}' +
+        '.toolbar .btn-nosign{background:#fff;color:#2e7d32;border:1.5px solid #2e7d32}' +
         '.toolbar .btn-pdf{background:#555;color:#fff}' +
         '@media print{.toolbar{display:none !important}.report-page{padding:0}}' +
         '</style></head><body>' +
@@ -10348,10 +10466,10 @@ podi kizhi + lepanam x 5 days.</textarea>
         '.seal-img{height:65px;max-width:90px}' +
         '.doctor-label{text-align:center;font-size:10px;font-weight:700;margin-top:3px;line-height:1.4}' +
         '.no-sign .sign-block{display:none !important}.no-sign .clinic-seal-overlay{display:none !important}' +
-        '.toolbar{position:fixed;top:0;left:0;right:0;height:40px;background:#fff;border-bottom:2px solid #0d3b2e;display:flex;align-items:center;padding:0 15px;gap:8px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.1)}' +
+        '.toolbar{position:fixed;top:0;left:0;right:0;height:40px;background:#fff;border-bottom:2px solid #2e7d32;display:flex;align-items:center;padding:0 15px;gap:8px;z-index:9999;box-shadow:0 2px 8px rgba(0,0,0,0.1)}' +
         '.toolbar button{height:28px;padding:0 14px;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer}' +
-        '.toolbar .btn-sign{background:#0d3b2e;color:#fff}' +
-        '.toolbar .btn-nosign{background:#fff;color:#0d3b2e;border:1.5px solid #0d3b2e}' +
+        '.toolbar .btn-sign{background:#2e7d32;color:#fff}' +
+        '.toolbar .btn-nosign{background:#fff;color:#2e7d32;border:1.5px solid #2e7d32}' +
         '.toolbar .btn-pdf{background:#555;color:#fff}' +
         '@media print{.toolbar{display:none !important}.report-page{padding:0;margin:0}}' +
         '</style></head><body>' +
@@ -10444,6 +10562,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       var tbody = byId("claimsRows");
       if (!tbody) return;
       var search = (byId("claimsPatientSearch")?.value || "").toLowerCase();
+      var fromEl = byId("claimsFrom");
+      var toEl = byId("claimsTo");
       // Only show claims explicitly saved by user from claims form
       var allClaims = savedClaimsData;
       var filtered = allClaims.filter(function(c) {
@@ -10472,6 +10592,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       }).join('');
       tbody.innerHTML = html;
       byId("claimsEmpty").classList.toggle("show", filtered.length === 0);
+      var countEl = byId("claimsCount");
+      if (countEl) countEl.textContent = filtered.length + ' claims';
     }
 
     function loadConsultIntoClaims(consult) {
@@ -10529,7 +10651,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           historyDiv.innerHTML = '<div style="padding:4px;color:#888;font-size:10px">No visit history for this patient</div>';
           return;
         }
-        var html = '<div style="padding:4px;font-size:10px;max-height:80px;overflow-y:auto"><table style="width:100%;border-collapse:collapse;font-size:9px"><thead><tr style="background:#e0f2ef"><th style="padding:2px 4px;text-align:left">Date</th><th style="padding:2px 4px;text-align:left">Doctor</th><th style="padding:2px 4px;text-align:left">Complaints</th><th style="padding:2px 4px;text-align:right">Amount</th></tr></thead><tbody>';
+        var html = '<div style="padding:4px;font-size:10px;max-height:80px;overflow-y:auto"><table style="width:100%;border-collapse:collapse;font-size:9px"><thead><tr style="background:#e8f5e9"><th style="padding:2px 4px;text-align:left">Date</th><th style="padding:2px 4px;text-align:left">Doctor</th><th style="padding:2px 4px;text-align:left">Complaints</th><th style="padding:2px 4px;text-align:right">Amount</th></tr></thead><tbody>';
         d.data.forEach(function(c) {
           var total = 0;
           (c.procedures || []).forEach(function(p) { total += (parseFloat(p.price) || 0) * (parseInt(p.sessions) || 1); });
@@ -10560,6 +10682,210 @@ podi kizhi + lepanam x 5 days.</textarea>
       });
     }
 
+    function loadMasterData() {
+      // Load ICD diagnosis codes from DB
+      fetch("/api/diagnosis-master").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data && d.data.length) {
+          window._icdMaster = d.data.map(function(item) { return {code: item.code, desc: item.description}; });
+          console.log("Loaded " + d.data.length + " ICD codes from DB");
+          // Re-build the diagnosis side search panel with full data
+          rebuildDiagSearch();
+        }
+      }).catch(function(){});
+      // Load procedures/tariff from DB
+      fetch("/api/procedures-master").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data && d.data.length) {
+          window._procMaster = d.data.map(function(item) { return {code: item.code, desc: item.description, price: item.price||0}; });
+          console.log("Loaded " + d.data.length + " procedures from DB");
+          rebuildProcSearch();
+        }
+      }).catch(function(){});
+    }
+
+    // ─── Doctor Desk ─────────────────────────────────────────────────
+    function initDoctorDesk() {
+      var sel = byId('ddDoctor');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">All</option>';
+      doctors.forEach(function(d) { sel.innerHTML += '<option value="'+escapeHtml(d)+'">'+escapeHtml(d)+'</option>'; });
+      var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var today = new Date();
+      var todayStr = String(today.getDate()).padStart(2,'0')+'/'+mo[today.getMonth()]+'/'+today.getFullYear();
+      if (byId('ddFromDate')) byId('ddFromDate').value = todayStr;
+      if (byId('ddToDate')) byId('ddToDate').value = todayStr;
+      document.querySelectorAll("input[name='ddType']").forEach(function(r){r.addEventListener('change',renderDoctorDesk);});
+    }
+    setTimeout(initDoctorDesk, 1200);
+
+    function renderDoctorDesk() {
+      var tbody = byId('ddRows');
+      if (!tbody) return;
+      var doctorFilter = byId('ddDoctor')?.value || '';
+      var search = (byId('ddSearch')?.value || '').trim().toLowerCase();
+      var typeFilter = (document.querySelector("input[name='ddType']:checked")?.value || 'All');
+      var fromStr = byId('ddFromDate')?.value || '';
+      var toStr = byId('ddToDate')?.value || '';
+
+      var filtered = appointments.filter(function(a) {
+        if (doctorFilter && a.doctor !== doctorFilter) return false;
+        if (typeFilter !== 'All' && a.purpose && a.purpose.toLowerCase() !== typeFilter.toLowerCase()) return false;
+        if (search && ![a.mrNo,a.patient,a.patientName,a.mobile].join(' ').toLowerCase().includes(search)) return false;
+        // Date filter
+        if (fromStr || toStr) {
+          var aDate = parseReportDate(a.date);
+          var fDate = parseReportDate(fromStr);
+          var tDate = parseReportDate(toStr);
+          if (fDate && aDate && aDate < fDate) return false;
+          if (tDate && aDate && aDate > tDate) return false;
+          if ((fDate||tDate) && !aDate) return false;
+        }
+        return true;
+      });
+
+      var html = filtered.map(function(a, i) {
+        var statusColor = (a.status||'').toLowerCase() === 'consulted' ? 'background:#fff9c4' : '';
+        var purposeColor = '';
+        if ((a.purpose||'').toLowerCase()==='treatment') purposeColor = 'color:#2e7d32;font-weight:700';
+        else if ((a.purpose||'').toLowerCase()==='package') purposeColor = 'color:#1565c0;font-weight:700';
+        else if ((a.purpose||'').toLowerCase()==='consultation') purposeColor = 'color:#e65100;font-weight:700';
+        return '<tr style="'+statusColor+'" data-mr="'+(a.mrNo||'')+'">' +
+          '<td>'+(a.date||'')+'</td>' +
+          '<td>'+(a.time||'')+'</td>' +
+          '<td style="font-weight:700">'+(a.mrNo||'')+'</td>' +
+          '<td>'+(a.patient||a.patientName||'')+'</td>' +
+          '<td>'+(a.doctor||'')+'</td>' +
+          '<td>'+(a.status||'')+'</td>' +
+          '<td style="'+purposeColor+'">'+(a.purpose||'')+'</td>' +
+          '<td class="pat-actions"><button class="pat-act-btn" title="Consultation" onclick="openConsultFromDesk(\''+escapeHtml(a.mrNo||'')+'\')">&#128203;</button><button class="pat-act-btn" title="Attach Document" onclick="openDocAttach(\''+escapeHtml(a.mrNo||'')+'\')">&#128206;</button><button class="pat-act-btn" title="Print" onclick="">&#128424;</button><button class="pat-act-btn" title="SMS" onclick="">&#128172;</button></td>' +
+          '</tr>';
+      }).join('');
+      tbody.innerHTML = html;
+      byId('ddEmpty')?.classList.toggle('show', filtered.length === 0);
+    }
+
+    function openDocAttach(mrNo) {
+      byId('docAttachList').innerHTML = '<tr><td colspan="4" style="padding:10px;text-align:center;color:#888;font-size:11px">No attachments yet</td></tr>';
+      byId('docAttachModal').showModal();
+    }
+
+    function addDocAttachment() {
+      byId('docAttachModal').close();
+      byId('addDocModal').showModal();
+    }
+
+    function saveDocAttachment() {
+      var file = byId('addDocFile').files[0];
+      if (!file) { alert('Please select a file'); return; }
+      alert('Document "' + file.name + '" attached successfully!');
+      byId('addDocModal').close();
+    }
+
+    function scanDocument() {
+      alert('Scanner not connected. Please use "Add" to upload a file instead.');
+    }
+
+    function openConsultFromDesk(mrNo) {
+      selectedPatientMr = mrNo;
+      activateView('consultation');
+    }
+
+    function loadReceiptsFromServer() {
+      fetch("/api/receipts").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data && d.data.length) {
+          receipts = d.data;
+          console.log("Loaded " + d.data.length + " receipts from DB");
+          renderReceipts();
+        }
+      }).catch(function(){});
+    }
+
+    function loadInvoicesFromServer() {
+      fetch("/api/invoices").then(function(r){return r.json()}).then(function(d) {
+        if (d.success && d.data && d.data.length) {
+          window._invoices = d.data;
+          console.log("Loaded " + d.data.length + " invoices from DB");
+        }
+      }).catch(function(){});
+    }
+
+    function rebuildDiagSearch() {
+      if (!window._icdMaster || !window._icdMaster.length) return;
+      var input = byId("diagSearchInput");
+      var list = byId("diagSearchList");
+      if (!input || !list) return;
+      input.oninput = function() {
+        var q = input.value.trim().toLowerCase();
+        if (!q) { list.innerHTML = ""; return; }
+        var matches = window._icdMaster.filter(function(d) {
+          return d.code.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q);
+        }).slice(0, 50);
+        list.innerHTML = matches.map(function(d) {
+          return '<div class="side-search-item" data-code="'+d.code+'" data-desc="'+d.desc+'"><span class="ssi-code">'+d.code+'</span>'+d.desc+'</div>';
+        }).join("");
+      };
+      list.onclick = function(e) {
+        var item = e.target.closest(".side-search-item");
+        if (!item) return;
+        var code = item.dataset.code, desc = item.dataset.desc;
+        var tbody = document.getElementById("diagTbody");
+        if (!tbody) return;
+        var emptyRow = null;
+        var rows = tbody.querySelectorAll("tr");
+        for (var i=0; i<rows.length; i++) {
+          var ci = rows[i].querySelector(".diag-code-input");
+          if (ci && !ci.value.trim()) { emptyRow = rows[i]; break; }
+        }
+        if (!emptyRow) {
+          var tr = document.createElement("tr");
+          tr.innerHTML = '<td class="ac-cell"><input class="ac-input diag-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input diag-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input" value="" placeholder="Type..."></td><td><input class="ct-input" value="" placeholder=""></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+          tbody.appendChild(tr);
+          emptyRow = tr;
+        }
+        emptyRow.querySelector(".diag-code-input").value = code;
+        emptyRow.querySelector(".diag-desc-input").value = desc;
+      };
+    }
+
+    function rebuildProcSearch() {
+      if (!window._procMaster || !window._procMaster.length) return;
+      var input = byId("procSearchInput");
+      var list = byId("procSearchList");
+      if (!input || !list) return;
+      input.oninput = function() {
+        var q = input.value.trim().toLowerCase();
+        if (!q) { list.innerHTML = ""; return; }
+        var matches = window._procMaster.filter(function(d) {
+          return d.code.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q);
+        }).slice(0, 50);
+        list.innerHTML = matches.map(function(d) {
+          return '<div class="side-search-item" data-code="'+d.code+'" data-desc="'+d.desc+'" data-price="'+d.price+'"><span class="ssi-code">'+d.code+'</span>'+d.desc+'<span class="ssi-price">AED '+d.price+'</span></div>';
+        }).join("");
+      };
+      list.onclick = function(e) {
+        var item = e.target.closest(".side-search-item");
+        if (!item) return;
+        var code = item.dataset.code, desc = item.dataset.desc, price = item.dataset.price;
+        var tbody = document.getElementById("procTbody");
+        if (!tbody) return;
+        var emptyRow = null;
+        var rows = tbody.querySelectorAll("tr");
+        for (var i=0; i<rows.length; i++) {
+          var ci = rows[i].querySelector(".proc-code-input");
+          if (ci && !ci.value.trim()) { emptyRow = rows[i]; break; }
+        }
+        if (!emptyRow) {
+          var tr = document.createElement("tr");
+          tr.innerHTML = '<td class="ac-cell"><input class="ac-input proc-code-input" value="" placeholder="Code..." autocomplete="off"><div class="ac-drop"></div></td><td><input class="ct-input proc-desc-input" value="" placeholder="Description..."></td><td><input class="ct-input proc-price-input" value="" style="text-align:right"></td><td><input class="ct-input proc-sessions-input" value="1" style="text-align:center"></td><td><input class="ct-input proc-amount-input" value="" style="text-align:right"></td><td><input class="ct-input" value="0" style="text-align:right"></td><td><input class="ct-input" value="0" style="text-align:right"></td><td><input class="ct-input" value="0" style="text-align:right"></td><td><input class="ct-input" value="" style="text-align:right"></td><td><input class="ct-input" value="0" style="text-align:right"></td><td class="ct-del-cell"><button class="ct-del-btn" type="button">&#10005;</button></td>';
+          tbody.appendChild(tr);
+          emptyRow = tr;
+        }
+        emptyRow.querySelector(".proc-code-input").value = code;
+        emptyRow.querySelector(".proc-desc-input").value = desc;
+        if (emptyRow.querySelector(".proc-price-input")) emptyRow.querySelector(".proc-price-input").value = price;
+        if (emptyRow.querySelector(".proc-amount-input")) emptyRow.querySelector(".proc-amount-input").value = price;
+      };
+    }
+
     function loadPatientsFromServer() {
       fetch("/api/patients").then(function(r){return r.json()}).then(function(d) {
         if (!d.success || !d.data || !d.data.length) return;
@@ -10580,26 +10906,180 @@ podi kizhi + lepanam x 5 days.</textarea>
     function loadAppointmentsFromServer() {
       fetch("/api/appointments").then(function(r){return r.json()}).then(function(d) {
         if (!d.success || !d.data || !d.data.length) return;
-        var newCount = 0;
-        d.data.forEach(function(appt) {
-          var exists = appointments.find(function(a) {
-            return a.doctor === appt.doctor && a.time === appt.time && a.date === appt.date;
-          });
-          if (!exists) {
-            appointments.push(appt);
-            newCount++;
-            // Add notification for new customer booking
-            if (appt.source === "CustomerApp") {
-              addNotification("New Booking", appt.patientName + " booked with Dr. " + appt.doctor + " on " + appt.date + " at " + appt.time, "booking");
-            }
-          }
-        });
-        if (newCount > 0) renderSchedule();
+        appointments = d.data;
+        console.log("Loaded " + appointments.length + " appointments");
+        renderSchedule();
       }).catch(function(){});
     }
 
     // Auto-refresh appointments every 15 seconds to pick up customer bookings
     setInterval(loadAppointmentsFromServer, 15000);
+
+    // ─── Appointment Reports ─────────────────────────────────────────
+    function initReportScreen() {
+      var sel = byId('rptDoctor');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">All Doctors</option>';
+      doctors.forEach(function(d) {
+        sel.innerHTML += '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + '</option>';
+      });
+      // Set default dates
+      var today = new Date();
+      var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var todayStr = String(today.getDate()).padStart(2,'0') + '/' + mo[today.getMonth()] + '/' + today.getFullYear();
+      if (byId('rptFrom')) byId('rptFrom').value = '01/' + mo[today.getMonth()] + '/' + today.getFullYear();
+      if (byId('rptTo')) byId('rptTo').value = todayStr;
+    }
+    setTimeout(initReportScreen, 1000);
+
+    function parseReportDate(s) {
+      if (!s) return null;
+      var mo = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+      // DD/Mon/YYYY
+      var m = s.match(/^(\d{1,2})\/(\w{3})\/(\d{4})$/);
+      if (m) return new Date(parseInt(m[3]), mo[m[2]]||0, parseInt(m[1]));
+      // DD-MM-YYYY
+      var m2 = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+      if (m2) return new Date(parseInt(m2[3]), parseInt(m2[2])-1, parseInt(m2[1]));
+      // DD/MM/YYYY
+      var m3 = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m3) return new Date(parseInt(m3[3]), parseInt(m3[2])-1, parseInt(m3[1]));
+      return null;
+    }
+
+    function generateAppointmentReport() {
+      var type = byId('rptType').value;
+      var fromStr = byId('rptFrom').value.trim();
+      var toStr = byId('rptTo').value.trim();
+      var doctorFilter = byId('rptDoctor').value;
+      var mrFilter = byId('rptMrNo').value.trim();
+      var fromDate = parseReportDate(fromStr);
+      var toDate = parseReportDate(toStr);
+
+      // Filter appointments
+      var filtered = [];
+      if (!fromDate && !toDate && !doctorFilter && !mrFilter) {
+        // No filters - show all
+        filtered = appointments.slice();
+      } else {
+        filtered = appointments.filter(function(a) {
+          var aDate = parseReportDate(a.date);
+          if (fromDate && aDate && aDate < fromDate) return false;
+          if (toDate && aDate && aDate > toDate) return false;
+          if (fromDate && !aDate) return false;
+          if (doctorFilter && a.doctor !== doctorFilter) return false;
+          if (mrFilter && a.mrNo !== mrFilter) return false;
+          return true;
+        });
+      }
+
+      // Sort by date
+      filtered.sort(function(a, b) {
+        var da = parseReportDate(a.date), db = parseReportDate(b.date);
+        return (da||0) - (db||0);
+      });
+
+      var html = '';
+      var clinicName = 'SHANTHI WELLNESS AYURVEDIC MEDICAL CENTRE LLC';
+      var headerHtml = '<div style="text-align:center;margin-bottom:15px;padding:10px;border-bottom:2px solid #2e7d32">' +
+        '<h2 style="margin:0;color:#2e7d32;font-size:16px">' + clinicName + '</h2>' +
+        '<p style="margin:3px 0 0;font-size:11px;color:#555">Tel: +971 42 255 133 | Dubai, UAE</p></div>';
+
+      if (type === 'daily') {
+        html = headerHtml;
+        html += '<h3 style="margin:0 0 10px;font-size:14px;color:#2e7d32">Daily Appointment Report</h3>';
+        html += '<p style="font-size:11px;margin:0 0 8px"><b>Period:</b> ' + fromStr + ' to ' + toStr + ' | <b>Doctor:</b> ' + (doctorFilter || 'All') + ' | <b>Total:</b> ' + filtered.length + '</p>';
+        html += '<table style="width:100%;border-collapse:collapse;font-size:11px">';
+        html += '<tr style="background:#2e7d32;color:#fff"><th style="padding:5px;border:1px solid #388e3c;text-align:left">SL</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Date</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Time</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">MR No</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Patient Name</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Mobile</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Doctor</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Purpose</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Status</th><th style="padding:5px;border:1px solid #388e3c;text-align:left">Room</th></tr>';
+        filtered.forEach(function(a, i) {
+          var bg = i % 2 === 0 ? '#fff' : '#f0f8f5';
+          html += '<tr style="background:' + bg + '"><td style="padding:4px 5px;border:1px solid #ddd">' + (i+1) + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.date||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.time||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd;font-weight:700">' + (a.mrNo||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.patient||a.patientName||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.mobile||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.doctor||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd;font-weight:700">' + (a.purpose||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.status||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.room||'') + '</td></tr>';
+        });
+        html += '</table>';
+      }
+      else if (type === 'monthly') {
+        html = headerHtml;
+        html += '<h3 style="margin:0 0 10px;font-size:14px;color:#2e7d32">Monthly Appointment Summary (Doctor-wise)</h3>';
+        html += '<p style="font-size:11px;margin:0 0 8px"><b>Period:</b> ' + fromStr + ' to ' + toStr + ' | <b>Total Appointments:</b> ' + filtered.length + '</p>';
+        // Group by doctor then by month
+        var byDoctor = {};
+        var allMonths = {};
+        filtered.forEach(function(a) {
+          var doc = a.doctor || 'Unassigned';
+          var d = parseReportDate(a.date);
+          if (!d) return;
+          var monthKey = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()] + ' ' + d.getFullYear();
+          allMonths[monthKey] = true;
+          if (!byDoctor[doc]) byDoctor[doc] = {};
+          byDoctor[doc][monthKey] = (byDoctor[doc][monthKey] || 0) + 1;
+        });
+        var monthList = Object.keys(allMonths).sort(function(a,b) { return parseReportDate('01/' + a.replace(' ','/')) - parseReportDate('01/' + b.replace(' ','/')); });
+        html += '<table style="width:100%;border-collapse:collapse;font-size:11px">';
+        html += '<tr style="background:#2e7d32;color:#fff"><th style="padding:5px;border:1px solid #388e3c;text-align:left">Doctor</th>';
+        monthList.forEach(function(m) { html += '<th style="padding:5px;border:1px solid #388e3c;text-align:center">' + m + '</th>'; });
+        html += '<th style="padding:5px;border:1px solid #388e3c;text-align:center;font-weight:900">Total</th></tr>';
+        var grandTotal = 0;
+        Object.keys(byDoctor).sort().forEach(function(doc, i) {
+          var bg = i % 2 === 0 ? '#fff' : '#f0f8f5';
+          var total = 0;
+          html += '<tr style="background:' + bg + '"><td style="padding:4px 5px;border:1px solid #ddd;font-weight:700">' + doc + '</td>';
+          monthList.forEach(function(m) { var c = byDoctor[doc][m] || 0; total += c; html += '<td style="padding:4px 5px;border:1px solid #ddd;text-align:center">' + (c||'-') + '</td>'; });
+          html += '<td style="padding:4px 5px;border:1px solid #ddd;text-align:center;font-weight:900">' + total + '</td></tr>';
+          grandTotal += total;
+        });
+        html += '<tr style="background:#e8f5e9;font-weight:900"><td style="padding:5px;border:1px solid #ddd">TOTAL</td>';
+        monthList.forEach(function(m) { var c = 0; Object.keys(byDoctor).forEach(function(d){c += byDoctor[d][m]||0;}); html += '<td style="padding:5px;border:1px solid #ddd;text-align:center">' + c + '</td>'; });
+        html += '<td style="padding:5px;border:1px solid #ddd;text-align:center">' + grandTotal + '</td></tr>';
+        html += '</table>';
+      }
+      else if (type === 'doctor') {
+        html = headerHtml;
+        html += '<h3 style="margin:0 0 10px;font-size:14px;color:#2e7d32">Doctor-wise Appointment List</h3>';
+        html += '<p style="font-size:11px;margin:0 0 8px"><b>Period:</b> ' + fromStr + ' to ' + toStr + ' | <b>Doctor:</b> ' + (doctorFilter || 'All') + '</p>';
+        // Group by doctor
+        var byDoc = {};
+        filtered.forEach(function(a) {
+          var doc = a.doctor || 'Unassigned';
+          if (!byDoc[doc]) byDoc[doc] = [];
+          byDoc[doc].push(a);
+        });
+        Object.keys(byDoc).sort().forEach(function(doc) {
+          var list = byDoc[doc];
+          html += '<h4 style="margin:15px 0 5px;font-size:12px;color:#2e7d32;border-bottom:1px solid #2e7d32;padding-bottom:3px">' + doc + ' (' + list.length + ' appointments)</h4>';
+          html += '<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px">';
+          html += '<tr style="background:#2e7d32;color:#fff"><th style="padding:4px;border:1px solid #388e3c">SL</th><th style="padding:4px;border:1px solid #388e3c">Date</th><th style="padding:4px;border:1px solid #388e3c">Time</th><th style="padding:4px;border:1px solid #388e3c">MR No</th><th style="padding:4px;border:1px solid #388e3c">Patient Name</th><th style="padding:4px;border:1px solid #388e3c">Mobile</th><th style="padding:4px;border:1px solid #388e3c">Notes</th></tr>';
+          list.forEach(function(a, i) {
+            var bg = i % 2 === 0 ? '#fff' : '#f0f8f5';
+            html += '<tr style="background:' + bg + '"><td style="padding:3px 4px;border:1px solid #ddd">' + (i+1) + '</td><td style="padding:3px 4px;border:1px solid #ddd">' + (a.date||'') + '</td><td style="padding:3px 4px;border:1px solid #ddd">' + (a.time||'') + '</td><td style="padding:3px 4px;border:1px solid #ddd;font-weight:700">' + (a.mrNo||'') + '</td><td style="padding:3px 4px;border:1px solid #ddd">' + (a.patient||a.patientName||'') + '</td><td style="padding:3px 4px;border:1px solid #ddd">' + (a.mobile||'') + '</td><td style="padding:3px 4px;border:1px solid #ddd">' + (a.notes||'') + '</td></tr>';
+          });
+          html += '</table>';
+        });
+      }
+      else if (type === 'patient') {
+        html = headerHtml;
+        html += '<h3 style="margin:0 0 10px;font-size:14px;color:#2e7d32">Patient Appointment History</h3>';
+        var patAppts = mrFilter ? appointments.filter(function(a) { return a.mrNo === mrFilter; }) : filtered;
+        html += '<p style="font-size:11px;margin:0 0 8px"><b>Period:</b> ' + fromStr + ' to ' + toStr + (mrFilter ? ' | <b>MR No:</b> ' + mrFilter : '') + (doctorFilter ? ' | <b>Doctor:</b> ' + doctorFilter : '') + ' | <b>Total:</b> ' + patAppts.length + '</p>';
+        html += '<table style="width:100%;border-collapse:collapse;font-size:11px">';
+        html += '<tr style="background:#2e7d32;color:#fff"><th style="padding:5px;border:1px solid #388e3c">SL</th><th style="padding:5px;border:1px solid #388e3c">Date</th><th style="padding:5px;border:1px solid #388e3c">Time</th><th style="padding:5px;border:1px solid #388e3c">MR No</th><th style="padding:5px;border:1px solid #388e3c">Patient Name</th><th style="padding:5px;border:1px solid #388e3c">Mobile</th><th style="padding:5px;border:1px solid #388e3c">Doctor</th><th style="padding:5px;border:1px solid #388e3c">Status</th><th style="padding:5px;border:1px solid #388e3c">Notes</th></tr>';
+        patAppts.forEach(function(a, i) {
+          var bg = i % 2 === 0 ? '#fff' : '#f0f8f5';
+          html += '<tr style="background:' + bg + '"><td style="padding:4px 5px;border:1px solid #ddd">' + (i+1) + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.date||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.time||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd;font-weight:700">' + (a.mrNo||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.patient||a.patientName||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.mobile||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.doctor||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.status||'') + '</td><td style="padding:4px 5px;border:1px solid #ddd">' + (a.notes||'') + '</td></tr>';
+        });
+        html += '</table>';
+      }
+
+      // Show in preview
+      byId('rptPreview').innerHTML = html + '<div style="margin-top:15px;text-align:center"><button onclick="printReport()" style="padding:8px 20px;background:#2e7d32;color:#fff;border:none;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer">🖨️ Print Report</button></div>';
+    }
+
+    function printReport() {
+      var content = byId('rptPreview').innerHTML;
+      var win = window.open('', '_blank');
+      win.document.write('<html><head><title>Report</title><style>body{font-family:Arial,sans-serif;margin:20px;} table{page-break-inside:auto;} tr{page-break-inside:avoid;} @media print{button{display:none !important;}}</style></head><body>' + content + '</body></html>');
+      win.document.close();
+      setTimeout(function(){win.print();}, 500);
+    }
 
     // ─── Notification System ─────────────────────────────────────────
     var notifications = JSON.parse(localStorage.getItem("emr_notifications") || "[]");
@@ -10771,7 +11251,7 @@ podi kizhi + lepanam x 5 days.</textarea>
           dd.style.cssText = "position:fixed;z-index:999;max-height:220px;overflow-y:auto;background:#fff;border:1px solid #888;box-shadow:0 3px 8px rgba(0,0,0,0.25);font-size:11px;width:320px";
           dd.innerHTML = '<div style="padding:4px 8px;border-bottom:1px solid #ccc"><input type="text" id="insInvAddSearch" placeholder="Search..." style="width:100%;height:24px;font-size:11px;padding:2px 6px"></div>' +
             insProcedurecodes.map(function(p) {
-              return '<div class="ins-add-item" data-code="'+p.code+'" data-desc="'+p.desc+'" data-price="'+p.price+'" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px"><strong style="color:#e65100;min-width:45px">'+p.code+'</strong><span style="flex:1">'+p.desc+'</span><span style="color:#082a20">'+p.price+'</span></div>';
+              return '<div class="ins-add-item" data-code="'+p.code+'" data-desc="'+p.desc+'" data-price="'+p.price+'" style="padding:5px 8px;cursor:pointer;border-bottom:1px solid #eee;display:flex;gap:8px"><strong style="color:#e65100;min-width:45px">'+p.code+'</strong><span style="flex:1">'+p.desc+'</span><span style="color:#1b5e20">'+p.price+'</span></div>';
             }).join("");
           document.body.appendChild(dd);
           dd.addEventListener("click", function(ev) {
