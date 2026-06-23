@@ -3921,6 +3921,254 @@ function inheritFromEMR() {
         </div>
       </section>
 
+      <!-- MAIN PAGE / LANDING SCREEN -->
+      <section class="screen" id="mainPageScreen" aria-label="Main Page" style="overflow:auto;background:linear-gradient(160deg,#f8fdf5 0%,#e8f5e9 40%,#c8e6c9 100%)">
+        <div style="max-width:1100px;margin:0 auto;padding:30px 20px">
+          <!-- Logo & Header -->
+          <div style="text-align:center;margin-bottom:30px">
+            <img src="logo.png" alt="Shanthi Wellness" style="height:100px;margin-bottom:8px">
+            <p style="font-size:13px;color:#555;font-style:italic;letter-spacing:1px">Ayurveda – Homeopathy – Physiotherapy</p>
+          </div>
+          <!-- Hero -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:40px;background:rgba(255,255,255,0.7);border-radius:24px;padding:40px;box-shadow:0 10px 40px rgba(46,125,50,0.08);backdrop-filter:blur(4px)">
+            <div>
+              <div style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#e8f5e9,#fff);border:1px solid #a5d6a7;border-radius:20px;padding:6px 16px;font-size:11px;color:#2e7d32;margin-bottom:18px;box-shadow:0 2px 8px rgba(76,175,80,0.1)">🌿 Ancient Wisdom. Modern Healing.</div>
+              <h1 style="font-size:40px;font-weight:800;color:#1b3a1b;line-height:1.15;margin-bottom:16px;font-family:Georgia,serif">Natural Healing<br>for a <em style="color:#2e7d32;font-style:italic">Better Life</em></h1>
+              <p style="font-size:14px;color:#555;line-height:1.7;max-width:420px;margin-bottom:28px">Experience the power of Ayurveda – balance your body, mind, and soul with natural therapies and personalized care at <strong style="color:#2e7d32">Shanthi Wellness</strong>.</p>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button onclick="activateView('appointments')" style="background:linear-gradient(135deg,#43a047,#2e7d32);color:#fff;padding:14px 28px;border-radius:30px;font-size:13px;font-weight:700;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(46,125,50,0.3);transition:all 0.2s">📅 Book Appointment →</button>
+                <button onclick="activateView('patients')" style="background:#fff;border:2px solid #4caf50;padding:13px 24px;border-radius:30px;font-size:13px;color:#2e7d32;cursor:pointer;font-weight:600">👥 View Patients</button>
+                <button onclick="activateView('doctorDesk')" style="background:#fff;border:2px solid #a5d6a7;padding:13px 24px;border-radius:30px;font-size:13px;color:#333;cursor:pointer;font-weight:600">🩺 Doctor Desk</button>
+              </div>
+            </div>
+            <div style="text-align:center;position:relative">
+              <div style="width:320px;height:320px;margin:0 auto;background:radial-gradient(circle at 40% 40%,rgba(129,199,132,0.25) 0%,rgba(165,214,167,0.15) 40%,transparent 70%);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative">
+                <div style="width:240px;height:240px;background:linear-gradient(145deg,rgba(200,230,201,0.5),rgba(129,199,132,0.3));border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(76,175,80,0.15),inset 0 0 40px rgba(255,255,255,0.5);border:3px solid rgba(165,214,167,0.5)">
+                  <img src="logo.png" alt="" style="width:160px;height:auto;opacity:0.9">
+                </div>
+                <div style="position:absolute;top:0;right:0;font-size:28px;animation:spin 8s linear infinite">🍃</div>
+                <div style="position:absolute;bottom:20px;left:10px;font-size:22px;animation:spin 12s linear infinite reverse">🌱</div>
+                <div style="position:absolute;top:40px;left:20px;font-size:18px;animation:float2 3s ease-in-out infinite">🌿</div>
+              </div>
+              <style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}} @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}</style>
+              <div style="position:absolute;top:10px;right:0;background:rgba(255,255,255,0.95);border-radius:14px;padding:14px 18px;box-shadow:0 6px 20px rgba(0,0,0,0.08);text-align:center;border:1px solid #e8f5e9">
+                <div style="font-size:22px">🍃</div>
+                <div style="font-size:12px;font-weight:800;color:#2e7d32;margin-top:4px">100% Natural</div>
+                <div style="font-size:9px;color:#666;margin-top:2px">Pure Ayurvedic<br>Ingredients</div>
+              </div>
+            </div>
+          </div>
+          <!-- Service Cards -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px">
+            <div style="background:#fff;border-radius:14px;padding:20px 16px;box-shadow:0 3px 15px rgba(0,0,0,0.05);border:1px solid #f0f0f0;cursor:pointer" onclick="activateView('doctorDesk')">
+              <div style="width:42px;height:42px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px">🌱</div>
+              <div style="font-size:13px;font-weight:700;color:#1b3a1b;margin-bottom:4px">Personalized Treatment</div>
+              <div style="font-size:11px;color:#666;line-height:1.4">Customized Ayurvedic treatments for your unique needs.</div>
+              <div style="margin-top:8px;color:#4caf50;font-size:16px">→</div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:20px 16px;box-shadow:0 3px 15px rgba(0,0,0,0.05);border:1px solid #f0f0f0;cursor:pointer" onclick="activateView('appointments')">
+              <div style="width:42px;height:42px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px">💚</div>
+              <div style="font-size:13px;font-weight:700;color:#1b3a1b;margin-bottom:4px">Natural & Safe</div>
+              <div style="font-size:11px;color:#666;line-height:1.4">Herbal remedies with zero side effects.</div>
+              <div style="margin-top:8px;color:#4caf50;font-size:16px">→</div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:20px 16px;box-shadow:0 3px 15px rgba(0,0,0,0.05);border:1px solid #f0f0f0;cursor:pointer" onclick="activateView('consultation')">
+              <div style="width:42px;height:42px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px">✨</div>
+              <div style="font-size:13px;font-weight:700;color:#1b3a1b;margin-bottom:4px">Holistic Healing</div>
+              <div style="font-size:11px;color:#666;line-height:1.4">Treat the root cause for long-term wellness.</div>
+              <div style="margin-top:8px;color:#4caf50;font-size:16px">→</div>
+            </div>
+            <div style="background:#fff;border-radius:14px;padding:20px 16px;box-shadow:0 3px 15px rgba(0,0,0,0.05);border:1px solid #f0f0f0;cursor:pointer" onclick="activateView('appointmentReports')">
+              <div style="width:42px;height:42px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px">👨‍⚕️</div>
+              <div style="font-size:13px;font-weight:700;color:#1b3a1b;margin-bottom:4px">Expert Practitioners</div>
+              <div style="font-size:11px;color:#666;line-height:1.4">Experienced Ayurvedic doctors & wellness experts.</div>
+              <div style="margin-top:8px;color:#4caf50;font-size:16px">→</div>
+            </div>
+          </div>
+          <!-- Why Choose Section -->
+          <div style="background:#fff;border-radius:14px;padding:24px 30px;box-shadow:0 3px 15px rgba(0,0,0,0.05)">
+            <div style="display:grid;grid-template-columns:1.2fr repeat(4,1fr);gap:24px;align-items:center">
+              <div>
+                <h2 style="font-size:22px;font-weight:800;color:#1b3a1b;line-height:1.3;font-family:Georgia,serif">Why Choose<br><span style="color:#2e7d32">Shanthi Ayurveda?</span></h2>
+              </div>
+              <div style="text-align:center">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">🌿</div>
+                <div style="font-size:12px;font-weight:700;color:#333">Ancient Wisdom</div>
+                <div style="font-size:10px;color:#777;margin-top:2px">Authentic Ayurvedic principles</div>
+              </div>
+              <div style="text-align:center">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">✅</div>
+                <div style="font-size:12px;font-weight:700;color:#333">Trusted Care</div>
+                <div style="font-size:10px;color:#777;margin-top:2px">Clinically proven therapies</div>
+              </div>
+              <div style="text-align:center">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">💚</div>
+                <div style="font-size:12px;font-weight:700;color:#333">Complete Wellness</div>
+                <div style="font-size:10px;color:#777;margin-top:2px">Body, mind & soul balance</div>
+              </div>
+              <div style="text-align:center">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:0 auto 8px">🌍</div>
+                <div style="font-size:12px;font-weight:700;color:#333">Sustainable & Pure</div>
+                <div style="font-size:10px;color:#777;margin-top:2px">Eco-friendly & chemical-free</div>
+              </div>
+            </div>
+          </div>
+          <!-- Footer -->
+          <div style="margin-top:24px;text-align:center;padding:16px;color:#666;font-size:11px">
+            <strong style="color:#2e7d32">Shanthi Wellness Ayurvedic Medical Centre LLC</strong><br>
+            Dubai, UAE | Tel: +971 42 255 133 | Ver: 1.0.0
+          </div>
+        </div>
+      </section>
+
+      <!-- APPOINTMENT ROOMS SCREEN -->
+      <section class="screen" id="roomsScreen" aria-label="Appointment Rooms">
+        <div class="screen-title green">Appointment Rooms</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button" id="roomNewBtn"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="roomEditBtn"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="roomDeleteBtn"><span class="mini-icon i-delete">x</span>Delete</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Rooms list">
+            <colgroup><col style="width:120px"><col style="width:40%"><col></colgroup>
+            <thead><tr><th>Code</th><th>Name</th><th>Description</th></tr></thead>
+            <tbody id="roomRows"></tbody>
+          </table>
+          <div class="empty-message" id="roomEmpty">No rooms found.</div>
+        </div>
+      </section>
+
+      <!-- Room Add/Edit Dialog -->
+      <dialog id="roomDialog" style="width:400px;border:2px solid #2e7d32;border-radius:8px;padding:0">
+        <div style="background:linear-gradient(90deg,#4caf50,#2e7d32);color:#fff;padding:8px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+          <span id="roomDialogTitle">Add Room</span>
+          <button onclick="byId('roomDialog').close()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="padding:16px">
+          <div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">Room Name</label><input id="roomNameInput" style="width:100%;height:30px;font-size:12px;padding:0 8px;border:1px solid #ccc;border-radius:4px"></div>
+          <div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">Description</label><input id="roomDescInput" style="width:100%;height:30px;font-size:12px;padding:0 8px;border:1px solid #ccc;border-radius:4px"></div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+            <button class="tool-button primary" type="button" onclick="saveRoom()">Save</button>
+            <button class="tool-button" type="button" onclick="byId('roomDialog').close()">Cancel</button>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- SHIFT MANAGEMENT SCREEN -->
+      <section class="screen" id="shiftManagementScreen" aria-label="Shift Management">
+        <div class="screen-title green">Shift Management</div>
+        <div class="toolbar" style="gap:8px">
+          <button class="tool-button primary" type="button" onclick="openShiftDialog()"><span class="mini-icon i-new">+</span>New Shift</button>
+          <button class="tool-button" type="button" onclick="openAssignShift()">📋 Assign Shifts</button>
+          <span style="flex:1"></span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px;overflow:auto;flex:1">
+          <!-- Shifts List -->
+          <div style="background:#fff;border-radius:8px;border:1px solid #c8e6c9;overflow:hidden">
+            <div style="background:#2e7d32;color:#fff;padding:8px 12px;font-weight:700;font-size:12px">Defined Shifts</div>
+            <table style="width:100%;border-collapse:collapse;font-size:11px">
+              <thead><tr style="background:#e8f5e9"><th style="padding:6px;border:1px solid #c8e6c9;text-align:left">Shift Name</th><th style="padding:6px;border:1px solid #c8e6c9">Start</th><th style="padding:6px;border:1px solid #c8e6c9">End</th><th style="padding:6px;border:1px solid #c8e6c9">Grace (min)</th><th style="padding:6px;border:1px solid #c8e6c9;width:60px">Action</th></tr></thead>
+              <tbody id="shiftRows"></tbody>
+            </table>
+          </div>
+          <!-- Shift Assignments -->
+          <div style="background:#fff;border-radius:8px;border:1px solid #c8e6c9;overflow:hidden">
+            <div style="background:#2e7d32;color:#fff;padding:8px 12px;font-weight:700;font-size:12px">Employee Shift Assignments</div>
+            <table style="width:100%;border-collapse:collapse;font-size:11px">
+              <thead><tr style="background:#e8f5e9"><th style="padding:6px;border:1px solid #c8e6c9;text-align:left">Employee</th><th style="padding:6px;border:1px solid #c8e6c9;text-align:left">Designation</th><th style="padding:6px;border:1px solid #c8e6c9;text-align:left">Assigned Shift</th><th style="padding:6px;border:1px solid #c8e6c9;width:70px">Change</th></tr></thead>
+              <tbody id="shiftAssignRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- New Shift Dialog -->
+      <dialog id="shiftDialog" style="width:380px;border:2px solid #2e7d32;border-radius:8px;padding:0">
+        <div style="background:linear-gradient(90deg,#4caf50,#2e7d32);color:#fff;padding:8px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+          <span id="shiftDialogTitle">Add Shift</span>
+          <button onclick="byId('shiftDialog').close()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="padding:16px">
+          <div style="margin-bottom:12px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:4px">Shift Name</label><input id="shiftName" placeholder="e.g. Morning Shift" style="width:100%;height:32px;font-size:12px;padding:0 10px;border:1px solid #ccc;border-radius:6px"></div>
+          <div style="display:flex;gap:10px;margin-bottom:12px">
+            <div style="flex:1"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:4px">Start Time</label><input id="shiftStart" placeholder="9:00 AM" style="width:100%;height:32px;font-size:12px;padding:0 10px;border:1px solid #ccc;border-radius:6px"></div>
+            <div style="flex:1"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:4px">End Time</label><input id="shiftEnd" placeholder="6:00 PM" style="width:100%;height:32px;font-size:12px;padding:0 10px;border:1px solid #ccc;border-radius:6px"></div>
+          </div>
+          <div style="margin-bottom:12px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:4px">Grace Period (minutes)</label><input id="shiftGrace" type="number" value="15" style="width:100%;height:32px;font-size:12px;padding:0 10px;border:1px solid #ccc;border-radius:6px"></div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+            <button class="tool-button primary" type="button" onclick="saveShift()">Save</button>
+            <button class="tool-button" type="button" onclick="byId('shiftDialog').close()">Cancel</button>
+          </div>
+        </div>
+      </dialog>
+
+      <!-- ATTENDANCE MANAGEMENT SCREEN -->
+      <section class="screen" id="attendanceScreen" aria-label="Staff Attendance">
+        <div class="screen-title green">Staff Attendance Management</div>
+        <div class="toolbar" style="flex-wrap:wrap;gap:8px">
+          <label style="font-size:11px;font-weight:700">Date:</label>
+          <input type="text" id="attDate" style="height:28px;width:110px;font-size:11px;padding:0 6px">
+          <button class="tool-button primary" type="button" onclick="renderAttendance()" style="height:28px;font-size:11px">Load</button>
+          <button class="tool-button" type="button" onclick="markAllPresent()" style="height:28px;font-size:11px;background:#4caf50;color:#fff">Mark All Present</button>
+          <button class="tool-button" type="button" onclick="saveAttendance()" style="height:28px;font-size:11px;background:#2e7d32;color:#fff">💾 Save Attendance</button>
+          <span style="flex:1"></span>
+          <button class="tool-button" type="button" onclick="showAttendanceReport()" style="height:28px;font-size:11px">📊 Monthly Report</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Attendance list">
+            <colgroup><col style="width:60px"><col style="width:100px"><col style="width:25%"><col style="width:120px"><col style="width:100px"><col style="width:90px"><col style="width:90px"><col style="width:15%"></colgroup>
+            <thead><tr><th>SL</th><th>Emp Code</th><th>Employee Name</th><th>Designation</th><th>Status</th><th>In Time</th><th>Out Time</th><th>Remarks</th></tr></thead>
+            <tbody id="attRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- LEAVE MANAGEMENT SCREEN -->
+      <section class="screen" id="leaveManagementScreen" aria-label="Leave Management">
+        <div class="screen-title green">Leave Management</div>
+        <div class="toolbar" style="gap:8px">
+          <button class="tool-button primary" type="button" onclick="openLeaveForm()"><span class="mini-icon i-new">+</span>Apply Leave</button>
+          <label style="font-size:11px;font-weight:700;margin-left:12px">Employee:</label>
+          <select id="leaveEmpFilter" style="height:28px;font-size:11px;min-width:140px" onchange="renderLeaves()">
+            <option value="">All</option>
+          </select>
+          <label style="font-size:11px;font-weight:700;margin-left:8px">Status:</label>
+          <select id="leaveStatusFilter" style="height:28px;font-size:11px" onchange="renderLeaves()">
+            <option value="">All</option><option value="Approved">Approved</option><option value="Pending">Pending</option><option value="Rejected">Rejected</option>
+          </select>
+          <span style="flex:1"></span>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Leave list">
+            <colgroup><col style="width:60px"><col style="width:20%"><col style="width:100px"><col style="width:100px"><col style="width:80px"><col style="width:100px"><col style="width:90px"><col style="width:20%"></colgroup>
+            <thead><tr><th>SL</th><th>Employee</th><th>From</th><th>To</th><th>Days</th><th>Leave Type</th><th>Status</th><th>Reason</th></tr></thead>
+            <tbody id="leaveRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Leave Application Dialog -->
+      <dialog id="leaveDialog" style="width:450px;border:2px solid #2e7d32;border-radius:8px;padding:0">
+        <div style="background:linear-gradient(90deg,#4caf50,#2e7d32);color:#fff;padding:8px 14px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+          Apply Leave
+          <button onclick="byId('leaveDialog').close()" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer">✕</button>
+        </div>
+        <div style="padding:16px">
+          <div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">Employee</label><select id="leaveEmp" style="width:100%;height:30px;font-size:12px"></select></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px">
+            <div style="flex:1"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">From Date</label><input id="leaveFrom" type="text" style="width:100%;height:30px;font-size:12px;padding:0 8px;border:1px solid #ccc;border-radius:4px"></div>
+            <div style="flex:1"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">To Date</label><input id="leaveTo" type="text" style="width:100%;height:30px;font-size:12px;padding:0 8px;border:1px solid #ccc;border-radius:4px"></div>
+          </div>
+          <div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">Leave Type</label><select id="leaveType" style="width:100%;height:30px;font-size:12px"><option>Sick Leave</option><option>Annual Leave</option><option>Casual Leave</option><option>Emergency</option><option>Unpaid Leave</option></select></div>
+          <div style="margin-bottom:10px"><label style="display:block;font-size:11px;font-weight:700;margin-bottom:3px">Reason</label><textarea id="leaveReason" rows="3" style="width:100%;font-size:12px;padding:6px;border:1px solid #ccc;border-radius:4px"></textarea></div>
+          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+            <button class="tool-button primary" type="button" onclick="saveLeave()">Submit</button>
+            <button class="tool-button" type="button" onclick="byId('leaveDialog').close()">Cancel</button>
+          </div>
+        </div>
+      </dialog>
+
       <!-- APPOINTMENT REPORTS SCREEN -->
       <section class="screen" id="appointmentReportsScreen" aria-label="Appointment Reports">
         <div class="screen-title green">Appointment Reports</div>
@@ -4622,12 +4870,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             <!-- Doctor -->
             <div class="appt-form-row">
               <label class="appt-label">Doctor</label>
-              <select name="doctor" id="apptDoctor" style="flex:1">
-                <option>AMARNATH</option><option>ASHISH</option><option>ANEESH</option>
-                <option>RESHMI</option><option>LINTU</option><option>NEETHU</option>
-                <option>LINTU RAJAN</option><option>NEETHU DEEPAK</option><option>HISNA UVAISI</option>
-                <option>KEERTHI PURUSHOT</option><option>NOORA</option>
-              </select>
+              <select name="doctor" id="apptDoctor" style="flex:1"></select>
               <button class="appt-del-btn" type="button">&#128465;</button>
             </div>
 
@@ -4636,34 +4879,28 @@ podi kizhi + lepanam x 5 days.</textarea>
               <label class="appt-label">Consult Dr</label>
               <select name="consultDoctor" id="apptConsultDoctor" style="flex:1">
                 <option value="">-- Same as Doctor --</option>
-                <option>NEETHU DEEPAK</option><option>LINTU RAJAN</option><option>ANJNA NADAKKAVIL CHANDRAN</option><option>HISNA UVAISI</option>
               </select>
             </div>
 
             <!-- Room -->
             <div class="appt-form-row">
               <label class="appt-label">Room</label>
-              <select name="room" style="flex:1">
-                <option>ROOM NUMBER 1</option><option>ROOM NUMBER 2</option>
-                <option>ROOM NUMBER 3</option><option selected>ROOM NUMBER 4</option>
-              </select>
+              <select name="room" id="apptRoom" style="flex:1"></select>
               <button class="appt-del-btn" type="button">&#128465;</button>
             </div>
 
             <!-- Therapist 1 -->
             <div class="appt-form-row">
               <label class="appt-label">Therapist 1</label>
-              <select name="therapist1" style="flex:1">
-                <option>LINTU</option><option>NEETHU</option><option>anjana</option><option>RESHMI</option>
-              </select>
+              <select name="therapist1" id="apptTherapist1" style="flex:1"></select>
               <button class="appt-del-btn" type="button">&#128465;</button>
             </div>
 
             <!-- Therapist 2 -->
             <div class="appt-form-row">
               <label class="appt-label">Therapist 2</label>
-              <select name="therapist2" style="flex:1">
-                <option value=""></option><option>LINTU</option><option>NEETHU</option><option>anjana</option>
+              <select name="therapist2" id="apptTherapist2" style="flex:1">
+                <option value=""></option>
               </select>
               <button class="appt-del-btn" type="button">&#128465;</button>
             </div>
@@ -5833,7 +6070,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Backup", "g-gift", "packages"],
       ["Discounts", "g-bill", "packages"],
       ["Consent Con...", "g-company", "packages"],
-      ["Rooms", "g-doc", "packages"],
+      ["Rooms", "g-doc", "rooms"],
       ["Appointment...", "g-calendar", "appointments"],
       ["SMS Template", "g-doc", "packages"]
     ];
@@ -5863,7 +6100,11 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     const userManModules = [
       ["User Roles", "g-patient", "privileges"],
-      ["Privileges", "g-doc", "privileges"]
+      ["Privileges", "g-doc", "privileges"],
+      ["Attendance", "g-calendar", "attendance"],
+      ["Shifts", "g-calendar", "shiftManagement"],
+      ["Leave Mgmt", "g-doc", "leaveManagement"],
+      ["Employees", "g-patient", "employees"]
     ];
 
     const mastersModules = [
@@ -5983,6 +6224,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "diagnosisList") return ["Diagnosis Master", "Appointments", "Tariff Master", "Main Page"];
       if (view === "claimsList") return ["Complaints Details", "Drug Master", "Diagnosis Master", "Patients", "Insurance Claims", "Appointments", "Main Page"];
       if (view === "appointmentReports") return ["Appointment Reports", "Main Page"];
+      if (view === "attendance") return ["Attendance", "Shifts", "Leave Mgmt", "Employees", "Main Page"];
+      if (view === "shiftManagement") return ["Shifts", "Attendance", "Leave Mgmt", "Employees", "Main Page"];
+      if (view === "leaveManagement") return ["Leave Mgmt", "Shifts", "Attendance", "Employees", "Main Page"];
       return ["Main Page"];
     }
 
@@ -6017,6 +6261,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       const target = byId(`${view}Screen`);
       if (target) target.classList.add("active");
       if (view === "doctorDesk") renderDoctorDesk();
+      if (view === "attendance") renderAttendance();
+      if (view === "shiftManagement") renderShifts();
+      if (view === "leaveManagement") renderLeaves();
       renderChrome();
     }
 
@@ -7471,6 +7718,24 @@ podi kizhi + lepanam x 5 days.</textarea>
       const options = patients.map((patient) => `<option value="${escapeHtml(patient.mrNo)}">${escapeHtml(patient.mrNo)} - ${escapeHtml(fullName(patient))}</option>`).join("");
       byId("receiptPatientSelect").innerHTML = options;
       byId("appointmentPatientSelect").innerHTML = options;
+
+      // Populate Doctor dropdown dynamically
+      const doctorOpts = doctors.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+      if (byId("apptDoctor")) byId("apptDoctor").innerHTML = doctorOpts;
+      if (byId("apptConsultDoctor")) byId("apptConsultDoctor").innerHTML = '<option value="">-- Same as Doctor --</option>' + doctorOpts;
+
+      // Populate Therapist dropdowns
+      const therapists = doctors.filter(d => ['AMARNATH','ASHISH','ANEESH','RESHMI','LINTU','NEETHU','SHILPA','RENJU','ANJANA'].includes(d));
+      const thOpts = therapists.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+      if (byId("apptTherapist1")) byId("apptTherapist1").innerHTML = thOpts;
+      if (byId("apptTherapist2")) byId("apptTherapist2").innerHTML = '<option value=""></option>' + thOpts;
+
+      // Populate Room dropdown dynamically
+      fetch("/api/rooms").then(r=>r.json()).then(d => {
+        if (d.success && d.data && byId("apptRoom")) {
+          byId("apptRoom").innerHTML = d.data.map(r => `<option value="${escapeHtml(r.name)}">${escapeHtml(r.name)}</option>`).join("");
+        }
+      }).catch(()=>{});
     }
 
     function saveReceipt(event) {
@@ -7601,7 +7866,11 @@ podi kizhi + lepanam x 5 days.</textarea>
         if (tab.textContent.trim() === "Appointments") activateView("appointments");
         if (tab.textContent.trim() === "Patients") activateView("patients");
         if (tab.textContent.trim() === "Doctor Desk") activateView("doctorDesk");
-        if (tab.textContent.trim() === "Main Page") activateView("patients");
+        if (tab.textContent.trim() === "Main Page") activateView("mainPage");
+        if (tab.textContent.trim() === "Attendance") activateView("attendance");
+        if (tab.textContent.trim() === "Shifts") activateView("shiftManagement");
+        if (tab.textContent.trim() === "Leave Mgmt") activateView("leaveManagement");
+        if (tab.textContent.trim() === "Employees") activateView("employees");
       });
       byId("patientRows").addEventListener("click", (event) => {
         const row = event.target.closest("[data-mr]");
@@ -10701,6 +10970,313 @@ podi kizhi + lepanam x 5 days.</textarea>
         }
       }).catch(function(){});
     }
+
+    // ─── Shift Management ─────────────────────────────────────────────
+    var shiftsData = JSON.parse(localStorage.getItem('emr_shifts') || '[]');
+    var shiftAssignments = JSON.parse(localStorage.getItem('emr_shift_assign') || '{}');
+
+    if (shiftsData.length === 0) {
+      shiftsData = [
+        { name: 'Morning Shift', start: '9:00 AM', end: '6:00 PM', grace: 15 },
+        { name: 'Evening Shift', start: '2:00 PM', end: '10:00 PM', grace: 15 },
+        { name: 'Full Day', start: '8:00 AM', end: '8:00 PM', grace: 10 },
+        { name: 'Split Shift', start: '9:00 AM', end: '1:00 PM', grace: 15 }
+      ];
+      localStorage.setItem('emr_shifts', JSON.stringify(shiftsData));
+    }
+
+    function renderShifts() {
+      var tbody = byId('shiftRows');
+      if (!tbody) return;
+      tbody.innerHTML = shiftsData.map(function(s, i) {
+        return '<tr><td style="padding:6px;border:1px solid #e0e0e0;font-weight:700">'+escapeHtml(s.name)+'</td>' +
+          '<td style="padding:6px;border:1px solid #e0e0e0;text-align:center">'+escapeHtml(s.start)+'</td>' +
+          '<td style="padding:6px;border:1px solid #e0e0e0;text-align:center">'+escapeHtml(s.end)+'</td>' +
+          '<td style="padding:6px;border:1px solid #e0e0e0;text-align:center">'+s.grace+'</td>' +
+          '<td style="padding:6px;border:1px solid #e0e0e0;text-align:center"><button class="pat-act-btn" onclick="deleteShift('+i+')" title="Delete">✕</button></td></tr>';
+      }).join('');
+
+      // Render assignments
+      var atbody = byId('shiftAssignRows');
+      if (!atbody) return;
+      var employees = doctors.map(function(d, i) {
+        return { code: 'EM'+String(57+i).padStart(4,'0'), name: d, designation: i<4?'Doctor':'Therapist' };
+      });
+      atbody.innerHTML = employees.map(function(emp) {
+        var assigned = shiftAssignments[emp.code] || '';
+        var shiftOpts = shiftsData.map(function(s){ return '<option value="'+escapeHtml(s.name)+'"'+(assigned===s.name?' selected':'')+'>'+escapeHtml(s.name)+'</option>'; }).join('');
+        return '<tr><td style="padding:5px;border:1px solid #e0e0e0;font-weight:700">'+escapeHtml(emp.name)+'</td>' +
+          '<td style="padding:5px;border:1px solid #e0e0e0">'+escapeHtml(emp.designation)+'</td>' +
+          '<td style="padding:5px;border:1px solid #e0e0e0;font-weight:700;color:#2e7d32">'+escapeHtml(assigned||'Not Assigned')+'</td>' +
+          '<td style="padding:5px;border:1px solid #e0e0e0"><select onchange="assignShift(\''+emp.code+'\',this.value)" style="height:24px;font-size:10px;border:1px solid #ccc;border-radius:3px"><option value="">--Select--</option>'+shiftOpts+'</select></td></tr>';
+      }).join('');
+    }
+
+    function openShiftDialog() {
+      byId('shiftName').value = '';
+      byId('shiftStart').value = '';
+      byId('shiftEnd').value = '';
+      byId('shiftGrace').value = '15';
+      byId('shiftDialog').showModal();
+    }
+
+    function saveShift() {
+      var name = byId('shiftName').value.trim();
+      var start = byId('shiftStart').value.trim();
+      var end = byId('shiftEnd').value.trim();
+      var grace = parseInt(byId('shiftGrace').value) || 15;
+      if (!name || !start || !end) { alert('Fill all fields'); return; }
+      shiftsData.push({ name: name, start: start, end: end, grace: grace });
+      localStorage.setItem('emr_shifts', JSON.stringify(shiftsData));
+      // Save to server
+      fetch('/api/shifts', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({shifts:shiftsData}) }).catch(function(){});
+      byId('shiftDialog').close();
+      renderShifts();
+      alert('Shift "' + name + '" created!');
+    }
+
+    function deleteShift(index) {
+      if (!confirm('Delete this shift?')) return;
+      shiftsData.splice(index, 1);
+      localStorage.setItem('emr_shifts', JSON.stringify(shiftsData));
+      fetch('/api/shifts', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({shifts:shiftsData}) }).catch(function(){});
+      renderShifts();
+    }
+
+    function assignShift(empCode, shiftName) {
+      shiftAssignments[empCode] = shiftName;
+      localStorage.setItem('emr_shift_assign', JSON.stringify(shiftAssignments));
+      fetch('/api/shift-assignments', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(shiftAssignments) }).catch(function(){});
+      renderShifts();
+    }
+
+    function openAssignShift() {
+      // Already shown in the right panel, just refresh
+      renderShifts();
+    }
+
+    // ─── Staff Attendance Management ─────────────────────────────────
+    var attendanceData = {};
+
+    function initAttendance() {
+      var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var today = new Date();
+      var todayStr = String(today.getDate()).padStart(2,'0')+'/'+mo[today.getMonth()]+'/'+today.getFullYear();
+      if (byId('attDate')) byId('attDate').value = todayStr;
+      // Load saved attendance
+      try { attendanceData = JSON.parse(localStorage.getItem('emr_attendance') || '{}'); } catch(e) { attendanceData = {}; }
+    }
+    setTimeout(initAttendance, 1000);
+
+    function renderAttendance() {
+      var tbody = byId('attRows');
+      if (!tbody) return;
+      var dateKey = byId('attDate')?.value || '';
+      var dayData = attendanceData[dateKey] || {};
+      
+      var employees = doctors.map(function(d, i) {
+        var code = 'EM' + String(57 + i).padStart(4, '0');
+        var designation = i < 4 ? 'DOCTOR' : 'THERAPIST';
+        return { code: code, name: d, designation: designation };
+      });
+
+      tbody.innerHTML = employees.map(function(emp, i) {
+        var record = dayData[emp.code] || {};
+        var status = record.status || '';
+        var inTime = record.inTime || '';
+        var outTime = record.outTime || '';
+        var remarks = record.remarks || '';
+        return '<tr>' +
+          '<td>'+(i+1)+'</td>' +
+          '<td style="color:#2e7d32;font-weight:700">'+escapeHtml(emp.code)+'</td>' +
+          '<td style="font-weight:700">'+escapeHtml(emp.name)+'</td>' +
+          '<td>'+escapeHtml(emp.designation)+'</td>' +
+          '<td><select class="att-status" data-code="'+emp.code+'" style="height:24px;font-size:11px;padding:0 4px;border:1px solid #ccc;border-radius:3px;font-weight:700;'+
+            (status==='Present'?'background:#c8e6c9;color:#2e7d32':status==='Absent'?'background:#ffcdd2;color:#c62828':status==='Late'?'background:#fff9c4;color:#f57f17':'')+'">'+
+            '<option value="">--</option><option value="Present"'+(status==='Present'?' selected':'')+'>Present</option><option value="Absent"'+(status==='Absent'?' selected':'')+'>Absent</option><option value="Late"'+(status==='Late'?' selected':'')+'>Late</option><option value="Half Day"'+(status==='Half Day'?' selected':'')+'>Half Day</option><option value="Leave"'+(status==='Leave'?' selected':'')+'>Leave</option>'+
+          '</select></td>' +
+          '<td><input class="att-in" data-code="'+emp.code+'" value="'+escapeHtml(inTime)+'" style="width:70px;height:22px;font-size:10px;padding:0 4px;border:1px solid #ccc;border-radius:3px" placeholder="9:00 AM"></td>' +
+          '<td><input class="att-out" data-code="'+emp.code+'" value="'+escapeHtml(outTime)+'" style="width:70px;height:22px;font-size:10px;padding:0 4px;border:1px solid #ccc;border-radius:3px" placeholder="6:00 PM"></td>' +
+          '<td><input class="att-remark" data-code="'+emp.code+'" value="'+escapeHtml(remarks)+'" style="width:100%;height:22px;font-size:10px;padding:0 4px;border:1px solid #ccc;border-radius:3px"></td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function markAllPresent() {
+      document.querySelectorAll('.att-status').forEach(function(sel) { sel.value = 'Present'; sel.style.background='#c8e6c9'; sel.style.color='#2e7d32'; });
+    }
+
+    function saveAttendance() {
+      var dateKey = byId('attDate')?.value || '';
+      if (!dateKey) { alert('Select a date first'); return; }
+      var dayData = {};
+      document.querySelectorAll('.att-status').forEach(function(sel) {
+        var code = sel.dataset.code;
+        var inEl = document.querySelector('.att-in[data-code="'+code+'"]');
+        var outEl = document.querySelector('.att-out[data-code="'+code+'"]');
+        var remarkEl = document.querySelector('.att-remark[data-code="'+code+'"]');
+        dayData[code] = {
+          status: sel.value,
+          inTime: inEl ? inEl.value : '',
+          outTime: outEl ? outEl.value : '',
+          remarks: remarkEl ? remarkEl.value : ''
+        };
+      });
+      attendanceData[dateKey] = dayData;
+      localStorage.setItem('emr_attendance', JSON.stringify(attendanceData));
+      // Also save to server
+      fetch('/api/attendance', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({date:dateKey, data:dayData}) }).catch(function(){});
+      alert('Attendance saved for ' + dateKey + '!');
+    }
+
+    function showAttendanceReport() {
+      var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var today = new Date();
+      var month = mo[today.getMonth()] + ' ' + today.getFullYear();
+      var employees = doctors.map(function(d, i) { return { code:'EM'+String(57+i).padStart(4,'0'), name:d }; });
+      
+      var html = '<h3 style="color:#2e7d32">Monthly Attendance Report - '+month+'</h3>';
+      html += '<table style="width:100%;border-collapse:collapse;font-size:11px"><tr style="background:#2e7d32;color:#fff"><th style="padding:5px;border:1px solid #388e3c">Employee</th><th style="padding:5px;border:1px solid #388e3c">Present</th><th style="padding:5px;border:1px solid #388e3c">Absent</th><th style="padding:5px;border:1px solid #388e3c">Late</th><th style="padding:5px;border:1px solid #388e3c">Leave</th><th style="padding:5px;border:1px solid #388e3c">Total Days</th></tr>';
+      
+      employees.forEach(function(emp) {
+        var present=0,absent=0,late=0,leave=0;
+        Object.keys(attendanceData).forEach(function(d) {
+          if (d.includes(mo[today.getMonth()])) {
+            var rec = attendanceData[d]?.[emp.code];
+            if (rec) {
+              if (rec.status==='Present') present++;
+              else if (rec.status==='Absent') absent++;
+              else if (rec.status==='Late') late++;
+              else if (rec.status==='Leave'||rec.status==='Half Day') leave++;
+            }
+          }
+        });
+        html += '<tr><td style="padding:4px;border:1px solid #ddd;font-weight:700">'+emp.name+'</td><td style="padding:4px;border:1px solid #ddd;text-align:center;color:#2e7d32;font-weight:700">'+present+'</td><td style="padding:4px;border:1px solid #ddd;text-align:center;color:#c62828;font-weight:700">'+absent+'</td><td style="padding:4px;border:1px solid #ddd;text-align:center;color:#f57f17;font-weight:700">'+late+'</td><td style="padding:4px;border:1px solid #ddd;text-align:center">'+leave+'</td><td style="padding:4px;border:1px solid #ddd;text-align:center;font-weight:700">'+(present+absent+late+leave)+'</td></tr>';
+      });
+      html += '</table>';
+      
+      var win = window.open('','_blank');
+      win.document.write('<html><head><title>Attendance Report</title><style>body{font-family:Arial,sans-serif;padding:20px}@media print{button{display:none!important}}</style></head><body>'+html+'<br><button onclick="window.print()" style="padding:8px 16px;background:#2e7d32;color:#fff;border:none;border-radius:4px;cursor:pointer">Print</button></body></html>');
+      win.document.close();
+    }
+
+    // ─── Leave Management ─────────────────────────────────────────────
+    var leavesData = [];
+    try { leavesData = JSON.parse(localStorage.getItem('emr_leaves') || '[]'); } catch(e) { leavesData = []; }
+
+    function initLeaves() {
+      var sel = byId('leaveEmpFilter');
+      var sel2 = byId('leaveEmp');
+      if (sel) { sel.innerHTML = '<option value="">All</option>' + doctors.map(d => '<option>'+escapeHtml(d)+'</option>').join(''); }
+      if (sel2) { sel2.innerHTML = doctors.map(d => '<option>'+escapeHtml(d)+'</option>').join(''); }
+    }
+    setTimeout(initLeaves, 1200);
+
+    function renderLeaves() {
+      var tbody = byId('leaveRows');
+      if (!tbody) return;
+      var empFilter = byId('leaveEmpFilter')?.value || '';
+      var statusFilter = byId('leaveStatusFilter')?.value || '';
+      var filtered = leavesData.filter(function(l) {
+        if (empFilter && l.employee !== empFilter) return false;
+        if (statusFilter && l.status !== statusFilter) return false;
+        return true;
+      });
+      tbody.innerHTML = filtered.map(function(l, i) {
+        var statusColor = l.status==='Approved'?'background:#c8e6c9;color:#2e7d32':l.status==='Rejected'?'background:#ffcdd2;color:#c62828':'background:#fff9c4;color:#f57f17';
+        return '<tr><td>'+(i+1)+'</td><td style="font-weight:700">'+escapeHtml(l.employee)+'</td><td>'+escapeHtml(l.fromDate)+'</td><td>'+escapeHtml(l.toDate)+'</td><td style="text-align:center;font-weight:700">'+l.days+'</td><td>'+escapeHtml(l.type)+'</td><td><span style="padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;'+statusColor+'">'+escapeHtml(l.status)+'</span></td><td>'+escapeHtml(l.reason)+'</td></tr>';
+      }).join('');
+    }
+
+    function openLeaveForm() {
+      var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var today = new Date();
+      var todayStr = String(today.getDate()).padStart(2,'0')+'/'+mo[today.getMonth()]+'/'+today.getFullYear();
+      byId('leaveFrom').value = todayStr;
+      byId('leaveTo').value = todayStr;
+      byId('leaveReason').value = '';
+      byId('leaveDialog').showModal();
+    }
+
+    function saveLeave() {
+      var emp = byId('leaveEmp').value;
+      var from = byId('leaveFrom').value;
+      var to = byId('leaveTo').value;
+      var type = byId('leaveType').value;
+      var reason = byId('leaveReason').value;
+      if (!emp || !from || !to) { alert('Fill all fields'); return; }
+      // Calculate days (simple)
+      var days = 1;
+      var f = parseReportDate(from), t = parseReportDate(to);
+      if (f && t) days = Math.max(1, Math.round((t - f) / 86400000) + 1);
+      leavesData.push({ employee:emp, fromDate:from, toDate:to, days:days, type:type, reason:reason, status:'Pending', appliedOn:new Date().toISOString() });
+      localStorage.setItem('emr_leaves', JSON.stringify(leavesData));
+      byId('leaveDialog').close();
+      renderLeaves();
+      alert('Leave applied for ' + emp + ' (' + days + ' days)');
+    }
+
+    // ─── Rooms Management ────────────────────────────────────────────
+    var roomsData = [];
+    var selectedRoomCode = '';
+
+    function loadRooms() {
+      fetch('/api/rooms').then(r=>r.json()).then(d => {
+        if (d.success && d.data) { roomsData = d.data; renderRooms(); }
+      }).catch(()=>{});
+    }
+
+    function renderRooms() {
+      var tbody = byId('roomRows');
+      if (!tbody) return;
+      tbody.innerHTML = roomsData.map(function(r) {
+        return '<tr class="'+(r.code===selectedRoomCode?'selected':'')+'" data-code="'+escapeHtml(r.code)+'" onclick="selectedRoomCode=\''+escapeHtml(r.code)+'\';renderRooms();">' +
+          '<td style="color:#2e7d32;font-weight:700">'+escapeHtml(r.code)+'</td>' +
+          '<td>'+escapeHtml(r.name)+'</td>' +
+          '<td>'+escapeHtml(r.description||r.name)+'</td></tr>';
+      }).join('');
+      byId('roomEmpty')?.classList.toggle('show', roomsData.length === 0);
+    }
+
+    byId('roomNewBtn')?.addEventListener('click', function() {
+      byId('roomDialogTitle').textContent = 'Add Room';
+      byId('roomNameInput').value = '';
+      byId('roomDescInput').value = '';
+      selectedRoomCode = '';
+      byId('roomDialog').showModal();
+    });
+
+    byId('roomEditBtn')?.addEventListener('click', function() {
+      if (!selectedRoomCode) { alert('Select a room first'); return; }
+      var room = roomsData.find(r => r.code === selectedRoomCode);
+      if (!room) return;
+      byId('roomDialogTitle').textContent = 'Edit Room';
+      byId('roomNameInput').value = room.name;
+      byId('roomDescInput').value = room.description || room.name;
+      byId('roomDialog').showModal();
+    });
+
+    byId('roomDeleteBtn')?.addEventListener('click', function() {
+      if (!selectedRoomCode) { alert('Select a room first'); return; }
+      if (!confirm('Delete this room?')) return;
+      fetch('/api/rooms/' + encodeURIComponent(selectedRoomCode), {method:'DELETE'}).then(r=>r.json()).then(d => {
+        if (d.success) { selectedRoomCode=''; loadRooms(); }
+      });
+    });
+
+    function saveRoom() {
+      var name = byId('roomNameInput').value.trim();
+      var desc = byId('roomDescInput').value.trim();
+      if (!name) { alert('Enter room name'); return; }
+      var body = { name: name, description: desc || name };
+      if (selectedRoomCode) body.code = selectedRoomCode;
+      fetch('/api/rooms', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)}).then(r=>r.json()).then(d => {
+        if (d.success) { byId('roomDialog').close(); loadRooms(); refreshPatientSelects(); }
+      });
+    }
+
+    // Load rooms on boot
+    setTimeout(loadRooms, 800);
 
     // ─── Doctor Desk ─────────────────────────────────────────────────
     function initDoctorDesk() {

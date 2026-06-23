@@ -7,7 +7,10 @@
   "scripts": {
     "start": "electron .",
     "server": "node server.js",
+    "insurance": "node server.js",
+    "usermgmt": "node server.js --usermgmt",
     "server:wellness": "node server.js --wellness",
+    "both": "start cmd /k node server.js & start cmd /k node server.js --usermgmt",
     "import:medical": "node import-medical.js",
     "import:wellness": "node import-wellness.js",
     "import:medical:preview": "node import-medical.js --dry-run",

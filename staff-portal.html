@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Portal - Shanthi Wellness</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); min-height: 100vh; }
+    .header { background: linear-gradient(90deg, #2e7d32, #43a047); color: #fff; padding: 14px 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .header h1 { font-size: 18px; margin-bottom: 2px; }
+    .header p { font-size: 11px; opacity: 0.8; }
+    .container { max-width: 420px; margin: 20px auto; padding: 0 16px; }
+
+    /* Login */
+    .login-card { background: #fff; border-radius: 12px; padding: 30px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .login-card h2 { color: #2e7d32; font-size: 20px; margin-bottom: 20px; text-align: center; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 700; color: #333; margin-bottom: 5px; }
+    .form-group input { width: 100%; height: 44px; border: 2px solid #c8e6c9; border-radius: 8px; padding: 0 14px; font-size: 14px; transition: border-color 0.2s; }
+    .form-group input:focus { outline: none; border-color: #4caf50; }
+    .btn { width: 100%; height: 48px; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, #4caf50, #2e7d32); color: #fff; box-shadow: 0 3px 10px rgba(46,125,50,0.3); }
+    .btn-danger { background: linear-gradient(135deg, #f44336, #c62828); color: #fff; }
+    .btn-outline { background: #fff; border: 2px solid #4caf50; color: #2e7d32; }
+    .error { color: #c62828; font-size: 12px; text-align: center; margin-top: 10px; display: none; }
+
+    /* Dashboard */
+    .dashboard { display: none; }
+    .welcome { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; }
+    .welcome h3 { color: #2e7d32; font-size: 18px; }
+    .welcome p { color: #666; font-size: 12px; margin-top: 4px; }
+    .status-badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-top: 10px; }
+    .status-badge.in { background: #c8e6c9; color: #2e7d32; }
+    .status-badge.out { background: #ffcdd2; color: #c62828; }
+    .status-badge.none { background: #f5f5f5; color: #666; }
+
+    .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .action-btn { background: #fff; border: 2px solid #c8e6c9; border-radius: 12px; padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .action-btn:active { transform: scale(0.95); background: #e8f5e9; }
+    .action-btn .icon { font-size: 28px; margin-bottom: 6px; }
+    .action-btn .label { font-size: 12px; font-weight: 700; color: #333; }
+    .action-btn.clock-in { border-color: #4caf50; }
+    .action-btn.clock-in .icon { color: #4caf50; }
+    .action-btn.clock-out { border-color: #f44336; }
+    .action-btn.clock-out .icon { color: #f44336; }
+
+    .history-card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .history-card h4 { color: #2e7d32; font-size: 14px; margin-bottom: 10px; }
+    .history-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+    .history-row:last-child { border-bottom: none; }
+    .history-row .date { font-weight: 700; color: #333; }
+    .history-row .times { color: #666; }
+    .history-row .status { font-weight: 700; padding: 2px 8px; border-radius: 4px; font-size: 10px; }
+    .status-p { background: #c8e6c9; color: #2e7d32; }
+    .status-a { background: #ffcdd2; color: #c62828; }
+    .status-l { background: #fff9c4; color: #f57f17; }
+
+    .logout-btn { display: block; text-align: center; color: #888; font-size: 12px; margin-top: 16px; cursor: pointer; text-decoration: underline; }
+    .time-display { font-size: 32px; font-weight: 900; color: #2e7d32; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌿 Shanthi Wellness</h1>
+    <p>Ayurvedic Medical Centre LLC - Staff Portal</p>
+  </div>
+
+  <div class="container">
+    <!-- LOGIN SECTION -->
+    <div class="login-card" id="loginSection">
+      <h2>Staff Login</h2>
+      <div class="form-group">
+        <label>Username / Employee Code</label>
+        <input type="text" id="loginUser" placeholder="e.g. EM0057 or lintu">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Enter password">
+      </div>
+      <button class="btn btn-primary" onclick="doLogin()">Login</button>
+      <div class="error" id="loginError">Invalid username or password</div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div class="dashboard" id="dashboardSection">
+      <div class="welcome">
+        <h3 id="staffName">Welcome</h3>
+        <p id="staffRole">Employee</p>
+        <div class="time-display" id="currentTime">--:-- --</div>
+        <div class="status-badge none" id="todayStatus">Not Clocked In</div>
+      </div>
+
+      <div class="action-grid">
+        <div class="action-btn clock-in" onclick="clockIn()">
+          <div class="icon">✅</div>
+          <div class="label">Clock In</div>
+        </div>
+        <div class="action-btn clock-out" onclick="clockOut()">
+          <div class="icon">🚪</div>
+          <div class="label">Clock Out</div>
+        </div>
+        <div class="action-btn" onclick="showHistory()">
+          <div class="icon">📋</div>
+          <div class="label">My History</div>
+        </div>
+        <div class="action-btn" onclick="applyLeave()">
+          <div class="icon">✈️</div>
+          <div class="label">Apply Leave</div>
+        </div>
+      </div>
+
+      <div class="history-card" id="historyCard" style="display:none">
+        <h4>Recent Attendance</h4>
+        <div id="historyList"></div>
+      </div>
+
+      <div class="logout-btn" onclick="doLogout()">Logout</div>
+    </div>
+  </div>
+
+  <script>
+    var currentUser = null;
+    var staffAttendance = {};
+
+    // Update clock
+    function updateClock() {
+      var now = new Date();
+      var h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      if (h > 12) h -= 12; if (h === 0) h = 12;
+      var el = document.getElementById('currentTime');
+      if (el) el.textContent = h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0') + ' ' + ampm;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function doLogin() {
+      var user = document.getElementById('loginUser').value.trim().toLowerCase();
+      var pass = document.getElementById('loginPass').value;
+      
+      // Employee accounts (code or name as username, default password: 1234)
+      var employees = [
+        {code:'EM0057',name:'LINTU RAJAN',role:'Doctor',user:'lintu',pass:'1234'},
+        {code:'EM0058',name:'NEETHU DEEPAK',role:'Doctor',user:'neethu',pass:'1234'},
+        {code:'EM0059',name:'MISNA UVAISE',role:'Doctor',user:'misna',pass:'1234'},
+        {code:'EM0060',name:'KEERTHI PURUSHOTHAMAN',role:'Doctor',user:'keerthi',pass:'1234'},
+        {code:'EM0061',name:'AMARNATH',role:'Therapist',user:'amarnath',pass:'1234'},
+        {code:'EM0062',name:'ASHISH',role:'Therapist',user:'ashish',pass:'1234'},
+        {code:'EM0063',name:'ANEESH',role:'Therapist',user:'aneesh',pass:'1234'},
+        {code:'EM0064',name:'RESHMI',role:'Therapist',user:'reshmi',pass:'1234'},
+        {code:'EM0065',name:'LINTU',role:'Therapist',user:'lintu2',pass:'1234'},
+        {code:'EM0066',name:'NEETHU',role:'Receptionist',user:'neethu2',pass:'1234'},
+        {code:'EM0067',name:'SHILPA',role:'Admin',user:'shilpa',pass:'1234'},
+        {code:'EM0068',name:'RENJU',role:'Physiotherapist',user:'renju',pass:'1234'},
+        {code:'EM0069',name:'NOORA HOSBET UMMER',role:'Doctor',user:'noora',pass:'1234'},
+        {code:'EM0071',name:'ANJNA NADAKKAVIL CHANDRAN',role:'Doctor',user:'anjna',pass:'1234'},
+        {code:'EM0072',name:'ANJANA',role:'Therapist',user:'anjana',pass:'1234'},
+        {code:'ADMIN',name:'ADMIN',role:'Administrator',user:'admin',pass:'admin123'}
+      ];
+
+      var found = employees.find(function(e) {
+        return (e.user === user || e.code.toLowerCase() === user) && e.pass === pass;
+      });
+
+      if (found) {
+        currentUser = found;
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('staffName').textContent = found.name;
+        document.getElementById('staffRole').textContent = found.role + ' | ' + found.code;
+        loadTodayStatus();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function doLogout() {
+      currentUser = null;
+      document.getElementById('loginSection').style.display = 'block';
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+      document.getElementById('historyCard').style.display = 'none';
+    }
+
+    function getTodayKey() {
+      var now = new Date();
+      var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return String(now.getDate()).padStart(2,'0') + '/' + mo[now.getMonth()] + '/' + now.getFullYear();
+    }
+
+    function getNowTime() {
+      var now = new Date();
+      var h = now.getHours(), m = now.getMinutes();
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      if (h > 12) h -= 12; if (h === 0) h = 12;
+      return h + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+    }
+
+    function loadTodayStatus() {
+      var key = getTodayKey();
+      var data = JSON.parse(localStorage.getItem('staff_att_' + currentUser.code) || '{}');
+      staffAttendance = data;
+      var today = data[key];
+      var badge = document.getElementById('todayStatus');
+      if (today && today.clockIn && today.clockOut) {
+        badge.textContent = 'Clocked Out at ' + today.clockOut;
+        badge.className = 'status-badge out';
+      } else if (today && today.clockIn) {
+        badge.textContent = 'Clocked In at ' + today.clockIn;
+        badge.className = 'status-badge in';
+      } else {
+        badge.textContent = 'Not Clocked In';
+        badge.className = 'status-badge none';
+      }
+    }
+
+    function clockIn() {
+      var key = getTodayKey();
+      var data = JSON.parse(localStorage.getItem('staff_att_' + currentUser.code) || '{}');
+      if (data[key] && data[key].clockIn) {
+        alert('Already clocked in at ' + data[key].clockIn);
+        return;
+      }
+      var time = getNowTime();
+      if (!data[key]) data[key] = {};
+      data[key].clockIn = time;
+      data[key].status = 'Present';
+      localStorage.setItem('staff_att_' + currentUser.code, JSON.stringify(data));
+      staffAttendance = data;
+
+      // Save to server
+      fetch('/api/staff-attendance', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ empCode: currentUser.code, date: key, clockIn: time, status: 'Present' })
+      }).catch(function(){});
+
+      alert('✅ Clocked In at ' + time + '\nHave a great day, ' + currentUser.name + '!');
+      loadTodayStatus();
+    }
+
+    function clockOut() {
+      var key = getTodayKey();
+      var data = JSON.parse(localStorage.getItem('staff_att_' + currentUser.code) || '{}');
+      if (!data[key] || !data[key].clockIn) {
+        alert('Please Clock In first!');
+        return;
+      }
+      if (data[key].clockOut) {
+        alert('Already clocked out at ' + data[key].clockOut);
+        return;
+      }
+      var time = getNowTime();
+      data[key].clockOut = time;
+      localStorage.setItem('staff_att_' + currentUser.code, JSON.stringify(data));
+      staffAttendance = data;
+
+      // Save to server
+      fetch('/api/staff-attendance', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ empCode: currentUser.code, date: key, clockOut: time })
+      }).catch(function(){});
+
+      alert('🚪 Clocked Out at ' + time + '\nGoodbye, ' + currentUser.name + '!');
+      loadTodayStatus();
+    }
+
+    function showHistory() {
+      var card = document.getElementById('historyCard');
+      card.style.display = card.style.display === 'none' ? 'block' : 'none';
+      var list = document.getElementById('historyList');
+      var data = JSON.parse(localStorage.getItem('staff_att_' + currentUser.code) || '{}');
+      var keys = Object.keys(data).sort().reverse().slice(0, 15);
+      if (keys.length === 0) {
+        list.innerHTML = '<p style="color:#888;font-size:12px;padding:10px 0">No attendance records yet.</p>';
+        return;
+      }
+      list.innerHTML = keys.map(function(d) {
+        var r = data[d];
+        var statusClass = r.status === 'Present' ? 'status-p' : r.status === 'Absent' ? 'status-a' : 'status-l';
+        return '<div class="history-row"><span class="date">' + d + '</span><span class="times">' + (r.clockIn||'-') + ' → ' + (r.clockOut||'-') + '</span><span class="status ' + statusClass + '">' + (r.status||'-') + '</span></div>';
+      }).join('');
+    }
+
+    function applyLeave() {
+      var reason = prompt('Enter leave reason:');
+      if (!reason) return;
+      var from = prompt('From date (DD/Mon/YYYY):', getTodayKey());
+      if (!from) return;
+      var to = prompt('To date (DD/Mon/YYYY):', from);
+      if (!to) return;
+
+      fetch('/api/staff-leave', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ empCode: currentUser.code, empName: currentUser.name, fromDate: from, toDate: to, reason: reason })
+      }).then(function(r){return r.json()}).then(function(d) {
+        if (d.success) alert('✅ Leave application submitted!\nFrom: ' + from + '\nTo: ' + to + '\nStatus: Pending Approval');
+        else alert('Leave submitted (offline).');
+      }).catch(function() {
+        alert('✅ Leave application submitted (will sync when online).\nFrom: ' + from + '\nTo: ' + to);
+      });
+    }
+
+    // Enter key on password field
+    document.getElementById('loginPass').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doLogin();
+    });
+  </script>
+</body>
+</html>

@@ -18,18 +18,26 @@ const nodemailer = require('nodemailer');
 // ── Branch Mode ───────────────────────────────────────────────────
 // Run as Medical Center:  node server.js
 // Run as Wellness:        node server.js --wellness
+// Run as User Management: node server.js --usermgmt
 const IS_WELLNESS = process.argv.includes('--wellness');
-const PORT        = IS_WELLNESS ? 3001 : 3000;
-const DATA_FILE   = IS_WELLNESS
-  ? path.join(__dirname, 'wellness-data.json')
-  : path.join(__dirname, 'clinic-data.json');
+const IS_USERMGMT = process.argv.includes('--usermgmt');
+const PORT        = IS_USERMGMT ? 3002 : IS_WELLNESS ? 3001 : 3000;
+const DATA_FILE   = IS_USERMGMT
+  ? path.join(__dirname, 'usermgmt-data.json')
+  : IS_WELLNESS
+    ? path.join(__dirname, 'wellness-data.json')
+    : path.join(__dirname, 'clinic-data.json');
+const HTML_FILE   = IS_USERMGMT ? 'user-management.html' : IS_WELLNESS ? 'clinic-emr.html' : 'insurance-only.html';
 
 console.log('══════════════════════════════════════════════════');
-if (IS_WELLNESS) {
+if (IS_USERMGMT) {
+  console.log('👤  Mode   : User Management System');
+  console.log('📁  DB     : usermgmt-data.json');
+} else if (IS_WELLNESS) {
   console.log('🌿  Branch : Shanthi Wellness Ayurvedic LLC');
   console.log('📁  DB     : wellness-data.json');
 } else {
-  console.log('🏥  Branch : Shanthi Medical Center');
+  console.log('🏥  Branch : Insurance System');
   console.log('📁  DB     : clinic-data.json');
 }
 console.log('🌐  Port   :', PORT);
@@ -696,9 +704,177 @@ async function handleAPI(req, res) {
     return sendJSON(res, { success: true, data: db.proceduresMaster || [] });
   }
 
+  // ── Rooms ──
+  if (url === '/api/rooms' && method === 'GET') {
+    const rooms = db.rooms || [
+      {code:'00000043',name:'CONSULTATION ROOM',description:'CONSULTATION ROOM'},
+      {code:'00000044',name:'ROOM NUMBER 1',description:'ROOM NUMBER 1'},
+      {code:'00000045',name:'HOMEO ROOM',description:'HOMEO ROOM'},
+      {code:'00000046',name:'ROOM NUMBER 2',description:'ROOM NUMBER 2'},
+      {code:'00000047',name:'ROOM NUMBER 3',description:'ROOM NUMBER 3'},
+      {code:'00000048',name:'ROOM NUMBER 4',description:'ROOM NUMBER 4'},
+      {code:'00000049',name:'PHYSIO ROOM',description:'PHYSIO ROOM'}
+    ];
+    return sendJSON(res, { success: true, data: rooms });
+  }
+  if (url === '/api/rooms' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.rooms) db.rooms = [
+      {code:'00000043',name:'CONSULTATION ROOM',description:'CONSULTATION ROOM'},
+      {code:'00000044',name:'ROOM NUMBER 1',description:'ROOM NUMBER 1'},
+      {code:'00000045',name:'HOMEO ROOM',description:'HOMEO ROOM'},
+      {code:'00000046',name:'ROOM NUMBER 2',description:'ROOM NUMBER 2'},
+      {code:'00000047',name:'ROOM NUMBER 3',description:'ROOM NUMBER 3'},
+      {code:'00000048',name:'ROOM NUMBER 4',description:'ROOM NUMBER 4'},
+      {code:'00000049',name:'PHYSIO ROOM',description:'PHYSIO ROOM'}
+    ];
+    const existing = db.rooms.find(r => r.code === body.code);
+    if (existing) { Object.assign(existing, body); }
+    else { body.code = String(db.rooms.length + 1).padStart(8, '0'); db.rooms.push(body); }
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+  if (url.startsWith('/api/rooms/') && method === 'DELETE') {
+    const code = decodeURIComponent(url.split('/')[3]);
+    if (!db.rooms) db.rooms = [];
+    db.rooms = db.rooms.filter(r => r.code !== code);
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+
   // ── Invoices ──
   if (url === '/api/invoices' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.invoices || [] });
+  }
+
+  // ── Attendance ──
+  if (url === '/api/attendance' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.attendance) db.attendance = {};
+    if (body.date && body.data) {
+      db.attendance[body.date] = body.data;
+      saveDatabase();
+    }
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/attendance' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.attendance || {} });
+  }
+
+  // ── Staff Self-Service Attendance ──
+  if (url === '/api/staff-attendance' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.staffAttendance) db.staffAttendance = {};
+    const key = body.empCode + '_' + body.date;
+    if (!db.staffAttendance[key]) db.staffAttendance[key] = { empCode: body.empCode, date: body.date };
+    if (body.clockIn) db.staffAttendance[key].clockIn = body.clockIn;
+    if (body.clockOut) db.staffAttendance[key].clockOut = body.clockOut;
+    if (body.status) db.staffAttendance[key].status = body.status;
+    // Also update main attendance
+    if (!db.attendance) db.attendance = {};
+    if (!db.attendance[body.date]) db.attendance[body.date] = {};
+    if (!db.attendance[body.date][body.empCode]) db.attendance[body.date][body.empCode] = {};
+    if (body.clockIn) { db.attendance[body.date][body.empCode].inTime = body.clockIn; db.attendance[body.date][body.empCode].status = 'Present'; }
+    if (body.clockOut) db.attendance[body.date][body.empCode].outTime = body.clockOut;
+    saveDatabase();
+    console.log('📋 Staff attendance:', body.empCode, body.date, body.clockIn || body.clockOut);
+    return sendJSON(res, { success: true });
+  }
+
+  // ── Staff Leave Application ──
+  if (url === '/api/staff-leave' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.staffLeaves) db.staffLeaves = [];
+    db.staffLeaves.push({ ...body, status: 'Pending', appliedAt: new Date().toISOString() });
+    saveDatabase();
+    console.log('✈️ Leave applied:', body.empName, body.fromDate, '-', body.toDate);
+    return sendJSON(res, { success: true });
+  }
+
+  // ── Login & User Access Control ──
+  if (url === '/api/login' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.users) {
+      db.users = [
+        {username:'admin',password:'admin123',name:'Administrator',role:'admin',permissions:['all']},
+        {username:'lintu',password:'1234',name:'LINTU RAJAN',role:'doctor',permissions:['patients','appointments','consultation']},
+        {username:'neethu',password:'1234',name:'NEETHU DEEPAK',role:'doctor',permissions:['patients','appointments','consultation']},
+        {username:'shilpa',password:'1234',name:'SHILPA',role:'receptionist',permissions:['patients','appointments','receipts']},
+        {username:'reception',password:'1234',name:'Reception',role:'receptionist',permissions:['patients','appointments','receipts']}
+      ];
+      saveDatabase();
+    }
+    const user = db.users.find(u => u.username === body.username && u.password === body.password);
+    if (user) {
+      const token = Date.now().toString(36) + Math.random().toString(36).substr(2);
+      return sendJSON(res, { success:true, token, user:{username:user.username,name:user.name,role:user.role,permissions:user.permissions} });
+    }
+    return sendJSON(res, { success:false, error:'Invalid username or password' }, 401);
+  }
+
+  // ── User CRUD (admin only) ──
+  if (url === '/api/users' && method === 'GET') {
+    if (!db.users) db.users = [];
+    const safeUsers = db.users.map(u => ({username:u.username,name:u.name,role:u.role,permissions:u.permissions}));
+    return sendJSON(res, { success:true, data:safeUsers });
+  }
+  if (url === '/api/users' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.users) db.users = [];
+    const existing = db.users.find(u => u.username === body.username);
+    if (existing) {
+      if (body.password) existing.password = body.password;
+      if (body.name) existing.name = body.name;
+      if (body.role) existing.role = body.role;
+      if (body.permissions) existing.permissions = body.permissions;
+    } else {
+      db.users.push({username:body.username,password:body.password||'1234',name:body.name,role:body.role||'staff',permissions:body.permissions||[]});
+    }
+    saveDatabase();
+    return sendJSON(res, { success:true });
+  }
+  if (url.startsWith('/api/users/') && method === 'DELETE') {
+    const username = decodeURIComponent(url.split('/')[3]);
+    if (!db.users) db.users = [];
+    db.users = db.users.filter(u => u.username !== username);
+    saveDatabase();
+    return sendJSON(res, { success:true });
+  }
+
+  // ── User Management Appointments (separate from Insurance) ──
+  if (url === '/api/um-appointments' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.umAppointments || [] });
+  }
+  if (url === '/api/um-appointments' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.umAppointments) db.umAppointments = [];
+    if (body._delete) {
+      db.umAppointments = db.umAppointments.filter(a => !(a.doctor === body.doctor && a.time === body.time && a.date === body.date));
+    } else {
+      db.umAppointments = db.umAppointments.filter(a => !(a.doctor === body.doctor && a.time === body.time && a.date === body.date));
+      db.umAppointments.push(body);
+    }
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+
+  // ── Shifts ──
+  if (url === '/api/shifts' && method === 'POST') {
+    const body = await parseBody(req);
+    if (body.shifts) { db.shifts = body.shifts; saveDatabase(); }
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/shifts' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.shifts || [] });
+  }
+  if (url === '/api/shift-assignments' && method === 'POST') {
+    const body = await parseBody(req);
+    db.shiftAssignments = body;
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/shift-assignments' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.shiftAssignments || {} });
   }
 
   // ── Receipts ──
@@ -1087,11 +1263,47 @@ const server = http.createServer((req, res) => {
     return handleAPI(req, res);
   }
 
+  // Main Landing Page (root URL for non-usermgmt/wellness)
+  if (req.url === '/' && !IS_USERMGMT && !IS_WELLNESS) {
+    serveFile(res, path.join(__dirname, 'main-page.html'));
+    return;
+  }
+  if (req.url === '/home' || req.url === '/home/') {
+    serveFile(res, path.join(__dirname, 'main-page.html'));
+    return;
+  }
+
+  // Login page
+  if (req.url === '/login' || req.url === '/login/') {
+    serveFile(res, path.join(__dirname, 'login.html'));
+    return;
+  }
+
+  // Insurance System
+  if (req.url === '/insurance' || req.url === '/insurance/') {
+    serveFile(res, path.join(__dirname, 'insurance-only.html'));
+    return;
+  }
+
+  // User Management System
+  if (req.url === '/usermanagement' || req.url === '/usermanagement/') {
+    serveFile(res, path.join(__dirname, 'user-management.html'));
+    return;
+  }
+
+  // Staff Portal
+  if (req.url === '/staff' || req.url === '/staff/') {
+    serveFile(res, path.join(__dirname, 'staff-portal.html'));
+    return;
+  }
+
   // Customer Booking App
   if (req.url === '/book' || req.url === '/book/' || req.url.startsWith('/book?')) {
     serveFile(res, path.join(__dirname, 'customer-app.html'));
     return;
   }
+
+  // (Routes moved to HTTP server handler above)
   // PWA manifest and service worker for customer app
   if (req.url === '/manifest.json') {
     serveFile(res, path.join(__dirname, 'manifest.json'));
@@ -1105,7 +1317,7 @@ const server = http.createServer((req, res) => {
   // Serve static files
   // Root '/' serves the appropriate HTML for each branch
   let filePath = req.url === '/'
-    ? (IS_WELLNESS ? '/clinic-emr.html' : '/insurance-only.html')
+    ? ('/' + HTML_FILE)
     : req.url.split('?')[0];
   filePath = path.join(__dirname, filePath);
   serveFile(res, filePath);
