@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Dashboard - Admin</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f5f5;min-height:100vh}
+    .header{background:linear-gradient(90deg,#1b5e20,#2e7d32);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:16px}
+    .header h1{font-size:20px}.header a{color:#c8e6c9;font-size:13px;margin-left:auto;text-decoration:none}
+    .container{max-width:1100px;margin:20px auto;padding:0 20px}
+    .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+    .stat{background:#fff;border-radius:12px;padding:20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+    .stat-num{font-size:36px;font-weight:800}
+    .stat-label{font-size:12px;color:#888;margin-top:4px}
+    .stat.good .stat-num{color:#2e7d32}
+    .stat.bad .stat-num{color:#c62828}
+    .stat.avg .stat-num{color:#ff9800}
+    table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+    th{background:#2e7d32;color:#fff;padding:12px 14px;text-align:left;font-size:13px}
+    td{padding:12px 14px;border-bottom:1px solid #f0f0f0;font-size:13px}
+    tr:hover td{background:#f9fdf9}
+    .badge{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:700}
+    .badge-good{background:#e8f5e9;color:#2e7d32}
+    .badge-bad{background:#ffebee;color:#c62828}
+    .badge-ok{background:#fff3e0;color:#e65100}
+    .stars{color:#ffc107;font-size:14px}
+    .action-btn{padding:6px 12px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;margin:2px}
+    .btn-call{background:#4caf50;color:#fff}
+    .btn-wa{background:#25d366;color:#fff}
+    .btn-del{background:#f44336;color:#fff}
+    .filter-bar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+    .filter-bar select,.filter-bar input{height:36px;border:1px solid #ddd;border-radius:8px;padding:0 12px;font-size:13px}
+  </style>
+</head>
+<body>
+  <script>(function(){if(!localStorage.getItem('emr_token')){window.location.href='/login';return;}})();</script>
+  <div class="header">
+    <h1>⭐ Feedback Dashboard</h1>
+    <a href="/home">← Back to Home</a>
+  </div>
+  <div class="container">
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="totalFb">0</div><div class="stat-label">Total Feedback</div></div>
+      <div class="stat good"><div class="stat-num" id="goodFb">0</div><div class="stat-label">😊 Good (4-5)</div></div>
+      <div class="stat avg"><div class="stat-num" id="avgFb">0</div><div class="stat-label">😐 Neutral (3)</div></div>
+      <div class="stat bad"><div class="stat-num" id="badFb">0</div><div class="stat-label">😟 Bad (1-2)</div></div>
+      <div class="stat"><div class="stat-num" id="avgRating">0</div><div class="stat-label">⭐ Avg Rating</div></div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <select id="filterRating" onchange="render()">
+        <option value="">All Ratings</option>
+        <option value="good">😊 Good (4-5)</option>
+        <option value="bad">😟 Bad (1-2)</option>
+        <option value="neutral">😐 Neutral (3)</option>
+      </select>
+      <input type="text" id="searchFb" placeholder="Search name/phone..." oninput="render()" style="width:200px">
+      <span style="margin-left:auto;font-size:12px;color:#888">Auto-refreshes every 30 seconds</span>
+    </div>
+
+    <!-- Table -->
+    <table>
+      <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Smiley</th><th>Stars</th><th>Overall</th><th>Comment</th><th>Actions</th></tr></thead>
+      <tbody id="fbTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    var feedbacks = [];
+
+    function loadFeedbacks() {
+      fetch('/api/feedback').then(r=>r.json()).then(d=>{
+        if(d.success) { feedbacks = (d.data||[]).reverse(); render(); }
+      });
+    }
+    loadFeedbacks();
+    setInterval(loadFeedbacks, 30000); // auto-refresh
+
+    function render() {
+      var filter = document.getElementById('filterRating').value;
+      var search = (document.getElementById('searchFb').value||'').toLowerCase();
+
+      var filtered = feedbacks.filter(f=>{
+        if(filter==='good' && f.overall<4) return false;
+        if(filter==='bad' && f.overall>2) return false;
+        if(filter==='neutral' && f.overall!==3) return false;
+        if(search && !(f.name||'').toLowerCase().includes(search) && !(f.phone||'').includes(search)) return false;
+        return true;
+      });
+
+      // Stats
+      document.getElementById('totalFb').textContent = feedbacks.length;
+      document.getElementById('goodFb').textContent = feedbacks.filter(f=>f.overall>=4).length;
+      document.getElementById('avgFb').textContent = feedbacks.filter(f=>f.overall===3).length;
+      document.getElementById('badFb').textContent = feedbacks.filter(f=>f.overall<=2).length;
+      var avg = feedbacks.length ? (feedbacks.reduce((s,f)=>s+(f.overall||0),0)/feedbacks.length).toFixed(1) : '0';
+      document.getElementById('avgRating').textContent = avg;
+
+      // Table
+      document.getElementById('fbTable').innerHTML = filtered.map(f=>{
+        var badge = f.overall>=4?'badge-good':f.overall<=2?'badge-bad':'badge-ok';
+        var label = f.overall>=4?'Good':f.overall<=2?'Bad':'Okay';
+        var smileys = ['','😡','😟','😐','😊','🤩'];
+        var date = f.timestamp ? new Date(f.timestamp).toLocaleDateString() + ' ' + new Date(f.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : f.date||'';
+        return '<tr>'+
+          '<td>'+date+'</td>'+
+          '<td style="font-weight:700">'+(f.name||'Anonymous')+'</td>'+
+          '<td>'+(f.phone||'-')+'</td>'+
+          '<td style="font-size:24px">'+(smileys[f.smiley]||'')+'</td>'+
+          '<td class="stars">'+'★'.repeat(f.stars||0)+'☆'.repeat(5-(f.stars||0))+'</td>'+
+          '<td><span class="badge '+badge+'">'+label+' ('+f.overall+'/5)</span></td>'+
+          '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis">'+(f.comment||'-')+'</td>'+
+          '<td>'+(f.phone?'<button class="action-btn btn-call" onclick="window.open(\'tel:'+f.phone+'\')">📞</button><button class="action-btn btn-wa" onclick="window.open(\'https://wa.me/'+f.phone.replace(/[^0-9]/g,'')+'\')">💬</button>':'')+
+          '</td></tr>';
+      }).join('');
+    }
+  </script>
+</body>
+</html>

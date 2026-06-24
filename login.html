@@ -34,6 +34,9 @@
       <select id="systemSelect">
         <option value="insurance">🏥 Insurance System</option>
         <option value="usermanagement">👤 User Management</option>
+        <option value="marketing">📊 Marketing CRM</option>
+        <option value="hr">👔 HR Module</option>
+        <option value="admin">🔐 Admin Panel</option>
         <option value="staff">📋 Staff Portal</option>
       </select>
     </div>
@@ -54,6 +57,32 @@
   <script>
     document.getElementById('password').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
 
+    // Check if already logged in
+    if (localStorage.getItem('emr_token')) {
+      document.querySelector('.login-box p').innerHTML = '✅ Already logged in as <b>' + (JSON.parse(localStorage.getItem('emr_user')||'{}').name||'User') + '</b><br><a href="#" onclick="doLogout()" style="color:#c62828">Logout</a>';
+    }
+
+    // Auto-select system from main page button click
+    var goto = localStorage.getItem('emr_goto');
+    if (goto) {
+      document.getElementById('systemSelect').value = goto;
+      localStorage.removeItem('emr_goto');
+    }
+
+    // Handle logout from URL
+    if (window.location.hash === '#logout') {
+      localStorage.removeItem('emr_token');
+      localStorage.removeItem('emr_user');
+      window.location.hash = '';
+      window.location.reload();
+    }
+
+    function doLogout() {
+      localStorage.removeItem('emr_token');
+      localStorage.removeItem('emr_user');
+      window.location.reload();
+    }
+
     function doLogin(){
       var user = document.getElementById('username').value.trim().toLowerCase();
       var pass = document.getElementById('password').value;
@@ -69,6 +98,9 @@
           localStorage.setItem('emr_user', JSON.stringify(d.user));
           if(system==='insurance') window.location.href='/insurance';
           else if(system==='usermanagement') window.location.href='/usermanagement';
+          else if(system==='marketing') window.location.href='/marketing';
+          else if(system==='hr') window.location.href='/hr';
+          else if(system==='admin') window.location.href='/admin';
           else window.location.href='/staff';
         } else {
           document.getElementById('error').style.display='block';

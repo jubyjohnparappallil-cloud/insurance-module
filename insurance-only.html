@@ -1333,8 +1333,8 @@
       right: 0;
       min-height: 25px;
       padding: 2px 3px;
-      border-left: 4px solid #1b5e20;
-      background: #c8e6c9;
+      border-left: 4px solid #90a4ae;
+      background: #eceff1;
       color: #0a2540;
       font-size: 8px;
       line-height: 1.2;
@@ -1359,6 +1359,11 @@
       color: #0a2540;
     }
 
+    .appointment-card.booked {
+      border-left-color: #90a4ae;
+      background: #eceff1;
+    }
+
     .appointment-card.arrived {
       border-left-color: #2e7d32;
       background: #c8e6c9;
@@ -1366,7 +1371,7 @@
 
     .appointment-card.consulted {
       border-left-color: #388e3c;
-      background: #d6eaf8;
+      background: #a5d6a7;
     }
 
     .appointment-card.cancelled {
@@ -3152,6 +3157,9 @@ function inheritFromEMR() {
 }
 </script>
 <body>
+  <script>
+    (function(){var t=localStorage.getItem('emr_token');if(!t){window.location.href='/login';document.body.innerHTML='<p style="padding:40px;text-align:center">Redirecting to login...</p>';return;}})();
+  </script>
   <main class="desktop" aria-label="Clinic management desktop app">
     <header class="window-strip">
       <div class="window-mark" aria-hidden="true"></div>
@@ -4822,7 +4830,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         <!-- Row 1: Date / To Date / Recurring -->
         <div class="appt-form-row">
           <label class="appt-label">Date</label>
-          <input name="date" id="apptDate" value="22/05/2026" style="width:110px">
+          <input name="date" id="apptDate" value="" style="width:110px">
           <select name="dateDropdown" style="width:22px;padding:0 2px;min-height:24px"></select>
           <label class="appt-label" style="margin-left:12px">To Date</label>
           <input name="toDate" id="apptToDate" value="22/05/2026" style="width:110px">
@@ -6511,7 +6519,8 @@ podi kizhi + lepanam x 5 days.</textarea>
           html += `<div class="slot${hourClass}" data-doctor="${escapeHtml(doctor)}" data-time="${escapeHtml(time)}">`;
 
           if (appt) {
-            html += `<div class="appointment-card ${statusClass(appt.status)}" data-appt-index="${apptIndex}">` +
+            var cardBg = appt.status === 'Arrived' ? 'background:#c8e6c9;border-left:4px solid #2e7d32' : appt.status === 'Consulted' ? 'background:#a5d6a7;border-left:4px solid #388e3c' : appt.status === 'Cancelled' ? 'background:#ffe7e8;border-left:4px solid #d00000' : 'background:#e0e0e0;border-left:4px solid #9e9e9e';
+            html += `<div class="appointment-card ${statusClass(appt.status)}" data-appt-index="${apptIndex}" style="${cardBg}">` +
               `<strong>${escapeHtml(appt.mrNo)} ${escapeHtml(appt.patient)}</strong>` +
               `<span class="appt-phone">${escapeHtml(appt.mobile)}</span>` +
               `Room: ${escapeHtml(appt.room)}<br>` +
@@ -7765,7 +7774,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       const doctor = byId("apptDoctor") ? byId("apptDoctor").value : data.doctor;
       const consultDoctor = byId("apptConsultDoctor") ? byId("apptConsultDoctor").value : "";
       const room = data.room || "ROOM NUMBER 4";
-      const apptDate = data.date || byId("apptDate")?.value || "";
+      const apptDate = data.date || byId("apptDate")?.value || fmtDateInput(selectedDate);
       appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time && item.date === apptDate));
       var newAppt = {
         mrNo: data.mrNo,
@@ -7781,6 +7790,12 @@ podi kizhi + lepanam x 5 days.</textarea>
       };
       appointments.push(newAppt);
       closeModal("appointmentModal");
+      // Navigate grid to the appointment date
+      var parts = apptDate.match(/(\d+)\/(\w+)\/(\d+)/);
+      if (parts) {
+        var months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+        selectedDate = new Date(parseInt(parts[3]), months[parts[2]], parseInt(parts[1]));
+      }
       renderSchedule();
 
       // Save to server
@@ -7789,7 +7804,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(newAppt)
       }).then(function(r){return r.json()}).then(function(d) {
-        if (d.success) console.log("Appointment saved to server");
+        if (d.success) console.log("Appointment saved");
       }).catch(function(){});
 
       // Send appointment confirmation email
@@ -11481,9 +11496,8 @@ podi kizhi + lepanam x 5 days.</textarea>
 
     function loadAppointmentsFromServer() {
       fetch("/api/appointments").then(function(r){return r.json()}).then(function(d) {
-        if (!d.success || !d.data || !d.data.length) return;
+        if (!d.success || !d.data) return;
         appointments = d.data;
-        console.log("Loaded " + appointments.length + " appointments");
         renderSchedule();
       }).catch(function(){});
     }

@@ -168,7 +168,7 @@ function serveFile(res, filePath) {
   try {
     if (!fs.existsSync(filePath)) { res.writeHead(404); res.end('Not Found'); return; }
     const content = fs.readFileSync(filePath, isBinary ? null : 'utf8');
-    res.writeHead(200, { 'Content-Type': contentType });
+    res.writeHead(200, { 'Content-Type': contentType, 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0' });
     res.end(content);
   } catch {
     res.writeHead(404);
@@ -417,6 +417,24 @@ async function handleAPI(req, res) {
   // ── Appointments ──
   if (url === '/api/appointments' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.appointments || [] });
+  }
+
+  // ── Insurance-specific Appointments (separate from User Management) ──
+  if (url === '/api/insurance-appointments' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.insuranceAppointments || [] });
+  }
+  if (url === '/api/insurance-appointments' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.insuranceAppointments) db.insuranceAppointments = [];
+    if (body._delete) {
+      db.insuranceAppointments = db.insuranceAppointments.filter(a => !(a.doctor === body.doctor && a.time === body.time && a.date === body.date));
+    } else {
+      // Remove existing at same slot
+      db.insuranceAppointments = db.insuranceAppointments.filter(a => !(a.doctor === body.doctor && a.time === body.time && a.date === body.date));
+      db.insuranceAppointments.push(body);
+    }
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
   }
   if (url === '/api/appointments' && method === 'POST') {
     const body = await parseBody(req);
@@ -788,6 +806,140 @@ async function handleAPI(req, res) {
     db.staffLeaves.push({ ...body, status: 'Pending', appliedAt: new Date().toISOString() });
     saveDatabase();
     console.log('✈️ Leave applied:', body.empName, body.fromDate, '-', body.toDate);
+    return sendJSON(res, { success: true });
+  }
+
+  // ── Patient Feedback ──
+  if (url === '/api/feedback' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.feedbacks) db.feedbacks = [];
+    body.id = db.feedbacks.length + 1;
+    body.timestamp = new Date().toISOString();
+    db.feedbacks.push(body);
+    saveDatabase();
+
+    const rating = body.overall || 0;
+    const stars = '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+    console.log('⭐ Feedback received:', rating + '/5', body.name || 'Anonymous', rating <= 2 ? '⚠️ NEEDS ATTENTION' : '');
+
+    // Auto-send email to admin with feedback details
+    try {
+      const googleReviewLink = 'https://g.page/r/shanthi-wellness/review';
+      const feedbackHtml = `
+        <div style="font-family:Arial;max-width:500px;margin:0 auto;border:2px solid ${rating>=4?'#4caf50':rating<=2?'#f44336':'#ff9800'};border-radius:12px;overflow:hidden">
+          <div style="background:${rating>=4?'#4caf50':rating<=2?'#f44336':'#ff9800'};color:#fff;padding:14px 20px;text-align:center">
+            <h2 style="margin:0;font-size:18px">${rating>=4?'😊 Positive':'🚨 Negative'} Patient Feedback</h2>
+          </div>
+          <div style="padding:20px">
+            <p><b>Rating:</b> ${stars} (${rating}/5)</p>
+            <p><b>Smiley:</b> ${body.smiley}/5 | <b>Stars:</b> ${body.stars}/5</p>
+            <p><b>Patient:</b> ${body.name || 'Anonymous'}</p>
+            <p><b>Phone:</b> ${body.phone || 'Not provided'}</p>
+            <p><b>Email:</b> ${body.email || 'Not provided'}</p>
+            <p><b>Comment:</b> ${body.comment || 'No comment'}</p>
+            <p><b>Date:</b> ${new Date().toLocaleString()}</p>
+            <hr style="margin:14px 0;border:none;border-top:1px solid #ddd">
+            <p><b>📍 Google Review Link:</b></p>
+            <p><a href="${googleReviewLink}" style="color:#1565c0;font-size:14px;font-weight:700">${googleReviewLink}</a></p>
+            ${rating<=2 ? '<p style="color:#c62828;font-weight:700;font-size:16px">⚠️ ACTION REQUIRED: Please call this patient!</p>' : ''}
+            ${rating>=4 ? '<p style="color:#2e7d32;font-weight:700">✅ Good review - Patient email sent with Google Review link</p>' : ''}
+          </div>
+        </div>`;
+
+      // Send to admin
+      emailTransporter.sendMail({
+        from: EMAIL_CONFIG.clinicName + ' <' + EMAIL_CONFIG.fromEmail + '>',
+        to: EMAIL_CONFIG.fromEmail,
+        subject: (rating>=4?'✅':'🚨') + ' Patient Feedback: ' + (rating) + '/5 stars - ' + (body.name||'Anonymous'),
+        html: feedbackHtml
+      }).then(() => console.log('📧 Feedback email sent to admin'))
+        .catch(e => console.log('Email error:', e.message));
+
+      // If good feedback AND patient gave email, send them Google Review link
+      if (rating >= 4 && body.email) {
+        const patientHtml = `
+          <div style="font-family:Arial;max-width:500px;margin:0 auto;border:2px solid #4caf50;border-radius:12px;overflow:hidden">
+            <div style="background:#4caf50;color:#fff;padding:16px 20px;text-align:center">
+              <h2 style="margin:0;font-size:18px">🌿 Thank You, ${body.name || 'Dear Patient'}!</h2>
+            </div>
+            <div style="padding:24px;text-align:center">
+              <p style="font-size:16px;color:#333;margin-bottom:16px">We're so glad you had a wonderful experience at <b>Shanthi Wellness</b>!</p>
+              <p style="font-size:14px;color:#555;margin-bottom:24px">Would you mind sharing your experience on Google? It helps other patients find us.</p>
+              <a href="${googleReviewLink}" style="display:inline-block;background:#4caf50;color:#fff;padding:14px 32px;border-radius:30px;text-decoration:none;font-size:16px;font-weight:700;box-shadow:0 4px 15px rgba(76,175,80,0.3)">⭐ Leave a Google Review</a>
+              <p style="font-size:12px;color:#888;margin-top:20px">Thank you for choosing Shanthi Wellness Ayurvedic Medical Centre LLC<br>📞 +971 42 255 133</p>
+            </div>
+          </div>`;
+
+        emailTransporter.sendMail({
+          from: EMAIL_CONFIG.clinicName + ' <' + EMAIL_CONFIG.fromEmail + '>',
+          to: body.email,
+          subject: '⭐ Share Your Experience - Shanthi Wellness',
+          html: patientHtml
+        }).then(() => console.log('📧 Google Review link sent to patient:', body.email))
+          .catch(e => console.log('Patient email error:', e.message));
+      }
+    } catch(e) { console.log('Feedback email error:', e.message); }
+
+    // Auto-send WhatsApp message via WhatsApp API link (opens in admin's browser)
+    if (rating <= 2 && body.phone) {
+      console.log('🚨 BAD FEEDBACK - Call patient:', body.phone, body.name);
+      console.log('   WhatsApp: https://wa.me/' + body.phone.replace(/[^0-9]/g,''));
+    }
+
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/feedback' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.feedbacks || [] });
+  }
+
+  // ── Marketing CRM APIs ──
+  if (url === '/api/hr/docs' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.hrDocs || [] });
+  }
+  if (url === '/api/hr/docs' && method === 'POST') {
+    const body = await parseBody(req); db.hrDocs = body.data || []; saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/hr/leaves' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.hrLeaves || [] });
+  }
+  if (url === '/api/hr/leaves' && method === 'POST') {
+    const body = await parseBody(req); db.hrLeaves = body.data || []; saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/hr/offdays' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.hrOffDays || {} });
+  }
+  if (url === '/api/hr/offdays' && method === 'POST') {
+    const body = await parseBody(req); db.hrOffDays = body.data || {}; saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+
+  if (url === '/api/marketing/leads' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.marketingLeads || [] });
+  }
+  if (url === '/api/marketing/leads' && method === 'POST') {
+    const body = await parseBody(req);
+    if (body.leads) db.marketingLeads = body.leads;
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/marketing/followups' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.marketingFollowups || [] });
+  }
+  if (url === '/api/marketing/followups' && method === 'POST') {
+    const body = await parseBody(req);
+    if (body.followups) db.marketingFollowups = body.followups;
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+  if (url === '/api/marketing/team' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.marketingTeam || [{name:'Admin',phone:'',role:'Manager'}] });
+  }
+  if (url === '/api/marketing/team' && method === 'POST') {
+    const body = await parseBody(req);
+    if (body.team) db.marketingTeam = body.team;
+    saveDatabase();
     return sendJSON(res, { success: true });
   }
 
@@ -1276,6 +1428,36 @@ const server = http.createServer((req, res) => {
   // Login page
   if (req.url === '/login' || req.url === '/login/') {
     serveFile(res, path.join(__dirname, 'login.html'));
+    return;
+  }
+
+  // Marketing CRM
+  if (req.url === '/marketing' || req.url === '/marketing/') {
+    serveFile(res, path.join(__dirname, 'marketing.html'));
+    return;
+  }
+
+  // Admin Panel
+  if (req.url === '/admin' || req.url === '/admin/') {
+    serveFile(res, path.join(__dirname, 'admin-panel.html'));
+    return;
+  }
+
+  // HR Module
+  if (req.url === '/hr' || req.url === '/hr/') {
+    serveFile(res, path.join(__dirname, 'hr-module.html'));
+    return;
+  }
+
+  // Patient Feedback Kiosk (no login needed)
+  if (req.url === '/feedback' || req.url === '/feedback/') {
+    serveFile(res, path.join(__dirname, 'feedback.html'));
+    return;
+  }
+
+  // Feedback Admin Dashboard
+  if (req.url === '/feedback-admin' || req.url === '/feedback-admin/') {
+    serveFile(res, path.join(__dirname, 'feedback-admin.html'));
     return;
   }
 

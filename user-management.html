@@ -3152,6 +3152,9 @@ function inheritFromEMR() {
 }
 </script>
 <body>
+  <script>
+    (function(){var t=localStorage.getItem('emr_token');if(!t){window.location.href='/login';document.body.innerHTML='<p style="padding:40px;text-align:center">Redirecting to login...</p>';return;}})();
+  </script>
   <main class="desktop" aria-label="Clinic management desktop app">
     <header class="window-strip">
       <div class="window-mark" aria-hidden="true"></div>

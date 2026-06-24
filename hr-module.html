@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management - Shanthi Wellness</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f5f5}
+    .header{background:linear-gradient(90deg,#1b5e20,#2e7d32);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:16px}
+    .header h1{font-size:18px}.header a{color:#c8e6c9;font-size:12px;margin-left:auto;text-decoration:none}
+    .tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;padding:0 20px;overflow-x:auto}
+    .tab{padding:12px 18px;font-size:12px;font-weight:600;color:#666;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+    .tab:hover{color:#2e7d32}.tab.active{color:#2e7d32;border-bottom-color:#2e7d32}
+    .content{padding:20px 24px}
+    .panel{display:none}.panel.active{display:block}
+    .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:16px}
+    .card h3{font-size:16px;color:#2e7d32;margin-bottom:12px;border-bottom:1px solid #e8f5e9;padding-bottom:6px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:#2e7d32;color:#fff;padding:10px 12px;text-align:left;font-size:13px}
+    td{padding:10px 12px;border-bottom:1px solid #f0f0f0;font-size:13px}
+    .btn{padding:8px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none}
+    .btn-green{background:#2e7d32;color:#fff}.btn-red{background:#c62828;color:#fff}
+    .btn-sm{padding:4px 10px;font-size:10px}
+    .badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+    .badge-ok{background:#e8f5e9;color:#2e7d32}
+    .badge-warn{background:#fff3e0;color:#e65100}
+    .badge-danger{background:#ffebee;color:#c62828}
+    .badge-info{background:#e3f2fd;color:#1565c0}
+    .alert-card{background:#fff;border-left:4px solid #f44336;border-radius:8px;padding:12px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+    .alert-card.warn{border-left-color:#ff9800}
+    .field{margin-bottom:10px}.field label{display:block;font-size:10px;font-weight:700;margin-bottom:3px}
+    .field input,.field select{width:100%;height:32px;border:1px solid #ddd;border-radius:6px;padding:0 8px;font-size:11px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+    .off-day{display:inline-block;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:700;margin:2px;cursor:pointer;border:1px solid #ddd}
+    .off-day.selected{background:#2e7d32;color:#fff;border-color:#2e7d32}
+  </style>
+</head>
+<body>
+  <script>(function(){if(!localStorage.getItem('emr_token')){window.location.href='/login';return;}})();</script>
+  <div class="header">
+    <h1>👔 HR Management System</h1>
+    <a href="/home">← Back to Home</a>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('docs')">📄 Documents & Expiry</div>
+    <div class="tab" onclick="showTab('offdays')">📅 Off Days</div>
+    <div class="tab" onclick="showTab('leaves')">✈️ Leave Management</div>
+    <div class="tab" onclick="showTab('attendance')">⏰ Attendance Log</div>
+    <div class="tab" onclick="showTab('alerts')">🔔 Expiry Alerts</div>
+  </div>
+  <div class="content">
+    <!-- DOCUMENTS PANEL -->
+    <div class="panel active" id="docsPanel">
+      <div class="card">
+        <h3>📄 Employee Documents & Expiry Tracking</h3>
+        <div style="margin-bottom:12px">
+          <button class="btn btn-green" onclick="openDocForm()">+ Add Document</button>
+        </div>
+        <table>
+          <thead><tr><th>Employee</th><th>Document Type</th><th>Document No</th><th>Issue Date</th><th>Expiry Date</th><th>Status</th><th>Days Left</th><th>File</th><th>Actions</th></tr></thead>
+          <tbody id="docsTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- OFF DAYS PANEL -->
+    <div class="panel" id="offdaysPanel">
+      <div class="card">
+        <h3>📅 Assign Weekly Off Days</h3>
+        <p style="font-size:11px;color:#666;margin-bottom:16px">Click days to toggle off day for each employee. Green = OFF day.</p>
+        <table>
+          <thead><tr><th>Employee</th><th>Role</th><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
+          <tbody id="offDaysTable"></tbody>
+        </table>
+        <button class="btn btn-green" style="margin-top:12px" onclick="saveOffDays()">💾 Save Off Days</button>
+      </div>
+    </div>
+
+    <!-- LEAVE PANEL -->
+    <div class="panel" id="leavesPanel">
+      <div class="card">
+        <h3>✈️ Leave Applications</h3>
+        <div style="margin-bottom:12px;display:flex;gap:8px">
+          <button class="btn btn-green" onclick="openLeaveForm2()">+ Apply Leave</button>
+          <select id="leaveFilter2" onchange="renderLeaves2()" style="height:32px;font-size:11px;border:1px solid #ddd;border-radius:6px;padding:0 8px">
+            <option value="">All Status</option><option value="Pending">Pending</option><option value="Approved">Approved</option><option value="Rejected">Rejected</option>
+          </select>
+        </div>
+        <table>
+          <thead><tr><th>Employee</th><th>From</th><th>To</th><th>Days</th><th>Type</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="leavesTable2"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ATTENDANCE LOG PANEL -->
+    <div class="panel" id="attendancePanel">
+      <div class="card">
+        <h3>⏰ Attendance Log</h3>
+        <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center">
+          <label style="font-size:11px;font-weight:700">Date:</label>
+          <input type="date" id="attLogDate" style="height:32px;font-size:11px;border:1px solid #ddd;border-radius:6px;padding:0 8px">
+          <button class="btn btn-green btn-sm" onclick="loadAttLog()">Load</button>
+        </div>
+        <table>
+          <thead><tr><th>Employee</th><th>Clock In</th><th>Clock Out</th><th>Status</th><th>Hours</th><th>Off Day?</th></tr></thead>
+          <tbody id="attLogTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ALERTS PANEL -->
+    <div class="panel" id="alertsPanel">
+      <div class="card">
+        <h3>🔔 Document Expiry Alerts</h3>
+        <div id="alertsList"></div>
+      </div>
+    </div>
+  </div>
+  <!-- ADD DOCUMENT MODAL -->
+  <div class="modal-bg" id="docModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;width:450px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+      <div style="background:linear-gradient(90deg,#2e7d32,#43a047);color:#fff;padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between"><span>Add Employee Document</span><button onclick="closeM('docModal')" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer">✕</button></div>
+      <div style="padding:18px">
+        <div class="grid2">
+          <div class="field"><label>Employee</label><select id="docEmp"></select></div>
+          <div class="field"><label>Document Type</label><select id="docType"><option>Passport</option><option>Visa</option><option>Emirates ID</option><option>Labour Card</option><option>Medical Insurance</option><option>DHA License</option><option>Trade License</option><option>Other</option></select></div>
+          <div class="field"><label>Document Number</label><input type="text" id="docNo"></div>
+          <div class="field"><label>Issue Date</label><input type="date" id="docIssue"></div>
+          <div class="field"><label>Expiry Date</label><input type="date" id="docExpiry"></div>
+          <div class="field"><label>Notes</label><input type="text" id="docNotes"></div>
+        </div>
+        <div class="field"><label>📎 Attach Document (scan/photo)</label><input type="file" id="docFile" accept="image/*,.pdf" style="height:auto;padding:8px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+          <button class="btn btn-green" onclick="saveDoc()">Save</button>
+          <button class="btn" style="background:#eee" onclick="closeM('docModal')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEAVE APPLICATION MODAL -->
+  <div class="modal-bg" id="leaveModal2" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+      <div style="background:linear-gradient(90deg,#2e7d32,#43a047);color:#fff;padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between"><span>Apply Leave</span><button onclick="closeM('leaveModal2')" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer">✕</button></div>
+      <div style="padding:18px">
+        <div class="grid2">
+          <div class="field"><label>Employee</label><select id="lvEmp"></select></div>
+          <div class="field"><label>Leave Type</label><select id="lvType"><option>Sick Leave</option><option>Annual Leave</option><option>Casual Leave</option><option>Emergency</option><option>Unpaid Leave</option><option>Maternity</option></select></div>
+          <div class="field"><label>From Date</label><input type="date" id="lvFrom"></div>
+          <div class="field"><label>To Date</label><input type="date" id="lvTo"></div>
+        </div>
+        <div class="field"><label>Reason</label><input type="text" id="lvReason"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+          <button class="btn btn-green" onclick="saveLeave2()">Submit</button>
+          <button class="btn" style="background:#eee" onclick="closeM('leaveModal2')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var employees=['LINTU RAJAN','NEETHU DEEPAK','MISNA UVAISE','KEERTHI PURUSHOTHAMAN','AMARNATH','ASHISH','ANEESH','RESHMI','LINTU','NEETHU','SHILPA','RENJU','NOORA HOSBET UMMER','ANJNA NADAKKAVIL CHANDRAN','ANJANA'];
+    var docs=[],leaves2=[],offDays={};
+
+    function showTab(name){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(name+'Panel').classList.add('active');event.target.classList.add('active');if(name==='alerts')renderAlerts();if(name==='offdays')renderOffDays();}
+    function openM(id){document.getElementById(id).style.display='flex'}
+    function closeM(id){document.getElementById(id).style.display='none'}
+
+    function populateEmpSelects(){
+      var opts=employees.map(e=>'<option>'+e+'</option>').join('');
+      ['docEmp','lvEmp'].forEach(id=>{var el=document.getElementById(id);if(el)el.innerHTML=opts;});
+    }
+    populateEmpSelects();
+
+    // Load from server
+    fetch('/api/hr/docs').then(r=>r.json()).then(d=>{if(d.success){docs=d.data||[];renderDocs();}}).catch(()=>{});
+    fetch('/api/hr/leaves').then(r=>r.json()).then(d=>{if(d.success){leaves2=d.data||[];renderLeaves2();}}).catch(()=>{});
+    fetch('/api/hr/offdays').then(r=>r.json()).then(d=>{if(d.success){offDays=d.data||{};renderOffDays();}}).catch(()=>{});
+
+    // DOCUMENTS
+    function openDocForm(){openM('docModal')}
+    function saveDoc(){
+      var doc={employee:document.getElementById('docEmp').value,type:document.getElementById('docType').value,number:document.getElementById('docNo').value,issueDate:document.getElementById('docIssue').value,expiryDate:document.getElementById('docExpiry').value,notes:document.getElementById('docNotes').value,fileName:''};
+      if(!doc.employee||!doc.expiryDate){alert('Employee and Expiry Date required');return;}
+      // Handle file attachment
+      var fileInput=document.getElementById('docFile');
+      if(fileInput.files[0]){
+        var file=fileInput.files[0];
+        doc.fileName=file.name;
+        var reader=new FileReader();
+        reader.onload=function(e){
+          doc.fileData=e.target.result;
+          docs.push(doc);
+          fetch('/api/hr/docs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:docs})}).catch(()=>{});
+          closeM('docModal');renderDocs();
+          alert('Document saved with attachment: '+file.name);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        docs.push(doc);
+        fetch('/api/hr/docs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:docs})}).catch(()=>{});
+        closeM('docModal');renderDocs();
+      }
+    }
+    function renderDocs(){
+      var tbody=document.getElementById('docsTable');
+      var today=new Date();
+      tbody.innerHTML=docs.map((d,i)=>{
+        var exp=new Date(d.expiryDate);
+        var diff=Math.ceil((exp-today)/(1000*60*60*24));
+        var badge=diff<0?'badge-danger':diff<30?'badge-warn':diff<90?'badge-info':'badge-ok';
+        var status=diff<0?'EXPIRED':diff<30?'Expiring Soon':diff<90?'Warning':'Valid';
+        var fileLink=d.fileName?'<a href="'+(d.fileData||'#')+'" download="'+d.fileName+'" style="color:#2e7d32;font-weight:700;font-size:12px">📎 '+d.fileName.substring(0,15)+'</a>':'<span style="color:#999">No file</span>';
+        return '<tr><td style="font-weight:700">'+d.employee+'</td><td>'+d.type+'</td><td>'+d.number+'</td><td>'+d.issueDate+'</td><td>'+d.expiryDate+'</td><td><span class="badge '+badge+'">'+status+'</span></td><td style="font-weight:700;color:'+(diff<0?'#c62828':diff<30?'#e65100':'#333')+'">'+diff+' days</td><td>'+fileLink+'</td><td><button class="btn btn-red btn-sm" onclick="deleteDoc('+i+')">Del</button></td></tr>';
+      }).join('');
+    }
+    function deleteDoc(i){docs.splice(i,1);fetch('/api/hr/docs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:docs})}).catch(()=>{});renderDocs();}
+
+    // OFF DAYS
+    function renderOffDays(){
+      var tbody=document.getElementById('offDaysTable');
+      var days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      tbody.innerHTML=employees.map(emp=>{
+        var empOff=offDays[emp]||[];
+        return '<tr><td style="font-weight:700">'+emp+'</td><td>'+(emp.includes('RAJAN')?'Doctor':'Therapist')+'</td>'+days.map((d,i)=>'<td style="text-align:center"><span class="off-day'+(empOff.includes(i)?' selected':'')+'" onclick="toggleOff(\''+emp+'\','+i+',this)">'+d+'</span></td>').join('')+'</tr>';
+      }).join('');
+    }
+    function toggleOff(emp,day,el){
+      if(!offDays[emp])offDays[emp]=[];
+      var idx=offDays[emp].indexOf(day);
+      if(idx>=0)offDays[emp].splice(idx,1);else offDays[emp].push(day);
+      el.classList.toggle('selected');
+    }
+    function saveOffDays(){
+      fetch('/api/hr/offdays',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:offDays})}).then(()=>alert('Off days saved!')).catch(()=>{});
+    }
+
+    // LEAVES
+    function openLeaveForm2(){openM('leaveModal2')}
+    function saveLeave2(){
+      var lv={employee:document.getElementById('lvEmp').value,type:document.getElementById('lvType').value,from:document.getElementById('lvFrom').value,to:document.getElementById('lvTo').value,reason:document.getElementById('lvReason').value,status:'Pending',appliedAt:new Date().toISOString().split('T')[0]};
+      if(!lv.from||!lv.to){alert('Dates required');return;}
+      var d1=new Date(lv.from),d2=new Date(lv.to);lv.days=Math.max(1,Math.ceil((d2-d1)/(1000*60*60*24))+1);
+      leaves2.push(lv);
+      fetch('/api/hr/leaves',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:leaves2})}).catch(()=>{});
+      closeM('leaveModal2');renderLeaves2();alert('Leave submitted!');
+    }
+    function renderLeaves2(){
+      var tbody=document.getElementById('leavesTable2');
+      var filter=document.getElementById('leaveFilter2')?.value||'';
+      var list=leaves2.filter(l=>!filter||l.status===filter);
+      tbody.innerHTML=list.map((l,i)=>{
+        var badge=l.status==='Approved'?'badge-ok':l.status==='Rejected'?'badge-danger':'badge-warn';
+        return '<tr><td style="font-weight:700">'+l.employee+'</td><td>'+l.from+'</td><td>'+l.to+'</td><td>'+l.days+'</td><td>'+l.type+'</td><td>'+l.reason+'</td><td><span class="badge '+badge+'">'+l.status+'</span></td><td>'+(l.status==='Pending'?'<button class="btn btn-green btn-sm" onclick="approveLeave('+leaves2.indexOf(l)+')">✓</button> <button class="btn btn-red btn-sm" onclick="rejectLeave('+leaves2.indexOf(l)+')">✕</button>':'')+'</td></tr>';
+      }).join('');
+    }
+    function approveLeave(i){leaves2[i].status='Approved';fetch('/api/hr/leaves',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:leaves2})}).catch(()=>{});renderLeaves2();}
+    function rejectLeave(i){leaves2[i].status='Rejected';fetch('/api/hr/leaves',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({data:leaves2})}).catch(()=>{});renderLeaves2();}
+
+    // ATTENDANCE LOG
+    function loadAttLog(){
+      var date=document.getElementById('attLogDate').value;if(!date)return;
+      fetch('/api/attendance').then(r=>r.json()).then(d=>{
+        var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var dt=new Date(date);var key=String(dt.getDate()).padStart(2,'0')+'/'+mo[dt.getMonth()]+'/'+dt.getFullYear();
+        var dayData=(d.data||{})[key]||{};
+        var dayOfWeek=dt.getDay();
+        var tbody=document.getElementById('attLogTable');
+        tbody.innerHTML=employees.map(emp=>{
+          var rec=dayData[Object.keys(dayData).find(k=>emp.includes(dayData[k]?.name))]||dayData['EM'+String(57+employees.indexOf(emp)).padStart(4,'0')]||{};
+          var isOff=(offDays[emp]||[]).includes(dayOfWeek);
+          return '<tr style="'+(isOff?'background:#f5f5f5':'')+'"><td style="font-weight:700">'+emp+'</td><td>'+(rec.inTime||'-')+'</td><td>'+(rec.outTime||'-')+'</td><td><span class="badge '+(rec.status==='Present'?'badge-ok':isOff?'badge-info':'badge-danger')+'">'+(rec.status||(isOff?'Off Day':'Absent'))+'</span></td><td>-</td><td>'+(isOff?'<span class="badge badge-info">OFF</span>':'')+'</td></tr>';
+        }).join('');
+      });
+    }
+
+    // ALERTS
+    function renderAlerts(){
+      var today=new Date();var html='';
+      docs.forEach(d=>{
+        var exp=new Date(d.expiryDate);var diff=Math.ceil((exp-today)/(1000*60*60*24));
+        if(diff<90){
+          var cls=diff<0?'':'warn';
+          html+='<div class="alert-card '+cls+'"><div style="font-size:24px">'+(diff<0?'🚨':'⚠️')+'</div><div><strong>'+d.employee+'</strong> - '+d.type+' ('+d.number+')<br><span style="font-size:11px;color:#666">Expires: '+d.expiryDate+' | <b style="color:'+(diff<0?'#c62828':'#e65100')+'">'+Math.abs(diff)+' days '+(diff<0?'OVERDUE':'remaining')+'</b></span></div></div>';
+        }
+      });
+      document.getElementById('alertsList').innerHTML=html||'<p style="color:#888;text-align:center;padding:20px">✅ No expiry alerts. All documents are valid.</p>';
+    }
+
+    // Set today's date
+    document.getElementById('attLogDate').value=new Date().toISOString().split('T')[0];
+    renderOffDays();
+  </script>
+</body>
+</html>
