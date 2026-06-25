@@ -6,3 +6,7 @@ build/
 *.pak
 *.zip
 *.log
+Shanthi-Wellness-EMR-win32-x64/
+shanthiayur_db*.sql
+*.backup.*.json
+patients-data.txt.xlsx
