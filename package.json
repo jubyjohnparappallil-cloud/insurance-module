@@ -2,7 +2,7 @@
   "name": "shanthi-wellness-emr",
   "version": "1.0.0",
   "description": "Shanthi Wellness Ayurvedic Medical Centre - Clinic EMR",
-  "main": "main.js",
+  "main": "server.js",
   "author": "Shanthi Wellness",
   "scripts": {
     "start": "electron .",
@@ -62,9 +62,6 @@
     }
   },
   "devDependencies": {
-    "electron": "^28.3.3",
-    "electron-builder": "^24.13.3",
-    "electron-packager": "^17.1.2",
     "xlsx": "^0.18.5"
   },
   "dependencies": {
