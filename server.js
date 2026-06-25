@@ -355,10 +355,25 @@ async function handleAPI(req, res) {
 
   // ── Logsheet ──
   if (url.startsWith('/api/logsheet/') && method === 'GET') {
-    const claimId = url.split('/')[3];
-    const claim = db.claims.find(c => c.claimId === claimId);
-    if (!claim) return sendJSON(res, { success: false, error: 'Claim not found' }, 404);
-    const entries = db.logsheetEntries.filter(e => e.claimId === claimId).sort((a, b) => a.slNo - b.slNo);
+    const claimId = decodeURIComponent(url.split('/')[3]);
+    let claim = db.claims.find(c => c.claimId === claimId);
+    
+    // Check imported insurance claims if not found in regular claims
+    if (!claim) {
+      const insClaim = (db.insuranceClaims || []).find(c => c.claimId === claimId);
+      if (insClaim) {
+        const patient = (db.patients || []).find(p => p.mrNo === insClaim.mrNo);
+        claim = { claimId: insClaim.claimId, mrNo: insClaim.mrNo, patientName: patient ? (patient.firstName + ' ' + patient.lastName).trim() : insClaim.mrNo, fromDate: insClaim.startDate, toDate: insClaim.endDate, amount: insClaim.amount };
+        // Build logsheet entries from claim details
+        const details = (db.insuranceClaimDetails || []).filter(d => d.claimId === claimId);
+        const entries = details.map((d, i) => ({ claimId, slNo: i+1, entryDate: d.treatDate || insClaim.startDate, treatmentDone: d.description, inTime: d.inTime || '', outTime: d.outTime || '', progress: d.progress || '' }));
+        const procedures = details.map(d => ({ description: d.description, price: d.amount, sessions: d.quantity || '1', amount: d.totalAmount || d.amount }));
+        return sendJSON(res, { success: true, data: { claim, entries, procedures, prescriptions: [] } });
+      }
+      return sendJSON(res, { success: false, error: 'Claim not found' }, 404);
+    }
+    
+    const entries = (db.logsheetEntries || []).filter(e => e.claimId === claimId).sort((a, b) => a.slNo - b.slNo);
     let procedures = [], prescriptions = [];
     if (claim.consultationId) {
       const consult = db.consultations.find(c => c.id === claim.consultationId);
@@ -890,6 +905,16 @@ async function handleAPI(req, res) {
   }
   if (url === '/api/feedback' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.feedbacks || [] });
+  }
+
+  // ── Insurance Claim Details (for report generation) ──
+  if (url.startsWith('/api/claim-details/') && method === 'GET') {
+    const claimId = decodeURIComponent(url.split('/')[3]);
+    const claim = (db.insuranceClaims || []).find(c => c.claimId === claimId);
+    const details = (db.insuranceClaimDetails || []).filter(d => d.claimId === claimId);
+    const patient = claim ? (db.patients || []).find(p => p.mrNo === claim.mrNo) : null;
+    const consultation = claim ? (db.consultations || []).find(c => c.mrNo === claim.mrNo) : null;
+    return sendJSON(res, { success: true, data: { claim, details, patient, consultation } });
   }
 
   // ── Marketing CRM APIs ──

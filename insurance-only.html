@@ -7644,6 +7644,38 @@ podi kizhi + lepanam x 5 days.</textarea>
           drugs = defaultDrugs.slice();
         }
         renderDrugs();
+        // Update MED_LIST for prescription autocomplete
+        window._medList = drugs.map(function(dr) { return dr.tradeName || dr.name || ''; }).filter(function(n){return n;});
+        if (window._medList.length > 0) {
+          console.log("Loaded " + window._medList.length + " medicines for prescription");
+          // Rebuild medicine search panel with full database
+          var rxInput = document.getElementById("rxSearchInput");
+          var rxList = document.getElementById("rxSearchList");
+          if (rxInput && rxList) {
+            rxInput.oninput = function() {
+              var q = rxInput.value.trim().toLowerCase();
+              if (!q) { rxList.innerHTML = ''; return; }
+              var matches = window._medList.filter(function(m) { return m.toLowerCase().includes(q); }).slice(0, 30);
+              rxList.innerHTML = matches.map(function(m) {
+                return '<div class="side-search-item" data-med="'+m+'">'+m+'</div>';
+              }).join('');
+            };
+            rxList.onclick = function(e) {
+              var item = e.target.closest('.side-search-item');
+              if (!item) return;
+              var med = item.dataset.med;
+              var tbody = document.getElementById('rxTbody');
+              if (!tbody) return;
+              var rows = tbody.querySelectorAll('tr');
+              var emptyRow = null;
+              for (var i=0; i<rows.length; i++) {
+                var inp = rows[i].querySelector('.rx-med-input');
+                if (inp && !inp.value.trim()) { emptyRow = rows[i]; break; }
+              }
+              if (emptyRow) emptyRow.querySelector('.rx-med-input').value = med;
+            };
+          }
+        }
       }).catch(function(){
         drugs = defaultDrugs.slice();
         renderDrugs();
@@ -8779,7 +8811,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         function wireRxRow(row) {
           var medInput = row.querySelector(".rx-med-input");
           if (!medInput) return;
-          makeAC(medInput, MED_LIST, {
+          makeAC(medInput, window._medList || MED_LIST, {
             match: function(d, q) { return d.toLowerCase().includes(q); },
             render: function(d) { return d; }
           }, function(d) {
@@ -9051,7 +9083,7 @@ podi kizhi + lepanam x 5 days.</textarea>
 
         // ── Medicine side search ───────────────────────────────────────────
         buildSidePanel("rxSearchBtn","rxSearchPanel","rxSearchClose","rxSearchInput","rxSearchList",
-          MED_LIST,
+          window._medList || MED_LIST,
           {
             match: function(d,q) { return d.toLowerCase().includes(q); },
             html:  function(d) { return d; }
@@ -9342,7 +9374,28 @@ podi kizhi + lepanam x 5 days.</textarea>
         // Load from saved consultations
         fetch("/api/consultations/" + insClaimSelectedMr).then(function(r){return r.json()}).then(function(d) {
           if (!d.success || !d.data || d.data.length === 0) {
-            alert("No consultations found for this patient. Save a consultation first.");
+            // Try loading from imported claim details
+            var selRow = document.querySelector("#claimsListScreen tbody tr.selected");
+            var cId = selRow ? selRow.dataset.claimId : '';
+            if (cId) {
+              fetch("/api/claim-details/" + cId).then(function(r2){return r2.json()}).then(function(d2) {
+                if (d2.success && d2.data && d2.data.details && d2.data.details.length > 0) {
+                  var tbody = byId("claimsTableBody");
+                  if (tbody) {
+                    tbody.innerHTML = "";
+                    var total = 0;
+                    d2.data.details.forEach(function(det) {
+                      var amt = parseFloat(det.amount) || 0;
+                      total += amt;
+                      var row = document.createElement("tr");
+                      row.innerHTML = '<td>' + (det.treatDate||'') + '</td><td contenteditable="true">' + (det.description||'') + '</td><td contenteditable="true">' + (det.progress||'') + '</td><td contenteditable="true">' + (det.inTime||'10:00 AM') + '</td><td contenteditable="true">' + (det.outTime||'11:00 AM') + '</td><td contenteditable="true">' + amt.toFixed(2) + '</td><td>' + (det.quantity||'1') + '</td><td>' + amt.toFixed(2) + '</td><td>0</td><td>0</td>';
+                      tbody.appendChild(row);
+                    });
+                    byId("claimsTotalAmount").textContent = total.toFixed(2);
+                  }
+                } else { alert("No data found for this claim."); }
+              });
+            } else { alert("Select a claim first."); }
             return;
           }
 
@@ -9604,7 +9657,30 @@ podi kizhi + lepanam x 5 days.</textarea>
             if (entries.length > 0) {
               generateLogSheet(patientName, fromDate, toDate, entries, (consult && consult.doctor) || "");
             } else {
-              alert("No consultation data found for this patient. Save a consultation first.");
+              // Try loading from imported claim details
+              fetch("/api/claim-details/" + claimId).then(function(r2){return r2.json()}).then(function(d2) {
+                if (d2.success && d2.data && d2.data.details && d2.data.details.length > 0) {
+                  var claimEntries = [];
+                  var slNo2 = 1;
+                  var startParts2 = fromDate.split("-");
+                  var startDt2 = new Date(startParts2[2]+"-"+startParts2[1]+"-"+startParts2[0]);
+                  d2.data.details.forEach(function(det, idx) {
+                    var dt2 = new Date(startDt2);
+                    dt2.setDate(dt2.getDate() + idx);
+                    claimEntries.push({
+                      slNo: slNo2++,
+                      entryDate: String(dt2.getDate()).padStart(2,"0")+"."+String(dt2.getMonth()+1).padStart(2,"0")+"."+dt2.getFullYear(),
+                      treatmentDone: det.description || '',
+                      inTime: det.inTime || '10:00 AM',
+                      outTime: det.outTime || '11:00 AM',
+                      progress: det.progress || ''
+                    });
+                  });
+                  generateLogSheet(patientName, fromDate, toDate, claimEntries, "");
+                } else {
+                  alert("No data found for this claim.");
+                }
+              }).catch(function(){alert("Error loading claim details.");});
             }
           }).catch(function() {
             // Fallback with default logsheet entries
