@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "nodemailer": "^6.9.7",
+    "pcsclite": "^1.0.1",
     "ws": "^8.21.0"
   }
 }

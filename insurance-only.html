@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -4713,7 +4713,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               <div class="field-row"><label>No.of Children</label><input name="noOfChildren" type="number" value="0" style="width:60px"></div>
               <div class="field-row"><label>EmiratesIdExpiry Date</label><div style="display:flex;gap:4px"><input name="eidExpiry" style="width:100px"><select style="width:30px;padding:0"><option></option></select></div></div>
             </div>
-            <div style="display:grid;gap:8px;align-content:start;padding-top:4px">
+            <div style="display:grid;gap:8px;align-content:start;padding-top:4px;display:none">
               <button class="tool-button" type="button" style="height:30px;font-size:11px">Attach Emirates Id front</button>
               <button class="tool-button" type="button" style="height:30px;font-size:11px">Attach Emirates Id</button>
             </div>
@@ -4721,7 +4721,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         </section>
       </div>
       <div class="dialog-actions">
-        <button class="tool-button read-eid" type="button">Read EID</button>
+        <button class="tool-button read-eid" type="button">&#128272; OMI Key Reader</button>
         <span class="spacer"></span>
         <button class="tool-button primary" type="submit">Save</button>
         <button class="tool-button" type="button" data-close="patientModal">Cancel</button>
@@ -7030,268 +7030,44 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function simulateReadEID() {
-      // Open Emirates ID scanner in popup window - supports FRONT + BACK side
-      var scanHtml = '<!DOCTYPE html><html><head><title>Read Emirates ID</title>' +
-        '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
-        '<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"><\/script>' +
+      // OMI Key Reader - reads Emirates ID card via connected card reader device
+      var readerHtml = '<!DOCTYPE html><html><head><title>OMI Key Reader</title>' +
         '<style>' +
         '*{box-sizing:border-box}' +
-        'body{margin:0;font-family:Arial,sans-serif;background:#1b5e20;color:#fff;padding:15px}' +
-        'h2{margin:0 0 8px;text-align:center;font-size:20px}' +
-        '.tabs{display:flex;gap:2px;margin-bottom:12px}' +
-        '.tab{flex:1;padding:12px;font-size:15px;font-weight:700;border:none;border-radius:6px 6px 0 0;cursor:pointer;text-align:center}' +
-        '.tab.active{background:#fff;color:#1b5e20}.tab:not(.active){background:rgba(255,255,255,0.2);color:#fff}' +
-        '.tab-badge{display:inline-block;width:20px;height:20px;border-radius:50%;font-size:11px;line-height:20px;margin-left:6px}' +
-        '.tab-badge.done{background:#2e7d32;color:#fff}.tab-badge.pending{background:#ff9800;color:#fff}' +
-        '.panel{background:rgba(255,255,255,0.08);border-radius:0 0 8px 8px;padding:15px;display:none}' +
-        '.panel.active{display:block}' +
-        '.upload-area{width:100%;min-height:180px;border:3px dashed rgba(255,255,255,0.6);border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);cursor:pointer;position:relative;overflow:hidden;margin:8px 0}' +
-        '.upload-area:hover{border-color:#fff;background:rgba(0,0,0,0.25)}' +
-        '.upload-area img{max-width:100%;max-height:300px}' +
-        '.upload-area .ph{padding:20px;text-align:center;font-size:14px}' +
-        '.upload-area .ph span{font-size:40px;display:block;margin-bottom:8px}' +
-        '.btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}' +
-        '.btn{padding:10px 20px;font-size:14px;font-weight:700;border:none;border-radius:6px;cursor:pointer}' +
-        '.btn-upload{background:#2e7d32;color:#fff;font-size:16px;padding:12px 28px}' +
-        '.btn-next{background:#ff9800;color:#fff;font-size:16px;padding:12px 28px;display:none}' +
-        '.btn-use{background:#2e7d32;color:#fff;font-size:16px;padding:12px 28px;display:none}' +
-        '.btn-retry{background:#ff5722;color:#fff;display:none}' +
-        '.status{margin:8px 0;font-size:13px;text-align:center;min-height:18px}' +
-        '.progress{margin:8px auto;max-width:400px;display:none}' +
-        '.progress-bar{height:6px;background:#333;border-radius:3px;overflow:hidden}' +
-        '.progress-fill{height:100%;background:#2e7d32;width:0%;transition:width 0.3s}' +
-        '.progress-text{font-size:11px;margin-top:3px;text-align:center}' +
-        '.result{background:#fff;color:#000;padding:10px;border-radius:6px;text-align:left;margin:8px 0;font-size:12px}' +
-        '.result .field{margin:3px 0;padding:3px 6px;background:#e8f5e9;border-radius:3px}' +
-        '.result .field b{color:#1b5e20}' +
-        '.result .error{color:#d32f2f;font-weight:700;padding:8px}' +
-        '.photo-preview{width:120px;height:150px;border:2px solid #2e7d32;border-radius:4px;object-fit:cover;margin:8px auto;display:none}' +
-        '.summary{background:#fff;color:#000;padding:12px;border-radius:8px;margin:10px 0}' +
-        '.summary h3{margin:0 0 8px;color:#1b5e20}' +
-        '.summary .row{display:flex;align-items:center;gap:10px;margin:4px 0;padding:4px;background:#f5f5f5;border-radius:3px}' +
-        '.summary .row label{font-weight:700;min-width:100px;font-size:12px;color:#555}' +
-        '.summary .row span{font-size:13px;color:#000}' +
-        '.summary .photo-thumb{width:80px;height:100px;border:1px solid #ddd;border-radius:4px;object-fit:cover}' +
-        '.tips{background:rgba(255,255,255,0.1);padding:8px;border-radius:6px;margin:8px 0;text-align:left;font-size:11px}' +
-        '.tips ul{margin:4px 0;padding-left:20px}.tips li{margin:3px 0}' +
-        'canvas{display:none}' +
+        'body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;padding:20px;min-height:100vh;display:flex;flex-direction:column;align-items:center}' +
+        'h2{margin:0 0 6px;text-align:center;font-size:20px}' +
+        '.subtitle{text-align:center;font-size:12px;color:#c8e6c9;margin-bottom:20px}' +
+        '.reader-box{background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);border-radius:12px;padding:30px;text-align:center;width:100%;max-width:420px}' +
+        '.reader-icon{font-size:64px;margin-bottom:12px}' +
+        '.status{font-size:14px;font-weight:700;margin:12px 0}' +
+        '.status.waiting{color:#fff59d}.status.reading{color:#81d4fa}.status.success{color:#a5d6a7}.status.error{color:#ef9a9a}' +
+        '.btn{padding:12px 28px;font-size:14px;font-weight:700;border:none;border-radius:6px;cursor:pointer;margin:6px}' +
+        '.btn-read{background:#ff9800;color:#fff;font-size:16px}.btn-read:hover{background:#f57c00}.btn-read:disabled{background:#777;cursor:not-allowed}' +
+        '.spinner{display:none;margin:15px auto;width:40px;height:40px;border:4px solid rgba(255,255,255,0.2);border-top:4px solid #fff;border-radius:50%;animation:spin 1s linear infinite}' +
+        '@keyframes spin{to{transform:rotate(360deg)}}' +
+        '.result-box{display:none;background:rgba(0,0,0,0.3);border-radius:8px;padding:12px;margin-top:15px;text-align:left;font-size:12px;width:100%}' +
+        '.result-box div{padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.1)}.result-box b{color:#a5d6a7;display:inline-block;width:110px}' +
+        '.btn-use{background:#2e7d32;color:#fff;font-size:14px;display:none;margin-top:12px}' +
         '</style></head><body>' +
-        '<h2>&#127466;&#127462; Read Emirates ID Card</h2>' +
-        '<div class="tabs">' +
-        '<button class="tab active" onclick="showTab(0)">&#9312; Front Side <span class="tab-badge pending" id="badge0">1</span></button>' +
-        '<button class="tab" onclick="showTab(1)">&#9313; Back Side <span class="tab-badge pending" id="badge1">2</span></button>' +
-        '<button class="tab" onclick="showTab(2)">&#9314; Result <span class="tab-badge pending" id="badge2">3</span></button>' +
+        '<h2>&#128272; OMI Key Reader</h2>' +
+        '<p class="subtitle">Insert Emirates ID card into the reader device</p>' +
+        '<div class="reader-box">' +
+        '<div class="reader-icon">&#128179;</div>' +
+        '<div class="status waiting" id="status">Waiting for card...</div>' +
+        '<div class="spinner" id="spinner"></div>' +
+        '<button class="btn btn-read" id="readBtn" onclick="readCard()">&#128272; Read Card</button>' +
+        '<div class="result-box" id="resultBox"></div>' +
+        '<button class="btn btn-use" id="useBtn" onclick="useData()">&#9989; Use This Data</button>' +
         '</div>' +
-        '<!-- FRONT SIDE PANEL -->' +
-        '<div class="panel active" id="panel0">' +
-        '<p style="text-align:center;font-size:12px;margin:0 0 8px;color:#c8e6c9">Upload the <b>FRONT side</b> of Emirates ID (side with photo, name, ID number)</p>' +
-        '<div class="upload-area" id="frontArea">' +
-        '<div class="ph" id="frontPh"><span>&#128179;</span>Click to upload FRONT side<br><small>Photo + Name + ID Number side</small></div>' +
-        '<img id="frontImg" style="display:none">' +
-        '</div>' +
-        '<input type="file" id="frontFile" accept="image/*" style="display:none" onchange="processFront(this)">' +
-        '<div class="progress" id="frontProg"><div class="progress-bar"><div class="progress-fill" id="frontProgFill"></div></div><div class="progress-text" id="frontProgText">Processing...</div></div>' +
-        '<div class="status" id="frontSt"></div>' +
-        '<div class="result" id="frontRes" style="display:none"></div>' +
-        '<div class="btn-row">' +
-        '<button class="btn btn-upload" id="frontUploadBtn">&#128194; Upload Front Side</button>' +
-        '<button class="btn btn-retry" id="frontRetryBtn" onclick="retryFront()">&#128260; Retry</button>' +
-        '<button class="btn btn-next" id="frontNextBtn" onclick="showTab(1)">Next: Back Side &#9654;</button>' +
-        '</div>' +
-        '<div class="tips"><b>&#128161; Front side has:</b> Person photo, Full name (English & Arabic), Emirates ID number, Nationality, Date of Birth</div>' +
-        '</div>' +
-        '<!-- BACK SIDE PANEL -->' +
-        '<div class="panel" id="panel1">' +
-        '<p style="text-align:center;font-size:12px;margin:0 0 8px;color:#c8e6c9">Upload the <b>BACK side</b> of Emirates ID (side with MRZ machine-readable text lines)</p>' +
-        '<div class="upload-area" id="backArea">' +
-        '<div class="ph" id="backPh"><span>&#128196;</span>Click to upload BACK side<br><small>Side with 3 lines of small text at bottom</small></div>' +
-        '<img id="backImg" style="display:none">' +
-        '</div>' +
-        '<input type="file" id="backFile" accept="image/*" style="display:none" onchange="processBack(this)">' +
-        '<div class="progress" id="backProg"><div class="progress-bar"><div class="progress-fill" id="backProgFill"></div></div><div class="progress-text" id="backProgText">Processing...</div></div>' +
-        '<div class="status" id="backSt"></div>' +
-        '<div class="result" id="backRes" style="display:none"></div>' +
-        '<div class="btn-row">' +
-        '<button class="btn btn-upload" id="backUploadBtn">&#128194; Upload Back Side</button>' +
-        '<button class="btn btn-retry" id="backRetryBtn" onclick="retryBack()">&#128260; Retry</button>' +
-        '<button class="btn btn-next" id="backNextBtn" onclick="showTab(2)">Next: View Result &#9654;</button>' +
-        '</div>' +
-        '<div class="tips"><b>&#128161; Back side has:</b> 3 lines of machine-readable text (MRZ) at bottom with encoded data</div>' +
-        '</div>' +
-        '<!-- RESULT PANEL -->' +
-        '<div class="panel" id="panel2">' +
-        '<div class="summary" id="summaryBox">' +
-        '<h3>&#9989; Emirates ID Data Summary</h3>' +
-        '<div id="summaryContent"><p style="color:#999;text-align:center">Upload front and/or back side first</p></div>' +
-        '</div>' +
-        '<div class="btn-row">' +
-        '<button class="btn btn-use" id="useBtn" onclick="useData()" style="display:inline-block">&#10004; Use This Data & Fill Form</button>' +
-        '</div>' +
-        '</div>' +
-        '<canvas id="cvs"></canvas>' +
         '<script>' +
-        'var canvas=document.getElementById("cvs");' +
-        'var frontData={},backData={},combinedData={};' +
-        'var frontDone=false,backDone=false;' +
-        'var frontImageData=null;' +
-        '/* Wire up click handlers for upload buttons and areas */' +
-        'document.getElementById("frontArea").addEventListener("click",function(){document.getElementById("frontFile").click()});' +
-        'document.getElementById("frontUploadBtn").addEventListener("click",function(){document.getElementById("frontFile").click()});' +
-        'document.getElementById("backArea").addEventListener("click",function(){document.getElementById("backFile").click()});' +
-        'document.getElementById("backUploadBtn").addEventListener("click",function(){document.getElementById("backFile").click()});' +
-        'function showTab(idx){' +
-        'document.querySelectorAll(".panel").forEach(function(p,i){p.classList.toggle("active",i===idx)});' +
-        'document.querySelectorAll(".tab").forEach(function(t,i){t.classList.toggle("active",i===idx)});' +
-        'if(idx===2)buildSummary()}' +
-        'function showFrontProgress(pct,msg){document.getElementById("frontProg").style.display="block";document.getElementById("frontProgFill").style.width=pct+"%";document.getElementById("frontProgText").textContent=msg||pct+"%"}' +
-        'function hideFrontProgress(){document.getElementById("frontProg").style.display="none"}' +
-        'function showBackProgress(pct,msg){document.getElementById("backProg").style.display="block";document.getElementById("backProgFill").style.width=pct+"%";document.getElementById("backProgText").textContent=msg||pct+"%"}' +
-        'function hideBackProgress(){document.getElementById("backProg").style.display="none"}' +
-        'function retryFront(){document.getElementById("frontImg").style.display="none";document.getElementById("frontPh").style.display="block";document.getElementById("frontRes").style.display="none";document.getElementById("frontRetryBtn").style.display="none";document.getElementById("frontNextBtn").style.display="none";document.getElementById("frontUploadBtn").style.display="inline-block";document.getElementById("frontSt").textContent="";frontDone=false;document.getElementById("badge0").className="tab-badge pending"}' +
-        'function retryBack(){document.getElementById("backImg").style.display="none";document.getElementById("backPh").style.display="block";document.getElementById("backRes").style.display="none";document.getElementById("backRetryBtn").style.display="none";document.getElementById("backNextBtn").style.display="none";document.getElementById("backUploadBtn").style.display="inline-block";document.getElementById("backSt").textContent="";backDone=false;document.getElementById("badge1").className="tab-badge pending"}' +
-        '/* ===== FRONT SIDE PROCESSING ===== */' +
-        'function processFront(input){if(!input.files||!input.files[0])return;' +
-        'var reader=new FileReader();reader.onload=function(e){' +
-        'frontImageData=e.target.result;' +
-        'document.getElementById("frontImg").src=e.target.result;document.getElementById("frontImg").style.display="block";document.getElementById("frontPh").style.display="none";' +
-        'document.getElementById("frontUploadBtn").style.display="none";' +
-        'var imgObj=new Image();imgObj.onload=function(){' +
-        'var maxW=2000,maxH=1500,w=imgObj.width,h=imgObj.height;' +
-        'if(w>maxW||h>maxH){var scale=Math.min(maxW/w,maxH/h);w=Math.round(w*scale);h=Math.round(h*scale)}' +
-        'var ctx=canvas.getContext("2d");canvas.width=w;canvas.height=h;ctx.drawImage(imgObj,0,0,w,h);' +
-        '/* Extract person photo from front side - photo is on left-center of Emirates ID card */' +
-        'var photoCanvas=document.createElement("canvas");' +
-        'var pW=Math.round(w*0.25);var pH=Math.round(h*0.50);' +
-        'var pX=Math.round(w*0.05);var pY=Math.round(h*0.38);' +
-        'photoCanvas.width=pW;photoCanvas.height=pH;' +
-        'var pCtx=photoCanvas.getContext("2d");pCtx.drawImage(imgObj,pX,pY,pW,pH,0,0,pW,pH);' +
-        'var croppedPhoto=photoCanvas.toDataURL("image/jpeg",0.9);' +
-        'document.getElementById("frontSt").textContent="Reading front side... please wait (10-30 sec)";' +
-        'showFrontProgress(0,"Loading OCR...");' +
-        'Tesseract.recognize(canvas,"eng",{logger:function(m){if(m.status==="recognizing text")showFrontProgress(Math.round(m.progress*100),"Reading... "+Math.round(m.progress*100)+"%")}}).then(function(r){' +
-        'hideFrontProgress();document.getElementById("frontSt").textContent="";' +
-        'frontData=parseFront(r.data.text);' +
-        'frontData.photoDataUrl=croppedPhoto;' +
-        'showFrontResult(frontData,r.data.text);' +
-        'frontDone=true;document.getElementById("badge0").className="tab-badge done";document.getElementById("badge0").textContent="\\u2713";' +
-        'document.getElementById("frontRetryBtn").style.display="inline-block";document.getElementById("frontNextBtn").style.display="inline-block"' +
-        '}).catch(function(err){hideFrontProgress();document.getElementById("frontSt").innerHTML="<span style=color:#ff5252>Error: "+err.message+"</span>";document.getElementById("frontRetryBtn").style.display="inline-block"})' +
-        '};imgObj.src=e.target.result};reader.readAsDataURL(input.files[0])}' +
-        'function parseFront(t){var d={};var raw=t;' +
-        '/* Try to extract Emirates ID number from front (printed as 784-XXXX-XXXXXXX-X) */' +
-        'var idM=raw.match(/784[\\s\\-._]?\\d{4}[\\s\\-._]?\\d{7}[\\s\\-._]?\\d/);' +
-        'if(idM){d.emiratesId=idM[0].replace(/[\\s._]/g,"-").replace(/--+/g,"-")}' +
-        'if(!d.emiratesId){var idM2=raw.replace(/[\\s\\-]/g,"").match(/784\\d{12}/);if(idM2){var eid=idM2[0];d.emiratesId=eid.substring(0,3)+"-"+eid.substring(3,7)+"-"+eid.substring(7,14)+"-"+eid.substring(14)}}' +
-        '/* Try to extract Name */' +
-        'var nameM=raw.match(/Name[:\\s]*([A-Za-z][A-Za-z\\s]{2,40})/i);' +
-        'if(nameM){var np=nameM[1].trim().split(/\\s+/);if(np.length>=2){d.firstName=np[0];d.lastName=np.slice(1).join(" ")}else{d.firstName=np[0]}}' +
-        '/* Try alternative name pattern - just consecutive words on a line */' +
-        'if(!d.firstName){var lines=raw.split("\\n");for(var i=0;i<lines.length;i++){var l=lines[i].trim();if(/^[A-Z][A-Z\\s]{4,35}$/.test(l)&&!/UNITED|EMIRATES|IDENTITY|CARD|RESIDENT/i.test(l)){var wp=l.trim().split(/\\s+/);if(wp.length>=2){d.firstName=wp[0];d.lastName=wp.slice(1).join(" ");break}}}}' +
-        '/* Try to get Nationality */' +
-        'var natM=raw.match(/Nationality[:\\s]*([A-Za-z]+)/i);if(natM)d.nationality=natM[1].toUpperCase();' +
-        '/* Try to get DOB from front */' +
-        'var dobM=raw.match(/(\\d{2})[\\/-](\\d{2})[\\/-]((?:19|20)\\d{2})/);if(dobM)d.dob=dobM[1]+"/"+dobM[2]+"/"+dobM[3];' +
-        '/* Try gender */' +
-        'if(/\\bMALE\\b/i.test(raw)&&!/FEMALE/i.test(raw))d.gender="Male";' +
-        'else if(/\\bFEMALE\\b/i.test(raw))d.gender="Female";' +
-        'else if(/\\bM\\b/.test(raw)&&raw.indexOf("Sex")>-1)d.gender="Male";' +
-        'else if(/\\bF\\b/.test(raw)&&raw.indexOf("Sex")>-1)d.gender="Female";' +
-        'return d}' +
-        'function showFrontResult(d,raw){var el=document.getElementById("frontRes");el.style.display="block";var h="";var found=false;' +
-        'if(d.photoDataUrl){h+="<div class=field style=text-align:center><b>Extracted Photo:</b><br><img src=\\""+d.photoDataUrl+"\\" style=\\"width:100px;height:125px;object-fit:cover;border:2px solid #2e7d32;border-radius:4px;margin-top:6px\\"></div>"}' +
-        'if(d.emiratesId){h+="<div class=field>Emirates ID: <b>"+d.emiratesId+"</b></div>";found=true}' +
-        'if(d.firstName||d.lastName){h+="<div class=field>Name: <b>"+(d.firstName||"")+" "+(d.lastName||"")+"</b></div>";found=true}' +
-        'if(d.dob){h+="<div class=field>DOB: <b>"+d.dob+"</b></div>";found=true}' +
-        'if(d.gender){h+="<div class=field>Gender: <b>"+d.gender+"</b></div>";found=true}' +
-        'if(d.nationality){h+="<div class=field>Nationality: <b>"+d.nationality+"</b></div>";found=true}' +
-        'if(found){h="<b style=color:#1b5e20>&#10004; Front side read:</b><br>"+h}else{h="<div class=field style=text-align:center><b>Extracted Photo:</b><br><img src=\\""+d.photoDataUrl+"\\" style=\\"width:100px;height:125px;object-fit:cover;border:2px solid #2e7d32;border-radius:4px;margin-top:6px\\"></div><div style=color:#ff9800;padding:4px>Could not read text clearly. Proceed to Back side for MRZ data.</div>"}' +
-        'el.innerHTML=h}' +
-        '/* ===== BACK SIDE PROCESSING ===== */' +
-        'function processBack(input){if(!input.files||!input.files[0])return;' +
-        'var reader=new FileReader();reader.onload=function(e){' +
-        'document.getElementById("backImg").src=e.target.result;document.getElementById("backImg").style.display="block";document.getElementById("backPh").style.display="none";' +
-        'document.getElementById("backUploadBtn").style.display="none";' +
-        'var imgObj=new Image();imgObj.onload=function(){' +
-        'var maxW=2000,maxH=1500,w=imgObj.width,h=imgObj.height;' +
-        'if(w>maxW||h>maxH){var scale=Math.min(maxW/w,maxH/h);w=Math.round(w*scale);h=Math.round(h*scale)}' +
-        'var ctx=canvas.getContext("2d");canvas.width=w;canvas.height=h;ctx.drawImage(imgObj,0,0,w,h);' +
-        'document.getElementById("backSt").textContent="Reading back side MRZ... please wait (10-30 sec)";' +
-        'showBackProgress(0,"Loading OCR...");' +
-        'Tesseract.recognize(canvas,"eng",{logger:function(m){if(m.status==="recognizing text")showBackProgress(Math.round(m.progress*100),"Reading... "+Math.round(m.progress*100)+"%")}}).then(function(r){' +
-        'hideBackProgress();document.getElementById("backSt").textContent="";' +
-        'backData=parseMRZ(r.data.text);' +
-        'showBackResult(backData,r.data.text);' +
-        'backDone=true;document.getElementById("badge1").className="tab-badge done";document.getElementById("badge1").textContent="\\u2713";' +
-        'document.getElementById("backRetryBtn").style.display="inline-block";document.getElementById("backNextBtn").style.display="inline-block"' +
-        '}).catch(function(err){hideBackProgress();document.getElementById("backSt").innerHTML="<span style=color:#ff5252>Error: "+err.message+"</span>";document.getElementById("backRetryBtn").style.display="inline-block"})' +
-        '};imgObj.src=e.target.result};reader.readAsDataURL(input.files[0])}' +
-        'function parseMRZ(t){var d={};var raw=t;' +
-        'var lines=t.split("\\n").map(function(l){return l.trim()});' +
-        'var cleanLines=lines.map(function(l){return l.replace(/\\s/g,"").toUpperCase()});' +
-        'var mrz=cleanLines.filter(function(l){return l.length>=28&&(' +
-        '/^I[<ILDCZ]ARE/.test(l)||/^I.{0,2}ARE/.test(l)||' +
-        '/<<</.test(l)||/[A-Z]<<[A-Z]/.test(l)||' +
-        '/^\\d{6,7}[MFX<]\\d{6}/.test(l))});' +
-        'if(mrz.length<2){mrz=cleanLines.filter(function(l){return l.length>=24&&(/[<]{2,}/.test(l)||(/ARE/.test(l)&&l.length>=28)||/\\d{6}[MF]\\d{6}/.test(l))})}' +
-        'var line1=mrz.length>=1?mrz[0]:"";' +
-        'var idMatch=line1.match(/ARE(\\d{9,15})/);' +
-        'if(idMatch){var rid=idMatch[1];if(rid.length>=12){d.emiratesId="784-"+rid.substring(0,4)+"-"+rid.substring(4,11)+"-"+rid.substring(11)}}' +
-        'var line2=mrz.length>=2?mrz[1]:"";' +
-        'var m=line2.match(/(\\d{6})\\d?([MF<])(\\d{6})\\d?([A-Z]{3})/);' +
-        'if(!m){m=line2.match(/(\\d{6}).?([MF]).?(\\d{6}).?([A-Z]{3})/)}' +
-        'if(m){var yy=parseInt(m[1].substring(0,2));var mm=m[1].substring(2,4);var dd=m[1].substring(4,6);' +
-        'd.dob=dd+"/"+mm+"/"+(yy>50?"19":"20")+m[1].substring(0,2);' +
-        'd.gender=(m[2]==="M")?"Male":"Female";d.nationality=m[4];' +
-        'var eyy=parseInt(m[3].substring(0,2));var emm=m[3].substring(2,4);var edd=m[3].substring(4,6);' +
-        'd.eidExpiry=edd+"/"+emm+"/"+(eyy>50?"19":"20")+m[3].substring(0,2)}' +
-        'var nameLine="";for(var i=0;i<mrz.length;i++){if(mrz[i].indexOf("<<")>-1&&!/^I[<A-Z]/.test(mrz[i])&&!/^\\d{6}/.test(mrz[i])){nameLine=mrz[i];break}}' +
-        'if(!nameLine&&mrz.length>=3)nameLine=mrz[2];' +
-        'if(nameLine&&nameLine.indexOf("<<")>-1){var parts=nameLine.split(/<<+/);' +
-        'var ln=(parts[0]||"").replace(/^[A-Z0-9]{0,2}(?=[A-Z]{2})/,"").replace(/[<0-9]/g," ").trim();' +
-        'var fn=(parts[1]||"").replace(/[<0-9]/g," ").trim();' +
-        'if(fn)d.firstName=fn;if(ln)d.lastName=ln}' +
-        'if(!d.emiratesId){var em=raw.match(/784[\\s\\-._]?\\d{4}[\\s\\-._]?\\d{7}[\\s\\-._]?\\d/);if(em){d.emiratesId=em[0].replace(/[\\s._]/g,"-").replace(/--+/g,"-")}}' +
-        'if(!d.emiratesId){var em2=raw.replace(/[\\s\\-]/g,"").match(/784\\d{12}/);if(em2){var eid=em2[0];d.emiratesId=eid.substring(0,3)+"-"+eid.substring(3,7)+"-"+eid.substring(7,14)+"-"+eid.substring(14)}}' +
-        'if(!d.gender){if(/\\bMALE\\b/i.test(raw))d.gender="Male";else if(/\\bFEMALE\\b/i.test(raw))d.gender="Female"}' +
-        'if(!d.dob){var dobM=raw.match(/(\\d{2})[\\/-](\\d{2})[\\/-]((?:19|20)\\d{2})/);if(dobM)d.dob=dobM[1]+"/"+dobM[2]+"/"+dobM[3]}' +
-        'return d}' +
-        'function showBackResult(d,raw){var el=document.getElementById("backRes");el.style.display="block";var h="";var found=false;' +
-        'if(d.emiratesId){h+="<div class=field>Emirates ID: <b>"+d.emiratesId+"</b></div>";found=true}' +
-        'if(d.firstName||d.lastName){h+="<div class=field>Name: <b>"+(d.firstName||"")+" "+(d.lastName||"")+"</b></div>";found=true}' +
-        'if(d.dob){h+="<div class=field>DOB: <b>"+d.dob+"</b></div>";found=true}' +
-        'if(d.gender){h+="<div class=field>Gender: <b>"+d.gender+"</b></div>";found=true}' +
-        'if(d.nationality){h+="<div class=field>Nationality: <b>"+d.nationality+"</b></div>";found=true}' +
-        'if(d.eidExpiry){h+="<div class=field>ID Expiry: <b>"+d.eidExpiry+"</b></div>";found=true}' +
-        'if(found){h="<b style=color:#1b5e20>&#10004; Back side MRZ read:</b><br>"+h}else{h="<div class=error>&#10060; Could not read MRZ. Try a clearer photo with good lighting.</div>"}' +
-        'el.innerHTML=h}' +
-        '/* ===== COMBINE & SUMMARY ===== */' +
-        'function buildSummary(){' +
-        'combinedData={};' +
-        '/* Back side MRZ data is more reliable, use as base */' +
-        'if(backData.emiratesId)combinedData.emiratesId=backData.emiratesId;else if(frontData.emiratesId)combinedData.emiratesId=frontData.emiratesId;' +
-        'if(backData.firstName)combinedData.firstName=backData.firstName;else if(frontData.firstName)combinedData.firstName=frontData.firstName;' +
-        'if(backData.lastName)combinedData.lastName=backData.lastName;else if(frontData.lastName)combinedData.lastName=frontData.lastName;' +
-        'if(backData.dob)combinedData.dob=backData.dob;else if(frontData.dob)combinedData.dob=frontData.dob;' +
-        'if(backData.gender)combinedData.gender=backData.gender;else if(frontData.gender)combinedData.gender=frontData.gender;' +
-        'if(backData.nationality)combinedData.nationality=backData.nationality;else if(frontData.nationality)combinedData.nationality=frontData.nationality;' +
-        'if(backData.eidExpiry)combinedData.eidExpiry=backData.eidExpiry;' +
-        'if(frontData.photoDataUrl)combinedData.photoDataUrl=frontData.photoDataUrl;' +
-        'var el=document.getElementById("summaryContent");var h="";' +
-        'if(combinedData.photoDataUrl){h+="<div class=row><label>Photo:</label><img class=photo-thumb src=\\""+combinedData.photoDataUrl+"\\"></div>"}' +
-        'if(combinedData.emiratesId){h+="<div class=row><label>Emirates ID:</label><span><b>"+combinedData.emiratesId+"</b></span></div>"}' +
-        'if(combinedData.firstName||combinedData.lastName){h+="<div class=row><label>Name:</label><span>"+(combinedData.firstName||"")+" "+(combinedData.lastName||"")+"</span></div>"}' +
-        'if(combinedData.dob){h+="<div class=row><label>Date of Birth:</label><span>"+combinedData.dob+"</span></div>"}' +
-        'if(combinedData.gender){h+="<div class=row><label>Gender:</label><span>"+combinedData.gender+"</span></div>"}' +
-        'if(combinedData.nationality){h+="<div class=row><label>Nationality:</label><span>"+combinedData.nationality+"</span></div>"}' +
-        'if(combinedData.eidExpiry){h+="<div class=row><label>EID Expiry:</label><span>"+combinedData.eidExpiry+"</span></div>"}' +
-        'if(!h)h="<p style=color:#999;text-align:center>No data extracted. Please upload front and/or back side images.</p>";' +
-        'el.innerHTML=h;' +
-        'document.getElementById("badge2").className="tab-badge done";document.getElementById("badge2").textContent="\\u2713"}' +
-        '/* ===== SEND DATA BACK ===== */' +
-        'function useData(){buildSummary();if(window.opener&&window.opener.fillFromScan){window.opener.fillFromScan(combinedData)}window.close()}' +
+        'var cardData=null;' +
+        'function readCard(){var btn=document.getElementById("readBtn");var spinner=document.getElementById("spinner");var status=document.getElementById("status");btn.disabled=true;btn.textContent="Reading...";spinner.style.display="block";status.className="status reading";status.textContent="Reading card data...";fetch("http://localhost:6090/readeidcard").then(function(r){return r.json()}).then(function(d){spinner.style.display="none";if(d&&(d.name||d.idNumber||d.fullName)){cardData=d;showResult(d);status.className="status success";status.textContent="Card read successfully!"}else{status.className="status error";status.textContent="No data found. Try again.";btn.disabled=false;btn.textContent="\\u{1F511} Read Card"}}).catch(function(){spinner.style.display="none";status.className="status error";status.textContent="Cannot connect to reader. Make sure Glass-Reader or EID Toolkit is running on this PC.";btn.disabled=false;btn.textContent="\\u{1F511} Read Card"})}' +
+        'function showResult(d){var box=document.getElementById("resultBox");var html="";if(d.fullName||d.name)html+="<div><b>Name:</b> "+(d.fullName||d.name)+"</div>";if(d.idNumber)html+="<div><b>ID Number:</b> "+d.idNumber+"</div>";if(d.nationality)html+="<div><b>Nationality:</b> "+d.nationality+"</div>";if(d.gender||d.sex)html+="<div><b>Gender:</b> "+(d.gender||d.sex)+"</div>";if(d.dateOfBirth||d.dob)html+="<div><b>Date of Birth:</b> "+(d.dateOfBirth||d.dob)+"</div>";if(d.expiryDate)html+="<div><b>Expiry:</b> "+d.expiryDate+"</div>";box.innerHTML=html;box.style.display="block";document.getElementById("useBtn").style.display="inline-block"}' +
+        'function useData(){if(cardData&&window.opener&&window.opener.fillFromScan){var d=cardData;var parts=(d.fullName||d.name||"").split(" ");var scanData={firstName:parts[0]||"",middleName:parts.length>2?parts.slice(1,-1).join(" "):"",lastName:parts[parts.length-1]||"",eid:d.idNumber||"",nationality:d.nationality||"",gender:d.gender||d.sex||"",dob:d.dateOfBirth||d.dob||"",eidExpiry:d.expiryDate||""};window.opener.fillFromScan(scanData);window.close()}}' +
+        'setTimeout(readCard,500);' +
         '<\/script></body></html>';
-      var win = window.open("", "_blank", "width=750,height=720");
-      if (win) { win.document.write(scanHtml); win.document.close(); }
+      var win = window.open("", "_blank", "width=500,height=550");
+      if (win) { win.document.write(readerHtml); win.document.close(); }
       else { alert("Popup blocked! Please allow popups for this site and try again."); }
     }
 
@@ -7346,6 +7122,26 @@ podi kizhi + lepanam x 5 days.</textarea>
       document.querySelectorAll(".tab-panel").forEach((panel, index) => panel.classList.toggle("active", index === 0));
       openModal("patientModal");
       byId("pFirst").focus();
+      // Auto-read OMI Key Reader for new patients
+      if (mode === "new") { setTimeout(autoReadOMI, 300); }
+    }
+
+    function autoReadOMI() {
+      fetch("http://localhost:6090/readeidcard").then(function(r){return r.json()}).then(function(d){
+        if(d&&(d.name||d.idNumber||d.fullName||d.CardNumber)){
+          var scanData={
+            firstName:(d.firstName||d.name||d.fullName||"").split(" ")[0]||"",
+            middleName:"",
+            lastName:(d.lastName||(d.fullName||d.name||"").split(" ").slice(1).join(" "))||"",
+            eid:d.idNumber||d.CardNumber||d.IDNumber||"",
+            nationality:d.nationality||d.Nationality||"",
+            gender:d.gender||d.sex||d.Gender||"",
+            dob:d.dateOfBirth||d.dob||d.DateOfBirth||"",
+            eidExpiry:d.expiryDate||d.ExpiryDate||""
+          };
+          fillFromScan(scanData);
+        }
+      }).catch(function(){});
     }
 
     function parseAnyDate(value) {

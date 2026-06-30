@@ -490,6 +490,34 @@ async function handleAPI(req, res) {
     saveDatabase();
     return sendJSON(res, { success: true });
   }
+
+  // ── Employees ──
+  if (url === '/api/employees' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.employees || [] });
+  }
+  if (url === '/api/employees' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.employees) db.employees = [];
+    if (!db.nextIds) db.nextIds = {};
+    if (!db.nextIds.employee) db.nextIds.employee = 74;
+    const existing = db.employees.find(e => e.empCode === body.empCode);
+    if (existing) {
+      Object.assign(existing, body);
+    } else {
+      if (!body.empCode) body.empCode = 'EM' + String(db.nextIds.employee++).padStart(4, '0');
+      db.employees.push(body);
+    }
+    saveDatabase();
+    return sendJSON(res, { success: true, data: body });
+  }
+  if (url.startsWith('/api/employees/') && method === 'DELETE') {
+    const empCode = decodeURIComponent(url.split('/')[3]);
+    if (!db.employees) db.employees = [];
+    db.employees = db.employees.filter(e => e.empCode !== empCode);
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+
   // Doctor signature/seal
   if (url === '/api/doctor-sign' && method === 'POST') {
     const body = await parseBody(req);
@@ -660,35 +688,131 @@ async function handleAPI(req, res) {
     return;
   }
 
-  // ── Read Emirates ID Card ──
+  // ── Read Emirates ID Card (ICA Toolkit WebSocket on port 9004) ──
   if (url === '/api/read-eid' && method === 'GET') {
-    // Connect to ICA Toolkit WebSocket on port 9004
+    const WebSocket = require('ws');
+    const fs2 = require('fs');
+    
+    // Check if toolkit service is installed and license status
+    let toolkitInstalled = false;
+    let licenseExpired = false;
+    let licenseExpiry = '';
     try {
-      const http = require('http');
-      const options = { hostname: '127.0.0.1', port: 9004, path: '/toolkit/ReadPublicData', method: 'GET', timeout: 8000 };
-      
-      const req2 = http.request(options, (res2) => {
-        let data = '';
-        res2.on('data', chunk => data += chunk);
-        res2.on('end', () => {
-          try {
-            const parsed = JSON.parse(data);
-            sendJSON(res, { success: true, data: parsed });
-          } catch(e) {
-            sendJSON(res, { success: true, data: { raw: data, message: 'Data received from toolkit' } });
+      const logDir = 'C:\\Program Files\\ICAToolkitService';
+      if (fs2.existsSync(logDir)) {
+        toolkitInstalled = true;
+        // Check latest log for license info
+        const files = fs2.readdirSync(logDir).filter(f => f.startsWith('EIDAToolkit_') && f.endsWith('.log'));
+        if (files.length > 0) {
+          const latestLog = fs2.readFileSync(path.join(logDir, files[files.length - 1]), 'utf8');
+          const expiryMatch = latestLog.match(/License expiry date \["([^"]+)"\]/);
+          if (expiryMatch) {
+            licenseExpiry = expiryMatch[1];
+            const expDate = new Date(licenseExpiry);
+            if (expDate < new Date()) licenseExpired = true;
           }
-        });
+        }
+      }
+    } catch(e) {}
+
+    if (!toolkitInstalled) {
+      return sendJSON(res, { success: false, error: 'ICA Toolkit not installed. Install Emirates ID Card Toolkit Service to enable auto card reading.' });
+    }
+
+    if (licenseExpired) {
+      return sendJSON(res, { success: false, error: 'ICA Toolkit license EXPIRED (' + licenseExpiry + '). Contact ICA at 600-522222 to renew the toolkit license for auto card reading.' });
+    }
+
+    // Connect to toolkit WebSocket
+    let responded = false;
+    let ws;
+    const timeout = setTimeout(() => {
+      if (!responded) {
+        responded = true;
+        try { ws.close(); } catch(e) {}
+        sendJSON(res, { success: false, error: 'ICA Toolkit not responding. Service is running but license may need renewal. Expiry: ' + (licenseExpiry || 'unknown') });
+      }
+    }, 10000);
+
+    try {
+      ws = new WebSocket('ws://127.0.0.1:9004');
+      
+      ws.on('open', () => {
+        // Send ReadPublicData command
+        ws.send(JSON.stringify({ cmd: 'ReadPublicData' }));
+        ws.send(JSON.stringify({ command: 'ReadPublicData', params: {} }));
+        ws.send(JSON.stringify({ jsonrpc: '2.0', method: 'ReadPublicData', id: 1 }));
       });
-      req2.on('error', (e) => {
-        sendJSON(res, { success: false, error: 'Cannot connect to ICA Toolkit on port 9004: ' + e.message });
+
+      ws.on('message', (data) => {
+        if (responded) return;
+        responded = true;
+        clearTimeout(timeout);
+        try { ws.close(); } catch(e) {}
+        
+        let parsed = null;
+        try {
+          const obj = JSON.parse(data.toString());
+          const d = obj.ReadPublicDataResponse || obj.PublicData || obj.data || obj;
+          parsed = {};
+          
+          // Map fields
+          const fields = ['IDNumber','IdNumber','idn','CardNumber','emiratesId'];
+          for (const f of fields) { if (d[f]) { parsed.emiratesId = d[f]; break; } }
+          
+          if (d.FullNameEnglish || d.FullName || d.fullNameEn) {
+            const name = (d.FullNameEnglish || d.FullName || d.fullNameEn).trim().split(/\s+/);
+            parsed.firstName = name[0];
+            parsed.lastName = name.length > 1 ? name.slice(1).join(' ') : '';
+          }
+          if (d.FirstNameEn || d.GivenName) parsed.firstName = d.FirstNameEn || d.GivenName;
+          if (d.LastNameEn || d.Surname) parsed.lastName = d.LastNameEn || d.Surname;
+          if (d.DateOfBirth || d.BirthDate || d.dob) parsed.dob = d.DateOfBirth || d.BirthDate || d.dob;
+          if (d.Gender || d.Sex) {
+            const g = (d.Gender || d.Sex).toString().toUpperCase();
+            parsed.gender = (g === 'M' || g === 'MALE') ? 'Male' : 'Female';
+          }
+          if (d.Nationality || d.NationalityEn) parsed.nationality = d.Nationality || d.NationalityEn;
+          if (d.ExpiryDate || d.CardExpiryDate) parsed.eidExpiry = d.ExpiryDate || d.CardExpiryDate;
+          if (d.Photo || d.CardHolderPhoto) parsed.photoDataUrl = 'data:image/jpeg;base64,' + (d.Photo || d.CardHolderPhoto);
+          
+          // Format ID
+          if (parsed.emiratesId && !parsed.emiratesId.includes('-')) {
+            const id = parsed.emiratesId.replace(/\D/g, '');
+            if (id.length === 15) parsed.emiratesId = id.substring(0,3) + '-' + id.substring(3,7) + '-' + id.substring(7,14) + '-' + id.substring(14);
+          }
+        } catch(e) {
+          parsed = null;
+        }
+        
+        if (parsed && (parsed.emiratesId || parsed.firstName)) {
+          sendJSON(res, { success: true, data: parsed });
+        } else {
+          sendJSON(res, { success: true, data: JSON.parse(data.toString()) });
+        }
       });
-      req2.on('timeout', () => {
-        req2.destroy();
-        sendJSON(res, { success: false, error: 'Toolkit timeout - insert card and try again' });
+
+      ws.on('error', (e) => {
+        if (!responded) {
+          responded = true;
+          clearTimeout(timeout);
+          sendJSON(res, { success: false, error: 'Cannot connect to ICA Toolkit on port 9004. Make sure the service is running. (' + e.message + ')' });
+        }
       });
-      req2.end();
+
+      ws.on('close', () => {
+        if (!responded) {
+          responded = true;
+          clearTimeout(timeout);
+          sendJSON(res, { success: false, error: 'ICA Toolkit closed connection. Toolkit license may be expired (' + (licenseExpiry || 'unknown') + '). Contact ICA at 600-522222 to renew.' });
+        }
+      });
     } catch(e) {
-      sendJSON(res, { success: false, error: 'Error: ' + e.message });
+      if (!responded) {
+        responded = true;
+        clearTimeout(timeout);
+        sendJSON(res, { success: false, error: 'Error connecting to toolkit: ' + e.message });
+      }
     }
     return;
   }
