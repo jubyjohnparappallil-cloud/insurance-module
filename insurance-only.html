@@ -4206,6 +4206,24 @@ function inheritFromEMR() {
         </div>
       </section>
 
+      <!-- CONSENT FORMS SCREEN -->
+      <section class="screen" id="consentFormsScreen" aria-label="Consent Forms">
+        <div class="screen-title green">Consent Forms</div>
+        <div class="toolbar">
+          <button class="tool-button primary" type="button" id="consentNew"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="consentEdit"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="consentDelete"><span class="mini-icon i-delete">x</span>Delete</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Consent forms list">
+            <colgroup><col style="width:80px"><col style="width:100px"><col style="width:80px"><col><col style="width:120px"><col style="width:80px"></colgroup>
+            <thead><tr><th>ID</th><th>Date</th><th>MR No</th><th>Patient Name</th><th>Doctor</th><th>Status</th></tr></thead>
+            <tbody id="consentRows"></tbody>
+          </table>
+          <div class="empty-message" id="consentEmpty">No consent forms saved yet.</div>
+        </div>
+      </section>
+
       <section class="screen" id="consultationScreen" aria-label="Doctors Consultation">
         <div class="consult-layout">
           <!-- Top title bar -->
@@ -6055,7 +6073,7 @@ podi kizhi + lepanam x 5 days.</textarea>
     const homeModules = [
       ["Patients", "g-patient", "patients"],
       ["Appointments", "g-calendar", "appointments"],
-      ["Consent", "g-doc", "patients"],
+      ["Consent", "g-doc", "consentForms"],
       ["DoctorDesk", "g-doctor", "doctorDesk"],
       ["Pending Bills", "g-bill", "receipts"],
       ["Invoices", "g-bill", "receipts"],
@@ -6269,6 +6287,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       const target = byId(`${view}Screen`);
       if (target) target.classList.add("active");
       if (view === "doctorDesk") renderDoctorDesk();
+      if (view === "consentForms") renderConsentList();
       if (view === "attendance") renderAttendance();
       if (view === "shiftManagement") renderShifts();
       if (view === "leaveManagement") renderLeaves();
@@ -10135,7 +10154,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       html += '.rb{margin-top:36px}';
       html += '@media print{.cr-toolbar{display:none!important}.rb{margin-top:0}}';
       html += '</style></head><body>';
-      html += '<div class="cr-toolbar"><button class="g" onclick="window.print()">&#128424; Print</button> <button onclick="window.print()">&#128190; Save as PDF</button> <span style="margin-left:15px;font-size:9px;color:#555">&#9998; Click any underlined field to edit</span></div>';
+      html += '<div class="cr-toolbar"><button class="g" onclick="window.print()">&#128424; Print</button> <button onclick="saveConsent()" style="height:24px;padding:0 12px;border:1px solid #2e7d32;background:#2e7d32;color:#fff;font-size:10px;font-weight:700;cursor:pointer;border-radius:2px">&#128190; Save</button> <div style="position:relative;display:inline-block"><button onclick="var d=this.nextElementSibling;d.style.display=d.style.display===\'block\'?\'none\':\'block\'" style="height:24px;padding:0 12px;border:1px solid #999;background:#fff;font-size:10px;font-weight:700;cursor:pointer;border-radius:2px">&#128229; Export &#9660;</button><div style="display:none;position:absolute;top:26px;left:0;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.15);z-index:999;min-width:130px"><button style="display:block;width:100%;padding:8px 14px;border:none;background:none;text-align:left;font-size:11px;cursor:pointer;font-weight:600" onmouseover="this.style.background=\'#f5f5f5\'" onmouseout="this.style.background=\'none\'" onclick="window.print();this.parentElement.style.display=\'none\'">&#128196; PDF</button><button style="display:block;width:100%;padding:8px 14px;border:none;background:none;text-align:left;font-size:11px;cursor:pointer;font-weight:600" onmouseover="this.style.background=\'#e3f2fd\'" onmouseout="this.style.background=\'none\'" onclick="exportToWord();this.parentElement.style.display=\'none\'">&#128221; Word (.doc)</button><button style="display:block;width:100%;padding:8px 14px;border:none;background:none;text-align:left;font-size:11px;cursor:pointer;font-weight:600" onmouseover="this.style.background=\'#e8f5e9\'" onmouseout="this.style.background=\'none\'" onclick="exportToExcel();this.parentElement.style.display=\'none\'">&#128202; Excel (.xls)</button></div></div> <span style="margin-left:10px;font-size:9px;color:#555">&#9998; Click any underlined field to edit</span></div>';
       html += '<div class="rb">';
 
       // HEADER
@@ -10261,6 +10280,14 @@ podi kizhi + lepanam x 5 days.</textarea>
       var win = window.open("", "_blank", "width=800,height=1100");
       win.document.write(html);
       win.document.close();
+      win.exportToWord = function() { var tb=win.document.querySelector(".cr-toolbar");if(tb)tb.style.display="none";var c=win.document.documentElement.outerHTML;if(tb)tb.style.display="";var b=new Blob(["\ufeff"+c],{type:"application/msword"});var a=win.document.createElement("a");a.href=URL.createObjectURL(b);a.download="Consent_Form.doc";win.document.body.appendChild(a);a.click();win.document.body.removeChild(a); };
+      win.exportToExcel = function() { var tb=win.document.querySelector(".cr-toolbar");if(tb)tb.style.display="none";var c=win.document.documentElement.outerHTML;if(tb)tb.style.display="";var b=new Blob(["\ufeff"+c],{type:"application/vnd.ms-excel"});var a=win.document.createElement("a");a.href=URL.createObjectURL(b);a.download="Consent_Form.xls";win.document.body.appendChild(a);a.click();win.document.body.removeChild(a); };
+      win.saveConsent = function() {
+        var id = 'CON-'+String(savedConsents.length+1).padStart(4,'0');
+        savedConsents.unshift({ id: id, date: dateStr, mrNo: fileNo, patientName: patientName, doctor: doctorName });
+        renderConsentList();
+        alert("Consent saved: " + id + " - " + patientName);
+      };
     }
 
     // ─── Medicine Report Generator ──────────────────────────────────
@@ -11270,6 +11297,61 @@ podi kizhi + lepanam x 5 days.</textarea>
         }
       }).catch(function(){});
     }
+
+    // ─── Consent Forms ───────────────────────────────────────────
+    var savedConsents = [];
+    function renderConsentList() {
+      var tbody = byId("consentRows");
+      if (!tbody) return;
+      tbody.innerHTML = savedConsents.map(function(c) {
+        return '<tr data-id="'+escapeHtml(c.id||'')+'">' +
+          '<td style="color:#1b5e20;font-weight:700">'+escapeHtml(c.id||'')+'</td>' +
+          '<td>'+escapeHtml(c.date||'')+'</td>' +
+          '<td>'+escapeHtml(c.mrNo||'')+'</td>' +
+          '<td style="font-weight:700">'+escapeHtml(c.patientName||'')+'</td>' +
+          '<td>'+escapeHtml(c.doctor||'')+'</td>' +
+          '<td>Signed</td></tr>';
+      }).join('');
+      var empty = byId("consentEmpty");
+      if (empty) empty.classList.toggle("show", savedConsents.length === 0);
+    }
+    setTimeout(function() {
+      byId("consentNew")?.addEventListener("click", function() {
+        var pat = selectedPatient();
+        if (pat) {
+          generateConsentForm({ mrNo: pat.mrNo, patient: fullName(pat), doctor: "" }, pat);
+          var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var today = new Date();
+          var dateStr = String(today.getDate()).padStart(2,'0')+'/'+String(today.getMonth()+1).padStart(2,'0')+'/'+String(today.getFullYear()).slice(2);
+          savedConsents.unshift({ id: 'CON-'+String(savedConsents.length+1).padStart(4,'0'), date: dateStr, mrNo: pat.mrNo, patientName: fullName(pat), doctor: '' });
+          renderConsentList();
+        } else { alert("Select a patient first, then click New."); }
+      });
+      byId("consentEdit")?.addEventListener("click", function() {
+        var sel = document.querySelector("#consentFormsScreen tbody tr.selected");
+        if (!sel) { alert("Select a consent from the list to edit."); return; }
+        var mrNo = sel.cells[2]?.textContent?.trim();
+        var pat = patients.find(function(p){return p.mrNo === mrNo;});
+        if (pat) { generateConsentForm({ mrNo: pat.mrNo, patient: fullName(pat), doctor: "" }, pat); }
+        else { alert("Patient not found."); }
+      });
+      byId("consentDelete")?.addEventListener("click", function() {
+        var sel = document.querySelector("#consentFormsScreen tbody tr.selected");
+        if (!sel) { alert("Select a consent from the list to delete."); return; }
+        var id = sel.dataset.id;
+        if (confirm("Delete consent " + id + "?")) {
+          savedConsents = savedConsents.filter(function(c){return c.id !== id;});
+          renderConsentList();
+        }
+      });
+      byId("consentRows")?.addEventListener("click", function(e) {
+        var row = e.target.closest("tr");
+        if (row) {
+          document.querySelectorAll("#consentFormsScreen tbody tr").forEach(function(r){r.classList.remove("selected");});
+          row.classList.add("selected");
+        }
+      });
+    }, 1500);
 
     function rebuildDiagSearch() {
       if (!window._icdMaster || !window._icdMaster.length) return;
