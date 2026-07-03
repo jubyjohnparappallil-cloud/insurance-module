@@ -907,6 +907,14 @@
       border-bottom-color: var(--selected-border);
     }
 
+    /* Billing List highlight for first selected row */
+    #billingListScreen tr.selected td {
+      background: #b2dfdb;
+    }
+    #billingListScreen .screen-title {
+      font-size: 14px;
+    }
+
     .row-actions {
       display: flex;
       gap: 4px;
@@ -3314,10 +3322,7 @@ function inheritFromEMR() {
               <label class="check-radio"><input type="radio" name="apptView" value="width">Width</label>
               <span class="appt-filter-spacer"></span>
               <span style="font-weight:700;font-size:11px;margin-left:6px">View By Doctor</span>
-              <select id="viewByDoctor" style="width:120px;height:22px;font-size:11px">
-                <option>LINTU RAJAN</option><option>NEETHU DEEPAK</option><option>HISNA UVAISI</option>
-                <option>KEERTHI PURUSHOT</option><option>AMARNATH</option><option>ASHISH</option>
-                <option>ANEESH</option><option>RESHMI</option><option>LINTU</option><option>NEETHU</option><option>NOORA</option>
+              <select id="viewByDoctor" style="width:140px;height:22px;font-size:11px">
               </select>
             </div>
             <div class="day-grid" id="dayGrid"></div>
@@ -3517,6 +3522,207 @@ function inheritFromEMR() {
           <div class="empty-message" id="receiptEmpty">No receipts match this filter.</div>
         </div>
       </section>
+
+      <!-- ═══ TO BE BILLED LIST ═══ -->
+      <section class="screen" id="billingListScreen" aria-label="Billing List">
+        <div class="screen-title" style="color:#c00;font-weight:900">Billing List</div>
+        <div class="toolbar">
+          <button class="tool-button" type="button" id="billingListOpen">Open</button>
+          <span style="margin-left:20px;font-size:12px;font-weight:700;color:#1565c0;cursor:pointer" id="billingListDblClickHint">Double-click to Open</span>
+          <span class="spacer"></span>
+          <button class="tool-button" type="button" id="billingListClose" style="background:#c00;color:#fff;font-weight:900;border-radius:50%;width:24px;height:24px;padding:0;font-size:14px">&#x2715;</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="To be Billed list">
+            <colgroup>
+              <col style="width:110px">
+              <col style="width:80px">
+              <col>
+              <col style="width:180px">
+              <col style="width:100px">
+              <col style="width:130px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>FileNo</th>
+                <th>Patient Name</th>
+                <th>DoctorName</th>
+                <th>Status</th>
+                <th>Mobile</th>
+              </tr>
+            </thead>
+            <tbody id="billingListRows"></tbody>
+          </table>
+          <div class="empty-message" id="billingListEmpty">No patients to be billed.</div>
+        </div>
+      </section>
+
+      <!-- ═══ PATIENT PACKAGE SUBSCRIPTION REPORT ═══ -->
+      <section class="screen" id="packageSubScreen" aria-label="Patient Package Subscription">
+        <div class="screen-title" style="color:#1b5e20;font-weight:900">Patient Package Subscription</div>
+        <div class="toolbar">
+          <input id="packageSubSearch" type="search" placeholder="Press enter after search criteria" style="width:min(40vw,400px)">
+          <span class="spacer"></span>
+          <button class="tool-button" type="button" id="packageSubExport" style="min-width:60px">Export</button>
+          <button class="tool-button" type="button" id="packageSubClose" style="background:#c00;color:#fff;font-weight:900;border-radius:50%;width:24px;height:24px;padding:0;font-size:14px">&#x2715;</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Patient Package Subscription list">
+            <colgroup>
+              <col style="width:65px">
+              <col style="width:220px">
+              <col style="width:120px">
+              <col style="width:90px">
+              <col style="width:200px">
+              <col style="width:90px">
+              <col style="width:90px">
+              <col style="width:90px">
+              <col style="width:90px">
+              <col style="width:100px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>MRNo</th>
+                <th>Patient Name</th>
+                <th>Mobile No</th>
+                <th>Package Code</th>
+                <th>Package Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Sessions</th>
+                <th>Used Sessions</th>
+                <th>Balance Sessions</th>
+              </tr>
+            </thead>
+            <tbody id="packageSubRows"></tbody>
+          </table>
+          <div class="empty-message" id="packageSubEmpty">No package subscriptions found.</div>
+        </div>
+      </section>
+
+      <!-- ═══ INVOICE LIST ═══ -->
+      <section class="screen" id="invoiceListScreen" aria-label="Invoice List">
+        <div class="screen-title" style="color:#1b5e20;font-weight:900">Invoice List</div>
+        <div class="toolbar" style="flex-wrap:wrap;gap:6px">
+          <button class="tool-button primary" type="button" id="invoiceNewBtn">+ New Invoice</button>
+          <button class="tool-button" type="button" id="invoiceEditBtn">✏️ Edit</button>
+          <button class="tool-button" type="button" id="invoiceDeleteBtn" style="background:#c00;color:#fff">🗑 Delete</button>
+          <span style="font-size:11px;font-weight:700;margin-left:8px">From</span>
+          <input type="text" id="invoiceFromDate" style="width:100px;height:26px;font-size:11px;font-weight:700" value="">
+          <span style="font-size:11px;font-weight:700">To</span>
+          <input type="text" id="invoiceToDate" style="width:100px;height:26px;font-size:11px;font-weight:700" value="">
+          <span style="margin-left:8px;font-size:10px;font-weight:700;color:#666">Indicators:</span>
+          <button class="tool-button" type="button" id="invoiceShowDeleted" style="background:#c00;color:#fff;font-size:10px;padding:3px 8px">Deleted</button>
+          <button class="tool-button" type="button" id="invoiceShowReturn" style="background:#4caf50;color:#fff;font-size:10px;padding:3px 8px">Return</button>
+          <span class="spacer"></span>
+          <input type="search" id="invoiceSearch" placeholder="Search" style="width:min(20vw,200px)">
+          <button class="tool-button" type="button" id="invoiceSearchBtn">🔍 Search</button>
+        </div>
+        <div class="grid-shell">
+          <table aria-label="Invoice list">
+            <colgroup>
+              <col style="width:85px">
+              <col style="width:70px">
+              <col style="width:90px">
+              <col style="width:140px">
+              <col style="width:60px">
+              <col style="width:200px">
+              <col style="width:75px">
+              <col style="width:65px">
+              <col style="width:75px">
+              <col style="width:60px">
+              <col style="width:80px">
+              <col style="width:65px">
+              <col style="width:80px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Invoice No</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Doctor</th>
+                <th>MRN No.</th>
+                <th>Patient Name</th>
+                <th>Total</th>
+                <th>Discount</th>
+                <th>Sub Total</th>
+                <th>VAT Amt</th>
+                <th>Grand Total</th>
+                <th>Created By</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="invoiceListRows"></tbody>
+          </table>
+          <div class="empty-message" id="invoiceListEmpty">No invoices found.</div>
+        </div>
+      </section>
+
+      <!-- ═══ INVOICE CREATE/EDIT MODAL ═══ -->
+      <div class="modal-layer" id="invoiceCreateModal" role="dialog" aria-modal="true">
+        <form class="dialog" id="invoiceCreateForm" style="width:min(96vw,850px);max-height:94vh">
+          <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)"><span id="invoiceCreateTitle">INVOICE</span><button class="close-modal" type="button" data-close="invoiceCreateModal" style="color:#fff;font-size:18px">&#x2715;</button></div>
+          <div class="dialog-body" style="padding:14px;overflow-y:auto">
+            <!-- Header row -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+              <div style="border:1px solid #2e7d32;padding:10px;border-radius:4px">
+                <div style="text-align:center;font-weight:900;color:#1b5e20;margin-bottom:8px">INVOICE</div>
+                <div style="display:grid;grid-template-columns:90px 1fr;gap:6px;font-size:12px;font-weight:700">
+                  <label>Invoice No</label><input id="invFormNo" style="height:26px;font-size:12px;font-weight:700;border:1px solid #ccc;padding:0 6px" readonly>
+                  <label>Date</label><input id="invFormDate" style="height:26px;font-size:12px;font-weight:700;border:1px solid #ccc;padding:0 6px">
+                  <label>Doctor Name</label><select id="invFormDoctor" style="height:26px;font-size:12px;font-weight:700"></select>
+                  <label>Remarks</label><input id="invFormRemarks" style="height:26px;font-size:12px;font-weight:700;border:1px solid #ccc;padding:0 6px">
+                </div>
+              </div>
+              <div style="border:1px solid #2e7d32;padding:10px;border-radius:4px">
+                <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;font-size:12px;font-weight:700">
+                  <label>Patient</label><select id="invFormPatient" style="height:26px;font-size:12px;font-weight:700"></select>
+                  <label>MR NO</label><input id="invFormMrNo" style="height:26px;font-size:11px;font-weight:700;background:#f5f5f5" readonly>
+                  <label>Mobile</label><input id="invFormMobile" style="height:26px;font-size:11px;font-weight:700;background:#f5f5f5" readonly>
+                </div>
+              </div>
+            </div>
+            <!-- Line items table -->
+            <div style="border:1px solid #2e7d32;border-radius:4px;overflow:hidden;margin-bottom:12px">
+              <table style="width:100%;font-size:11px">
+                <thead><tr style="background:#2e7d32;color:#fff"><th style="width:30px">Sl.</th><th style="width:70px">Code</th><th>Description</th><th style="width:65px">Price</th><th style="width:35px">Qty</th><th style="width:55px">Disc %</th><th style="width:60px">Disc Amt</th><th style="width:65px">Sub Total</th><th style="width:50px">VAT</th><th style="width:60px">Total</th><th style="width:30px"></th></tr></thead>
+                <tbody id="invFormItems"><tr><td colspan="11" style="text-align:center;padding:8px;color:#999">Click "+ Add New" to add items</td></tr></tbody>
+              </table>
+            </div>
+            <button type="button" id="invFormAddItem" style="font-size:11px;font-weight:700;color:#1b5e20;border:1px dashed #2e7d32;background:#f9fdf9;padding:4px 12px;border-radius:4px;cursor:pointer;margin-bottom:12px">+ Add New</button>
+            <!-- Totals -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div style="font-size:12px;font-weight:700">
+                <div>Previous Dues: <span style="color:#c00">0.00</span></div>
+                <div>Current Balance: <span style="color:#c00">0.00</span></div>
+              </div>
+              <div style="font-size:12px;font-weight:700">
+                <div style="display:grid;grid-template-columns:50px 80px;gap:4px">
+                  <label>Cash</label><input id="invFormCash" value="0.00" style="height:24px;font-size:12px;width:70px;border:1px solid #ccc;padding:0 4px">
+                  <label>Card</label><input id="invFormCard" value="0.00" style="height:24px;font-size:12px;width:70px;border:1px solid #ccc;padding:0 4px">
+                  <label>Online</label><input id="invFormOnline" value="0.00" style="height:24px;font-size:12px;width:70px;border:1px solid #ccc;padding:0 4px">
+                </div>
+              </div>
+              <div style="border:1px solid #2e7d32;padding:8px;border-radius:4px;font-size:12px;font-weight:700">
+                <div style="display:grid;grid-template-columns:70px 1fr;gap:4px">
+                  <label>Total Price</label><input id="invFormTotal" readonly style="height:22px;font-size:12px;font-weight:800;background:#f5f5f5;border:1px solid #ccc;padding:0 4px">
+                  <label>Discount</label><input id="invFormDiscount" value="0.00" style="height:22px;font-size:12px;border:1px solid #ccc;padding:0 4px">
+                  <label>Subtotal</label><input id="invFormSubtotal" readonly style="height:22px;font-size:12px;font-weight:800;background:#f5f5f5;border:1px solid #ccc;padding:0 4px">
+                  <label>VAT Amount</label><input id="invFormVat" readonly style="height:22px;font-size:12px;background:#f5f5f5;border:1px solid #ccc;padding:0 4px" value="0.00">
+                  <label style="font-size:14px;color:#1b5e20">Grand Total</label><input id="invFormGrandTotal" readonly style="height:26px;font-size:14px;font-weight:900;color:#1b5e20;background:#e8f5e9;border:2px solid #2e7d32;padding:0 4px">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dialog-actions" style="gap:8px">
+            <span class="spacer"></span>
+            <button class="tool-button primary" type="submit" style="min-width:80px;background:#1b5e20">Save</button>
+            <button class="tool-button" type="button" style="min-width:80px" onclick="printInvoice()">Print</button>
+            <button class="tool-button" type="button" data-close="invoiceCreateModal" style="min-width:80px">Cancel</button>
+          </div>
+        </form>
+      </div>
 
       <section class="screen" id="insuranceScreen" aria-label="Insurance">
         <div class="ins-screen-header">
@@ -3802,17 +4008,17 @@ function inheritFromEMR() {
       <section class="screen" id="employeesScreen" aria-label="Employees">
         <div class="screen-title green">Employees</div>
         <div class="toolbar">
-          <button class="tool-button primary" type="button"><span class="mini-icon i-new">+</span>New</button>
-          <button class="tool-button" type="button"><span class="mini-icon i-edit">/</span>Edit</button>
-          <button class="tool-button delete" type="button"><span class="mini-icon i-delete">x</span>Delete</button>
+          <button class="tool-button primary" type="button" id="empNewBtn"><span class="mini-icon i-new">+</span>New</button>
+          <button class="tool-button" type="button" id="empEditBtn"><span class="mini-icon i-edit">/</span>Edit</button>
+          <button class="tool-button delete" type="button" id="empDeleteBtn"><span class="mini-icon i-delete">x</span>Delete</button>
           <span class="spacer"></span>
           <span class="search-line">Search <input id="employeeSearch" type="search" placeholder="Search employees" style="width: 200px"></span>
         </div>
         <div class="grid-shell">
           <table aria-label="Employees list">
             <colgroup>
-              <col style="width: 120px">
-              <col style="width: 35%">
+              <col style="width: 100px">
+              <col style="width: 30%">
               <col style="width: 20%">
               <col style="width: 15%">
               <col style="width: 15%">
@@ -3821,26 +4027,42 @@ function inheritFromEMR() {
             <thead>
               <tr><th>Emp. Code</th><th>Employee Name</th><th>Description</th><th>DHA Code</th><th>DHA UserName</th><th>Licen...</th></tr>
             </thead>
-            <tbody>
-              <tr class="selected"><td style="color:#2e7d32;font-weight:900">EM0057</td><td><strong>LINTU RAJAN</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0058</td><td><strong>NEETHU DEEPAK</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0059</td><td><strong>MISNA UVATSE</strong></td><td>DOCTOR</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0060</td><td><strong>KEERTHI PURUSHOTHAMAN</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0061</td><td><strong>AMARNATH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0062</td><td><strong>ASHISH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0063</td><td><strong>ANEESH</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0064</td><td><strong>RESHMI</strong></td><td>THERAPIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0065</td><td><strong>LINTU</strong></td><td>RECEPTIONIST</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0066</td><td><strong>NEETHU</strong></td><td>ADMIN</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0067</td><td><strong>SHILPA</strong></td><td>Physiotherapist</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0068</td><td><strong>RENJU</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0069</td><td><strong>NOORA HOSBET UMMER</strong></td><td>Doctor</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0071</td><td><strong>ANJNA NADAKKAVIL CHANDRAN</strong></td><td>therapist</td><td></td><td></td><td></td></tr>
-              <tr><td style="color:#2e7d32;font-weight:900">EM0073</td><td><strong>anjana</strong></td><td></td><td></td><td></td><td></td></tr>
-            </tbody>
+            <tbody id="employeeRows"></tbody>
           </table>
+          <div class="empty-message" id="employeeEmpty">No employees found.</div>
         </div>
       </section>
+
+      <!-- Employee Add/Edit Modal -->
+      <div class="modal-layer" id="employeeModal" role="dialog" aria-modal="true">
+        <form class="dialog" id="employeeForm" style="width:min(95vw,500px)">
+          <div class="dialog-title" style="background:linear-gradient(90deg,#1b5e20,#2e7d32)"><span id="empModalTitle">New Employee</span><button class="close-modal" type="button" data-close="employeeModal" style="color:#fff">&#x2715;</button></div>
+          <div class="dialog-body" style="padding:16px">
+            <div style="display:grid;grid-template-columns:100px 1fr;gap:10px;font-size:12px;font-weight:700;align-items:center">
+              <label>Emp. Code</label><input id="empFormCode" style="height:30px;font-size:12px;font-weight:700;border:1px solid #ccc;border-radius:4px;padding:0 8px">
+              <label>Employee Name</label><input id="empFormName" style="height:30px;font-size:12px;font-weight:700;border:1px solid #ccc;border-radius:4px;padding:0 8px" required>
+              <label>Description</label><select id="empFormDesc" style="height:30px;font-size:12px;font-weight:700;border:1px solid #ccc;border-radius:4px;padding:0 8px">
+                <option value="">-- Select --</option>
+                <option value="DOCTOR">DOCTOR</option>
+                <option value="THERAPIST">THERAPIST</option>
+                <option value="RECEPTIONIST">RECEPTIONIST</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="Physiotherapist">Physiotherapist</option>
+                <option value="Nurse">Nurse</option>
+                <option value="Other">Other</option>
+              </select>
+              <label>DHA Code</label><input id="empFormDHA" style="height:30px;font-size:12px;font-weight:700;border:1px solid #ccc;border-radius:4px;padding:0 8px">
+              <label>DHA UserName</label><input id="empFormDHAUser" style="height:30px;font-size:12px;font-weight:700;border:1px solid #ccc;border-radius:4px;padding:0 8px">
+              <label>License</label><input id="empFormLicense" style="height:30px;font-size:12px;font-weight:700;border:1px solid #ccc;border-radius:4px;padding:0 8px">
+            </div>
+          </div>
+          <div class="dialog-actions">
+            <span class="spacer"></span>
+            <button class="tool-button primary" type="submit">Save</button>
+            <button class="tool-button" type="button" data-close="employeeModal">Cancel</button>
+          </div>
+        </form>
+      </div>
 
       <section class="screen" id="privilegesScreen" aria-label="Privileges">
         <div class="screen-title green">Privileges</div>
@@ -4991,41 +5213,79 @@ podi kizhi + lepanam x 5 days.</textarea>
   </div>
 
   <div class="modal-layer" id="rvModal" role="dialog" aria-modal="true" aria-labelledby="rvDialogTitle">
-    <form class="dialog" id="rvForm" style="width:min(95vw,750px)">
-      <div class="dialog-title" style="background:linear-gradient(90deg,#388e3c,#2e7d32)"><span id="rvDialogTitle">Receipt Voucher</span><button class="close-modal" type="button" data-close="rvModal">&#x2715;</button></div>
-      <div class="dialog-body" style="padding:14px 18px">
-        <div style="display:grid;grid-template-columns:100px 1fr 100px 1fr;gap:8px 12px;align-items:center;font-size:12px;font-weight:700">
-          <label>Voucher No</label><input name="voucherNo" style="height:28px">
-          <label>Date</label><input name="rvDate" value="22-05-2026" style="height:28px;width:120px">
-          <label>Reference No.</label><input name="referenceNo" style="height:28px">
-          <label>TR.No.</label><input name="trNo" style="height:28px">
-          <label>Description</label><input name="rvDescription" style="height:28px;grid-column:2/5">
-          <label>Account</label>
-          <div style="display:flex;gap:4px;grid-column:2/5"><input name="accountCode" style="height:28px;width:60px"><button class="small-button" type="button">&#128269;</button><input name="accountName" style="height:28px;flex:1"><span style="white-space:nowrap;padding:0 6px">Amount</span><input name="rvAmount" type="number" value="0.00" step="0.01" style="height:28px;width:80px"><span style="padding:0 6px">Credit</span></div>
-          <label>Cheque No</label><input name="chequeNo" style="height:28px">
-          <label>Cheque Date</label>
-          <div style="display:flex;gap:6px;align-items:center"><input name="chequeDate" value="11/05/2016" style="height:28px;width:110px"><span>Bank</span><input name="bank" style="height:28px;flex:1"></div>
+    <form class="dialog" id="rvForm" style="width:min(96vw,780px);max-height:94vh;border:2px solid #999;box-shadow:4px 4px 12px rgba(0,0,0,0.4)">
+      <div class="dialog-title" style="background:linear-gradient(180deg,#4a9f4a,#2d7d2d);padding:6px 12px;font-size:14px;font-weight:700;color:#fff"><span id="rvDialogTitle">Receipt Voucher</span><button class="close-modal" type="button" data-close="rvModal" style="color:#c00;background:#fff;border:1px solid #999;font-size:16px;font-weight:900;width:22px;height:22px;border-radius:2px;cursor:pointer;float:right">&#x2715;</button></div>
+      <div class="dialog-body" style="padding:16px 20px;background:#f0f0f0;font-family:'Segoe UI',Arial,sans-serif">
+        <!-- Row 1: Voucher No | Date | Reference No | TR.No -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;font-weight:700">
+          <label style="min-width:70px">Voucher No</label>
+          <input name="voucherNo" style="height:24px;width:100px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <label style="min-width:30px;margin-left:20px">Date</label>
+          <input name="rvDate" style="height:24px;width:100px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <span style="margin-left:4px;cursor:pointer">&#9660;</span>
+          <label style="min-width:80px;margin-left:20px">Reference No.</label>
+          <input name="referenceNo" style="height:24px;width:120px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <label style="min-width:40px;margin-left:20px">TR.No.</label>
+          <input name="trNo" style="height:24px;flex:1;border:1px solid #999;padding:0 4px;font-size:12px">
         </div>
-        <div style="margin-top:12px;border:1px solid #ccc;min-height:280px;overflow-y:auto">
-          <table class="consult-table" style="font-size:11px" id="rvTable">
-            <thead><tr><th style="width:50px">Sl.No.</th><th style="width:100px">Account No</th><th style="width:150px">Account Name</th><th>Description</th><th style="width:90px">AmountCr</th><th style="width:90px">AmountDr</th></tr></thead>
+        <!-- Row 2: Description -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;font-weight:700">
+          <label style="min-width:70px">Description</label>
+          <input name="rvDescription" style="height:24px;flex:1;border:1px solid #999;padding:0 4px;font-size:12px">
+        </div>
+        <!-- Row 3: Account | Amount | Credit -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:12px;font-weight:700">
+          <label style="min-width:70px">Account</label>
+          <input name="accountCode" style="height:24px;width:50px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <button type="button" style="height:24px;width:28px;border:1px solid #999;background:#f5f5f5;cursor:pointer;font-size:14px">&#128269;</button>
+          <input name="accountName" style="height:24px;flex:1;border:1px solid #999;padding:0 4px;font-size:12px">
+          <label style="min-width:45px;margin-left:10px">Amount</label>
+          <input name="rvAmount" type="number" value="0.00" step="0.01" style="height:24px;width:70px;border:1px solid #999;padding:0 4px;font-size:12px;text-align:right">
+          <label style="min-width:35px">Credit</label>
+        </div>
+        <!-- Row 4: Cheque No | Cheque Date | Bank -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:12px;font-weight:700">
+          <label style="min-width:70px">Cheque No</label>
+          <input name="chequeNo" style="height:24px;width:120px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <label style="min-width:75px;margin-left:20px">Cheque Date</label>
+          <input name="chequeDate" style="height:24px;width:100px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <span style="cursor:pointer">&#9660;</span>
+          <label style="min-width:30px;margin-left:10px">Bank</label>
+          <input name="bank" style="height:24px;flex:1;border:1px solid #999;padding:0 4px;font-size:12px">
+        </div>
+        <!-- Line Items Table -->
+        <div style="border:1px solid #999;background:#fff;min-height:300px;overflow-y:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px;font-weight:700" id="rvTable">
+            <thead>
+              <tr style="background:linear-gradient(180deg,#4a9fdf,#2060a0);color:#fff">
+                <th style="width:50px;padding:4px;border:1px solid #5a8ab5;text-align:left">Sl.No.</th>
+                <th style="width:100px;padding:4px;border:1px solid #5a8ab5;text-align:left">Account No</th>
+                <th style="width:150px;padding:4px;border:1px solid #5a8ab5;text-align:left">Account Name</th>
+                <th style="padding:4px;border:1px solid #5a8ab5;text-align:left">Description</th>
+                <th style="width:90px;padding:4px;border:1px solid #5a8ab5;text-align:left">AmountCr</th>
+                <th style="width:90px;padding:4px;border:1px solid #5a8ab5;text-align:left">AmountDr</th>
+              </tr>
+            </thead>
             <tbody id="rvTableBody">
-              <tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+              <tr><td contenteditable="true" style="border:1px solid #ddd;padding:3px">1</td><td contenteditable="true" style="border:1px solid #ddd;padding:3px"></td><td contenteditable="true" style="border:1px solid #ddd;padding:3px"></td><td contenteditable="true" style="border:1px solid #ddd;padding:3px"></td><td contenteditable="true" style="border:1px solid #ddd;padding:3px"></td><td contenteditable="true" style="border:1px solid #ddd;padding:3px"></td></tr>
             </tbody>
           </table>
-          <button type="button" class="small-button" id="rvAddRow" style="margin:6px;font-size:11px;font-weight:800;color:#1b5e20">+ Add Row</button>
         </div>
-        <div style="display:grid;grid-template-columns:100px 1fr 120px 1fr;gap:8px 12px;align-items:center;font-size:12px;font-weight:700;margin-top:12px">
-          <label>Received By</label><input name="receivedBy" style="height:28px">
-          <label>Received By Contact</label><input name="receivedByContact" style="height:28px">
+        <!-- Bottom: Received By + Totals -->
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;font-weight:700">
+          <label style="min-width:70px">Received By</label>
+          <input name="receivedBy" style="height:24px;width:150px;border:1px solid #999;padding:0 4px;font-size:12px">
+          <label style="min-width:110px;margin-left:20px">Received By Contact</label>
+          <input name="receivedByContact" style="height:24px;flex:1;border:1px solid #999;padding:0 4px;font-size:12px">
         </div>
-        <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:8px;font-size:12px;font-weight:800">
-          <span>0.00</span><span>0.00</span>
+        <div style="display:flex;justify-content:flex-end;gap:20px;margin-top:10px;font-size:12px;font-weight:800">
+          <input id="rvTotalCr" value="0.00" readonly style="height:24px;width:80px;text-align:right;border:1px solid #999;background:#f9f9f9;font-weight:800">
+          <input id="rvTotalDr" value="0.00" readonly style="height:24px;width:80px;text-align:right;border:1px solid #999;background:#f9f9f9;font-weight:800">
         </div>
       </div>
-      <div class="dialog-actions">
-        <button class="tool-button primary" type="submit">Save</button>
-        <button class="tool-button" type="button" data-close="rvModal">Cancel</button>
+      <div class="dialog-actions" style="background:#f0f0f0;padding:10px 20px;justify-content:flex-end;gap:10px">
+        <button class="tool-button primary" type="submit" style="min-width:70px">Save</button>
+        <button class="tool-button" type="button" data-close="rvModal" style="min-width:70px">Cancel</button>
       </div>
     </form>
   </div>
@@ -5332,14 +5592,15 @@ podi kizhi + lepanam x 5 days.</textarea>
       <div class="dialog-actions" style="gap:6px">
         <button class="tool-button" type="button" onclick="printReimburseMedicalForm()">&#128424; Print</button>
         <button class="tool-button" type="button" onclick="closeModal('reimburseMedicalModal');openModal('reimburseModal')">Financial Part &#9654;</button>
+        <button class="tool-button" type="button" onclick="saveReimburseToLocalDisk()">💾 Save to Disk</button>
+        <button class="tool-button" type="button" onclick="document.getElementById('reimburseUploadInput').click()">📁 Upload Form</button>
+        <input type="file" id="reimburseUploadInput" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" style="display:none" onchange="uploadReimburseForm(this)">
         <span class="spacer"></span>
         <button class="tool-button primary" type="submit">Save</button>
         <button class="tool-button" type="button" data-close="reimburseMedicalModal">Cancel</button>
       </div>
     </form>
   </div>
-
-  <!-- COVID-19 Assessment Form Modal -->
   <div class="modal-layer" id="covidModal" role="dialog" aria-modal="true" aria-labelledby="covidTitle">
     <form class="dialog" id="covidForm" style="width:min(98vw,780px);max-height:96vh">
       <div class="dialog-title" style="background:linear-gradient(90deg,#b71c1c,#d32f2f)"><span id="covidTitle">COVID-19 ASSESSMENT FORM</span><button class="close-modal" type="button" data-close="covidModal" style="color:#fff">&#x2715;</button></div>
@@ -5623,6 +5884,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       </div>
       <div class="dialog-actions" style="gap:6px">
         <button class="tool-button" type="button" onclick="printReimburseForm()">&#128424; Print</button>
+        <button class="tool-button" type="button" onclick="saveReimburseToLocalDisk()">💾 Save to Disk</button>
+        <button class="tool-button" type="button" onclick="document.getElementById('reimburseUploadInput2').click()">📁 Upload Form</button>
+        <input type="file" id="reimburseUploadInput2" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" style="display:none" onchange="uploadReimburseForm(this)">
         <span class="spacer"></span>
         <button class="tool-button primary" type="submit">Save</button>
         <button class="tool-button" type="button" data-close="reimburseModal">Cancel</button>
@@ -6079,7 +6343,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Invoices", "g-bill", "receipts"],
       ["Pay. Voucher", "g-gift", "receipts"],
       ["Receipts", "g-receipt", "receipts"],
-      ["Package", "g-gift", "patients"],
+      ["Package", "g-gift", "packages"],
       ["Pack Sub", "g-gift", "packages"],
       ["Cash Out", "g-company", "receipts"]
     ];
@@ -6158,12 +6422,60 @@ podi kizhi + lepanam x 5 days.</textarea>
       ["Radiology", "g-inventory", "tariffMaster"]
     ];
 
-    const allStaff = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOT", "NOORA"];
+    const allStaff = [];
     const staffRooms = ["ROOM NUMBER 1", "ROOM NUMBER 2", "ROOM NUMBER 3", "ROOM NUMBER 4"];
-    const staffTherapists = ["AMARNATH", "ASHISH", "ANEESH", "RESHMI", "KEERTHI PURUSHOT"];
-    const staffDoctors = ["LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "NOORA"];
-    var doctors = allStaff.slice();
+    const staffTherapists = [];
+    const staffDoctors = [];
+    var doctors = [];
     var currentApptView = "all";
+
+    // Build staff lists from employees data
+    function buildStaffFromEmployees() {
+      allStaff.length = 0;
+      staffTherapists.length = 0;
+      staffDoctors.length = 0;
+
+      var emps = employeeData && employeeData.length > 0 ? employeeData : [];
+      emps.forEach(function(emp) {
+        var name = emp.name || '';
+        if (!name) return;
+        allStaff.push(name);
+        var desc = (emp.description || '').toUpperCase();
+        if (desc === 'DOCTOR' || desc.includes('DOCTOR')) {
+          staffDoctors.push(name);
+        } else if (desc === 'THERAPIST' || desc.includes('THERAPIST') || desc === 'PHYSIOTHERAPIST') {
+          staffTherapists.push(name);
+        }
+      });
+
+      // If no employees loaded yet, use defaults
+      if (allStaff.length === 0) {
+        allStaff.push("LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOTHAMAN", "AMARNATH", "ASHISH", "ANEESH", "RESHMI", "NOORA");
+        staffDoctors.push("LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "NOORA");
+        staffTherapists.push("AMARNATH", "ASHISH", "ANEESH", "RESHMI", "KEERTHI PURUSHOTHAMAN");
+      }
+
+      // Update the doctors array based on current view
+      if (currentApptView === "rooms") {
+        doctors = staffRooms.slice();
+      } else if (currentApptView === "therapist") {
+        doctors = staffTherapists.slice();
+      } else if (currentApptView === "doctors") {
+        doctors = staffDoctors.slice();
+      } else {
+        doctors = allStaff.slice();
+      }
+
+      // Populate "View by Doctor" dropdown
+      var sel = byId("viewByDoctor");
+      if (sel) {
+        var currentVal = sel.value;
+        sel.innerHTML = allStaff.map(function(name) {
+          return '<option value="' + escapeHtml(name) + '">' + escapeHtml(name) + '</option>';
+        }).join("");
+        if (currentVal && allStaff.indexOf(currentVal) >= 0) sel.value = currentVal;
+      }
+    }
     const timeSlots = ["8:00 AM","8:15 AM","8:30 AM","8:45 AM","9:00 AM","9:15 AM","9:30 AM","9:45 AM","10:00 AM","10:15 AM","10:30 AM","10:45 AM","11:00 AM","11:15 AM","11:30 AM","11:45 AM","12:00 PM","12:15 PM","12:30 PM","12:45 PM","1:00 PM","1:15 PM","1:30 PM","1:45 PM","2:00 PM","2:15 PM","2:30 PM","2:45 PM","3:00 PM","3:15 PM","3:30 PM","3:45 PM","4:00 PM","4:15 PM","4:30 PM","4:45 PM","5:00 PM","5:15 PM","5:30 PM","5:45 PM","6:00 PM","6:15 PM","6:30 PM","6:45 PM","7:00 PM","7:15 PM","7:30 PM","7:45 PM","8:00 PM","8:15 PM","8:30 PM","8:45 PM","9:00 PM","9:15 PM","9:30 PM","9:45 PM"];
 
     let activeView = "insurance";
@@ -6233,6 +6545,13 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (menu === "HR") return userManModules;
       if (menu === "Masters") return mastersModules;
       if (menu === "Reports") return [{label:"Appointment Reports",view:"appointmentReports",icon:"📋"}];
+      if (menu === "Transactions") return [
+        ["To be Billed", "g-bill", "billingList"],
+        ["Invoice List", "g-bill", "invoiceList"],
+        ["Expense", "g-receipt", "receipts"],
+        ["Cash out", "g-company", "receipts"],
+        ["Patient Package Subscription Report", "g-gift", "packageSub"]
+      ];
       return homeModules;
     }
 
@@ -6241,6 +6560,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "appointments") return ["Appointments", "Main Page"];
       if (view === "packages") return ["Defined Packages", "Receipts", "Invoice List", "Appointments", "Doctor Desk", "Patients", "Consent Forms Received", "Main Page"];
       if (view === "receipts") return ["Receipts", "Defined Packages", "Doctor Desk", "Invoice List", "To be Billed List", "Consent Forms Received", "Appointments", "Insurance Company's", "Main Page"];
+      if (view === "billingList") return ["To be Billed List", "Receipts", "Defined Packages", "Doctor Desk", "Appointments", "Patients", "Main Page"];
+      if (view === "packageSub") return ["Patient Package Subscription Report", "Defined Packages", "Receipts", "Doctor Desk", "Patients", "Appointments", "Main Page"];
+      if (view === "invoiceList") return ["Invoice List", "To be Billed List", "Patient Package Subscription Report", "Receipts", "Defined Packages", "Doctor Desk", "Patients", "Appointments", "Main Page"];
       if (view === "insurance") return ["Insurance Company's", "Main Page"];
       if (view === "inventory") return ["Patients", "Doctor Desk", "Appointments", "Main Page"];
       if (view === "privileges") return ["Privileges", "User Roles", "Item group master", "Brand Master", "Store Management", "Sales Return", "Item Consumption", "Item Analysis Report", "DoctorTherapist ConsumptionReport", "Stock Report", "Stock Adjustment", "Sales Invoice", "Sales Order", "Local Pu..."];
@@ -6265,6 +6587,7 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (menu === "Insurance") activeView = "insurance";
       if (menu === "Inventory") activeView = "inventory";
       if (menu === "Reports") activeView = "appointmentReports";
+      if (menu === "Transactions") activeView = "billingList";
       if (menu === "Home" && !["patients", "appointments", "receipts", "packages"].includes(activeView)) activeView = "patients";
       renderChrome();
     }
@@ -6291,6 +6614,10 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (view === "attendance") renderAttendance();
       if (view === "shiftManagement") renderShifts();
       if (view === "leaveManagement") renderLeaves();
+      if (view === "billingList") renderBillingList();
+      if (view === "packageSub") renderPackageSub();
+      if (view === "invoiceList") renderInvoiceList();
+      if (view === "employees") renderEmployees();
       renderChrome();
     }
 
@@ -6300,6 +6627,9 @@ podi kizhi + lepanam x 5 days.</textarea>
       if (activeView === "consultation") return "Doctors Consultation";
       if (activeView === "packages") return "Source";
       if (activeView === "receipts") return "Receipts";
+      if (activeView === "billingList") return "Billing List";
+      if (activeView === "packageSub") return "Patient Package Subscription";
+      if (activeView === "invoiceList") return "Invoice List";
       if (activeView === "insurance") return "Company";
       if (activeView === "inventory") return "Item";
       if (activeView === "privileges") return "Privileges";
@@ -6390,6 +6720,553 @@ podi kizhi + lepanam x 5 days.</textarea>
         </tr>
       `).join("");
       byId("receiptEmpty").classList.toggle("show", filtered.length === 0);
+    }
+
+    // ─── TO BE BILLED LIST ─────────────────────────────────────────
+    var selectedBillingMr = "";
+
+    function renderBillingList() {
+      // Get all appointments with status "Arrived" or "Consulted" (not yet billed)
+      var billingItems = (appointments || []).filter(function(a) {
+        return a.status === "Arrived" || a.status === "Consulted";
+      });
+
+      // Sort by date descending (most recent first)
+      billingItems.sort(function(a, b) {
+        var dateA = parseDateForSort(a.date);
+        var dateB = parseDateForSort(b.date);
+        return dateB - dateA;
+      });
+
+      var tbody = byId("billingListRows");
+      if (!tbody) return;
+
+      if (billingItems.length === 0) {
+        tbody.innerHTML = "";
+        byId("billingListEmpty").classList.add("show");
+        return;
+      }
+      byId("billingListEmpty").classList.remove("show");
+
+      tbody.innerHTML = billingItems.map(function(item) {
+        var dateDisplay = item.date || "";
+        // Convert date format from DD/Mon/YYYY to DD-MM-YYYY for display
+        var parts = dateDisplay.split("/");
+        if (parts.length === 3) {
+          var months = {Jan:"01",Feb:"02",Mar:"03",Apr:"04",May:"05",Jun:"06",Jul:"07",Aug:"08",Sep:"09",Oct:"10",Nov:"11",Dec:"12"};
+          var mm = months[parts[1]] || parts[1];
+          dateDisplay = parts[0] + "-" + mm + "-" + parts[2];
+        }
+        var patientName = item.patient || item.patientName || "";
+        var doctor = item.doctor || "";
+        var status = item.status || "";
+        var mobile = item.mobile || "";
+        var mrNo = item.mrNo || "";
+        var isSelected = mrNo === selectedBillingMr;
+        var statusColor = status === "Arrived" ? "color:#1b5e20;font-weight:700" : status === "Consulted" ? "color:#0d47a1;font-weight:700" : "";
+        return '<tr class="' + (isSelected ? "selected" : "") + '" data-billing-mr="' + escapeHtml(mrNo) + '" style="cursor:pointer">' +
+          '<td style="background:#fffff0">' + escapeHtml(dateDisplay) + '</td>' +
+          '<td style="background:#fffff0;font-weight:700">' + escapeHtml(mrNo) + '</td>' +
+          '<td>' + escapeHtml(patientName) + '</td>' +
+          '<td>' + escapeHtml(doctor) + '</td>' +
+          '<td style="' + statusColor + '">' + escapeHtml(status) + '</td>' +
+          '<td>' + escapeHtml(mobile) + '</td>' +
+          '</tr>';
+      }).join("");
+    }
+
+    function parseDateForSort(dateStr) {
+      if (!dateStr) return 0;
+      var parts = dateStr.split("/");
+      if (parts.length === 3) {
+        var months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+        var m = months[parts[1]];
+        if (m !== undefined) return new Date(parseInt(parts[2]), m, parseInt(parts[0])).getTime();
+      }
+      // try DD-MM-YYYY
+      var p2 = dateStr.split("-");
+      if (p2.length === 3) return new Date(parseInt(p2[2]), parseInt(p2[1]) - 1, parseInt(p2[0])).getTime();
+      return 0;
+    }
+
+    // ─── PATIENT PACKAGE SUBSCRIPTION REPORT ─────────────────────────
+    var packageSubData = [];
+    var packageSubLoaded = false;
+
+    function renderPackageSub() {
+      if (!packageSubLoaded) {
+        loadPackageSub();
+        return;
+      }
+      var query = byId("packageSubSearch").value.trim().toLowerCase();
+      var filtered = packageSubData;
+      if (query) {
+        filtered = packageSubData.filter(function(row) {
+          return [row.mrNo, row.patientName, row.mobile, row.packageCode, row.packageName].join(" ").toLowerCase().indexOf(query) !== -1;
+        });
+      }
+
+      var tbody = byId("packageSubRows");
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = "";
+        byId("packageSubEmpty").classList.add("show");
+        return;
+      }
+      byId("packageSubEmpty").classList.remove("show");
+
+      tbody.innerHTML = filtered.map(function(row) {
+        return '<tr>' +
+          '<td style="font-weight:700">' + escapeHtml(String(row.mrNo)) + '</td>' +
+          '<td>' + escapeHtml(row.patientName || '') + '</td>' +
+          '<td>' + escapeHtml(row.mobile || '') + '</td>' +
+          '<td>' + escapeHtml(row.packageCode || '') + '</td>' +
+          '<td>' + escapeHtml(row.packageName || '') + '</td>' +
+          '<td>' + escapeHtml(row.startDate || '') + '</td>' +
+          '<td>' + escapeHtml(row.endDate || '') + '</td>' +
+          '<td style="text-align:center">' + (row.totalSessions || 0) + '</td>' +
+          '<td style="text-align:center">' + (row.usedSessions || 0) + '</td>' +
+          '<td style="text-align:center;font-weight:900;color:#1b5e20">' + (row.balanceSessions || 0) + '</td>' +
+          '</tr>';
+      }).join("");
+    }
+
+    function loadPackageSub() {
+      byId("packageSubRows").innerHTML = '<tr><td colspan="10" style="text-align:center;padding:20px;color:#666">Loading package subscriptions...</td></tr>';
+      fetch("/api/package-subscriptions").then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success && d.data) {
+          packageSubData = d.data;
+        } else {
+          packageSubData = [];
+        }
+        packageSubLoaded = true;
+        renderPackageSub();
+      }).catch(function(err) {
+        console.log("Package subscription load error:", err);
+        packageSubData = [];
+        packageSubLoaded = true;
+        renderPackageSub();
+      });
+    }
+
+    // ─── INVOICE LIST ───────────────────────────────────────────────
+    var invoiceData = [];
+    var invoiceDataLoaded = false;
+    var selectedInvoiceNo = "";
+    var invoiceShowDeletedFlag = false;
+    var invoiceShowReturnFlag = false;
+
+    function renderInvoiceList() {
+      if (!invoiceDataLoaded) {
+        loadInvoiceList();
+        return;
+      }
+
+      var query = byId("invoiceSearch").value.trim().toLowerCase();
+      var fromDate = byId("invoiceFromDate").value.trim();
+      var toDate = byId("invoiceToDate").value.trim();
+
+      var filtered = invoiceData.filter(function(inv) {
+        // Search filter
+        if (query) {
+          var searchStr = [inv.invoiceNo, inv.type, inv.doctor, inv.mrNo, inv.patientName, inv.createdBy].join(" ").toLowerCase();
+          if (searchStr.indexOf(query) === -1) return false;
+        }
+        // Date range filter
+        if (fromDate && inv.date) {
+          var invDate = parseDateForSort(inv.date);
+          var from = parseDateForSort(fromDate);
+          if (from && invDate && invDate < from) return false;
+        }
+        if (toDate && inv.date) {
+          var invDate2 = parseDateForSort(inv.date);
+          var to = parseDateForSort(toDate);
+          if (to && invDate2 && invDate2 > to) return false;
+        }
+        // Deleted/Return filter
+        if (!invoiceShowDeletedFlag && inv.isDeleted) return false;
+        if (invoiceShowDeletedFlag && !inv.isDeleted) return false;
+        if (invoiceShowReturnFlag && !inv.isReturn) return false;
+        return true;
+      });
+
+      // Sort by date descending
+      filtered.sort(function(a, b) {
+        return parseDateForSort(b.date) - parseDateForSort(a.date);
+      });
+
+      var tbody = byId("invoiceListRows");
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = "";
+        byId("invoiceListEmpty").classList.add("show");
+        return;
+      }
+      byId("invoiceListEmpty").classList.remove("show");
+
+      tbody.innerHTML = filtered.map(function(inv) {
+        var isSelected = inv.invoiceNo === selectedInvoiceNo;
+        var rowBg = inv.isDeleted ? "background:#ffcdd2" : inv.isReturn ? "background:#c8e6c9" : "";
+        var total = parseFloat(inv.subtotal || 0) + parseFloat(inv.discount || 0);
+        var subtotal = parseFloat(inv.subtotal || 0);
+        var discount = parseFloat(inv.discount || 0);
+        var vat = parseFloat(inv.tax || 0);
+        var grandTotal = parseFloat(inv.total || 0);
+        var type = inv.type || "Cash bill";
+        var createdBy = inv.createdBy || "admin";
+
+        return '<tr class="' + (isSelected ? "selected" : "") + '" data-invoice-no="' + escapeHtml(inv.invoiceNo || '') + '" style="cursor:pointer;' + rowBg + '">' +
+          '<td style="font-weight:700">' + escapeHtml(inv.invoiceNo || '') + '</td>' +
+          '<td style="background:#c8e6c9;font-weight:700;color:#1b5e20">' + escapeHtml(type) + '</td>' +
+          '<td style="font-weight:700;color:#c00">' + escapeHtml(inv.date || '') + '</td>' +
+          '<td>' + escapeHtml(inv.doctor || '') + '</td>' +
+          '<td style="font-weight:700">' + escapeHtml(inv.mrNo || '') + '</td>' +
+          '<td style="background:#c8e6c9;font-weight:700">' + escapeHtml(inv.patientName || '') + '</td>' +
+          '<td style="text-align:right">' + total.toFixed(2) + '</td>' +
+          '<td style="text-align:right">' + discount.toFixed(2) + '</td>' +
+          '<td style="text-align:right">' + subtotal.toFixed(2) + '</td>' +
+          '<td style="text-align:right">' + vat.toFixed(2) + '</td>' +
+          '<td style="text-align:right;font-weight:900">' + grandTotal.toFixed(2) + '</td>' +
+          '<td>' + escapeHtml(createdBy) + '</td>' +
+          '<td><button class="btn-sm" style="background:#4caf50;color:#fff;border:none;border-radius:3px;padding:2px 6px;font-size:10px;cursor:pointer" data-sales-return="' + escapeHtml(inv.invoiceNo || '') + '">Sales Return</button></td>' +
+          '</tr>';
+      }).join("");
+    }
+
+    function loadInvoiceList() {
+      byId("invoiceListRows").innerHTML = '<tr><td colspan="13" style="text-align:center;padding:20px;color:#666">Loading invoices...</td></tr>';
+      fetch("/api/invoices").then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success && d.data) {
+          invoiceData = d.data;
+        } else {
+          invoiceData = [];
+        }
+        invoiceDataLoaded = true;
+        // Set default dates to show ALL invoices (empty = no filter)
+        if (!byId("invoiceFromDate").value && !byId("invoiceToDate").value) {
+          byId("invoiceFromDate").value = "";
+          byId("invoiceToDate").value = "";
+        }
+        renderInvoiceList();
+      }).catch(function(err) {
+        console.log("Invoice load error:", err);
+        invoiceData = [];
+        invoiceDataLoaded = true;
+        renderInvoiceList();
+      });
+    }
+
+    function formatDateDDMMYYYY(d) {
+      var dd = String(d.getDate()).padStart(2, '0');
+      var mm = String(d.getMonth() + 1).padStart(2, '0');
+      var yyyy = d.getFullYear();
+      return dd + '-' + mm + '-' + yyyy;
+    }
+
+    // ─── INVOICE CREATE/EDIT ─────────────────────────────────────────
+    var invFormItems = [];
+
+    function openInvoiceCreate(mode) {
+      var invNo;
+      if (mode === "edit" && selectedInvoiceNo) {
+        var existing = invoiceData.find(function(i) { return i.invoiceNo === selectedInvoiceNo; });
+        if (!existing) return;
+        invNo = existing.invoiceNo;
+        byId("invFormNo").value = invNo;
+        byId("invFormDate").value = existing.date || formatDateDDMMYYYY(new Date());
+        byId("invFormDoctor").value = existing.doctor || "";
+        byId("invFormRemarks").value = existing.remarks || "";
+        byId("invFormMrNo").value = existing.mrNo || "";
+        byId("invFormMobile").value = "";
+        invFormItems = (existing.items || []).map(function(it, idx) {
+          return { sl: idx + 1, code: it.code || '', description: it.description || '', price: it.amount || 0, qty: it.qty || 1, discPct: 0, discAmt: it.discount || 0, subtotal: (it.amount || 0) * (it.qty || 1) - (it.discount || 0), vat: it.tax || 0, total: it.total || 0 };
+        });
+        byId("invFormTotal").value = existing.subtotal + existing.discount;
+        byId("invFormDiscount").value = existing.discount;
+        byId("invFormSubtotal").value = existing.subtotal;
+        byId("invFormVat").value = existing.tax;
+        byId("invFormGrandTotal").value = existing.total;
+        // Set patient select
+        if (existing.mrNo) {
+          byId("invFormPatient").value = existing.mrNo;
+        }
+      } else {
+        // New invoice - auto generate next number from server data
+        var maxNo = 0;
+        (invoiceData || []).forEach(function(inv) {
+          var num = parseInt(String(inv.invoiceNo).replace(/\D/g, '')) || 0;
+          if (num > maxNo) maxNo = num;
+        });
+        // Ensure we never duplicate - use timestamp as fallback
+        if (maxNo === 0) maxNo = Date.now() % 100000;
+        invNo = "I" + (maxNo + 1);
+        byId("invFormNo").value = invNo;
+        byId("invFormDate").value = formatDateDDMMYYYY(new Date());
+        byId("invFormDoctor").value = staffDoctors[0] || "";
+        byId("invFormRemarks").value = "";
+        byId("invFormMrNo").value = "";
+        byId("invFormMobile").value = "";
+        byId("invFormDiscount").value = "0.00";
+        byId("invFormTotal").value = "0.00";
+        byId("invFormSubtotal").value = "0.00";
+        byId("invFormVat").value = "0.00";
+        byId("invFormGrandTotal").value = "0.00";
+        byId("invFormCash").value = "0.00";
+        byId("invFormCard").value = "0.00";
+        byId("invFormOnline").value = "0.00";
+        invFormItems = [];
+      }
+      // Populate doctor dropdown
+      byId("invFormDoctor").innerHTML = staffDoctors.map(function(d) { return '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + '</option>'; }).join("");
+      if (mode === "edit" && selectedInvoiceNo) {
+        var ex = invoiceData.find(function(i) { return i.invoiceNo === selectedInvoiceNo; });
+        if (ex) byId("invFormDoctor").value = ex.doctor || "";
+      }
+      // Populate patient dropdown
+      byId("invFormPatient").innerHTML = '<option value="">-- Select Patient --</option>' + patients.map(function(p) {
+        return '<option value="' + escapeHtml(p.mrNo) + '">' + escapeHtml(p.mrNo) + ' - ' + escapeHtml(fullName(p)) + '</option>';
+      }).join("");
+      if (mode === "edit" && selectedInvoiceNo) {
+        var ex2 = invoiceData.find(function(i) { return i.invoiceNo === selectedInvoiceNo; });
+        if (ex2 && ex2.mrNo) byId("invFormPatient").value = ex2.mrNo;
+      }
+      renderInvFormItems();
+      byId("invoiceCreateTitle").textContent = mode === "edit" ? "EDIT INVOICE" : "INVOICE";
+      openModal("invoiceCreateModal");
+    }
+
+    function renderInvFormItems() {
+      var tbody = byId("invFormItems");
+      if (invFormItems.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;padding:8px;color:#999">Click "+ Add New" to add items</td></tr>';
+        return;
+      }
+      tbody.innerHTML = invFormItems.map(function(it, idx) {
+        return '<tr>' +
+          '<td>' + (idx + 1) + '</td>' +
+          '<td><input value="' + escapeHtml(it.code || '') + '" style="width:60px;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="code"></td>' +
+          '<td><input value="' + escapeHtml(it.description || '') + '" style="width:100%;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="description"></td>' +
+          '<td><input type="number" value="' + it.price + '" style="width:55px;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="price"></td>' +
+          '<td><input type="number" value="' + it.qty + '" style="width:30px;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="qty"></td>' +
+          '<td><input type="number" value="' + (it.discPct || 0) + '" style="width:40px;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="discPct"></td>' +
+          '<td><input type="number" value="' + (it.discAmt || 0) + '" style="width:50px;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="discAmt"></td>' +
+          '<td style="text-align:right;font-weight:700">' + (it.subtotal || 0).toFixed(2) + '</td>' +
+          '<td><input type="number" value="' + (it.vat || 0) + '" style="width:40px;height:22px;font-size:11px" data-inv-item="' + idx + '" data-field="vat"></td>' +
+          '<td style="text-align:right;font-weight:900">' + (it.total || 0).toFixed(2) + '</td>' +
+          '<td><button type="button" style="background:#c00;color:#fff;border:none;width:20px;height:20px;cursor:pointer;border-radius:3px" data-inv-remove="' + idx + '">✕</button></td>' +
+          '</tr>';
+      }).join("");
+    }
+
+    function addInvItem() {
+      invFormItems.push({ sl: invFormItems.length + 1, code: '', description: '', price: 0, qty: 1, discPct: 0, discAmt: 0, subtotal: 0, vat: 0, total: 0 });
+      renderInvFormItems();
+    }
+
+    function recalcInvTotals() {
+      var totalPrice = 0, totalDisc = 0, totalVat = 0, grandTotal = 0;
+      invFormItems.forEach(function(it) {
+        var lineTotal = (it.price || 0) * (it.qty || 1);
+        it.discAmt = it.discPct > 0 ? lineTotal * it.discPct / 100 : (it.discAmt || 0);
+        it.subtotal = lineTotal - it.discAmt;
+        it.total = it.subtotal + (it.vat || 0);
+        totalPrice += lineTotal;
+        totalDisc += it.discAmt;
+        totalVat += it.vat || 0;
+        grandTotal += it.total;
+      });
+      byId("invFormTotal").value = totalPrice.toFixed(2);
+      byId("invFormDiscount").value = totalDisc.toFixed(2);
+      byId("invFormSubtotal").value = (totalPrice - totalDisc).toFixed(2);
+      byId("invFormVat").value = totalVat.toFixed(2);
+      byId("invFormGrandTotal").value = grandTotal.toFixed(2);
+      renderInvFormItems();
+    }
+
+    function saveInvoiceForm() {
+      var invNo = byId("invFormNo").value;
+      var date = byId("invFormDate").value;
+      var doctor = byId("invFormDoctor").value;
+      var mrNo = byId("invFormPatient").value || byId("invFormMrNo").value;
+      var pat = patients.find(function(p) { return p.mrNo === mrNo; });
+      var patientName = pat ? fullName(pat) : "";
+      var subtotal = parseFloat(byId("invFormSubtotal").value) || 0;
+      var discount = parseFloat(byId("invFormDiscount").value) || 0;
+      var tax = parseFloat(byId("invFormVat").value) || 0;
+      var total = parseFloat(byId("invFormGrandTotal").value) || 0;
+      var cash = parseFloat(byId("invFormCash").value) || 0;
+      var card = parseFloat(byId("invFormCard").value) || 0;
+      var payMode = cash > 0 ? "Cash" : card > 0 ? "Card" : "Cash";
+
+      var invoice = {
+        invoiceNo: invNo,
+        date: date,
+        mrNo: mrNo,
+        patientName: patientName,
+        subtotal: subtotal,
+        discount: discount,
+        tax: tax,
+        total: total,
+        paid: cash + card,
+        due: 0,
+        payMode: payMode,
+        doctor: doctor,
+        status: "Paid",
+        type: "Cash bill",
+        createdBy: "admin",
+        items: invFormItems.map(function(it, idx) {
+          return { invoiceNo: invNo, slNo: String(idx + 1), description: it.description, qty: it.qty, amount: it.price, discount: it.discAmt, tax: it.vat, total: it.total };
+        })
+      };
+
+      fetch("/api/invoices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(invoice)
+      }).then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success) {
+          closeModal("invoiceCreateModal");
+          invoiceDataLoaded = false;
+          renderInvoiceList();
+          alert("Invoice " + invNo + " saved successfully!");
+        }
+      });
+    }
+
+    function printInvoice() {
+      alert("Print functionality - use browser print or export to PDF");
+    }
+
+    // ─── EMPLOYEES ──────────────────────────────────────────────────
+    var employeeData = [];
+    var employeeDataLoaded = false;
+    var selectedEmpCode = "";
+
+    function renderEmployees() {
+      if (!employeeDataLoaded) {
+        loadEmployees();
+        return;
+      }
+      var query = byId("employeeSearch").value.trim().toLowerCase();
+      var filtered = employeeData.filter(function(emp) {
+        if (!query) return true;
+        return [emp.empCode, emp.name, emp.description, emp.dhaCode, emp.dhaUserName].join(" ").toLowerCase().indexOf(query) !== -1;
+      });
+
+      var tbody = byId("employeeRows");
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = "";
+        byId("employeeEmpty").classList.add("show");
+        return;
+      }
+      byId("employeeEmpty").classList.remove("show");
+
+      tbody.innerHTML = filtered.map(function(emp) {
+        var isSelected = emp.empCode === selectedEmpCode;
+        return '<tr class="' + (isSelected ? "selected" : "") + '" data-emp-code="' + escapeHtml(emp.empCode) + '" style="cursor:pointer">' +
+          '<td style="color:#2e7d32;font-weight:900">' + escapeHtml(emp.empCode) + '</td>' +
+          '<td><strong>' + escapeHtml(emp.name || '') + '</strong></td>' +
+          '<td>' + escapeHtml(emp.description || '') + '</td>' +
+          '<td>' + escapeHtml(emp.dhaCode || '') + '</td>' +
+          '<td>' + escapeHtml(emp.dhaUserName || '') + '</td>' +
+          '<td>' + escapeHtml(emp.license || '') + '</td>' +
+          '</tr>';
+      }).join("");
+    }
+
+    function loadEmployees() {
+      fetch("/api/employees").then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success && d.data) {
+          employeeData = d.data;
+        } else {
+          employeeData = [];
+        }
+        employeeDataLoaded = true;
+        buildStaffFromEmployees();
+        renderEmployees();
+        // Re-render schedule if appointments view is active (columns may have changed)
+        if (activeView === "appointments") renderSchedule();
+      }).catch(function() {
+        employeeData = [];
+        employeeDataLoaded = true;
+        buildStaffFromEmployees();
+        renderEmployees();
+      });
+    }
+
+    function openEmployeeModal(mode) {
+      var title = mode === "edit" ? "Edit Employee" : "New Employee";
+      byId("empModalTitle").textContent = title;
+      if (mode === "edit") {
+        var emp = employeeData.find(function(e) { return e.empCode === selectedEmpCode; });
+        if (!emp) { alert("Select an employee first"); return; }
+        byId("empFormCode").value = emp.empCode;
+        byId("empFormCode").readOnly = true;
+        byId("empFormName").value = emp.name || "";
+        byId("empFormDesc").value = emp.description || "";
+        byId("empFormDHA").value = emp.dhaCode || "";
+        byId("empFormDHAUser").value = emp.dhaUserName || "";
+        byId("empFormLicense").value = emp.license || "";
+      } else {
+        // New - generate next code
+        var maxNum = 0;
+        employeeData.forEach(function(e) {
+          var num = parseInt(e.empCode.replace(/\D/g, "")) || 0;
+          if (num > maxNum) maxNum = num;
+        });
+        byId("empFormCode").value = "EM" + String(maxNum + 1).padStart(4, "0");
+        byId("empFormCode").readOnly = false;
+        byId("empFormName").value = "";
+        byId("empFormDesc").value = "";
+        byId("empFormDHA").value = "";
+        byId("empFormDHAUser").value = "";
+        byId("empFormLicense").value = "";
+      }
+      openModal("employeeModal");
+    }
+
+    function saveEmployee() {
+      var empCode = byId("empFormCode").value.trim();
+      var name = byId("empFormName").value.trim();
+      if (!empCode || !name) { alert("Employee Code and Name are required"); return; }
+      var data = {
+        empCode: empCode,
+        name: name,
+        description: byId("empFormDesc").value,
+        dhaCode: byId("empFormDHA").value.trim(),
+        dhaUserName: byId("empFormDHAUser").value.trim(),
+        license: byId("empFormLicense").value.trim()
+      };
+      fetch("/api/employees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success) {
+          closeModal("employeeModal");
+          employeeDataLoaded = false;
+          loadEmployees(); // reload and rebuild staff lists
+        }
+      });
+    }
+
+    function deleteEmployee() {
+      if (!selectedEmpCode) { alert("Select an employee first"); return; }
+      var emp = employeeData.find(function(e) { return e.empCode === selectedEmpCode; });
+      if (!confirm("Delete employee " + (emp ? emp.name : selectedEmpCode) + "?")) return;
+      fetch("/api/employees/" + encodeURIComponent(selectedEmpCode), { method: "DELETE" })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d.success) {
+            selectedEmpCode = "";
+            employeeDataLoaded = false;
+            loadEmployees(); // reload and rebuild staff lists
+          }
+        });
     }
 
     function renderPackages() {
@@ -6505,6 +7382,8 @@ podi kizhi + lepanam x 5 days.</textarea>
           if (doctors.includes(a.room)) doctorHasAppt[a.room] = true;
         } else {
           if (doctors.includes(a.doctor)) doctorHasAppt[a.doctor] = true;
+          if (a.therapist && doctors.includes(a.therapist)) doctorHasAppt[a.therapist] = true;
+          if (a.therapist2 && doctors.includes(a.therapist2)) doctorHasAppt[a.therapist2] = true;
         }
       });
 
@@ -6528,7 +7407,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             );
           } else {
             apptIndex = appointments.findIndex(item => {
-              var docMatch = item.doctor === doctor || (!item.doctor && doctor === doctors[0]);
+              var docMatch = item.doctor === doctor || item.therapist === doctor || item.therapist2 === doctor || (!item.doctor && doctor === doctors[0]);
               return docMatch && item.time === time && item.date === currentDateStr &&
               (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query));
             });
@@ -6929,6 +7808,9 @@ podi kizhi + lepanam x 5 days.</textarea>
         byId("apptToDate").value = fmtDateInput(selectedDate);
         if (byId("apptStartTime")) byId("apptStartTime").value = appt.time;
         if (byId("apptDoctor")) byId("apptDoctor").value = appt.doctor;
+        if (byId("apptConsultDoctor")) byId("apptConsultDoctor").value = appt.consultDoctor || "";
+        if (byId("apptTherapist1")) byId("apptTherapist1").value = appt.therapist || "";
+        if (byId("apptTherapist2")) byId("apptTherapist2").value = appt.therapist2 || "";
         if (byId("appointmentPatientSelect")) byId("appointmentPatientSelect").value = appt.mrNo;
         if (byId("apptMobile")) byId("apptMobile").value = appt.mobile || "";
         if (byId("apptNotes")) byId("apptNotes").value = appt.notes || "";
@@ -7575,14 +8457,13 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("receiptPatientSelect").innerHTML = options;
       byId("appointmentPatientSelect").innerHTML = options;
 
-      // Populate Doctor dropdown dynamically
-      const doctorOpts = doctors.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+      // Populate Doctor dropdown dynamically (from staffDoctors - only DOCTOR type employees)
+      const doctorOpts = staffDoctors.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
       if (byId("apptDoctor")) byId("apptDoctor").innerHTML = doctorOpts;
       if (byId("apptConsultDoctor")) byId("apptConsultDoctor").innerHTML = '<option value="">-- Same as Doctor --</option>' + doctorOpts;
 
-      // Populate Therapist dropdowns
-      const therapists = doctors.filter(d => ['AMARNATH','ASHISH','ANEESH','RESHMI','LINTU','NEETHU','SHILPA','RENJU','ANJANA'].includes(d));
-      const thOpts = therapists.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+      // Populate Therapist dropdowns (from staffTherapists - THERAPIST/PHYSIOTHERAPIST type employees)
+      const thOpts = staffTherapists.map(d => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
       if (byId("apptTherapist1")) byId("apptTherapist1").innerHTML = thOpts;
       if (byId("apptTherapist2")) byId("apptTherapist2").innerHTML = '<option value=""></option>' + thOpts;
 
@@ -7620,6 +8501,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       const time = byId("apptStartTime") ? byId("apptStartTime").value : (data.time || "9:00 AM");
       const doctor = byId("apptDoctor") ? byId("apptDoctor").value : data.doctor;
       const consultDoctor = byId("apptConsultDoctor") ? byId("apptConsultDoctor").value : "";
+      const therapist1 = byId("apptTherapist1") ? byId("apptTherapist1").value : "";
+      const therapist2 = byId("apptTherapist2") ? byId("apptTherapist2").value : "";
       const room = data.room || "ROOM NUMBER 4";
       const apptDate = data.date || byId("apptDate")?.value || fmtDateInput(selectedDate);
       appointments = appointments.filter((item) => !(item.doctor === doctor && item.time === time && item.date === apptDate));
@@ -7629,6 +8512,8 @@ podi kizhi + lepanam x 5 days.</textarea>
         mobile: patient?.mobile || "",
         doctor: doctor,
         consultDoctor: consultDoctor || doctor,
+        therapist: therapist1,
+        therapist2: therapist2,
         time: time,
         date: apptDate,
         status: "Booked",
@@ -7725,6 +8610,9 @@ podi kizhi + lepanam x 5 days.</textarea>
           activateView("packages");
         }
         if (tab.textContent.trim() === "Receipts") activateView("receipts");
+        if (tab.textContent.trim() === "To be Billed List") activateView("billingList");
+        if (tab.textContent.trim() === "Patient Package Subscription Report") activateView("packageSub");
+        if (tab.textContent.trim() === "Invoice List") activateView("invoiceList");
         if (tab.textContent.trim() === "Appointments") activateView("appointments");
         if (tab.textContent.trim() === "Patients") activateView("patients");
         if (tab.textContent.trim() === "Doctor Desk") activateView("doctorDesk");
@@ -7762,6 +8650,162 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("receiptPatientSearch").addEventListener("input", renderReceipts);
       byId("receiptByPatient").addEventListener("change", renderReceipts);
       document.querySelectorAll("input[name='receiptType']").forEach((radio) => radio.addEventListener("change", renderReceipts));
+
+      // ── Billing List events ──
+      byId("billingListRows").addEventListener("click", function(event) {
+        var row = event.target.closest("[data-billing-mr]");
+        if (!row) return;
+        selectedBillingMr = row.dataset.billingMr;
+        renderBillingList();
+      });
+      byId("billingListRows").addEventListener("dblclick", function(event) {
+        var row = event.target.closest("[data-billing-mr]");
+        if (!row) return;
+        var mrNo = row.dataset.billingMr;
+        // Navigate to patient view with this patient selected
+        selectedPatientMr = mrNo;
+        activateView("patients");
+        renderPatients();
+      });
+      byId("billingListOpen").addEventListener("click", function() {
+        if (!selectedBillingMr) { alert("Select a patient from the list first"); return; }
+        selectedPatientMr = selectedBillingMr;
+        activateView("patients");
+        renderPatients();
+      });
+      byId("billingListClose").addEventListener("click", function() {
+        activateView("receipts");
+      });
+
+      // ── Package Subscription Report events ──
+      byId("packageSubSearch").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") { renderPackageSub(); }
+      });
+      byId("packageSubSearch").addEventListener("input", function() {
+        if (this.value === "") renderPackageSub();
+      });
+      byId("packageSubClose").addEventListener("click", function() {
+        activateView("receipts");
+      });
+      byId("packageSubExport").addEventListener("click", function() {
+        if (!packageSubData.length) { alert("No data to export"); return; }
+        var csv = "MRNo,Patient Name,Mobile No,Package Code,Package Name,Start Date,End Date,Total Sessions,Used Sessions,Balance Sessions\n";
+        packageSubData.forEach(function(row) {
+          csv += [row.mrNo, '"'+row.patientName+'"', row.mobile, row.packageCode, '"'+row.packageName+'"', row.startDate, row.endDate, row.totalSessions, row.usedSessions, row.balanceSessions].join(",") + "\n";
+        });
+        var blob = new Blob([csv], { type: "text/csv" });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "patient_package_subscriptions.csv";
+        a.click();
+      });
+
+      // ── Invoice List events ──
+      byId("invoiceListRows").addEventListener("click", function(event) {
+        var row = event.target.closest("[data-invoice-no]");
+        if (event.target.closest("[data-sales-return]")) {
+          var invNo = event.target.closest("[data-sales-return]").dataset.salesReturn;
+          if (confirm("Mark invoice " + invNo + " as Sales Return?")) {
+            var inv = invoiceData.find(function(i) { return i.invoiceNo === invNo; });
+            if (inv) { inv.isReturn = true; renderInvoiceList(); }
+          }
+          return;
+        }
+        if (!row) return;
+        selectedInvoiceNo = row.dataset.invoiceNo;
+        renderInvoiceList();
+      });
+      byId("invoiceListRows").addEventListener("dblclick", function(event) {
+        var row = event.target.closest("[data-invoice-no]");
+        if (!row) return;
+        alert("Open invoice: " + row.dataset.invoiceNo);
+      });
+      byId("invoiceSearchBtn").addEventListener("click", function() {
+        renderInvoiceList();
+      });
+      byId("invoiceSearch").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") renderInvoiceList();
+      });
+      byId("invoiceEditBtn").addEventListener("click", function() {
+        if (!selectedInvoiceNo) { alert("Select an invoice first"); return; }
+        openInvoiceCreate("edit");
+      });
+      byId("invoiceNewBtn").addEventListener("click", function() {
+        openInvoiceCreate("new");
+      });
+      byId("invoiceCreateForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        saveInvoiceForm();
+      });
+      byId("invFormAddItem").addEventListener("click", addInvItem);
+      byId("invFormItems").addEventListener("input", function(e) {
+        var input = e.target;
+        if (!input.dataset.invItem) return;
+        var idx = parseInt(input.dataset.invItem);
+        var field = input.dataset.field;
+        if (field === "price" || field === "qty" || field === "discPct" || field === "discAmt" || field === "vat") {
+          invFormItems[idx][field] = parseFloat(input.value) || 0;
+        } else {
+          invFormItems[idx][field] = input.value;
+        }
+        recalcInvTotals();
+      });
+      byId("invFormItems").addEventListener("click", function(e) {
+        var btn = e.target.closest("[data-inv-remove]");
+        if (!btn) return;
+        var idx = parseInt(btn.dataset.invRemove);
+        invFormItems.splice(idx, 1);
+        recalcInvTotals();
+      });
+      byId("invFormPatient").addEventListener("change", function() {
+        var mrNo = this.value;
+        var pat = patients.find(function(p) { return p.mrNo === mrNo; });
+        byId("invFormMrNo").value = mrNo;
+        byId("invFormMobile").value = pat ? (pat.mobile || "") : "";
+      });
+      byId("invoiceDeleteBtn").addEventListener("click", function() {
+        if (!selectedInvoiceNo) { alert("Select an invoice first"); return; }
+        if (!confirm("Delete invoice " + selectedInvoiceNo + "?")) return;
+        var inv = invoiceData.find(function(i) { return i.invoiceNo === selectedInvoiceNo; });
+        if (inv) { inv.isDeleted = true; renderInvoiceList(); }
+      });
+      byId("invoiceShowDeleted").addEventListener("click", function() {
+        invoiceShowDeletedFlag = !invoiceShowDeletedFlag;
+        this.style.opacity = invoiceShowDeletedFlag ? "1" : "0.5";
+        renderInvoiceList();
+      });
+      byId("invoiceShowReturn").addEventListener("click", function() {
+        invoiceShowReturnFlag = !invoiceShowReturnFlag;
+        this.style.opacity = invoiceShowReturnFlag ? "1" : "0.5";
+        renderInvoiceList();
+      });
+      byId("invoiceFromDate").addEventListener("change", renderInvoiceList);
+      byId("invoiceFromDate").addEventListener("input", function() { if (this.value.length >= 10) renderInvoiceList(); });
+      byId("invoiceToDate").addEventListener("change", renderInvoiceList);
+      byId("invoiceToDate").addEventListener("input", function() { if (this.value.length >= 10) renderInvoiceList(); });
+
+      // ── Employee events ──
+      byId("employeeRows").addEventListener("click", function(event) {
+        var row = event.target.closest("[data-emp-code]");
+        if (!row) return;
+        selectedEmpCode = row.dataset.empCode;
+        renderEmployees();
+      });
+      byId("employeeRows").addEventListener("dblclick", function() {
+        if (selectedEmpCode) openEmployeeModal("edit");
+      });
+      byId("empNewBtn").addEventListener("click", function() { openEmployeeModal("new"); });
+      byId("empEditBtn").addEventListener("click", function() {
+        if (!selectedEmpCode) { alert("Select an employee first"); return; }
+        openEmployeeModal("edit");
+      });
+      byId("empDeleteBtn").addEventListener("click", deleteEmployee);
+      byId("employeeSearch").addEventListener("input", renderEmployees);
+      byId("employeeForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        saveEmployee();
+      });
+
       byId("appointmentSearch").addEventListener("input", renderSchedule);
 
       // ── View radio buttons (All/Rooms/Therapist/Doctors) ──
@@ -7940,9 +8984,15 @@ podi kizhi + lepanam x 5 days.</textarea>
       byId("packageEdit").addEventListener("click", editPackage);
       byId("packageDelete").addEventListener("click", deletePackage);
       byId("addReceipt").addEventListener("click", () => {
-        byId("receiptForm").reset();
-        byId("receiptForm").elements.date.value = "22/05/2026";
-        openModal("receiptModal");
+        byId("rvForm")?.reset();
+        byId("rvDialogTitle").textContent = "Receipt Voucher";
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2,'0');
+        var mm = String(today.getMonth()+1).padStart(2,'0');
+        var yyyy = today.getFullYear();
+        if (byId("rvForm").elements.rvDate) byId("rvForm").elements.rvDate.value = dd + '-' + mm + '-' + yyyy;
+        byId("rvTableBody").innerHTML = '<tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>';
+        openModal("rvModal");
       });
       byId("newAppointment").addEventListener("click", () => {
         openNewAppointmentForSlot("", "9:00 AM");
@@ -8122,7 +9172,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             openPatientDialog("edit");
           }
         } else if (action === "createReceipt") {
-          openModal("receiptModal");
+          openModal("rvModal");
         } else if (action === "generateConsent") {
           if (selectedAppointmentIndex != null) {
             var appt = appointments[selectedAppointmentIndex];
@@ -9706,6 +10756,59 @@ podi kizhi + lepanam x 5 days.</textarea>
       openModal("reimburseMedicalModal");
     }
 
+    // Save reimbursement form data to local disk C:\
+    function saveReimburseToLocalDisk() {
+      var formData = {};
+      // Collect data from both medical and financial forms
+      var medForm = byId("reimburseMedicalForm");
+      var finForm = byId("reimburseForm");
+      if (medForm) {
+        new FormData(medForm).forEach(function(val, key) { formData[key] = val; });
+      }
+      if (finForm) {
+        new FormData(finForm).forEach(function(val, key) { formData[key] = val; });
+      }
+      formData.savedAt = new Date().toISOString();
+
+      // Save to server which writes to C:\ disk
+      fetch("/api/reimburse/save-to-disk", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(formData)
+      }).then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success) {
+          alert("Reimbursement form saved to: " + d.path);
+        } else {
+          alert("Error saving: " + (d.error || "Unknown error"));
+        }
+      }).catch(function(err) {
+        alert("Error: " + err.message);
+      });
+    }
+
+    // Upload reimbursement form file
+    function uploadReimburseForm(input) {
+      if (!input.files || !input.files[0]) return;
+      var file = input.files[0];
+      var formData = new FormData();
+      formData.append("file", file);
+      formData.append("type", "reimbursement");
+
+      fetch("/api/reimburse/upload", {
+        method: "POST",
+        body: formData
+      }).then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success) {
+          alert("File uploaded successfully: " + d.filename + "\nSaved to: " + d.path);
+        } else {
+          alert("Upload error: " + (d.error || "Unknown error"));
+        }
+      }).catch(function(err) {
+        alert("Upload error: " + err.message);
+      });
+      input.value = ""; // reset
+    }
+
     function printReimburseMedicalForm() {
       var form = byId("reimburseMedicalForm");
       var printWin = window.open("", "_blank", "width=900,height=700");
@@ -9834,6 +10937,10 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function boot() {
+      // Load employees first to build staff lists for appointments
+      loadEmployees();
+      buildStaffFromEmployees();
+      
       renderChrome();
       renderPatients();
       renderInsurance();
@@ -9857,6 +10964,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       loadReceiptsFromServer();
       loadInvoicesFromServer();
       initDoctorSignPad();
+      // Load packages from MySQL
+      fetch("/api/packages-db").then(function(r){return r.json()}).then(function(d){if(d.success&&d.packages&&d.packages.length){packageRecords=d.packages;renderPackages();console.log("Loaded "+d.packages.length+" packages from DB")}}).catch(function(){});
     }
 
     // ─── Doctor Management (Signatures & Seals) ─────────────────────

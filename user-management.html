@@ -9801,6 +9801,8 @@ podi kizhi + lepanam x 5 days.</textarea>
       loadReceiptsFromServer();
       loadInvoicesFromServer();
       initDoctorSignPad();
+      // Load packages from MySQL
+      fetch("/api/packages-db").then(function(r){return r.json()}).then(function(d){if(d.success&&d.packages&&d.packages.length){packageRecords=d.packages;renderPackages();console.log("Loaded "+d.packages.length+" packages from DB")}}).catch(function(){});
     }
 
     // ─── Doctor Management (Signatures & Seals) ─────────────────────

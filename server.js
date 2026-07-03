@@ -903,6 +903,27 @@ async function handleAPI(req, res) {
   if (url === '/api/invoices' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.invoices || [] });
   }
+  if (url === '/api/invoices' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.invoices) db.invoices = [];
+    if (body.invoiceNo) {
+      // Check for duplicate - if exists and it's a new save (not edit), generate new number
+      const existing = db.invoices.find(i => i.invoiceNo === body.invoiceNo);
+      if (existing && !body._isEdit) {
+        // Generate next available number
+        let maxNo = 0;
+        db.invoices.forEach(i => { const n = parseInt(String(i.invoiceNo).replace(/\D/g, '')) || 0; if (n > maxNo) maxNo = n; });
+        body.invoiceNo = 'I' + (maxNo + 1);
+      }
+      // Update existing or add new
+      const idx = db.invoices.findIndex(i => i.invoiceNo === body.invoiceNo);
+      if (idx >= 0) { Object.assign(db.invoices[idx], body); }
+      else { db.invoices.unshift(body); }
+      saveDatabase();
+      return sendJSON(res, { success: true, data: body });
+    }
+    return sendJSON(res, { success: false, error: 'invoiceNo required' }, 400);
+  }
 
   // ── Attendance ──
   if (url === '/api/attendance' && method === 'POST') {
@@ -1178,9 +1199,214 @@ async function handleAPI(req, res) {
     return sendJSON(res, { success: true, data: db.shiftAssignments || {} });
   }
 
+  // ── Packages (from MySQL) ──
+  if (url === '/api/packages-db' && method === 'GET') {
+    try {
+      const mysql = require('mysql2/promise');
+      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur', connectionLimit:2 });
+      const [packages] = await pool.execute("SELECT DPKG_DocNo as code, DPKG_Name as name, DPKG_SessionCount as sessions, DPKG_Price as price FROM pack_definedpackagesmaster WHERE DPKG_isDeleted IS NULL OR DPKG_isDeleted = 0 ORDER BY DPKG_DocNo");
+      const [subpackages] = await pool.execute("SELECT DPDKG_Details_DocNo as id, DPDKG_Details_DPDKG_DocNo as packageCode, DPDKG_Details_DPDKG_TreatmentName as treatment, DPDKG_Details_DPDKG_SessionCount as sessions, DPDKG_Details_DPDKG_Price as price FROM pack_definedpackagesmasterdetails WHERE DPDKG_Details_DPDKG_isDeleted IS NULL OR DPDKG_Details_DPDKG_isDeleted = 0");
+      await pool.end();
+      return sendJSON(res, { success: true, packages, subpackages });
+    } catch(e) { console.log('MySQL packages error:', e.message); }
+    return sendJSON(res, { success: true, packages: [], subpackages: [] });
+  }
+
+  // ── Patient Package Subscription Report (from MySQL or JSON) ──
+  if (url === '/api/package-subscriptions' && method === 'GET') {
+    // First check if we have subscription data in JSON db
+    if (db.packageSubscriptions && db.packageSubscriptions.length > 0) {
+      return sendJSON(res, { success: true, data: db.packageSubscriptions });
+    }
+    
+    try {
+      const mysql = require('mysql2/promise');
+      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur', connectionLimit:2 });
+      
+      // Check which pack tables exist
+      const [tables] = await pool.execute("SHOW TABLES LIKE 'pack_%'");
+      const tableNames = tables.map(t => Object.values(t)[0].toLowerCase());
+      console.log('Found pack tables:', tableNames.join(', '));
+      
+      let rows = [];
+      
+      if (tableNames.includes('pack_patientpackagesubscription')) {
+        const [result] = await pool.execute(`
+          SELECT 
+            ps.PPS_PatientDocNo as mrNo,
+            CONCAT(COALESCE(p.Patient_FirstName,''), ' ', COALESCE(p.Patient_MiddleName,''), ' ', COALESCE(p.Patient_LastName,'')) as patientName,
+            p.Patient_Mobile as mobile,
+            ps.PPS_DPKG_DocNo as packageCode,
+            pkg.DPKG_Name as packageName,
+            DATE_FORMAT(ps.PPS_StartDate, '%d-%m-%Y') as startDate,
+            DATE_FORMAT(ps.PPS_EndDate, '%d-%m-%Y') as endDate,
+            ps.PPS_TotalSessions as totalSessions,
+            ps.PPS_UsedSessions as usedSessions,
+            (ps.PPS_TotalSessions - COALESCE(ps.PPS_UsedSessions, 0)) as balanceSessions
+          FROM pack_patientpackagesubscription ps
+          LEFT JOIN patientmaster p ON ps.PPS_PatientDocNo = p.Patient_DocNo
+          LEFT JOIN pack_definedpackagesmaster pkg ON ps.PPS_DPKG_DocNo = pkg.DPKG_DocNo
+          WHERE (ps.PPS_isDeleted IS NULL OR ps.PPS_isDeleted = 0)
+          ORDER BY ps.PPS_PatientDocNo
+        `);
+        rows = result;
+      }
+      
+      await pool.end();
+      // Cache in JSON db for offline use
+      if (rows.length > 0) {
+        db.packageSubscriptions = rows;
+        saveDatabase();
+      }
+      return sendJSON(res, { success: true, data: rows });
+    } catch(e) { 
+      console.log('MySQL package subscriptions error:', e.message);
+      // Fallback: build from JSON patient data
+      var subs = (db.patients || []).filter(function(p) { 
+        return p.packageName && p.packageName !== 'None' && p.packageName !== ''; 
+      }).map(function(p) {
+        return {
+          mrNo: p.mrNo || '',
+          patientName: [p.firstName, p.middleName, p.lastName].filter(Boolean).join(' '),
+          mobile: p.mobile || '',
+          packageCode: '',
+          packageName: p.packageName || '',
+          startDate: p.packageStart || '',
+          endDate: p.policyExpiry || '',
+          totalSessions: parseInt(p.packageVisits) || 0,
+          usedSessions: Math.max(0, (parseInt(p.packageVisits) || 0) - (parseInt(p.packageBalance) || 0)),
+          balanceSessions: parseInt(p.packageBalance) || 0
+        };
+      });
+      return sendJSON(res, { success: true, data: subs });
+    }
+  }
+
+  // ── Save Package Subscriptions (manual import or from admin) ──
+  if (url === '/api/package-subscriptions' && method === 'POST') {
+    const body = await parseBody(req);
+    if (body.data && Array.isArray(body.data)) {
+      db.packageSubscriptions = body.data;
+      saveDatabase();
+      return sendJSON(res, { success: true, count: body.data.length });
+    }
+    // Single subscription add
+    if (body.mrNo && body.packageName) {
+      if (!db.packageSubscriptions) db.packageSubscriptions = [];
+      db.packageSubscriptions.push(body);
+      saveDatabase();
+      return sendJSON(res, { success: true });
+    }
+    return sendJSON(res, { success: false, error: 'Invalid data' }, 400);
+  }
+
   // ── Receipts ──
   if (url === '/api/receipts' && method === 'GET') {
     return sendJSON(res, { success: true, data: db.receipts || [] });
+  }
+  if (url === '/api/receipts' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.receipts) db.receipts = [];
+    if (body.receiptNo) {
+      // Check for duplicate
+      const existing = db.receipts.find(r => r.receiptNo === body.receiptNo);
+      if (existing) {
+        // Generate next number
+        let maxNo = 0;
+        db.receipts.forEach(r => { const n = parseInt(String(r.receiptNo).replace(/\D/g, '')) || 0; if (n > maxNo) maxNo = n; });
+        body.receiptNo = 'R' + (maxNo + 1);
+      }
+      db.receipts.unshift(body);
+      saveDatabase();
+      return sendJSON(res, { success: true, data: body });
+    }
+    return sendJSON(res, { success: false, error: 'receiptNo required' }, 400);
+  }
+
+  // ── Reimbursement - Save to Local Disk C:\ ──
+  if (url === '/api/reimburse/save-to-disk' && method === 'POST') {
+    const body = await parseBody(req);
+    try {
+      const saveDir = 'C:\\ClinicForms\\Reimbursement';
+      if (!fs.existsSync(saveDir)) fs.mkdirSync(saveDir, { recursive: true });
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').substring(0, 19);
+      const patientName = (body.memberName || body.patientName || 'Unknown').replace(/[^a-zA-Z0-9 ]/g, '').trim();
+      const filename = `Reimburse_${patientName}_${timestamp}.json`;
+      const filePath = path.join(saveDir, filename);
+      fs.writeFileSync(filePath, JSON.stringify(body, null, 2), 'utf8');
+      console.log('Reimbursement saved to:', filePath);
+      return sendJSON(res, { success: true, path: filePath, filename });
+    } catch(e) {
+      console.log('Save to disk error:', e.message);
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+
+  // ── Reimbursement - Upload File ──
+  if (url === '/api/reimburse/upload' && method === 'POST') {
+    try {
+      const uploadDir = 'C:\\ClinicForms\\Reimbursement\\Uploads';
+      if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+      
+      // Parse multipart form data
+      const contentType = req.headers['content-type'] || '';
+      if (!contentType.includes('multipart')) {
+        return sendJSON(res, { success: false, error: 'Must be multipart form data' }, 400);
+      }
+      
+      const boundary = contentType.split('boundary=')[1];
+      const chunks = [];
+      for await (const chunk of req) { chunks.push(chunk); }
+      const buffer = Buffer.concat(chunks);
+      const bodyStr = buffer.toString('binary');
+      
+      // Extract filename and file data
+      const filenameMatch = bodyStr.match(/filename="([^"]+)"/);
+      const filename = filenameMatch ? filenameMatch[1] : 'uploaded_file_' + Date.now();
+      
+      // Find file content between boundaries
+      const parts = bodyStr.split('--' + boundary);
+      let fileData = null;
+      for (const part of parts) {
+        if (part.includes('filename=')) {
+          const headerEnd = part.indexOf('\r\n\r\n');
+          if (headerEnd >= 0) {
+            fileData = part.substring(headerEnd + 4);
+            // Remove trailing \r\n
+            if (fileData.endsWith('\r\n')) fileData = fileData.slice(0, -2);
+          }
+        }
+      }
+      
+      if (fileData) {
+        const filePath = path.join(uploadDir, filename);
+        fs.writeFileSync(filePath, Buffer.from(fileData, 'binary'));
+        console.log('File uploaded to:', filePath);
+        return sendJSON(res, { success: true, filename, path: filePath });
+      }
+      return sendJSON(res, { success: false, error: 'No file found in upload' });
+    } catch(e) {
+      console.log('Upload error:', e.message);
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+
+  // ── List uploaded reimbursement files ──
+  if (url === '/api/reimburse/files' && method === 'GET') {
+    try {
+      const uploadDir = 'C:\\ClinicForms\\Reimbursement\\Uploads';
+      const saveDir = 'C:\\ClinicForms\\Reimbursement';
+      const files = [];
+      if (fs.existsSync(uploadDir)) {
+        fs.readdirSync(uploadDir).forEach(f => files.push({ name: f, type: 'upload', path: path.join(uploadDir, f) }));
+      }
+      if (fs.existsSync(saveDir)) {
+        fs.readdirSync(saveDir).filter(f => f.endsWith('.json')).forEach(f => files.push({ name: f, type: 'form', path: path.join(saveDir, f) }));
+      }
+      return sendJSON(res, { success: true, data: files });
+    } catch(e) {
+      return sendJSON(res, { success: true, data: [] });
+    }
   }
 
   // ── Send Appointment Email ──
