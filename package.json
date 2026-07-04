@@ -65,8 +65,12 @@
     "xlsx": "^0.18.5"
   },
   "dependencies": {
+    "docx": "^9.7.1",
     "nodemailer": "^6.9.7",
     "pcsclite": "^1.0.1",
+    "pdf-lib": "^1.17.1",
+    "pdf-to-img": "^6.2.0",
+    "sharp": "^0.35.3",
     "ws": "^8.21.0"
   }
 }

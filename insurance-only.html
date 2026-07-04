@@ -3367,6 +3367,7 @@ function inheritFromEMR() {
               <button type="button" data-arrived-action="treatmentReport"><span class="menu-icon arr-green">&#9679;</span>Appointment Treatment Report</button>
               <button type="button" data-arrived-action="managePackages"><span class="menu-icon arr-green">&#9679;</span>Manage Patient Packages</button>
               <button type="button" data-arrived-action="callPatient"><span class="menu-icon arr-green">&#9679;</span>Call Patient</button>
+              <button type="button" data-arrived-action="patientSign"><span class="menu-icon arr-green">&#9998;</span>Patient Signature</button>
               <button type="button" data-arrived-action="deleteVisits"><span class="menu-icon arr-green">&#9679;</span>Delete Visits</button>
               <button class="menu-danger" type="button" data-arrived-action="delete"><span class="menu-icon arr-red">&#9632;</span>Delete Appointment</button>
             </div>
@@ -9173,6 +9174,15 @@ podi kizhi + lepanam x 5 days.</textarea>
           }
         } else if (action === "createReceipt") {
           openModal("rvModal");
+        } else if (action === "patientSign") {
+          if (selectedAppointmentIndex != null) {
+            var appt = appointments[selectedAppointmentIndex];
+            if (window.openPatientSignModal) {
+              openPatientSignModal(appt.mrNo, appt.patient || appt.patientName || "");
+            } else {
+              alert("Patient Signature module not loaded");
+            }
+          }
         } else if (action === "generateConsent") {
           if (selectedAppointmentIndex != null) {
             var appt = appointments[selectedAppointmentIndex];
@@ -11867,6 +11877,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '<button class="claims-act-btn treatment" title="Treatment Report">T</button>' +
         '<button class="claims-act-btn medicine" title="Medicine Report">Rx</button>' +
         '<button class="claims-act-btn logsheet" title="Logsheet">L</button>' +
+        '<button class="claims-act-btn logsheet2" title="Logsheet L2" style="background:linear-gradient(#7b1fa2,#4a148c);border-color:#4a148c">L2</button>' +
         '<button class="claims-act-btn edit" title="Edit">&#9998;</button>' +
         '<button class="claims-act-btn delete" title="Delete">&#10005;</button>' +
         '</div>';
@@ -12945,6 +12956,12 @@ podi kizhi + lepanam x 5 days.</textarea>
     });
 
   </script>
+  <script src="logsheet-l2.js"></script>
+  <script src="receipt-voucher-fix.js"></script>
+  <script src="print-export-options.js"></script>
+  <script src="patient-signature.js"></script>
+  <script src="load-signatures.js"></script>
+  <script src="claim-form-upload.js"></script>
 </body>
 </html>
 

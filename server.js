@@ -1434,6 +1434,425 @@ async function handleAPI(req, res) {
     return sendJSON(res, { error: 'Missing type or data' }, 400);
   }
 
+  // ── Patient Signatures ──
+  if (url === '/api/patient-signature' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.patientSignatures) db.patientSignatures = {};
+    if (body.mrNo && body.signature) {
+      db.patientSignatures[body.mrNo] = body.signature;
+      saveDatabase();
+      return sendJSON(res, { success: true });
+    }
+    return sendJSON(res, { success: false, error: 'mrNo and signature required' }, 400);
+  }
+  if (url.startsWith('/api/patient-signature/') && method === 'GET') {
+    const mrNo = decodeURIComponent(url.split('/')[3]);
+    if (!db.patientSignatures) db.patientSignatures = {};
+    const sig = db.patientSignatures[mrNo] || '';
+    return sendJSON(res, { success: !!sig, data: sig });
+  }
+
+  // ── Claim Form Upload ──
+  if (url === '/api/claim-forms/upload' && method === 'POST') {
+    try {
+      const uploadDir = path.join(__dirname, 'uploads', 'claim-forms');
+      if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+      
+      const contentType = req.headers['content-type'] || '';
+      const boundary = contentType.split('boundary=')[1];
+      const chunks = [];
+      for await (const chunk of req) { chunks.push(chunk); }
+      const buffer = Buffer.concat(chunks);
+      const bodyStr = buffer.toString('binary');
+      
+      const filenameMatch = bodyStr.match(/filename="([^"]+)"/);
+      const filename = filenameMatch ? filenameMatch[1] : 'form_' + Date.now();
+      const mrNoMatch = bodyStr.match(/name="mrNo"\r\n\r\n([^\r]*)/);
+      const descMatch = bodyStr.match(/name="description"\r\n\r\n([^\r]*)/);
+      const mrNo = mrNoMatch ? mrNoMatch[1] : '';
+      const description = descMatch ? descMatch[1] : '';
+      
+      const parts = bodyStr.split('--' + boundary);
+      let fileData = null;
+      for (const part of parts) {
+        if (part.includes('filename=')) {
+          const headerEnd = part.indexOf('\r\n\r\n');
+          if (headerEnd >= 0) {
+            fileData = part.substring(headerEnd + 4);
+            if (fileData.endsWith('\r\n')) fileData = fileData.slice(0, -2);
+          }
+        }
+      }
+      
+      if (fileData) {
+        const filePath = path.join(uploadDir, filename);
+        fs.writeFileSync(filePath, Buffer.from(fileData, 'binary'));
+        
+        if (!db.claimForms) db.claimForms = [];
+        db.claimForms.push({ filename, mrNo, description, uploadDate: new Date().toISOString().split('T')[0], filePath });
+        saveDatabase();
+        
+        return sendJSON(res, { success: true, filename, fileUrl: '/uploads/claim-forms/' + filename });
+      }
+      return sendJSON(res, { success: false, error: 'No file in upload' });
+    } catch(e) {
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+  if (url === '/api/claim-forms' && method === 'GET') {
+    return sendJSON(res, { success: true, data: db.claimForms || [] });
+  }
+
+  // Serve uploaded files
+  if (url.startsWith('/uploads/claim-forms/') && method === 'GET') {
+    const filename = decodeURIComponent(url.split('/').pop());
+    const filePath = path.join(__dirname, 'uploads', 'claim-forms', filename);
+    if (fs.existsSync(filePath)) {
+      const ext = filename.split('.').pop().toLowerCase();
+      const mimeTypes = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', doc: 'application/msword', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' };
+      res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'application/octet-stream' });
+      res.end(fs.readFileSync(filePath));
+      return;
+    }
+    res.writeHead(404); res.end('File not found'); return;
+  }
+
+  // Fill PDF form with patient data
+  if (url === '/api/claim-forms/fill-pdf' && method === 'POST') {
+    try {
+      const body = await parseBody(req);
+      const { filename, mrNo } = body;
+      const filePath = path.join(__dirname, 'uploads', 'claim-forms', filename);
+      if (!fs.existsSync(filePath)) return sendJSON(res, { success: false, error: 'File not found' });
+
+      const { PDFDocument } = require('pdf-lib');
+      const pdfBytes = fs.readFileSync(filePath);
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const form = pdfDoc.getForm();
+
+      // Get patient data
+      const pat = (db.patients || []).find(p => p.mrNo === mrNo) || {};
+      const patientName = [pat.firstName, pat.middleName, pat.lastName].filter(Boolean).join(' ');
+
+      // Try to fill form fields (common field names in insurance forms)
+      const fieldMap = {
+        'patientName': patientName, 'PatientName': patientName, 'patient_name': patientName, 'Name': patientName,
+        'memberName': patientName, 'MemberName': patientName, 'member_name': patientName,
+        'mrNo': mrNo, 'MRNo': mrNo, 'fileNo': mrNo, 'FileNo': mrNo,
+        'mobile': pat.mobile || '', 'Mobile': pat.mobile || '', 'phone': pat.mobile || '', 'Phone': pat.mobile || '',
+        'emiratesId': pat.eid || '', 'EmiratesID': pat.eid || '', 'eid': pat.eid || '', 'EID': pat.eid || '',
+        'dob': pat.dob || '', 'DOB': pat.dob || '', 'dateOfBirth': pat.dob || '',
+        'nationality': pat.nationality || '', 'Nationality': pat.nationality || '',
+        'email': pat.email || '', 'Email': pat.email || '',
+        'gender': pat.gender || '', 'Gender': pat.gender || '',
+        'address': pat.address || '', 'Address': pat.address || '',
+      };
+
+      // Get all field names from the PDF
+      const fields = form.getFields();
+      const fieldNames = fields.map(f => f.getName());
+      console.log('PDF form fields found:', fieldNames);
+
+      // Fill matching fields
+      fields.forEach(field => {
+        const name = field.getName();
+        // Try exact match
+        if (fieldMap[name] !== undefined) {
+          try { field.setText(fieldMap[name]); } catch(e) {}
+        }
+        // Try case-insensitive match
+        const lowerName = name.toLowerCase();
+        Object.keys(fieldMap).forEach(key => {
+          if (key.toLowerCase() === lowerName) {
+            try { field.setText(fieldMap[key]); } catch(e) {}
+          }
+        });
+      });
+
+      const filledPdfBytes = await pdfDoc.save();
+      const filledPath = path.join(__dirname, 'uploads', 'claim-forms', 'filled_' + mrNo + '_' + filename);
+      fs.writeFileSync(filledPath, filledPdfBytes);
+
+      return sendJSON(res, { success: true, fileUrl: '/uploads/claim-forms/filled_' + mrNo + '_' + filename, fields: fieldNames });
+    } catch(e) {
+      console.log('PDF fill error:', e.message);
+      return sendJSON(res, { success: false, error: e.message, fallback: true });
+    }
+  }
+
+  // Get PDF form field names (for mapping)
+  if (url === '/api/claim-forms/fields' && method === 'POST') {
+    try {
+      const body = await parseBody(req);
+      const filePath = path.join(__dirname, 'uploads', 'claim-forms', body.filename);
+      if (!fs.existsSync(filePath)) return sendJSON(res, { success: false, error: 'File not found' });
+
+      const { PDFDocument } = require('pdf-lib');
+      const pdfBytes = fs.readFileSync(filePath);
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const form = pdfDoc.getForm();
+      const fields = form.getFields().map(f => ({ name: f.getName(), type: f.constructor.name }));
+      return sendJSON(res, { success: true, fields });
+    } catch(e) {
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+
+  // Fill flat PDF by writing text at specific coordinates
+  if (url === '/api/claim-forms/fill-flat-pdf' && method === 'POST') {
+    try {
+      const body = await parseBody(req);
+      const { filename, mrNo, fieldPositions } = body;
+      const filePath = path.join(__dirname, 'uploads', 'claim-forms', filename);
+      if (!fs.existsSync(filePath)) return sendJSON(res, { success: false, error: 'File not found' });
+
+      const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+      const pdfBytes = fs.readFileSync(filePath);
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+      // Get patient data
+      const pat = (db.patients || []).find(p => p.mrNo === mrNo) || {};
+      const patientName = [pat.firstName, pat.middleName, pat.lastName].filter(Boolean).join(' ');
+
+      // Data map
+      const dataMap = {
+        patientName: patientName,
+        mrNo: mrNo || '',
+        mobile: pat.mobile || '',
+        eid: pat.eid || '',
+        dob: pat.dob || '',
+        nationality: pat.nationality || '',
+        gender: pat.gender || '',
+        email: pat.email || '',
+        address: [pat.address, pat.area, pat.city].filter(Boolean).join(', '),
+        insurance: pat.policyName || '',
+        policyExpiry: pat.policyExpiry || '',
+        date: new Date().toLocaleDateString('en-GB'),
+        amount: body.amount || '0',
+        doctor: body.doctor || '',
+      };
+
+      // Default field positions for NAS Reimbursement form (page 0, coordinates from top-left)
+      // These are approximate - user can customize via fieldPositions parameter
+      const defaultPositions = [
+        { field: 'patientName', page: 0, x: 180, y: 680, size: 10 },
+        { field: 'eid', page: 0, x: 180, y: 655, size: 10 },
+        { field: 'dob', page: 0, x: 450, y: 655, size: 10 },
+        { field: 'mobile', page: 0, x: 180, y: 630, size: 10 },
+        { field: 'gender', page: 0, x: 450, y: 630, size: 10 },
+        { field: 'nationality', page: 0, x: 180, y: 605, size: 10 },
+        { field: 'insurance', page: 0, x: 180, y: 580, size: 10 },
+        { field: 'date', page: 0, x: 450, y: 580, size: 10 },
+        { field: 'amount', page: 0, x: 180, y: 400, size: 11 },
+        { field: 'doctor', page: 0, x: 180, y: 300, size: 10 },
+      ];
+
+      const positions = fieldPositions || db.claimFormPositions?.[filename] || defaultPositions;
+
+      // Write text on PDF
+      positions.forEach(pos => {
+        const value = dataMap[pos.field] || '';
+        if (!value) return;
+        const page = pdfDoc.getPage(pos.page || 0);
+        page.drawText(value, {
+          x: pos.x,
+          y: pos.y,
+          size: pos.size || 10,
+          font: pos.bold ? boldFont : font,
+          color: rgb(0, 0, 0),
+        });
+      });
+
+      // Add signature images if available
+      if (db.signatures && db.signatures.doctor) {
+        try {
+          const sigData = db.signatures.doctor.replace(/^data:image\/\w+;base64,/, '');
+          const sigImage = await pdfDoc.embedPng(Buffer.from(sigData, 'base64')).catch(() => null);
+          if (sigImage) {
+            const page = pdfDoc.getPage(pdfDoc.getPageCount() - 1);
+            page.drawImage(sigImage, { x: 380, y: 80, width: 100, height: 40 });
+          }
+        } catch(e) {}
+      }
+      if (db.signatures && db.signatures.seal) {
+        try {
+          const sealData = db.signatures.seal.replace(/^data:image\/\w+;base64,/, '');
+          const sealImage = await pdfDoc.embedPng(Buffer.from(sealData, 'base64')).catch(() => null);
+          if (sealImage) {
+            const page = pdfDoc.getPage(pdfDoc.getPageCount() - 1);
+            page.drawImage(sealImage, { x: 280, y: 60, width: 80, height: 80 });
+          }
+        } catch(e) {}
+      }
+
+      const filledBytes = await pdfDoc.save();
+      const outputFilename = 'filled_' + mrNo + '_' + filename;
+      const outputPath = path.join(__dirname, 'uploads', 'claim-forms', outputFilename);
+      fs.writeFileSync(outputPath, filledBytes);
+
+      res.writeHead(200, { 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename="' + outputFilename + '"' });
+      res.end(Buffer.from(filledBytes));
+      return;
+    } catch(e) {
+      console.log('Flat PDF fill error:', e.message);
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+
+  // Save field position configuration for a form
+  if (url === '/api/claim-forms/save-positions' && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.claimFormPositions) db.claimFormPositions = {};
+    db.claimFormPositions[body.filename] = body.positions;
+    saveDatabase();
+    return sendJSON(res, { success: true });
+  }
+
+  // Generate filled Word document from claim form template
+  if (url === '/api/claim-forms/generate-word' && method === 'POST') {
+    try {
+      const body = await parseBody(req);
+      const { mrNo, formType, amount } = body;
+      const pat = (db.patients || []).find(p => p.mrNo === mrNo) || {};
+      const patientName = [pat.firstName, pat.middleName, pat.lastName].filter(Boolean).join(' ');
+      
+      const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, ImageRun } = require('docx');
+
+      // Build the claim form document
+      const sections = [];
+      const children = [];
+
+      // Header
+      children.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'INSURANCE CLAIM FORM', bold: true, size: 28 })] }));
+      children.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: formType || 'Reimbursement Claim', size: 20, color: '666666' })] }));
+      children.push(new Paragraph({ text: '' }));
+
+      // Clinic info
+      children.push(new Paragraph({ children: [new TextRun({ text: 'SHANTHI WELLNESS AYURVED MEDICAL CENTRE LLC', bold: true, size: 22 })] }));
+      children.push(new Paragraph({ children: [new TextRun({ text: 'Dubai, UAE | Tel: +971 42 255 133 | Lic: DHA-F-0002448', size: 18, color: '555555' })] }));
+      children.push(new Paragraph({ text: '' }));
+
+      // Section 1: Patient Information
+      children.push(new Paragraph({ children: [new TextRun({ text: 'SECTION 1: MEMBER / PATIENT INFORMATION', bold: true, size: 22, color: '1b5e20' })] }));
+      children.push(new Paragraph({ text: '' }));
+
+      const patientTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Patient Name:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: patientName, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'File No:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: mrNo || '', size: 20 })] })] }),
+          ]}),
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Emirates ID:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.eid || '', size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Date of Birth:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.dob || '', size: 20 })] })] }),
+          ]}),
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Mobile:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.mobile || '', size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Nationality:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.nationality || '', size: 20 })] })] }),
+          ]}),
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Gender:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.gender || '', size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Email:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.email || '', size: 20 })] })] }),
+          ]}),
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Insurance Company:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.policyName || '', size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Policy Expiry:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: pat.policyExpiry || '', size: 20 })] })] }),
+          ]}),
+        ]
+      });
+      children.push(patientTable);
+      children.push(new Paragraph({ text: '' }));
+
+      // Section 2: Claim Details
+      children.push(new Paragraph({ children: [new TextRun({ text: 'SECTION 2: CLAIM DETAILS', bold: true, size: 22, color: '1b5e20' })] }));
+      children.push(new Paragraph({ text: '' }));
+
+      const claimTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Claim Amount:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: (amount || '0') + ' AED', size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Date:', bold: true, size: 20 })] })] }),
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: new Date().toLocaleDateString('en-GB'), size: 20 })] })] }),
+          ]}),
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Treating Doctor:', bold: true, size: 20 })] })] }),
+            new TableCell({ columnSpan: 3, children: [new Paragraph({ children: [new TextRun({ text: '', size: 20 })] })] }),
+          ]}),
+          new TableRow({ children: [
+            new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Diagnosis:', bold: true, size: 20 })] })] }),
+            new TableCell({ columnSpan: 3, children: [new Paragraph({ children: [new TextRun({ text: '', size: 20 })] })] }),
+          ]}),
+        ]
+      });
+      children.push(claimTable);
+      children.push(new Paragraph({ text: '' }));
+      children.push(new Paragraph({ text: '' }));
+
+      // Signature section
+      children.push(new Paragraph({ children: [new TextRun({ text: 'SIGNATURES', bold: true, size: 22, color: '1b5e20' })] }));
+      children.push(new Paragraph({ text: '' }));
+      children.push(new Paragraph({ text: '' }));
+
+      const sigTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } },
+        rows: [
+          new TableRow({ children: [
+            new TableCell({ borders: { top: {style:BorderStyle.NONE}, bottom:{style:BorderStyle.NONE}, left:{style:BorderStyle.NONE}, right:{style:BorderStyle.NONE} }, children: [
+              new Paragraph({ text: '' }),
+              new Paragraph({ text: '' }),
+              new Paragraph({ text: '________________________' }),
+              new Paragraph({ children: [new TextRun({ text: 'Patient Signature', bold: true, size: 18 })] }),
+            ]}),
+            new TableCell({ borders: { top: {style:BorderStyle.NONE}, bottom:{style:BorderStyle.NONE}, left:{style:BorderStyle.NONE}, right:{style:BorderStyle.NONE} }, children: [
+              new Paragraph({ text: '' }),
+              new Paragraph({ text: '' }),
+              new Paragraph({ text: '________________________' }),
+              new Paragraph({ children: [new TextRun({ text: 'Doctor Signature & Seal', bold: true, size: 18 })] }),
+            ]}),
+          ]}),
+        ]
+      });
+      children.push(sigTable);
+
+      // Footer
+      children.push(new Paragraph({ text: '' }));
+      children.push(new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: 'For SHANTHI WELLNESS AYURVEDIC MEDICAL CENTRE LLC', bold: true, size: 18, color: '333333' })] }));
+
+      sections.push({ children });
+
+      const doc = new Document({ sections });
+      const buffer = await Packer.toBuffer(doc);
+
+      const outputFilename = 'ClaimForm_' + (formType || 'NAS').replace(/[^a-zA-Z0-9]/g, '_') + '_' + mrNo + '_' + Date.now() + '.docx';
+      const outputPath = path.join(__dirname, 'uploads', 'claim-forms', outputFilename);
+      if (!fs.existsSync(path.join(__dirname, 'uploads', 'claim-forms'))) fs.mkdirSync(path.join(__dirname, 'uploads', 'claim-forms'), { recursive: true });
+      fs.writeFileSync(outputPath, buffer);
+
+      res.writeHead(200, { 'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'Content-Disposition': 'attachment; filename="' + outputFilename + '"' });
+      res.end(buffer);
+      return;
+    } catch(e) {
+      console.log('Word generation error:', e.message);
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+
   // ── Customer Booking API (for mobile app) ──
   
   // Get available doctors and services
@@ -1725,6 +2144,255 @@ async function handleAPI(req, res) {
     return sendJSON(res, { success: true, message: 'Profile updated' });
   }
 
+  // ── PDF Editor page ──
+  if (url.startsWith('/pdf-editor') && method === 'GET') {
+    const urlObj = new URL(req.url, 'http://localhost');
+    const pdfFile = urlObj.searchParams.get('file') || '';
+    const mrNo = urlObj.searchParams.get('mrNo') || '';
+    const amount = urlObj.searchParams.get('amount') || '0';
+
+    const pat = (db.patients || []).find(p => p.mrNo === mrNo) || {};
+    const patientName = [pat.firstName, pat.middleName, pat.lastName].filter(Boolean).join(' ');
+    const docSig = (db.signatures && db.signatures.doctor) || '';
+    const sealImg = (db.signatures && db.signatures.seal) || '';
+    const patSig = (db.patientSignatures && db.patientSignatures[mrNo]) || '';
+
+    const pdfEditorPage = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>PDF Editor - ${patientName}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#333;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.toolbar{height:44px;background:#1b5e20;display:flex;align-items:center;padding:0 12px;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.toolbar button{height:28px;padding:0 10px;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:#1b5e20}
+.toolbar button:hover{background:#c8e6c9}
+.toolbar span{color:#fff;font-size:11px;font-weight:700}
+.main{display:flex;flex:1;overflow:hidden;min-height:0}
+.pdf-area{flex:1;overflow-y:auto;overflow-x:auto;background:#555;padding:20px;display:flex;flex-direction:column;align-items:center}
+.pdf-wrapper{position:relative;width:820px;min-height:1130px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.4);flex-shrink:0}
+embed#pdfEmbed{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:crosshair}
+.drag-item{position:absolute;cursor:move;user-select:none;z-index:3}
+.drag-item.text-item{background:transparent;border:1px dashed #1b5e20;padding:2px 4px;font-size:12px;font-family:Arial;color:#000;min-width:40px;min-height:20px;outline:none;white-space:nowrap}
+.drag-item.text-item:focus{background:rgba(255,255,200,0.8);border:1px solid #1b5e20}
+.drag-item.text-item:not(:focus):empty{display:none}
+.drag-item img{display:block;mix-blend-mode:multiply}
+.drag-item .del-btn{position:absolute;top:-8px;right:-8px;width:16px;height:16px;background:#c00;color:#fff;border:none;border-radius:50%;font-size:10px;cursor:pointer;display:none;line-height:16px;text-align:center;z-index:10}
+.drag-item:hover .del-btn{display:block}
+.side{width:230px;background:#fff;border-left:2px solid #1b5e20;display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;min-height:0}
+.side-top{padding:8px;border-bottom:1px solid #eee;font-size:11px;font-weight:700;color:#1b5e20;background:#e8f5e9;flex-shrink:0}
+.side-scroll{flex:1;overflow-y:scroll;overflow-x:hidden;padding:8px;-webkit-overflow-scrolling:touch}
+.data-btn{display:block;width:100%;text-align:left;padding:5px 8px;margin:2px 0;font-size:11px;font-weight:700;border:1px solid #e0e0e0;background:#fff;border-radius:3px;cursor:pointer}
+.data-btn:hover{background:#e8f5e9;border-color:#2e7d32}
+.data-btn b{display:block;font-size:9px;font-weight:400;color:#999}
+.sig-box{text-align:center;margin:6px 0;padding:6px;border:1px solid #e0e0e0;border-radius:4px;cursor:pointer}
+.sig-box:hover{background:#e8f5e9}
+.sig-box img{max-width:120px;max-height:50px;mix-blend-mode:multiply}
+.sig-box span{font-size:10px;font-weight:700;color:#1b5e20;display:block;margin-top:2px}
+.section-title{font-size:11px;font-weight:700;color:#1b5e20;margin:8px 0 4px;padding-top:6px;border-top:1px solid #eee}
+select.font-sel{height:26px;font-size:11px;border:1px solid #ccc;border-radius:3px;padding:0 4px;color:#1b5e20}
+@media print{
+  .toolbar,.side{display:none!important}
+  .main{display:block}
+  .pdf-area{overflow:visible;padding:0;background:#fff}
+  .pdf-wrapper{box-shadow:none;width:100%;min-height:auto}
+  embed#pdfEmbed{position:relative;width:100%;height:1130px}
+  .drag-item .del-btn{display:none!important}
+}
+</style></head><body>
+<div class="toolbar">
+  <span>📄 ${patientName} (MR: ${mrNo})</span>
+  <button onclick="printForm()">🖨 Print / PDF</button>
+  <button onclick="exportWord()">📄 Word</button>
+  <button onclick="exportExcel()">📊 Excel</button>
+  <select class="font-sel" id="fontSz" onchange="currentFontSize=this.value"><option value="10">10</option><option value="11">11</option><option value="12" selected>12</option><option value="14">14</option><option value="16">16</option><option value="18">18</option></select>
+  <button onclick="clearAll()" style="background:#fce4e4;color:#c00">Clear All</button>
+</div>
+<div class="main">
+  <div class="pdf-area">
+    <div class="pdf-wrapper" id="pdfWrapper">
+      <embed id="pdfEmbed" src="${pdfFile}" type="application/pdf">
+      <div class="overlay" id="overlay" onclick="createTextField(event)"></div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="side-top">Patient Data — Click to place on form</div>
+    <div class="side-scroll">
+      <button class="data-btn" onclick="placeText('${patientName}','Patient Name')"><b>Patient Name</b>${patientName}</button>
+      <button class="data-btn" onclick="placeText('${mrNo}','MR No / File No')"><b>MR No / File No</b>${mrNo}</button>
+      <button class="data-btn" onclick="placeText('${pat.eid||''}','Emirates ID')"><b>Emirates ID</b>${pat.eid||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.dob||''}','Date of Birth')"><b>Date of Birth</b>${pat.dob||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.mobile||''}','Mobile')"><b>Mobile</b>${pat.mobile||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.nationality||''}','Nationality')"><b>Nationality</b>${pat.nationality||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.gender||''}','Gender')"><b>Gender</b>${pat.gender||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.email||''}','Email')"><b>Email</b>${pat.email||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.policyName||''}','Insurance Co.')"><b>Insurance Co.</b>${pat.policyName||'—'}</button>
+      <button class="data-btn" onclick="placeText('${pat.policyExpiry||''}','Policy Expiry')"><b>Policy Expiry</b>${pat.policyExpiry||'—'}</button>
+      <button class="data-btn" onclick="placeText('${amount}','Claim Amount')"><b>Claim Amount</b>${amount} AED</button>
+      <button class="data-btn" onclick="placeText('${new Date().toLocaleDateString('en-GB')}','Today Date')"><b>Today Date</b>${new Date().toLocaleDateString('en-GB')}</button>
+      <button class="data-btn" onclick="placeText('SHANTHI WELLNESS AYURVEDIC MEDICAL CENTRE LLC','Clinic Name')"><b>Clinic Name</b>Shanthi Wellness</button>
+
+      <div class="section-title">Signatures (click to place)</div>
+      ${docSig ? `<div class="sig-box" onclick="placeSig('${docSig}',100,44)"><img src="${docSig}"><span>Doctor Signature</span></div>` : '<div style="font-size:10px;color:#999;text-align:center;padding:4px">No doctor signature</div>'}
+      ${sealImg ? `<div class="sig-box" onclick="placeSig('${sealImg}',70,70)"><img src="${sealImg}"><span>Clinic Seal</span></div>` : '<div style="font-size:10px;color:#999;text-align:center;padding:4px">No clinic seal</div>'}
+      ${patSig ? `<div class="sig-box" onclick="placeSig('${patSig}',100,44)"><img src="${patSig}"><span>Patient Signature</span></div>` : '<div style="font-size:10px;color:#999;text-align:center;padding:4px">No patient signature</div>'}
+
+      <div class="section-title">Instructions</div>
+      <div style="font-size:10px;color:#666;line-height:1.5">
+        • Click a patient field to place it on the form<br>
+        • Click signatures to place them<br>
+        • <b>Drag</b> items to position them<br>
+        • Click on PDF to add custom text<br>
+        • Double-click text to edit<br>
+        • Hover + click ✕ to delete<br>
+        • Print → Save as PDF
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var currentFontSize = 12;
+var pendingText = null;
+var pendingImg = null;
+
+// Adjust embed height after load
+window.onload = function(){
+  var wrapper = document.getElementById('pdfWrapper');
+  // Set height to show full A4 pages (approx 1130px per page for 820px wide)
+  wrapper.style.height = '1130px';
+  document.getElementById('pdfEmbed').style.height = '1130px';
+};
+
+function createTextField(e){
+  if(pendingText !== null){
+    placePending(e, pendingText, null);
+    pendingText = null;
+    document.getElementById('overlay').style.cursor = 'crosshair';
+    return;
+  }
+  if(pendingImg !== null){ return; }
+  var rect = document.getElementById('pdfWrapper').getBoundingClientRect();
+  var x = e.clientX - rect.left;
+  var y = e.clientY - rect.top;
+  createDragText('', x, y);
+}
+
+function placeText(val, label){
+  pendingText = val;
+  document.getElementById('overlay').style.cursor = 'copy';
+  document.getElementById('overlay').title = 'Click on the form where you want to place: ' + label;
+}
+
+function placeSig(src, w, h){
+  var wrapper = document.getElementById('pdfWrapper');
+  var item = document.createElement('div');
+  item.className = 'drag-item';
+  item.style.left = '300px';
+  item.style.top = '900px';
+  var img = document.createElement('img');
+  img.src = src;
+  img.style.width = w + 'px';
+  img.style.height = h + 'px';
+  img.style.mixBlendMode = 'multiply';
+  item.appendChild(img);
+  var del = document.createElement('button');
+  del.className = 'del-btn';
+  del.innerHTML = '✕';
+  del.onclick = function(e){ e.stopPropagation(); item.remove(); };
+  item.appendChild(del);
+  makeDraggable(item);
+  wrapper.appendChild(item);
+}
+
+function placePending(e, text, imgSrc){
+  var wrapper = document.getElementById('pdfWrapper');
+  var rect = wrapper.getBoundingClientRect();
+  var x = e.clientX - rect.left;
+  var y = e.clientY - rect.top;
+  createDragText(text, x, y);
+}
+
+function createDragText(text, x, y){
+  var wrapper = document.getElementById('pdfWrapper');
+  var item = document.createElement('div');
+  item.className = 'drag-item text-item';
+  item.contentEditable = 'true';
+  item.style.left = x + 'px';
+  item.style.top = y + 'px';
+  item.style.fontSize = currentFontSize + 'px';
+  item.textContent = text || '';
+  var del = document.createElement('button');
+  del.className = 'del-btn';
+  del.innerHTML = '✕';
+  del.onclick = function(e){ e.stopPropagation(); item.remove(); };
+  item.appendChild(del);
+  makeDraggable(item);
+  wrapper.appendChild(item);
+  if(!text) item.focus();
+}
+
+function makeDraggable(el){
+  var ox,oy,dragging=false;
+  el.addEventListener('mousedown', function(e){
+    if(e.target.classList.contains('del-btn')) return;
+    if(e.target.contentEditable==='true' && e.detail>1) return;
+    dragging=true;
+    ox = e.clientX - el.offsetLeft;
+    oy = e.clientY - el.offsetTop;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', function(e){
+    if(!dragging) return;
+    el.style.left = (e.clientX-ox)+'px';
+    el.style.top = (e.clientY-oy)+'px';
+  });
+  document.addEventListener('mouseup', function(){ dragging=false; });
+}
+
+function clearAll(){
+  if(!confirm('Remove all placed items?')) return;
+  var items = document.querySelectorAll('.drag-item');
+  items.forEach(function(i){ i.remove(); });
+}
+
+function printForm(){
+  var items = document.querySelectorAll('.drag-item .del-btn');
+  items.forEach(function(b){ b.style.display='none'; });
+  document.querySelector('.toolbar').style.display='none';
+  document.querySelector('.side').style.display='none';
+  document.querySelector('.pdf-area').style.padding='0';
+  window.print();
+  setTimeout(function(){
+    document.querySelector('.toolbar').style.display='flex';
+    document.querySelector('.side').style.display='flex';
+    document.querySelector('.pdf-area').style.padding='10px';
+  },1000);
+}
+
+function exportWord(){
+  var fields = [];
+  document.querySelectorAll('.drag-item.text-item').forEach(function(el){
+    fields.push(el.textContent.trim());
+  });
+  var html = '<html><body><h2>Claim Form - ${patientName}</h2><p><b>Patient:</b> ${patientName} | <b>MR:</b> ${mrNo}</p>';
+  fields.forEach(function(f){ html += '<p>'+f+'</p>'; });
+  html += '</body></html>';
+  var b = new Blob([html],{type:'application/msword'});
+  var a = document.createElement('a'); a.href=URL.createObjectURL(b); a.download='ClaimForm_${mrNo}.doc'; a.click();
+}
+
+function exportExcel(){
+  var rows = [['Field','Value'],['Patient Name','${patientName}'],['MR No','${mrNo}'],['Emirates ID','${pat.eid||''}'],['DOB','${pat.dob||''}'],['Mobile','${pat.mobile||''}'],['Amount','${amount}']];
+  var csv = rows.map(function(r){return r.map(function(c){return '"'+c+'"';}).join(',');}).join('\\n');
+  var b = new Blob([csv],{type:'text/csv'});
+  var a = document.createElement('a'); a.href=URL.createObjectURL(b); a.download='ClaimForm_${mrNo}.csv'; a.click();
+}
+<\/script>
+</body></html>`;
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(pdfEditorPage);
+    return;
+  }
+
   // ── Sign page (link-based signing) ──
   if (url.startsWith('/sign') && method === 'GET') {
     const signPage = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -1764,10 +2432,18 @@ function submitSig(){
   var data=canvas.toDataURL("image/png");
   var params=new URLSearchParams(window.location.search);
   var type=params.get("type")||"doctor";
-  fetch("/api/signatures",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:type,data:data})})
-  .then(function(r){return r.json()})
-  .then(function(d){document.getElementById("msg").style.display="block"})
-  .catch(function(e){alert("Error saving: "+e.message)});
+  var mrNo=params.get("mrNo")||"";
+  if(type==="patient"&&mrNo){
+    fetch("/api/patient-signature",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mrNo:mrNo,signature:data})})
+    .then(function(r){return r.json()})
+    .then(function(d){document.getElementById("msg").style.display="block"})
+    .catch(function(e){alert("Error saving: "+e.message)});
+  }else{
+    fetch("/api/signatures",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:type,data:data})})
+    .then(function(r){return r.json()})
+    .then(function(d){document.getElementById("msg").style.display="block"})
+    .catch(function(e){alert("Error saving: "+e.message)});
+  }
 }
 </script></body></html>`;
     res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -1787,6 +2463,16 @@ const server = http.createServer((req, res) => {
 
   // Sign page (link-based signing)
   if (req.url.startsWith('/sign')) {
+    return handleAPI(req, res);
+  }
+
+  // PDF Editor page
+  if (req.url.startsWith('/pdf-editor')) {
+    return handleAPI(req, res);
+  }
+
+  // Serve uploaded claim form files
+  if (req.url.startsWith('/uploads/claim-forms/')) {
     return handleAPI(req, res);
   }
 
