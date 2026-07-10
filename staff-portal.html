@@ -7,32 +7,32 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); min-height: 100vh; }
-    .header { background: linear-gradient(90deg, #2e7d32, #43a047); color: #fff; padding: 14px 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .header { background: linear-gradient(90deg, #3A9E14, #5BC91F); color: #fff; padding: 14px 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
     .header h1 { font-size: 18px; margin-bottom: 2px; }
     .header p { font-size: 11px; opacity: 0.8; }
     .container { max-width: 420px; margin: 20px auto; padding: 0 16px; }
 
     /* Login */
     .login-card { background: #fff; border-radius: 12px; padding: 30px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-    .login-card h2 { color: #2e7d32; font-size: 20px; margin-bottom: 20px; text-align: center; }
+    .login-card h2 { color: #3A9E14; font-size: 20px; margin-bottom: 20px; text-align: center; }
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 12px; font-weight: 700; color: #333; margin-bottom: 5px; }
     .form-group input { width: 100%; height: 44px; border: 2px solid #c8e6c9; border-radius: 8px; padding: 0 14px; font-size: 14px; transition: border-color 0.2s; }
-    .form-group input:focus { outline: none; border-color: #4caf50; }
+    .form-group input:focus { outline: none; border-color: #6DD627; }
     .btn { width: 100%; height: 48px; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
     .btn:active { transform: scale(0.97); }
-    .btn-primary { background: linear-gradient(135deg, #4caf50, #2e7d32); color: #fff; box-shadow: 0 3px 10px rgba(46,125,50,0.3); }
+    .btn-primary { background: linear-gradient(135deg, #6DD627, #3A9E14); color: #fff; box-shadow: 0 3px 10px rgba(46,125,50,0.3); }
     .btn-danger { background: linear-gradient(135deg, #f44336, #c62828); color: #fff; }
-    .btn-outline { background: #fff; border: 2px solid #4caf50; color: #2e7d32; }
+    .btn-outline { background: #fff; border: 2px solid #6DD627; color: #3A9E14; }
     .error { color: #c62828; font-size: 12px; text-align: center; margin-top: 10px; display: none; }
 
     /* Dashboard */
     .dashboard { display: none; }
     .welcome { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; }
-    .welcome h3 { color: #2e7d32; font-size: 18px; }
+    .welcome h3 { color: #3A9E14; font-size: 18px; }
     .welcome p { color: #666; font-size: 12px; margin-top: 4px; }
     .status-badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; margin-top: 10px; }
-    .status-badge.in { background: #c8e6c9; color: #2e7d32; }
+    .status-badge.in { background: #c8e6c9; color: #3A9E14; }
     .status-badge.out { background: #ffcdd2; color: #c62828; }
     .status-badge.none { background: #f5f5f5; color: #666; }
 
@@ -41,24 +41,24 @@
     .action-btn:active { transform: scale(0.95); background: #e8f5e9; }
     .action-btn .icon { font-size: 28px; margin-bottom: 6px; }
     .action-btn .label { font-size: 12px; font-weight: 700; color: #333; }
-    .action-btn.clock-in { border-color: #4caf50; }
-    .action-btn.clock-in .icon { color: #4caf50; }
+    .action-btn.clock-in { border-color: #6DD627; }
+    .action-btn.clock-in .icon { color: #6DD627; }
     .action-btn.clock-out { border-color: #f44336; }
     .action-btn.clock-out .icon { color: #f44336; }
 
     .history-card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
-    .history-card h4 { color: #2e7d32; font-size: 14px; margin-bottom: 10px; }
+    .history-card h4 { color: #3A9E14; font-size: 14px; margin-bottom: 10px; }
     .history-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
     .history-row:last-child { border-bottom: none; }
     .history-row .date { font-weight: 700; color: #333; }
     .history-row .times { color: #666; }
     .history-row .status { font-weight: 700; padding: 2px 8px; border-radius: 4px; font-size: 10px; }
-    .status-p { background: #c8e6c9; color: #2e7d32; }
+    .status-p { background: #c8e6c9; color: #3A9E14; }
     .status-a { background: #ffcdd2; color: #c62828; }
     .status-l { background: #fff9c4; color: #f57f17; }
 
     .logout-btn { display: block; text-align: center; color: #888; font-size: 12px; margin-top: 16px; cursor: pointer; text-decoration: underline; }
-    .time-display { font-size: 32px; font-weight: 900; color: #2e7d32; margin: 10px 0; }
+    .time-display { font-size: 32px; font-weight: 900; color: #3A9E14; margin: 10px 0; }
   </style>
 </head>
 <body>

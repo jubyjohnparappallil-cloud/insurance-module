@@ -13,7 +13,7 @@ function getPool() {
       host: 'localhost',
       port: 3306,
       user: 'root',
-      password: 'null',
+      password: 'root',
       database: 'clinic_emr',
       waitForConnections: true,
       connectionLimit: 10
@@ -281,6 +281,61 @@ async function saveAppointment(data) {
   return data;
 }
 
+// ─── GlassReader Cardholder (Emirates ID Auto-Fill) ──────────────
+
+async function getLatestCardholder() {
+  const db = getPool();
+  try {
+    // Fetch the latest cardholder record from GlassReader table
+    const [rows] = await db.execute(`
+      SELECT 
+        idCardHolder,
+        readID,
+        cardReadDate,
+        cardReadTime,
+        fullNameEnglish,
+        fullNameArabic,
+        firstNameEnglish,
+        middleNameEnglish,
+        lastNameEnglish,
+        idNumber,
+        issueDate,
+        expiryDate,
+        passportNumber,
+        passportIssueDate,
+        passportExpiryDate,
+        residencyNumber,
+        residencyExpiryDate,
+        homeMobilePhoneNumber,
+        workMobilePhoneNumber,
+        homeEmail,
+        workEmail,
+        dateOfBirth,
+        gender,
+        nationalityEnglish,
+        nationalityArabic,
+        occupationTypeEnglish,
+        occupationTypeArabic,
+        companyNameEnglish,
+        companyNameArabic,
+        sponsorName,
+        homeCityDescEnglish,
+        homeCityDescArabic
+      FROM cardholder
+      ORDER BY idCardHolder DESC
+      LIMIT 1
+    `);
+    
+    if (rows && rows.length > 0) {
+      return rows[0];
+    }
+    return null;
+  } catch (error) {
+    console.log('Error fetching cardholder:', error.message);
+    return null;
+  }
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────
 
 function pad2(n) { return String(n).padStart(2, '0'); }
@@ -304,5 +359,6 @@ module.exports = {
   getInsuranceCompanies,
   saveInsuranceMapping,
   getInsuranceMappings,
+  getLatestCardholder,
   getDatabasePath
 };

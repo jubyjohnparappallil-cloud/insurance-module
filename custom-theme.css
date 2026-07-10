@@ -1,0 +1,60 @@
+/* Custom Color Theme - #1fc600 Parrot Green */
+:root {
+  --green: #1fc600 !important;
+  --green-dark: #15A000 !important;
+}
+
+/* Header bars */
+.window-strip { background: linear-gradient(#1fc600, #15A000) !important; border-bottom-color: #15A000 !important; }
+.top-tabs { background: linear-gradient(#28D600, #1fc600) !important; border-bottom-color: #15A000 !important; }
+.top-tab.active { border-color: #1fc600 !important; }
+.ribbon { background: linear-gradient(#e6ffe0, #c0f5b0) !important; border-bottom-color: #1fc600 !important; }
+.sub-tabs { background: #1fc600 !important; border-bottom-color: #15A000 !important; }
+.sub-tab { background: linear-gradient(#50EA30, #1fc600) !important; border-color: #15A000 !important; }
+.sub-tab.active { background: linear-gradient(#fff, #e6ffe0) !important; color: #0D7A00 !important; }
+.page-heading { background: linear-gradient(90deg, #15A000, #1fc600) !important; border-bottom-color: #15A000 !important; }
+.screen-title, .screen-title.green { background: linear-gradient(90deg, #15A000, #1fc600) !important; border-bottom-color: #15A000 !important; }
+
+/* Module icons */
+.module-icon { border-color: #1fc600 !important; background: linear-gradient(#1fc600, #15A000) !important; }
+.module:hover .module-icon, .module.active .module-icon { background: linear-gradient(#1fc600, #28D600) !important; }
+
+/* Table headers */
+th { background: linear-gradient(#1fc600, #15A000) !important; border-color: #15A000 !important; }
+
+/* Toolbar */
+.toolbar { background: linear-gradient(#e6ffe0, #c0f5b0) !important; border-bottom-color: #1fc600 !important; }
+.tool-button.primary { background: linear-gradient(#1fc600, #15A000) !important; border-color: #15A000 !important; }
+
+/* Status bar */
+.status-bar { background: linear-gradient(#0D7A00, #15A000) !important; }
+
+/* Grid action buttons */
+.grid-action { background: linear-gradient(#1fc600, #28D600) !important; border-color: #1fc600 !important; }
+.claims-act-btn.medical, .claims-act-btn.treatment, .claims-act-btn.edit { background: linear-gradient(#1fc600, #15A000) !important; border-color: #15A000 !important; }
+
+/* Dialogs */
+.dialog-title { background: linear-gradient(90deg, #15A000, #1fc600) !important; }
+
+/* Insurance header */
+.ins-screen-header { border-color: #1fc600 !important; }
+.ins-header-title { color: #1fc600 !important; }
+
+/* Selected rows */
+tr.selected td { background: #a0f590 !important; border-top-color: #1fc600 !important; }
+
+/* Appointment card arrived */
+.appointment-card.arrived { border-left-color: #1fc600 !important; }
+.legend.arrived { background: #1fc600 !important; }
+.legend.consulted { background: #28D600 !important; }
+.legend.billed { background: #1fc600 !important; }
+
+/* Calendar */
+.month-grid .today { background: #c0f5b0 !important; }
+.month-grid .cal-selected { background: #1fc600 !important; border-color: #15A000 !important; }
+
+/* Misc */
+td { background: #f6fff4 !important; }
+tr:nth-child(even) td { background: #eefaec !important; }
+.content { background: #e6ffe0 !important; }
+input:focus, select:focus, textarea:focus { outline-color: #1fc600 !important; border-color: #1fc600 !important; }

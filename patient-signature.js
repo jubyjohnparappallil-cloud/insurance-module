@@ -196,7 +196,7 @@
       else if (mobile.length === 9) mobile = "971" + mobile;
     }
     var patientName = pat ? [pat.firstName, pat.lastName].filter(Boolean).join(" ") : "";
-    var text = "Dear " + patientName + ", please sign here for your medical records at Shanthi Wellness:\n" + link;
+    var text = "Dear " + patientName + ", please sign here for your medical records at Hridhya Ayurvedic:\n" + link;
     var whatsappUrl = "https://wa.me/" + mobile + "?text=" + encodeURIComponent(text);
     window.open(whatsappUrl, "_blank");
   };

@@ -18,7 +18,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 900,
-    title: 'Shanthi Wellness - Clinic EMR',
+    title: 'Hridhya Ayurvedic - Clinic EMR',
     icon: path.join(__dirname, 'logo.png'),
     webPreferences: {
       nodeIntegration: false,

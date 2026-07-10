@@ -78,3 +78,4 @@ try {
 console.log('\n=== Build Complete ===');
 console.log('Run Insurance:       dist\\Shanthi-Insurance-win32-x64\\Shanthi-Insurance.exe');
 console.log('Run User Management: dist\\Shanthi-UserMgmt-win32-x64\\Shanthi-UserMgmt.exe');
+

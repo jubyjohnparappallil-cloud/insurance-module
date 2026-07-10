@@ -7,23 +7,23 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f5f5}
-    .header{background:linear-gradient(90deg,#1b5e20,#2e7d32);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:16px}
+    .header{background:linear-gradient(90deg,#2D8A0E,#3A9E14);color:#fff;padding:12px 24px;display:flex;align-items:center;gap:16px}
     .header h1{font-size:18px}.header a{color:#c8e6c9;font-size:12px;margin-left:auto;text-decoration:none}
     .tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;padding:0 20px;overflow-x:auto}
     .tab{padding:12px 18px;font-size:12px;font-weight:600;color:#666;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
-    .tab:hover{color:#2e7d32}.tab.active{color:#2e7d32;border-bottom-color:#2e7d32}
+    .tab:hover{color:#3A9E14}.tab.active{color:#3A9E14;border-bottom-color:#3A9E14}
     .content{padding:20px 24px}
     .panel{display:none}.panel.active{display:block}
     .card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:16px}
-    .card h3{font-size:16px;color:#2e7d32;margin-bottom:12px;border-bottom:1px solid #e8f5e9;padding-bottom:6px}
+    .card h3{font-size:16px;color:#3A9E14;margin-bottom:12px;border-bottom:1px solid #e8f5e9;padding-bottom:6px}
     table{width:100%;border-collapse:collapse;font-size:13px}
-    th{background:#2e7d32;color:#fff;padding:10px 12px;text-align:left;font-size:13px}
+    th{background:#3A9E14;color:#fff;padding:10px 12px;text-align:left;font-size:13px}
     td{padding:10px 12px;border-bottom:1px solid #f0f0f0;font-size:13px}
     .btn{padding:8px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none}
-    .btn-green{background:#2e7d32;color:#fff}.btn-red{background:#c62828;color:#fff}
+    .btn-green{background:#3A9E14;color:#fff}.btn-red{background:#c62828;color:#fff}
     .btn-sm{padding:4px 10px;font-size:10px}
     .badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
-    .badge-ok{background:#e8f5e9;color:#2e7d32}
+    .badge-ok{background:#e8f5e9;color:#3A9E14}
     .badge-warn{background:#fff3e0;color:#e65100}
     .badge-danger{background:#ffebee;color:#c62828}
     .badge-info{background:#e3f2fd;color:#1565c0}
@@ -34,7 +34,7 @@
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
     .off-day{display:inline-block;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:700;margin:2px;cursor:pointer;border:1px solid #ddd}
-    .off-day.selected{background:#2e7d32;color:#fff;border-color:#2e7d32}
+    .off-day.selected{background:#3A9E14;color:#fff;border-color:#3A9E14}
   </style>
 </head>
 <body>
@@ -122,7 +122,7 @@
   <!-- ADD DOCUMENT MODAL -->
   <div class="modal-bg" id="docModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
     <div style="background:#fff;border-radius:14px;width:450px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-      <div style="background:linear-gradient(90deg,#2e7d32,#43a047);color:#fff;padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between"><span>Add Employee Document</span><button onclick="closeM('docModal')" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer">✕</button></div>
+      <div style="background:linear-gradient(90deg,#3A9E14,#5BC91F);color:#fff;padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between"><span>Add Employee Document</span><button onclick="closeM('docModal')" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer">✕</button></div>
       <div style="padding:18px">
         <div class="grid2">
           <div class="field"><label>Employee</label><select id="docEmp"></select></div>
@@ -144,7 +144,7 @@
   <!-- LEAVE APPLICATION MODAL -->
   <div class="modal-bg" id="leaveModal2" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center">
     <div style="background:#fff;border-radius:14px;width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-      <div style="background:linear-gradient(90deg,#2e7d32,#43a047);color:#fff;padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between"><span>Apply Leave</span><button onclick="closeM('leaveModal2')" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer">✕</button></div>
+      <div style="background:linear-gradient(90deg,#3A9E14,#5BC91F);color:#fff;padding:12px 18px;font-weight:700;font-size:13px;display:flex;justify-content:space-between"><span>Apply Leave</span><button onclick="closeM('leaveModal2')" style="background:none;border:none;color:#fff;font-size:16px;cursor:pointer">✕</button></div>
       <div style="padding:18px">
         <div class="grid2">
           <div class="field"><label>Employee</label><select id="lvEmp"></select></div>
@@ -212,7 +212,7 @@
         var diff=Math.ceil((exp-today)/(1000*60*60*24));
         var badge=diff<0?'badge-danger':diff<30?'badge-warn':diff<90?'badge-info':'badge-ok';
         var status=diff<0?'EXPIRED':diff<30?'Expiring Soon':diff<90?'Warning':'Valid';
-        var fileLink=d.fileName?'<a href="'+(d.fileData||'#')+'" download="'+d.fileName+'" style="color:#2e7d32;font-weight:700;font-size:12px">📎 '+d.fileName.substring(0,15)+'</a>':'<span style="color:#999">No file</span>';
+        var fileLink=d.fileName?'<a href="'+(d.fileData||'#')+'" download="'+d.fileName+'" style="color:#3A9E14;font-weight:700;font-size:12px">📎 '+d.fileName.substring(0,15)+'</a>':'<span style="color:#999">No file</span>';
         return '<tr><td style="font-weight:700">'+d.employee+'</td><td>'+d.type+'</td><td>'+d.number+'</td><td>'+d.issueDate+'</td><td>'+d.expiryDate+'</td><td><span class="badge '+badge+'">'+status+'</span></td><td style="font-weight:700;color:'+(diff<0?'#c62828':diff<30?'#e65100':'#333')+'">'+diff+' days</td><td>'+fileLink+'</td><td><button class="btn btn-red btn-sm" onclick="deleteDoc('+i+')">Del</button></td></tr>';
       }).join('');
     }

@@ -1,6 +1,6 @@
 /**
  * ╔══════════════════════════════════════════════════════════════╗
- * ║   IMPORT — Shanthi Wellness Ayurvedic Medical Center LLC     ║
+ * ║   IMPORT — Hridhya Ayurvedic Ayurvedic Medical Center LLC     ║
  * ║   Output: wellness-data.json                                 ║
  * ╚══════════════════════════════════════════════════════════════╝
  *
@@ -122,7 +122,7 @@ function todayStr() {
 // ── Main ──────────────────────────────────────────────────────────
 function main() {
   console.log('\n╔════════════════════════════════════════════════════════════╗');
-  console.log('║   IMPORT: Shanthi Wellness Ayurvedic LLC → wellness-data.json ║');
+  console.log('║   IMPORT: Hridhya Ayurvedic LLC → wellness-data.json ║');
   console.log('╚════════════════════════════════════════════════════════════╝');
   console.log('Mode:', DRY_RUN ? '🔍 DRY RUN (nothing will be saved)' : '🟢 LIVE');
 
@@ -245,7 +245,7 @@ function main() {
       emergencyName: '', emergencyPhone: '', relationship: '',
       noOfChildren: '0', eidExpiry: '',
       vip: false, pregnant: false, medication: false,
-      importedFrom: 'Excel Import - Shanthi Wellness LLC'
+      importedFrom: 'Excel Import - Hridhya Ayurvedic LLC'
     });
     added++;
   }

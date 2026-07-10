@@ -1,5 +1,5 @@
-// Service Worker for Shanthi Wellness Customer App
-var CACHE_NAME = 'shanthi-wellness-v1';
+// Service Worker for Hridhya Ayurvedic Customer App
+var CACHE_NAME = 'hridhya-ayurvedic-v1';
 var urlsToCache = ['/book', '/manifest.json', '/logo.png'];
 
 self.addEventListener('install', function(event) {

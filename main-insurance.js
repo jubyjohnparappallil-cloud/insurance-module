@@ -15,7 +15,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1366,
     height: 900,
-    title: 'Shanthi Wellness - Insurance System',
+    title: 'Hridhya Ayurvedic - Insurance System',
     icon: path.join(__dirname, 'logo.png'),
     webPreferences: { nodeIntegration: false, contextIsolation: true }
   });

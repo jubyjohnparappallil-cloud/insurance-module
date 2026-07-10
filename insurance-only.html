@@ -3131,6 +3131,7 @@
     }
 
   </style>
+  <link rel="stylesheet" href="custom-theme.css">
 </head>
 <script>
 function inheritFromEMR() {
@@ -7963,9 +7964,9 @@ podi kizhi + lepanam x 5 days.</textarea>
         '</div>' +
         '<script>' +
         'var cardData=null;' +
-        'function readCard(){var btn=document.getElementById("readBtn");var spinner=document.getElementById("spinner");var status=document.getElementById("status");btn.disabled=true;btn.textContent="Reading...";spinner.style.display="block";status.className="status reading";status.textContent="Reading card data...";fetch("http://localhost:6090/readeidcard").then(function(r){return r.json()}).then(function(d){spinner.style.display="none";if(d&&(d.name||d.idNumber||d.fullName)){cardData=d;showResult(d);status.className="status success";status.textContent="Card read successfully!"}else{status.className="status error";status.textContent="No data found. Try again.";btn.disabled=false;btn.textContent="\\u{1F511} Read Card"}}).catch(function(){spinner.style.display="none";status.className="status error";status.textContent="Cannot connect to reader. Make sure Glass-Reader or EID Toolkit is running on this PC.";btn.disabled=false;btn.textContent="\\u{1F511} Read Card"})}' +
-        'function showResult(d){var box=document.getElementById("resultBox");var html="";if(d.fullName||d.name)html+="<div><b>Name:</b> "+(d.fullName||d.name)+"</div>";if(d.idNumber)html+="<div><b>ID Number:</b> "+d.idNumber+"</div>";if(d.nationality)html+="<div><b>Nationality:</b> "+d.nationality+"</div>";if(d.gender||d.sex)html+="<div><b>Gender:</b> "+(d.gender||d.sex)+"</div>";if(d.dateOfBirth||d.dob)html+="<div><b>Date of Birth:</b> "+(d.dateOfBirth||d.dob)+"</div>";if(d.expiryDate)html+="<div><b>Expiry:</b> "+d.expiryDate+"</div>";box.innerHTML=html;box.style.display="block";document.getElementById("useBtn").style.display="inline-block"}' +
-        'function useData(){if(cardData&&window.opener&&window.opener.fillFromScan){var d=cardData;var parts=(d.fullName||d.name||"").split(" ");var scanData={firstName:parts[0]||"",middleName:parts.length>2?parts.slice(1,-1).join(" "):"",lastName:parts[parts.length-1]||"",eid:d.idNumber||"",nationality:d.nationality||"",gender:d.gender||d.sex||"",dob:d.dateOfBirth||d.dob||"",eidExpiry:d.expiryDate||""};window.opener.fillFromScan(scanData);window.close()}}' +
+        'function readCard(){var btn=document.getElementById("readBtn");var spinner=document.getElementById("spinner");var status=document.getElementById("status");btn.disabled=true;btn.textContent="Reading...";spinner.style.display="block";status.className="status reading";status.textContent="Reading card data...";fetch("http://localhost:3000/api/glassreader/person").then(function(r){return r.json()}).then(function(d){spinner.style.display="none";if(d&&d.success&&d.data){cardData=d.data;showResult(d.data);status.className="status success";status.textContent="Card read successfully!"}else{status.className="status error";status.textContent="No data found. Try again.";btn.disabled=false;btn.textContent="\\u{1F511} Read Card"}}).catch(function(){spinner.style.display="none";status.className="status error";status.textContent="Cannot connect to reader. Make sure Glass-Reader or EID Toolkit is running on this PC.";btn.disabled=false;btn.textContent="\\u{1F511} Read Card"})}' +
+        'function showResult(d){var box=document.getElementById("resultBox");var html="";if(d.fullName||d.name)html+="<div><b>Name:</b> "+(d.fullName||d.name)+"</div>";if(d.emiratesId||d.idNumber)html+="<div><b>ID Number:</b> "+(d.emiratesId||d.idNumber)+"</div>";if(d.nationality)html+="<div><b>Nationality:</b> "+d.nationality+"</div>";if(d.gender||d.sex)html+="<div><b>Gender:</b> "+(d.gender||d.sex)+"</div>";if(d.dateOfBirth||d.dob)html+="<div><b>Date of Birth:</b> "+(d.dateOfBirth||d.dob)+"</div>";if(d.expiryDate)html+="<div><b>Expiry:</b> "+d.expiryDate+"</div>";box.innerHTML=html;box.style.display="block";document.getElementById("useBtn").style.display="inline-block"}' +
+        'function useData(){if(cardData&&window.opener&&window.opener.fillFromScan){var d=cardData;var parts=(d.fullName||d.name||"").split(" ");var scanData={firstName:d.firstName||parts[0]||"",middleName:d.middleName||(parts.length>2?parts.slice(1,-1).join(" "):""),lastName:d.lastName||parts[parts.length-1]||"",emiratesId:d.emiratesId||d.idNumber||"",nationality:d.nationality||"",gender:d.gender||d.sex||"",dob:d.dob||d.dateOfBirth||"",eidExpiry:d.eidExpiry||d.expiryDate||"",photoDataUrl:d.photoDataUrl||""};window.opener.fillFromScan(scanData);window.close()}}' +
         'setTimeout(readCard,500);' +
         '<\/script></body></html>';
       var win = window.open("", "_blank", "width=500,height=550");
@@ -8029,13 +8030,13 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function autoReadOMI() {
-      fetch("http://localhost:6090/readeidcard").then(function(r){return r.json()}).then(function(d){
-        if(d&&(d.name||d.idNumber||d.fullName||d.CardNumber)){
+      fetch("http://localhost:3000/api/glassreader/person").then(function(r){return r.json()}).then(function(d){
+        if(d&&d.success&&d.data){
           var scanData={
             firstName:(d.firstName||d.name||d.fullName||"").split(" ")[0]||"",
             middleName:"",
             lastName:(d.lastName||(d.fullName||d.name||"").split(" ").slice(1).join(" "))||"",
-            eid:d.idNumber||d.CardNumber||d.IDNumber||"",
+            emiratesId:d.emiratesId||d.idNumber||d.CardNumber||d.IDNumber||"",
             nationality:d.nationality||d.Nationality||"",
             gender:d.gender||d.sex||d.Gender||"",
             dob:d.dateOfBirth||d.dob||d.DateOfBirth||"",

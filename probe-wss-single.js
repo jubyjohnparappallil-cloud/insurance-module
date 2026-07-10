@@ -1,0 +1,10 @@
+const WebSocket = require('ws');
+const url = 'wss://127.0.0.1:9004';
+const data = JSON.stringify({ cmd: 'GetToolkitVersion' });
+console.log('Connecting to', url);
+const ws = new WebSocket(url, { rejectUnauthorized: false, handshakeTimeout: 5000 });
+const timer = setTimeout(() => { console.log('TIMEOUT'); ws.terminate(); process.exit(1); }, 12000);
+ws.on('open', () => { console.log('OPEN'); ws.send(data); });
+ws.on('message', msg => { console.log('MESSAGE', msg.toString()); clearTimeout(timer); ws.close(); process.exit(0); });
+ws.on('error', err => { console.log('ERROR', err.message || err); clearTimeout(timer); process.exit(2); });
+ws.on('close', () => { console.log('CLOSED'); });

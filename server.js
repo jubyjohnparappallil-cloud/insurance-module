@@ -688,6 +688,20 @@ async function handleAPI(req, res) {
     return;
   }
 
+  // ── GlassReader HTTP GET ──
+  if (url === '/api/glassreader/person' && method === 'GET') {
+    try {
+      const { fetchGlassReaderPersonData } = require('./eid-reader');
+      const result = await fetchGlassReaderPersonData({ baseUrl: 'http://127.0.0.1:7208', timeoutMs: 10000 });
+      if (result && result.success) {
+        return sendJSON(res, { success: true, data: result.data });
+      }
+      return sendJSON(res, { success: false, error: result && result.error ? result.error : 'No data from GlassReader' });
+    } catch (e) {
+      return sendJSON(res, { success: false, error: 'Error: ' + e.message });
+    }
+  }
+
   // ── Read Emirates ID Card (ICA Toolkit WebSocket on port 9004) ──
   if (url === '/api/read-eid' && method === 'GET') {
     const WebSocket = require('ws');
