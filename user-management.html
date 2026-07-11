@@ -1656,27 +1656,30 @@
 
     .patient-form-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 140px;
-      gap: 4px 10px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: 4px 16px;
       align-items: start;
     }
 
     #patientModal .dialog {
-      width: min(95vw, 920px);
+      width: min(96vw, 1050px);
       max-height: 94vh;
     }
 
     .patient-form-grid .photo-col {
+      position: absolute;
+      right: 0;
+      top: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      padding-top: 6px;
+      padding-top: 0;
     }
 
     #patientPhotoPreview {
-      width: 130px;
-      height: 155px;
+      width: 120px;
+      height: 145px;
       border: 2px solid #43a047;
       border-radius: 6px;
       background: linear-gradient(135deg, #f1f8e9, #e8f5e9);
@@ -1757,7 +1760,13 @@
       min-height: 24px;
     }
 
-    .field-row.dob-row,
+    .field-row.dob-row {
+      grid-template-columns: 85px 1fr 40px 45px 50px 45px 35px 45px;
+      align-items: center;
+      gap: 4px;
+      min-height: 24px;
+    }
+
     .field-row.gender-reg {
       grid-template-columns: 85px 1fr 55px 80px;
       align-items: center;
@@ -4620,7 +4629,7 @@ podi kizhi + lepanam x 5 days.</textarea>
               <div class="field-row"><label for="pCategory">Patient Category</label><select id="pCategory" name="category"><option>General</option><option>Insurance</option><option>Package</option><option>Corporate</option></select></div>
             </div>
 
-            <div class="form-col">
+            <div class="form-col" style="position:relative;padding-right:145px;">
               <div class="flags-row">
                 <span>Flags</span>
                 <label class="check-radio"><input type="checkbox" name="vip">VIP</label>
@@ -4656,14 +4665,14 @@ podi kizhi + lepanam x 5 days.</textarea>
               <div class="field-row"><label for="pReferral">Referral</label><div class="combo-row"><button class="small-button" type="button">?</button><input id="pReferral" name="referral"></div></div>
               <div class="field-row"><label for="pNotes">Notes</label><input id="pNotes" name="notes"></div>
               <div class="field-row"><label for="pKnow">Know About Us</label><select id="pKnow" name="know" class="required"><option>GOOGLE</option><option>FRIEND</option><option>SIGN BOARD</option><option>INSTAGRAM</option></select></div>
-            </div>
 
-            <div class="form-col photo-col">
-              <div id="patientPhotoPreview" title="Click to upload patient photo">
-                <span id="patientPhotoPlaceholder">&#128100;</span>
+              <div class="photo-col">
+                <div id="patientPhotoPreview" title="Click to upload patient photo">
+                  <span id="patientPhotoPlaceholder">&#128100;</span>
+                </div>
+                <input type="file" id="patientPhotoInput" accept="image/*" style="display:none">
+                <button class="patient-info-button" type="button" id="patientPhotoBox" title="Click to upload photo">Patient Info</button>
               </div>
-              <input type="file" id="patientPhotoInput" accept="image/*" style="display:none">
-              <button class="patient-info-button" type="button" id="patientPhotoBox" title="Click to upload photo">Patient Info</button>
             </div>
           </div>
         </section>
@@ -5233,7 +5242,12 @@ podi kizhi + lepanam x 5 days.</textarea>
                 <div style="font-size:10px;font-weight:700;color:#555;margin-bottom:4px">Provider name and contact information</div>
                 <input name="providerName" value="SHANTHI WELLNESS AYURVEDIC MEDICAL CENTRE" style="width:100%;height:28px;font-size:11px;font-weight:700;border:1px solid #ccc;padding:4px">
                 <input name="providerPhone" value="042255133" style="width:100%;height:24px;font-size:11px;border:1px solid #ccc;padding:4px;margin-top:4px">
-              </td>
+              </t
+              
+              
+              
+              
+              d>
             </tr>
             <tr>
               <td style="border:1px solid #333;padding:8px;vertical-align:top">
@@ -7062,7 +7076,7 @@ podi kizhi + lepanam x 5 days.</textarea>
         '<button class="btn btn-use" id="useBtn" onclick="useData()">&#9989; Use This Data</button>' +
         '</div>' +
         '<script>' +
-        'var cardData=null;' +
+        'var cardData=null;var isReturning=false;' +
         'function readCard(){' +
         '  var btn=document.getElementById("readBtn");' +
         '  var spinner=document.getElementById("spinner");' +
@@ -7070,19 +7084,34 @@ podi kizhi + lepanam x 5 days.</textarea>
         '  btn.disabled=true;btn.textContent="Reading...";' +
         '  spinner.style.display="block";' +
         '  status.className="status reading";status.textContent="Reading card data...";' +
-        '  fetch("http://localhost:6090/readeidcard").then(function(r){return r.json()}).then(function(d){' +
+        '  fetch("/api/glassreader/person?refresh=1").then(function(r){return r.json()}).then(function(d){' +
         '    spinner.style.display="none";' +
-        '    if(d&&(d.name||d.idNumber||d.fullName)){' +
-        '      cardData=d;showResult(d);' +
-        '      status.className="status success";status.textContent="Card read successfully!";' +
+        '    if(d&&d.success&&d.data){' +
+        '      cardData=d.data;' +
+        '      var eid=d.data.emiratesId||"";' +
+        '      if(eid){' +
+        '        status.className="status reading";status.textContent="Checking patient records...";' +
+        '        fetch("/api/patient-by-eid/"+encodeURIComponent(eid)).then(function(r2){return r2.json()}).then(function(d2){' +
+        '          if(d2&&d2.success&&d2.data){' +
+        '            isReturning=true;cardData._patient=d2.data;' +
+        '            status.className="status success";status.textContent="✓ Returning patient found!";' +
+        '            showResult(d.data);' +
+        '            document.getElementById("resultBox").innerHTML+="<div style=\\"color:#ffeb3b;font-weight:900;margin-top:8px\\">★ RETURNING PATIENT - MR: "+(d2.data.mrNo||"")+"</div>";' +
+        '          } else {' +
+        '            status.className="status success";status.textContent="New patient - card read successfully!";' +
+        '            showResult(d.data);' +
+        '          }' +
+        '        }).catch(function(){status.className="status success";status.textContent="Card read successfully!";showResult(d.data)});' +
+        '      } else {showResult(d.data);status.className="status success";status.textContent="Card read successfully!";}' +
         '    } else {' +
-        '      status.className="status error";status.textContent="No data found on card. Try again.";' +
+        '      var errMsg=d&&d.error?d.error:"No data found. Try again.";' +
+        '      status.className="status error";status.textContent=errMsg;' +
         '      btn.disabled=false;btn.textContent="\\u{1F511} Read Card";' +
         '    }' +
         '  }).catch(function(e){' +
         '    spinner.style.display="none";' +
         '    status.className="status error";' +
-        '    status.textContent="Cannot connect to reader. Make sure Glass-Reader or EID Toolkit is running on this PC.";' +
+        '    status.textContent="Cannot connect to server. Make sure the server is running.";' +
         '    btn.disabled=false;btn.textContent="\\u{1F511} Read Card";' +
         '  });' +
         '}' +
@@ -7090,25 +7119,38 @@ podi kizhi + lepanam x 5 days.</textarea>
         '  var box=document.getElementById("resultBox");' +
         '  var html="";' +
         '  if(d.fullName||d.name)html+="<div><b>Name:</b> "+(d.fullName||d.name)+"</div>";' +
-        '  if(d.idNumber)html+="<div><b>ID Number:</b> "+d.idNumber+"</div>";' +
+        '  if(d.emiratesId||d.idNumber)html+="<div><b>ID Number:</b> "+(d.emiratesId||d.idNumber)+"</div>";' +
         '  if(d.nationality)html+="<div><b>Nationality:</b> "+d.nationality+"</div>";' +
         '  if(d.gender||d.sex)html+="<div><b>Gender:</b> "+(d.gender||d.sex)+"</div>";' +
-        '  if(d.dateOfBirth||d.dob)html+="<div><b>Date of Birth:</b> "+(d.dateOfBirth||d.dob)+"</div>";' +
-        '  if(d.expiryDate)html+="<div><b>Expiry Date:</b> "+d.expiryDate+"</div>";' +
+        '  if(d.dob||d.dateOfBirth)html+="<div><b>Date of Birth:</b> "+(d.dob||d.dateOfBirth)+"</div>";' +
+        '  if(d.eidExpiry||d.expiryDate)html+="<div><b>Expiry Date:</b> "+(d.eidExpiry||d.expiryDate)+"</div>";' +
         '  if(d.cardNumber)html+="<div><b>Card Number:</b> "+d.cardNumber+"</div>";' +
         '  box.innerHTML=html;box.style.display="block";' +
         '  document.getElementById("useBtn").style.display="inline-block";' +
         '}' +
         'function useData(){' +
-        '  if(cardData&&window.opener&&window.opener.fillFromScan){' +
-        '    var d=cardData;' +
-        '    var parts=(d.fullName||d.name||"").split(" ");' +
-        '    var scanData={' +
-        '      firstName:parts[0]||"",middleName:parts.length>2?parts.slice(1,-1).join(" "):"",lastName:parts[parts.length-1]||"",' +
-        '      eid:d.idNumber||"",nationality:d.nationality||"",gender:d.gender||d.sex||"",' +
-        '      dob:d.dateOfBirth||d.dob||"",eidExpiry:d.expiryDate||""' +
-        '    };' +
-        '    window.opener.fillFromScan(scanData);window.close();' +
+        '  if(cardData&&window.opener){' +
+        '    if(isReturning&&cardData._patient&&window.opener.setPatientForm){' +
+        '      window.opener.setPatientForm(cardData._patient);' +
+        '      window.opener.patientMode="edit";' +
+        '      var title=window.opener.document.getElementById("patientDialogTitle");' +
+        '      if(title)title.textContent="Patient Registration - Returning Patient";' +
+        '      window.close();return;' +
+        '    }' +
+        '    if(window.opener.fillFromScan){' +
+        '      var d=cardData;' +
+        '      var scanData={' +
+        '        firstName:d.firstName||"",middleName:d.middleName||"",lastName:d.lastName||"",' +
+        '        eid:d.emiratesId||d.idNumber||"",nationality:d.nationality||"",gender:d.gender||d.sex||"",' +
+        '        dob:d.dob||d.dateOfBirth||"",eidExpiry:d.eidExpiry||d.expiryDate||"",photoDataUrl:d.photoDataUrl||""' +
+        '      };' +
+        '      if(!scanData.firstName&&(d.fullName||d.name)){' +
+        '        var parts=(d.fullName||d.name||"").split(" ");' +
+        '        scanData.firstName=parts[0]||"";scanData.lastName=parts[parts.length-1]||"";' +
+        '        if(parts.length>2)scanData.middleName=parts.slice(1,-1).join(" ");' +
+        '      }' +
+        '      window.opener.fillFromScan(scanData);window.close();' +
+        '    }' +
         '  }' +
         '}' +
         'setTimeout(readCard,500);' +
@@ -7173,19 +7215,58 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function autoReadOMI() {
-      fetch("http://localhost:6090/readeidcard").then(function(r){return r.json()}).then(function(d){
-        if(d&&(d.name||d.idNumber||d.fullName||d.CardNumber)){
-          var scanData={
-            firstName:(d.firstName||d.name||d.fullName||"").split(" ")[0]||"",
-            middleName:"",
-            lastName:(d.lastName||(d.fullName||d.name||"").split(" ").slice(1).join(" "))||"",
-            eid:d.idNumber||d.CardNumber||d.IDNumber||"",
-            nationality:d.nationality||d.Nationality||"",
-            gender:d.gender||d.sex||d.Gender||"",
-            dob:d.dateOfBirth||d.dob||d.DateOfBirth||"",
-            eidExpiry:d.expiryDate||d.ExpiryDate||""
-          };
-          fillFromScan(scanData);
+      fetch("/api/glassreader/person?refresh=1").then(function(r){return r.json()}).then(function(d){
+        if(d&&d.success&&d.data){
+          var c=d.data;
+          var eid = c.emiratesId || "";
+          // Check if this is a returning patient (already in our system)
+          if (eid) {
+            fetch("/api/patient-by-eid/" + encodeURIComponent(eid)).then(function(r2){return r2.json()}).then(function(d2){
+              if (d2 && d2.success && d2.data) {
+                // Returning patient found - load their full record
+                setPatientForm(d2.data);
+                patientMode = "edit";
+                byId("patientDialogTitle").textContent = "Patient Registration - Returning Patient";
+              } else {
+                // New patient - fill from card data
+                fillFromScan({
+                  firstName:c.firstName||"",
+                  middleName:c.middleName||"",
+                  lastName:c.lastName||"",
+                  emiratesId:eid,
+                  nationality:c.nationality||"",
+                  gender:c.gender||"",
+                  dob:c.dob||"",
+                  eidExpiry:c.eidExpiry||"",
+                  photoDataUrl:c.photoDataUrl||""
+                });
+              }
+            }).catch(function(){
+              fillFromScan({
+                firstName:c.firstName||"",
+                middleName:c.middleName||"",
+                lastName:c.lastName||"",
+                emiratesId:eid,
+                nationality:c.nationality||"",
+                gender:c.gender||"",
+                dob:c.dob||"",
+                eidExpiry:c.eidExpiry||"",
+                photoDataUrl:c.photoDataUrl||""
+              });
+            });
+          } else {
+            fillFromScan({
+              firstName:c.firstName||"",
+              middleName:c.middleName||"",
+              lastName:c.lastName||"",
+              eid:c.emiratesId||"",
+              nationality:c.nationality||"",
+              gender:c.gender||"",
+              dob:c.dob||"",
+              eidExpiry:c.eidExpiry||"",
+              photoDataUrl:c.photoDataUrl||""
+            });
+          }
         }
       }).catch(function(){});
     }

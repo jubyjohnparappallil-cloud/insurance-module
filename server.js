@@ -15,6 +15,10 @@ const path = require('path');
 const os = require('os');
 const nodemailer = require('nodemailer');
 
+// Prevent server from crashing on unhandled errors
+process.on('uncaughtException', (err) => { console.error('Uncaught:', err.message); });
+process.on('unhandledRejection', (err) => { console.error('Unhandled:', err && err.message ? err.message : err); });
+
 // ── Branch Mode ───────────────────────────────────────────────────
 // Run as Medical Center:  node server.js
 // Run as Wellness:        node server.js --wellness
@@ -689,16 +693,159 @@ async function handleAPI(req, res) {
   }
 
   // ── GlassReader HTTP GET ──
-  if (url === '/api/glassreader/person' && method === 'GET') {
+  if (url.startsWith('/api/glassreader/person') && method === 'GET') {
+    const { fetchGlassReaderPersonData, mapCardholderRecord } = require('./eid-reader');
+    const { spawn } = require('child_process');
+    const glassPath = path.join(__dirname, 'clinic', 'GlassReader', 'bin', 'GlassReader.exe');
+    
+    // Check if GlassReader is already running and has data
+    let existingData = null;
     try {
-      const { fetchGlassReaderPersonData } = require('./eid-reader');
-      const result = await fetchGlassReaderPersonData({ baseUrl: 'http://127.0.0.1:7208', timeoutMs: 10000 });
-      if (result && result.success) {
-        return sendJSON(res, { success: true, data: result.data });
+      const check = await fetchGlassReaderPersonData({ baseUrl: 'http://127.0.0.1:7208', timeoutMs: 2000 });
+      if (check && check.success) existingData = check.data;
+    } catch (e) { /* not running */ }
+
+    // Use PCSC to detect current card UID (tells us if card changed)
+    let currentCardUid = null;
+    try {
+      const { readCardOnce } = require('./eid-reader');
+      const cardCheck = await readCardOnce({ timeoutMs: 3000 });
+      if (cardCheck && cardCheck.success && cardCheck.data) {
+        currentCardUid = cardCheck.data.uid || null;
       }
-      return sendJSON(res, { success: false, error: result && result.error ? result.error : 'No data from GlassReader' });
-    } catch (e) {
-      return sendJSON(res, { success: false, error: 'Error: ' + e.message });
+    } catch (e) { /* no card or reader error */ }
+
+    // If GlassReader is running with data and NOT a refresh request, return cached
+    if (existingData && existingData.emiratesId) {
+      const forceRefresh = url.includes('refresh=1') || url.includes('force=1');
+      if (!forceRefresh) {
+        return sendJSON(res, { success: true, data: existingData, source: 'glassreader' });
+      }
+    }
+
+    // New card read requested — restart GlassReader to read current card on reader
+
+    // Different card or no data — restart GlassReader to read fresh
+    spawn('taskkill', ['/F', '/IM', 'GlassReader.exe'], { stdio: 'ignore', detached: true }).unref();
+    await new Promise(r => setTimeout(r, 1500));
+    
+    if (fs.existsSync(glassPath)) {
+      spawn(glassPath, [], { stdio: 'ignore', detached: true, windowsHide: true, cwd: path.dirname(glassPath) }).unref();
+    }
+
+    // Wait for GlassReader to start and read card
+    await new Promise(r => setTimeout(r, 6000));
+
+    // Fetch fresh data with retries
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const result = await fetchGlassReaderPersonData({ baseUrl: 'http://127.0.0.1:7208', timeoutMs: 4000 });
+        if (result && result.success) {
+          return sendJSON(res, { success: true, data: result.data, source: 'glassreader' });
+        }
+      } catch (e) { /* retry */ }
+      if (attempt < 2) await new Promise(r => setTimeout(r, 2000));
+    }
+
+    // Fetch card data with retries
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const result = await fetchGlassReaderPersonData({ baseUrl: 'http://127.0.0.1:7208', timeoutMs: 4000 });
+        if (result && result.success) {
+          return sendJSON(res, { success: true, data: result.data, source: 'glassreader' });
+        }
+      } catch (e) { /* retry */ }
+      if (attempt < 2) await new Promise(r => setTimeout(r, 2000));
+    }
+
+    // Try fetching data with retries (GlassReader may need extra time)
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const result = await fetchGlassReaderPersonData({ baseUrl: 'http://127.0.0.1:7208', timeoutMs: 5000 });
+        if (result && result.success) {
+          return sendJSON(res, { success: true, data: result.data, source: 'glassreader' });
+        }
+      } catch (e) { /* GlassReader not responding yet */ }
+      if (attempt < 2) await new Promise(r => setTimeout(r, 2000));
+    }
+
+    // Fallback - read from MySQL cardholder table (last known card)
+    try {
+      const mysql2 = require('mysql2/promise');
+      const conn = await mysql2.createConnection({ host: 'localhost', port: 3306, user: 'root', password: '', database: 'clinic_emr', connectTimeout: 3000 });
+      const [rows] = await conn.execute(
+        'SELECT idNumber, firstNameEnglish, middleNameEnglish, lastNameEnglish, dateOfBirth, gender, nationalityEnglish, expiryDate FROM cardholder ORDER BY idCardHolder DESC LIMIT 1'
+      );
+      await conn.end();
+      if (rows.length > 0) {
+        const mapped = mapCardholderRecord(rows[0]);
+        if (mapped && (mapped.emiratesId || mapped.firstName)) {
+          mapped.message = 'Card data loaded from database.';
+          return sendJSON(res, { success: true, data: mapped, source: 'database' });
+        }
+      }
+    } catch (dbErr) {
+      console.log('MySQL cardholder read error:', dbErr.code || dbErr.message);
+    }
+
+    return sendJSON(res, { 
+      success: false, 
+      error: 'No card data available. Place the Emirates ID card on the reader and try again.' 
+    });
+  }
+
+  // ── Read card by Emirates ID from MySQL cardholder table ──
+  if (url.startsWith('/api/cardholder/') && method === 'GET') {
+    const eidParam = decodeURIComponent(url.split('/')[3]).replace(/[-\s]/g, '');
+    const { mapCardholderRecord } = require('./eid-reader');
+    try {
+      const mysql2 = require('mysql2/promise');
+      const conn = await mysql2.createConnection({ host: 'localhost', port: 3306, user: 'root', password: '', database: 'clinic_emr', connectTimeout: 3000 });
+      const [rows] = await conn.execute(
+        'SELECT idNumber, firstNameEnglish, middleNameEnglish, lastNameEnglish, dateOfBirth, gender, nationalityEnglish, expiryDate FROM cardholder WHERE REPLACE(idNumber, "-", "") = ? ORDER BY idCardHolder DESC LIMIT 1',
+        [eidParam]
+      );
+      await conn.end();
+      if (rows.length > 0) {
+        const mapped = mapCardholderRecord(rows[0]);
+        if (mapped) {
+          mapped.message = 'Card data found in database.';
+          return sendJSON(res, { success: true, data: mapped });
+        }
+      }
+      return sendJSON(res, { success: false, error: 'No card data found for this Emirates ID.' });
+    } catch (dbErr) {
+      return sendJSON(res, { success: false, error: 'Database error: ' + (dbErr.code || dbErr.message) });
+    }
+  }
+
+  // ── Search patient by Emirates ID (from local JSON db) ──
+  if (url.startsWith('/api/patient-by-eid/') && method === 'GET') {
+    const eidParam = decodeURIComponent(url.split('/').slice(3).join('/')).replace(/[-\s]/g, '');
+    const patient = (db.patients || []).find(p => {
+      const pEid = (p.eid || p.emiratesId || '').replace(/[-\s]/g, '');
+      return pEid && pEid === eidParam;
+    });
+    if (patient) {
+      return sendJSON(res, { success: true, data: patient, source: 'local' });
+    }
+    return sendJSON(res, { success: false, error: 'Patient not found' });
+  }
+
+  // ── List all cards in MySQL cardholder table ──
+  if (url === '/api/cardholders' && method === 'GET') {
+    const { mapCardholderRecord } = require('./eid-reader');
+    try {
+      const mysql2 = require('mysql2/promise');
+      const conn = await mysql2.createConnection({ host: 'localhost', port: 3306, user: 'root', password: '', database: 'clinic_emr', connectTimeout: 3000 });
+      const [rows] = await conn.execute(
+        'SELECT idNumber, firstNameEnglish, middleNameEnglish, lastNameEnglish, dateOfBirth, gender, nationalityEnglish, expiryDate, cardReadDate FROM cardholder ORDER BY idCardHolder DESC LIMIT 50'
+      );
+      await conn.end();
+      const cards = rows.map(r => mapCardholderRecord(r)).filter(Boolean);
+      return sendJSON(res, { success: true, data: cards });
+    } catch (dbErr) {
+      return sendJSON(res, { success: false, error: 'Database error: ' + (dbErr.code || dbErr.message) });
     }
   }
 
@@ -2591,6 +2738,22 @@ server.listen(PORT, '0.0.0.0', () => {
       }
     }
   }
+
+  // Auto-start MySQL if not running
+  try {
+    const { exec } = require('child_process');
+    exec('sc query MYSQL80', (err, stdout) => {
+      if (stdout && stdout.includes('STOPPED')) {
+        exec('net start MYSQL80', (e2) => {
+          if (!e2) console.log('🗄️  MySQL auto-started');
+          else console.log('🗄️  MySQL needs admin to start (run: net start MYSQL80)');
+        });
+      } else if (stdout && stdout.includes('RUNNING')) {
+        console.log('🗄️  MySQL is running');
+      }
+    });
+  } catch (e) { /* ignore */ }
+  console.log('🔑  Card Reader ready (place card on reader, then click Read Card)');
 
   console.log('');
   console.log('  ╔══════════════════════════════════════════════════╗');
