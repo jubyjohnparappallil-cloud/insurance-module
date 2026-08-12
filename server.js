@@ -269,7 +269,40 @@ async function handleAPI(req, res) {
 
   // ── Patients ──
   if (url === '/api/patients' && method === 'GET') {
-    return sendJSON(res, { success: true, data: db.patients });
+    try {
+      const mysql = require('mysql2/promise');
+      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur_new', connectionLimit:3 });
+      const [rows] = await pool.execute(
+        `SELECT Pat_DocNo, Pat_MRNO, Pat_FirstName, Pat_MiddleName, Pat_Lastname, Pat_Gender, Pat_Dob,
+                Pat_Mobile, Pat_Email, Pat_EmiratesIdNo, Pat_Address, Pat_City,
+                Pat_NationalityISOCode, Pat_CtryDocNo, Pat_Company, Pat_CreatedTime, Pat_Referal
+         FROM patients
+         WHERE Pat_isDeleted = 0 OR Pat_isDeleted IS NULL
+         ORDER BY Pat_CreatedTime DESC`
+      );
+      await pool.end();
+      const data = rows.map(r => ({
+        mrNo: r.Pat_MRNO || r.Pat_DocNo,
+        firstName: r.Pat_FirstName || '',
+        middleName: r.Pat_MiddleName || '',
+        lastName: r.Pat_Lastname || '',
+        gender: r.Pat_Gender || '',
+        dob: r.Pat_Dob ? new Date(r.Pat_Dob).toISOString().split('T')[0] : '',
+        mobile: r.Pat_Mobile || '',
+        email: r.Pat_Email || '',
+        eid: r.Pat_EmiratesIdNo || '',
+        nationality: r.Pat_NationalityISOCode || r.Pat_CtryDocNo || '',
+        address: r.Pat_Address || '',
+        city: r.Pat_City || '',
+        company: r.Pat_Company || '',
+        referral: r.Pat_Referal || '',
+        regDate: r.Pat_CreatedTime ? new Date(r.Pat_CreatedTime).toLocaleDateString('en-GB') : ''
+      }));
+      return sendJSON(res, { success: true, data });
+    } catch(e) {
+      console.log('MySQL patients error:', e.message);
+      return sendJSON(res, { success: true, data: db.patients || [] });
+    }
   }
   if (url === '/api/patients' && method === 'POST') {
     const body = await parseBody(req);
@@ -435,6 +468,56 @@ async function handleAPI(req, res) {
 
   // ── Appointments ──
   if (url === '/api/appointments' && method === 'GET') {
+    // Try MySQL first
+    try {
+      const mysql = require('mysql2/promise');
+      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur_new', connectionLimit:3 });
+      // Get employee names for mapping
+      const [emps] = await pool.execute('SELECT dctr_DocNo, dctr_DoctorName, dctr_Description FROM dctr_doctor WHERE dctr_isDeleted=0 OR dctr_isDeleted IS NULL');
+      const empMap = {};
+      emps.forEach(e => { empMap[e.dctr_DocNo] = e.dctr_DoctorName; });
+      
+      const [rows] = await pool.execute(
+        `SELECT app_DocNo, app_Start, app_End, app_PatName, app_PatMob, app_Notes,
+                app_PatDocNo, app_dctrDocNo, app_TherapistDocNo, app_Therapist2DocNo,
+                app_Room_DocNo, app_Purpose, app_AppointmentStatus
+         FROM appointment
+         WHERE (app_isDeleted = 0 OR app_isDeleted IS NULL)
+         ORDER BY app_Start DESC
+         LIMIT 8000`
+      );
+      await pool.end();
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const statusMap = {0:'Scheduled',1:'Confirmed',12:'Scheduled',16:'Arrived',25:'Arrived',50:'Consulted',75:'Billed',100:'Cancelled'};
+      const data = rows.map(a => {
+        const startDt = a.app_Start ? new Date(a.app_Start) : null;
+        let df = '', tf = '';
+        if (startDt && !isNaN(startDt)) {
+          df = String(startDt.getDate()).padStart(2,'0') + '/' + months[startDt.getMonth()] + '/' + startDt.getFullYear();
+          let hr = startDt.getHours(); const min = String(startDt.getMinutes()).padStart(2,'0');
+          const ampm = hr >= 12 ? 'PM' : 'AM';
+          hr = hr > 12 ? hr - 12 : (hr === 0 ? 12 : hr);
+          tf = hr + ':' + min + ' ' + ampm;
+        }
+        const doctor = empMap[a.app_dctrDocNo] || '';
+        const therapist = empMap[a.app_TherapistDocNo] || '';
+        const therapist2 = empMap[a.app_Therapist2DocNo] || '';
+        return {
+          id: a.app_DocNo || '', date: df, time: tf,
+          patient: a.app_PatName || '', mobile: a.app_PatMob || '',
+          mrNo: a.app_PatDocNo || '',
+          doctor: doctor, therapist: therapist, therapist2: therapist2,
+          room: a.app_Room_DocNo || '', 
+          status: statusMap[a.app_AppointmentStatus] || 'Scheduled',
+          notes: a.app_Notes || '', purpose: a.app_Purpose || '',
+          consultDoctor: doctor || therapist
+        };
+      });
+      return sendJSON(res, { success: true, data });
+    } catch(e) {
+      console.log('MySQL appointments error:', e.message);
+    }
+    // Fallback to file/JSON
     return sendJSON(res, { success: true, data: db.appointments || [] });
   }
 
@@ -1364,7 +1447,7 @@ async function handleAPI(req, res) {
   if (url === '/api/packages-db' && method === 'GET') {
     try {
       const mysql = require('mysql2/promise');
-      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur', connectionLimit:2 });
+      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur_new', connectionLimit:2 });
       const [packages] = await pool.execute("SELECT DPKG_DocNo as code, DPKG_Name as name, DPKG_SessionCount as sessions, DPKG_Price as price FROM pack_definedpackagesmaster WHERE DPKG_isDeleted IS NULL OR DPKG_isDeleted = 0 ORDER BY DPKG_DocNo");
       const [subpackages] = await pool.execute("SELECT DPDKG_Details_DocNo as id, DPDKG_Details_DPDKG_DocNo as packageCode, DPDKG_Details_DPDKG_TreatmentName as treatment, DPDKG_Details_DPDKG_SessionCount as sessions, DPDKG_Details_DPDKG_Price as price FROM pack_definedpackagesmasterdetails WHERE DPDKG_Details_DPDKG_isDeleted IS NULL OR DPDKG_Details_DPDKG_isDeleted = 0");
       await pool.end();
@@ -1382,7 +1465,7 @@ async function handleAPI(req, res) {
     
     try {
       const mysql = require('mysql2/promise');
-      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur', connectionLimit:2 });
+      const pool = mysql.createPool({ host:'localhost', port:3306, user:'root', password:'null', database:'shanthiayur_new', connectionLimit:2 });
       
       // Check which pack tables exist
       const [tables] = await pool.execute("SHOW TABLES LIKE 'pack_%'");
@@ -2612,6 +2695,97 @@ function submitSig(){
     return;
   }
 
+  // ── Patient Attachments ──
+  if (url.startsWith('/api/patient-attachments') && method === 'GET') {
+    const urlObj = new URL(req.url, 'http://localhost');
+    const mrNo = urlObj.searchParams.get('mrNo') || '';
+    if (!db.patientAttachments) db.patientAttachments = [];
+    const attachments = db.patientAttachments.filter(a => a.mrNo === mrNo);
+    return sendJSON(res, { success: true, data: attachments });
+  }
+  if (url === '/api/patient-attachments' && method === 'POST') {
+    try {
+      const contentType = req.headers['content-type'] || '';
+      if (!contentType.includes('multipart')) {
+        return sendJSON(res, { success: false, error: 'Must be multipart form data' }, 400);
+      }
+      const boundary = contentType.split('boundary=')[1];
+      const chunks = [];
+      for await (const chunk of req) chunks.push(chunk);
+      const bodyBuf = Buffer.concat(chunks);
+      const bodyStr = bodyBuf.toString('binary');
+      const parts = bodyStr.split('--' + boundary);
+
+      let mrNo = '', docType = '', remark = '', filename = '', fileData = null;
+      for (const part of parts) {
+        if (part.includes('name="mrNo"')) { mrNo = part.split('\r\n\r\n')[1]?.trim().replace(/\r\n--$/, '') || ''; }
+        if (part.includes('name="docType"')) { docType = part.split('\r\n\r\n')[1]?.trim().replace(/\r\n--$/, '') || ''; }
+        if (part.includes('name="remark"')) { remark = part.split('\r\n\r\n')[1]?.trim().replace(/\r\n--$/, '') || ''; }
+        if (part.includes('name="file"') && part.includes('filename=')) {
+          const fnMatch = part.match(/filename="([^"]+)"/);
+          filename = fnMatch ? fnMatch[1] : 'file_' + Date.now();
+          const dataStart = part.indexOf('\r\n\r\n') + 4;
+          const dataEnd = part.lastIndexOf('\r\n');
+          fileData = part.substring(dataStart, dataEnd);
+        }
+      }
+
+      if (!fileData || !mrNo) {
+        return sendJSON(res, { success: false, error: 'Missing file or patient MR No' });
+      }
+
+      const uploadDir = path.join(__dirname, 'uploads', 'patient-docs', mrNo);
+      if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+      const savedName = Date.now() + '_' + filename;
+      const filePath = path.join(uploadDir, savedName);
+      fs.writeFileSync(filePath, Buffer.from(fileData, 'binary'));
+
+      if (!db.patientAttachments) db.patientAttachments = [];
+      const record = { mrNo, docType, remark, filename, savedName, uploadDate: new Date().toISOString().split('T')[0] };
+      db.patientAttachments.push(record);
+      saveDatabase();
+
+      return sendJSON(res, { success: true, data: record });
+    } catch(e) {
+      console.log('Attachment upload error:', e.message);
+      return sendJSON(res, { success: false, error: e.message });
+    }
+  }
+  if (url.startsWith('/api/patient-attachments/delete') && method === 'POST') {
+    const body = await parseBody(req);
+    if (!db.patientAttachments) db.patientAttachments = [];
+    const att = db.patientAttachments.find(a => a.savedName === body.savedName);
+    if (att) {
+      const filePath = path.join(__dirname, 'uploads', 'patient-docs', att.mrNo, att.savedName);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      db.patientAttachments = db.patientAttachments.filter(a => a.savedName !== body.savedName);
+      saveDatabase();
+    }
+    return sendJSON(res, { success: true });
+  }
+
+  // ── Employees ──
+  if (url === '/api/employees' && method === 'GET') {
+    if (db.employees && db.employees.length) {
+      return sendJSON(res, { success: true, data: db.employees });
+    }
+    const defaultEmployees = [
+      { empCode:'EM0057', name:'LINTU RAJAN', description:'DOCTOR' },
+      { empCode:'EM0058', name:'NEETHU DEEPAK', description:'DOCTOR' },
+      { empCode:'EM0059', name:'MISNA UVAISE', description:'DOCTOR' },
+      { empCode:'EM0060', name:'KEERTHI PURUSHOTHAMAN', description:'DOCTOR' },
+      { empCode:'EM0061', name:'AMARNATH', description:'THERAPIST' },
+      { empCode:'EM0063', name:'ANEESH', description:'THERAPIST' },
+      { empCode:'EM0064', name:'RESHMI', description:'THERAPIST' },
+      { empCode:'EM0065', name:'NOORA HOSBET UMMER', description:'DOCTOR' },
+      { empCode:'EM0066', name:'NEETHU', description:'THERAPIST' },
+      { empCode:'EM0067', name:'ANJNA NADAKKAVIL CHANDRAN', description:'DOCTOR' },
+      { empCode:'EM0068', name:'PADMESH', description:'THERAPIST' },
+      { empCode:'EM0070', name:'LINTU', description:'THERAPIST' }
+    ];
+    return sendJSON(res, { success: true, data: defaultEmployees });
+  }
+
   sendJSON(res, { error: 'Not found' }, 404);
 }
 
@@ -2637,13 +2811,14 @@ const server = http.createServer((req, res) => {
     return handleAPI(req, res);
   }
 
-  // Main Landing Page (root URL for non-usermgmt/wellness)
-  if (req.url === '/' && !IS_USERMGMT && !IS_WELLNESS) {
-    serveFile(res, path.join(__dirname, 'main-page.html'));
+  // Login page at root
+  if (req.url === '/' || req.url === '/login' || req.url === '/login/') {
+    serveFile(res, path.join(__dirname, 'web-login.html'));
     return;
   }
-  if (req.url === '/home' || req.url === '/home/') {
-    serveFile(res, path.join(__dirname, 'main-page.html'));
+  // Main app after login
+  if (req.url === '/app' || req.url === '/app/' || req.url === '/home' || req.url === '/home/') {
+    serveFile(res, path.join(__dirname, 'insurance-only.html'));
     return;
   }
 

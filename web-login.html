@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shanthi Wellness - Login</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f4f0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(46, 125, 50, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(56, 142, 60, 0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 50%, rgba(76, 175, 80, 0.04) 0%, transparent 70%);
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.05) rotate(2deg); }
+    }
+
+    /* Decorative leaf patterns */
+    .leaf-decor {
+      position: absolute;
+      opacity: 0.04;
+      font-size: 200px;
+      color: #2e7d32;
+      pointer-events: none;
+    }
+    .leaf-1 { top: -40px; left: -60px; transform: rotate(-30deg); }
+    .leaf-2 { bottom: -40px; right: -60px; transform: rotate(150deg); }
+
+    .login-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* Logo section - prominent */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeInDown 0.6s ease;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(46, 125, 50, 0.2), 0 0 0 4px rgba(46, 125, 50, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      overflow: hidden;
+    }
+
+    .logo-circle img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1b5e20;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-tagline {
+      font-size: 12px;
+      color: #4caf50;
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* Login card */
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04);
+      padding: 40px 36px 32px;
+      width: 100%;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-card h2 {
+      font-size: 22px;
+      color: #263238;
+      margin-bottom: 4px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .login-card .subtitle {
+      font-size: 13px;
+      color: #90a4ae;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #546e7a;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 13px 44px 13px 16px;
+      border: 2px solid #e8edf0;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #263238;
+      outline: none;
+      transition: all 0.25s;
+      background: #fafbfc;
+    }
+
+    .input-wrapper input:focus {
+      border-color: #4caf50;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+    }
+
+    .input-wrapper input::placeholder {
+      color: #b0bec5;
+    }
+
+    .input-wrapper .field-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #90a4ae;
+    }
+
+    .input-wrapper .field-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #2e7d32 0%, #43a047 50%, #4caf50 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s;
+    }
+
+    .login-btn:hover::before {
+      left: 100%;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .error-msg {
+      color: #e53935;
+      font-size: 12px;
+      margin-top: 14px;
+      text-align: center;
+      min-height: 18px;
+      font-weight: 500;
+    }
+
+    .db-status {
+      font-size: 11px;
+      color: #b0bec5;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .db-status .connected { color: #43a047; font-weight: 600; }
+    .db-status .disconnected { color: #e53935; font-weight: 600; }
+
+    /* Footer */
+    .login-footer {
+      margin-top: 20px;
+      text-align: center;
+      animation: fadeInUp 0.6s ease 0.4s both;
+    }
+
+    .login-footer p {
+      font-size: 11px;
+      color: #90a4ae;
+    }
+
+    .login-footer .support {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #78909c;
+    }
+
+    .login-footer .support a {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Version badge */
+    .version-badge {
+      position: absolute;
+      bottom: 16px;
+      right: 20px;
+      font-size: 10px;
+      color: #b0bec5;
+      background: rgba(255,255,255,0.7);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-wrapper { max-width: 360px; padding: 0 16px; }
+      .login-card { padding: 30px 24px 24px; }
+      .logo-circle { width: 80px; height: 80px; }
+      .logo-circle img { width: 64px; height: 64px; }
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <span class="leaf-decor leaf-1">&#127807;</span>
+  <span class="leaf-decor leaf-2">&#127807;</span>
+
+  <div class="login-wrapper">
+    <div class="logo-section">
+      <div class="logo-circle">
+        <img src="/clinic/logo.png" alt="Shanthi Wellness">
+      </div>
+      <div class="brand-name">Shanthi Wellness</div>
+      <div class="brand-tagline">AYURVEDIC MEDICAL CENTRE LLC</div>
+    </div>
+
+    <div class="login-card">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Sign in to access the clinic management system</p>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" name="username" placeholder="Enter your username" autofocus required>
+            <span class="field-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <span class="field-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            </span>
+          </div>
+        </div>
+        <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+      </form>
+
+      <div class="error-msg" id="errorMsg"></div>
+      <div class="db-status" id="dbStatus">Connecting...</div>
+    </div>
+
+    <div class="login-footer">
+      <p>Developed by Shanthi Wellness Ayurvedic Medical Centre LLC</p>
+      <p class="support">Support: <a href="tel:+97142255133">+971 42 255 133</a></p>
+    </div>
+  </div>
+
+  <div class="version-badge">Ver: 1.2.0</div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const loginBtn = document.getElementById('loginBtn');
+    const dbStatus = document.getElementById('dbStatus');
+
+    // Check DB connection on load
+    fetch('/api/auth/status')
+      .then(function(r) { return r.json(); })
+      .then(function(result) {
+        if (result.success) {
+          dbStatus.innerHTML = '<span class="connected">&#10003;</span> Connected to ' + (result.database || 'database');
+        } else {
+          dbStatus.innerHTML = '<span class="disconnected">&#10007;</span> ' + (result.error || 'Disconnected');
+        }
+      })
+      .catch(function() {
+        dbStatus.innerHTML = '<span class="disconnected">&#10007;</span> Server unreachable';
+      });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      errorMsg.textContent = '';
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<span class="spinner"></span>Signing in...';
+
+      var username = document.getElementById('username').value.trim();
+      var password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        errorMsg.textContent = 'Please enter both username and password.';
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In';
+        return;
+      }
+
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: password })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(result) {
+        if (result.success) {
+          // Store auth info
+          sessionStorage.setItem('authToken', result.token);
+          sessionStorage.setItem('authUser', JSON.stringify(result.user));
+          loginBtn.innerHTML = '&#10003; Success! Redirecting...';
+          // Redirect to main app page
+          setTimeout(function() {
+            window.location.href = '/app';
+          }, 500);
+        } else {
+          errorMsg.textContent = result.error || 'Login failed. Please check your credentials.';
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Sign In';
+        }
+      })
+      .catch(function(err) {
+        errorMsg.textContent = 'Connection error. Please try again.';
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In';
+      });
+    });
+  </script>
+</body>
+</html>

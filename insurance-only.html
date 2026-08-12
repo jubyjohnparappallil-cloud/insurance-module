@@ -24,7 +24,9 @@
       --selected: #f2db63;
       --selected-border: #c49815;
       --shadow: 0 12px 34px rgba(20, 39, 55, 0.22);
-      font-family: "Segoe UI", Tahoma, Arial, sans-serif; 
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
     }
 
     * {
@@ -134,7 +136,7 @@
       border-bottom: 0;
       background: transparent;
       color: #c8e6dc;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
     }
 
@@ -149,21 +151,21 @@
     .ribbon {
       display: flex;
       align-items: stretch;
-      min-height: 111px;
-      padding: 10px 11px 7px;
+      min-height: 100px;
+      padding: 8px 10px 6px;
       background: linear-gradient(#e8f5e9, #c8e6c9);
       border-bottom: 1px solid #43a047;
       overflow-x: auto;
-      gap: 9px;
+      gap: 8px;
     }
 
     .module {
       display: grid;
-      grid-template-rows: 62px 24px;
+      grid-template-rows: 58px 24px;
       justify-items: center;
       align-items: start;
-      width: 91px;
-      min-width: 91px;
+      width: 88px;
+      min-width: 88px;
       border: 0;
       background: transparent;
       color: #2c3e4f;
@@ -176,8 +178,8 @@
       position: relative;
       display: grid;
       place-items: center;
-      width: 78px;
-      height: 60px;
+      width: 72px;
+      height: 54px;
       border: 1px solid #2e7d32;
       background: linear-gradient(#2e7d32, #1b5e20);
       box-shadow: inset 0 1px rgba(255,255,255,0.35), 0 1px 3px rgba(32, 57, 75, 0.22);
@@ -412,9 +414,9 @@
     }
 
     .sub-tab {
-      min-width: 110px;
-      height: 27px;
-      padding: 0 12px;
+      min-width: 105px;
+      height: 26px;
+      padding: 0 10px;
       border: 1px solid #388e3c;
       border-bottom: 0;
       border-radius: 4px 12px 0 0;
@@ -871,15 +873,15 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 800;
     }
 
     th {
       position: sticky;
       top: 0;
       z-index: 1;
-      height: 29px;
+      height: 34px;
       border: 1px solid #388e3c;
       background: linear-gradient(#2e7d32, #1b5e20);
       color: #ffffff;
@@ -888,7 +890,7 @@
     }
 
     td {
-      height: 25px;
+      height: 32px;
       border: 1px solid #c8e6c9;
       padding: 0 7px;
       overflow: hidden;
@@ -1021,10 +1023,22 @@
 
     .appointment-layout {
       display: grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 210px 8px 1fr;
       min-height: 0;
       height: 100%;
       overflow: hidden;
+    }
+
+    .appt-resize-bar {
+      width: 6px;
+      cursor: col-resize;
+      background: #c8e6c9;
+      border-left: 1px solid #a5d6a7;
+      border-right: 1px solid #a5d6a7;
+      transition: background 0.15s;
+    }
+    .appt-resize-bar:hover, .appt-resize-bar.dragging {
+      background: #4caf50;
     }
 
     .month-box {
@@ -1038,7 +1052,7 @@
       justify-content: center;
       gap: 1px;
       margin-bottom: 3px;
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 800;
       text-align: center;
     }
@@ -1046,31 +1060,31 @@
     .month-head span {
       flex: 1;
       text-align: center;
-      font-size: 10px;
+      font-size: 13px;
     }
 
     .month-head .small-button {
-      min-width: 16px;
-      height: 16px;
-      padding: 0 2px;
-      font-size: 9px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 3px;
+      font-size: 11px;
     }
 
     .month-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 0;
-      font-size: 10px;
+      font-size: 12px;
       text-align: center;
     }
 
     .month-grid span {
-      height: 16px;
+      height: 22px;
       display: grid;
       place-items: center;
       border: 1px solid transparent;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .month-grid span:hover:not(.cal-label) {
@@ -1081,7 +1095,7 @@
       font-weight: 900;
       color: #4a6070;
       cursor: default;
-      font-size: 9px;
+      font-size: 11px;
     }
 
     .month-grid .today {
@@ -1104,6 +1118,18 @@
       border-right: 1px solid var(--line);
       background: #e7eef4;
       overflow-y: auto;
+    }
+
+    .sidebar-resizer {
+      width: 8px;
+      cursor: col-resize;
+      background: linear-gradient(90deg, #a5d6a7, #66bb6a, #a5d6a7);
+      border-left: 1px solid #43a047;
+      border-right: 1px solid #43a047;
+      transition: background 0.2s;
+    }
+    .sidebar-resizer:hover, .sidebar-resizer.dragging {
+      background: linear-gradient(90deg, #2e7d32, #43a047, #2e7d32);
     }
 
     .appointment-actions {
@@ -1235,9 +1261,9 @@
 
     .day-grid {
       display: grid;
-      grid-template-columns: 55px repeat(11, 1fr);
+      grid-template-columns: 75px repeat(11, 1fr);
       min-width: 1400px;
-      font-size: 9px;
+      font-size: 14px;
       border-top: 1px solid #90a0ac;
       border-left: 1px solid #90a0ac;
     }
@@ -1251,40 +1277,40 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 32px;
+      height: 40px;
       border-right: 1px solid #90a0ac;
       border-bottom: 2px solid #708090;
       background: linear-gradient(#e8eef4, #d0dce8);
       font-weight: 900;
-      font-size: 10px;
+      font-size: 14px;
       text-align: center;
       line-height: 1.1;
       color: #1a3040;
     }
 
     .time-cell {
-      height: 25px;
+      height: 36px;
       border-right: 1px solid #90a0ac;
       border-bottom: 1px solid #d0dae2;
       background: #f0f4f8;
       color: #2a4050;
-      padding: 0 4px;
+      padding: 0 5px;
       text-align: right;
-      font-size: 9px;
+      font-size: 13px;
       white-space: nowrap;
       font-weight: 700;
-      line-height: 25px;
+      line-height: 36px;
     }
 
     .time-cell.hour-mark {
       border-bottom: 2px solid #90a0ac;
       font-weight: 900;
-      font-size: 10px;
+      font-size: 14px;
     }
 
     .slot {
       position: relative;
-      min-height: 25px;
+      min-height: 36px;
       border-right: 1px solid #90a0ac;
       border-bottom: 1px solid #d0dae2;
       background: #ffffff;
@@ -1339,13 +1365,14 @@
       position: relative;
       left: 0;
       right: 0;
-      min-height: 25px;
-      padding: 2px 3px;
+      min-height: 36px;
+      padding: 4px 5px;
       border-left: 4px solid #90a4ae;
       background: #eceff1;
       color: #0a2540;
-      font-size: 8px;
-      line-height: 1.2;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.4;
       overflow: hidden;
       z-index: 2;
       cursor: context-menu;
@@ -1353,9 +1380,9 @@
 
     .appointment-card strong {
       display: block;
-      font-size: 9px;
+      font-size: 15px;
       font-weight: 900;
-      margin-bottom: 0;
+      margin-bottom: 1px;
       color: #c00;
     }
 
@@ -1363,8 +1390,8 @@
       display: block;
       font-weight: 800;
       margin-bottom: 1px;
-      font-size: 8px;
-      color: #0a2540;
+      font-size: 13px;
+      color: #d32f2f;
     }
 
     .appointment-card.booked {
@@ -3276,6 +3303,7 @@ function inheritFromEMR() {
             </div>
             <div class="connected">Connected</div>
           </aside>
+          <div class="sidebar-resizer" id="sidebarResizer"></div>
           <div class="schedule-wrap">
             <div class="appt-toolbar-row1">
               <button class="view-tab active" type="button">Day View</button>
@@ -3321,6 +3349,10 @@ function inheritFromEMR() {
               <label class="check-radio"><input type="radio" name="apptView" value="therapist">Therapist</label>
               <label class="check-radio"><input type="radio" name="apptView" value="doctors">Doctors</label>
               <label class="check-radio"><input type="radio" name="apptView" value="width">Width</label>
+              <span id="widthSliderWrap" style="display:none;align-items:center;gap:6px;margin-left:8px">
+                <input type="range" id="gridWidthSlider" min="100" max="350" value="180" style="width:140px;cursor:pointer" oninput="adjustGridWidth(this.value)">
+                <span id="gridWidthValue" style="font-size:12px;font-weight:700;min-width:40px">180px</span>
+              </span>
               <span class="appt-filter-spacer"></span>
               <span style="font-weight:700;font-size:11px;margin-left:6px">View By Doctor</span>
               <select id="viewByDoctor" style="width:140px;height:22px;font-size:11px">
@@ -6452,9 +6484,9 @@ podi kizhi + lepanam x 5 days.</textarea>
 
       // If no employees loaded yet, use defaults
       if (allStaff.length === 0) {
-        allStaff.push("LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "KEERTHI PURUSHOTHAMAN", "AMARNATH", "ASHISH", "ANEESH", "RESHMI", "NOORA");
-        staffDoctors.push("LINTU RAJAN", "NEETHU DEEPAK", "HISNA UVAISI", "NOORA");
-        staffTherapists.push("AMARNATH", "ASHISH", "ANEESH", "RESHMI", "KEERTHI PURUSHOTHAMAN");
+        allStaff.push("LINTU RAJAN", "NEETHU DEEPAK", "MISNA UVAISE", "KEERTHI PURUSHOTHAMAN", "AMARNATH", "PADMESH", "ANEESH", "RESHMI", "LINTU", "NEETHU", "NOORA HOSBET UMMER", "ANJNA NADAKKAVIL CHANDRAN");
+        staffDoctors.push("LINTU RAJAN", "NEETHU DEEPAK", "MISNA UVAISE", "KEERTHI PURUSHOTHAMAN", "NOORA HOSBET UMMER", "ANJNA NADAKKAVIL CHANDRAN");
+        staffTherapists.push("AMARNATH", "PADMESH", "ANEESH", "RESHMI", "LINTU", "NEETHU");
       }
 
       // Update the doctors array based on current view
@@ -7361,6 +7393,15 @@ podi kizhi + lepanam x 5 days.</textarea>
       renderSchedule();
     }
 
+    function adjustGridWidth(val) {
+      var grid = byId('dayGrid');
+      if (!grid) return;
+      byId('gridWidthValue').textContent = val + 'px';
+      var cols = doctors.length;
+      grid.style.gridTemplateColumns = '75px repeat(' + cols + ', ' + val + 'px)';
+      grid.style.minWidth = (75 + cols * parseInt(val)) + 'px';
+    }
+
     function renderSchedule() {
       const query = byId("appointmentSearch").value.trim().toLowerCase();
       const cols = doctors.length;
@@ -7409,7 +7450,7 @@ podi kizhi + lepanam x 5 days.</textarea>
             );
           } else {
             apptIndex = appointments.findIndex(item => {
-              var docMatch = item.doctor === doctor || item.therapist === doctor || item.therapist2 === doctor || (!item.doctor && doctor === doctors[0]);
+              var docMatch = item.doctor === doctor || item.therapist === doctor || item.therapist2 === doctor || (!item.doctor && !item.therapist && !item.therapist2 && doctor === doctors[0]);
               return docMatch && item.time === time && item.date === currentDateStr &&
               (!query || [item.patient, item.mobile, item.mrNo, item.doctor].join(" ").toLowerCase().includes(query));
             });
@@ -8814,14 +8855,22 @@ podi kizhi + lepanam x 5 days.</textarea>
       document.querySelectorAll("input[name='apptView']").forEach(function(radio) {
         radio.addEventListener("change", function() {
           currentApptView = this.value;
+          var sliderWrap = byId('widthSliderWrap');
           if (currentApptView === "rooms") {
             doctors = staffRooms.slice();
+            if (sliderWrap) sliderWrap.style.display = 'none';
           } else if (currentApptView === "therapist") {
             doctors = staffTherapists.slice();
+            if (sliderWrap) sliderWrap.style.display = 'none';
           } else if (currentApptView === "doctors") {
             doctors = staffDoctors.slice();
+            if (sliderWrap) sliderWrap.style.display = 'none';
+          } else if (currentApptView === "width") {
+            if (sliderWrap) sliderWrap.style.display = 'flex';
+            return; // don't re-render, just show slider
           } else {
             doctors = allStaff.slice();
+            if (sliderWrap) sliderWrap.style.display = 'none';
           }
           renderSchedule();
         });
@@ -9183,6 +9232,12 @@ podi kizhi + lepanam x 5 days.</textarea>
             } else {
               alert("Patient Signature module not loaded");
             }
+          }
+        } else if (action === "attachment") {
+          if (selectedAppointmentIndex != null) {
+            var appt = appointments[selectedAppointmentIndex];
+            selectedPatientMr = appt.mrNo;
+            openAttachmentModal();
           }
         } else if (action === "generateConsent") {
           if (selectedAppointmentIndex != null) {
@@ -12375,11 +12430,14 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     function openDocAttach(mrNo) {
-      byId('docAttachList').innerHTML = '<tr><td colspan="4" style="padding:10px;text-align:center;color:#888;font-size:11px">No attachments yet</td></tr>';
-      byId('docAttachModal').showModal();
+      selectedPatientMr = mrNo;
+      openAttachmentModal();
     }
 
     function addDocAttachment() {
+      byId('addDocType').value = '';
+      byId('addDocFile').value = '';
+      byId('addDocRemark').value = '';
       byId('docAttachModal').close();
       byId('addDocModal').showModal();
     }
@@ -12387,8 +12445,68 @@ podi kizhi + lepanam x 5 days.</textarea>
     function saveDocAttachment() {
       var file = byId('addDocFile').files[0];
       if (!file) { alert('Please select a file'); return; }
-      alert('Document "' + file.name + '" attached successfully!');
-      byId('addDocModal').close();
+      var mrNo = selectedPatientMr || '';
+      if (!mrNo) { alert('Please select a patient first'); return; }
+      var docType = byId('addDocType').value.trim() || 'Document';
+      var remark = byId('addDocRemark').value.trim();
+
+      var formData = new FormData();
+      formData.append('file', file);
+      formData.append('mrNo', mrNo);
+      formData.append('docType', docType);
+      formData.append('remark', remark);
+
+      fetch('/api/patient-attachments', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (d.success) {
+            alert('Document "' + file.name + '" attached successfully!');
+            byId('addDocModal').close();
+            loadPatientAttachments(mrNo);
+            byId('docAttachModal').showModal();
+          } else {
+            alert('Error: ' + (d.error || 'Upload failed'));
+          }
+        })
+        .catch(function() { alert('Upload failed. Check connection.'); });
+    }
+
+    function loadPatientAttachments(mrNo) {
+      fetch('/api/patient-attachments?mrNo=' + encodeURIComponent(mrNo))
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          var tbody = byId('docAttachList');
+          if (!d.success || !d.data || !d.data.length) {
+            tbody.innerHTML = '<tr><td colspan="4" style="padding:8px;text-align:center;color:#999;font-size:11px">No documents attached</td></tr>';
+            return;
+          }
+          tbody.innerHTML = d.data.map(function(att) {
+            return '<tr>' +
+              '<td style="padding:4px 5px;border:1px solid #eee;font-size:11px">' + escapeHtml(att.docType || '') + '</td>' +
+              '<td style="padding:4px 5px;border:1px solid #eee;font-size:11px"><a href="/uploads/patient-docs/' + att.mrNo + '/' + att.savedName + '" target="_blank">' + escapeHtml(att.filename) + '</a></td>' +
+              '<td style="padding:4px 5px;border:1px solid #eee;font-size:11px">' + escapeHtml(att.remark || '') + '</td>' +
+              '<td style="padding:4px 5px;border:1px solid #eee;text-align:center"><button onclick="deleteAttachment(\'' + att.savedName + '\')" style="background:#e53935;color:#fff;border:none;border-radius:3px;padding:2px 6px;font-size:10px;cursor:pointer">x</button></td>' +
+              '</tr>';
+          }).join('');
+        })
+        .catch(function() {});
+    }
+
+    function deleteAttachment(savedName) {
+      if (!confirm('Delete this attachment?')) return;
+      fetch('/api/patient-attachments/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ savedName: savedName })
+      }).then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success) loadPatientAttachments(selectedPatientMr);
+      });
+    }
+
+    function openAttachmentModal() {
+      if (!selectedPatientMr) { alert('Please select a patient first'); return; }
+      loadPatientAttachments(selectedPatientMr);
+      byId('docAttachModal').showModal();
     }
 
     function scanDocument() {
@@ -12857,6 +12975,43 @@ podi kizhi + lepanam x 5 days.</textarea>
     }
 
     boot();
+
+    // ─── Sidebar Resizer (draggable width bar) ───
+    (function() {
+      var resizer = document.getElementById('sidebarResizer');
+      if (!resizer) return;
+      var layout = resizer.parentElement;
+      var side = layout.querySelector('.appointment-side');
+      var dragging = false;
+      var startX = 0, startWidth = 0;
+
+      resizer.addEventListener('mousedown', function(e) {
+        dragging = true;
+        startX = e.clientX;
+        startWidth = side.offsetWidth;
+        resizer.classList.add('dragging');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        var newWidth = startWidth + (e.clientX - startX);
+        if (newWidth < 120) newWidth = 120;
+        if (newWidth > 400) newWidth = 400;
+        layout.style.gridTemplateColumns = newWidth + 'px 8px 1fr';
+      });
+
+      document.addEventListener('mouseup', function() {
+        if (dragging) {
+          dragging = false;
+          resizer.classList.remove('dragging');
+          document.body.style.cursor = '';
+          document.body.style.userSelect = '';
+        }
+      });
+    })();
 
     // ─── Inherit From EMR + Add New (document-level, always works) ──
     var insProcedurecodes = [
